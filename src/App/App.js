@@ -21,7 +21,9 @@ import Login from '../pages/presentation/auth/Login';
 
 import Dashboard from '../pages/dashboard/DashboardPage';
 
-import ProtectedRoutes from './ProtectedRoutes'
+import ProtectedRoutes from './ProtectedRoutes';
+
+import PublicRoutes from './PublicRoutes';
 
 const App = () => {
 	getOS();
@@ -73,14 +75,14 @@ const App = () => {
 
 	//	Add paths to the array that you don't want to be "Aside".
 	const withOutAsidePages = [demoPages.login.path, demoPages.signUp.path, layoutMenu.blank.path];
-	const [login,setlogin]= useState(true)
-	
-const LoggingIn = ()=>{
-  setlogin(true)
-}
-const LoggingOut =()=>{
-  setlogin(false)
-}
+	const [login, setlogin] = useState(true);
+
+	const LoggingIn = () => {
+		setlogin(true);
+	};
+	const LoggingOut = () => {
+		setlogin(false);
+	};
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -94,32 +96,25 @@ const LoggingOut =()=>{
 						overflow: fullScreenStatus && 'scroll',
 					}}>
 					<Routes>
-
-						<Route path="/" element={<ProtectedRoutes/>}>
-				
-{/* 						
+						{/* 						
 						<Route path='/dashboard' element={<Dashboard/>}  />
 						<Route path='*' element={<Aside />} /> */}
 
-						
-						 { withOutAsidePages.map((path) => (
-							<Route key={path} path={path} />
-						))}
-					<Route path='*' element={<Aside />} /> 
-				
+						<Route path='/' element={<ProtectedRoutes />}>
+							{withOutAsidePages.map((path) => (
+								<Route key={path} path={path} />
+							))}
+							<Route path='*' element={<Aside />} />
 						</Route>
 
-						<Route exact path="/login" element = {<Login/>}/>
-
-						
-
-					
+						<Route path='login' element={<PublicRoutes />}>
+							<Route path='/login' element={<Login />} />
+						</Route>
 
 						{/* { withOutAsidePages.map((path) => (
 							<Route key={path} path={path} />
 						))}
 					<Route path='*' element={<Aside />} /> */}
-
 					</Routes>
 					<Wrapper />
 				</div>
