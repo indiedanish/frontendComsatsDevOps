@@ -789,7 +789,7 @@ const DashboardPage = () => {
 			</SubHeader>
 			<Page container='fluid'>
 				<div className='row'>
-					<div className='col-12'>
+					{/* <div className='col-12'>
 						<Alert
 							icon='Verified'
 							isLight
@@ -802,7 +802,7 @@ const DashboardPage = () => {
 							</AlertHeading>
 							<span>You have reached your monthly sales targets.</span>
 						</Alert>
-					</div>
+					</div> */}
 
 					<div className='col-xl-4'>
 						<UserContact

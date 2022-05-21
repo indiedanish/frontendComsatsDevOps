@@ -28,7 +28,7 @@ export const ThemeContextProvider = ({ children }) => {
 			: deviceScreen?.width >= process.env.REACT_APP_ASIDE_MINIMIZE_BREAKPOINT_SIZE,
 	);
 	useLayoutEffect(() => {
-		localStorage.setItem('facit_asideStatus', asideStatus?.toString());
+		localStorage.setItem('facit_asideStatus', 'false');
 	}, [asideStatus]);
 
 	const [rightPanel, setRightPanel] = useState(false);
