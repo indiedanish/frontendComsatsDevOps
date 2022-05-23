@@ -74,6 +74,8 @@ const CustomersList = () => {
 		},
 	});
 
+	const [refresh, setRefresh] = useState(false);
+
 	const filteredData = use.filter(
 		(f,key) =>
 			// Name
@@ -283,7 +285,7 @@ const CustomersList = () => {
 														</small>
 													</div>
 												</td>
-												<td>{priceFormat(i.id)}</td>
+												<td>{priceFormat(i.RegNo)}</td>
 												<td>
 												<Dropdown>
 														<DropdownToggle hasIcon={false}>
@@ -300,12 +302,17 @@ const CustomersList = () => {
 																	icon='Visibility'
 																	tag='a'
 																onClick={() =>{
-																	Delete(key)
+																Delete(i._id)
+																setRefresh(!refresh)
+															
 																	
 																}}
+																>
+
+
 																	
 																	
-																	>
+																
 
 
 																	View
