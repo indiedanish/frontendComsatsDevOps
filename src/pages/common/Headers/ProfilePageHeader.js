@@ -19,9 +19,9 @@ const ProfilePageHeader = () => {
 						/>
 					</div>
 					<div>
-						<div className='fw-bold fs-6 mb-0'>Timothy J. Doe</div>
+						<div className='fw-bold fs-6 mb-0'>{JSON.parse(localStorage.getItem('user')).Name}</div>
 						<div className='text-muted'>
-							<small>Founder</small>
+							<small>{JSON.parse(localStorage.getItem('user')).Email}</small>
 						</div>
 					</div>
 				</div>

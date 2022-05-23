@@ -5,6 +5,7 @@ import { randomColor } from '../helpers/helpers';
 import Popovers from './bootstrap/Popovers';
 import useDarkMode from '../hooks/useDarkMode';
 
+
 export const AvatarGroup = ({ className, children, size }) => {
 	const { darkModeStatus } = useDarkMode();
 

@@ -1,49 +1,50 @@
-import React, { memo } from 'react';
+import React, { memo,useEffect,useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Avatar, { AvatarGroup } from '../Avatar';
 import USERS from '../../common/data/userDummyData';
+import axios from 'axios'
+
+import UserImage2Webp from '../../assets/img/wanna/wanna2.webp';
+
+import femaleAvatar from '../../assets/img/wanna/FemaleAvatar.png';
+import maleAvatar from '../../assets/img/wanna/MaleAvatar.png';
+
+
 
 const CommonAvatarTeam = ({ children, isAlignmentEnd }) => {
+
+
+	var [use, setuse] = useState([]);
+
+	useEffect(() => {
+
+	
+
+		 const fetchData = async () => {
+			const response = await axios.get("http://localhost:4000/student/getStudents")
+			console.log("ssss",response.data[0].Email)
+			 setuse(response.data);
+			
+		  }
+		
+		  // call the function
+		  fetchData()
+	},[])
+	
+	
+	
 	return (
 		<>
 			{children && !isAlignmentEnd && <span className='me-3'>{children}</span>}
 			<AvatarGroup>
-				<Avatar
-					src={USERS.GRACE.src}
-					srcSet={USERS.GRACE.srcSet}
-					color={USERS.GRACE.color}
-					userName={`${USERS.GRACE.name} ${USERS.GRACE.surname}`}
-				/>
-				<Avatar
-					src={USERS.JANE.src}
-					srcSet={USERS.JANE.srcSet}
-					color={USERS.JANE.color}
-					userName={`${USERS.JANE.name} ${USERS.JANE.surname}`}
-				/>
-				<Avatar
-					src={USERS.RYAN.src}
-					srcSet={USERS.RYAN.srcSet}
-					color={USERS.RYAN.color}
-					userName={`${USERS.RYAN.name} ${USERS.RYAN.surname}`}
-				/>
-				<Avatar
-					src={USERS.ELLA.src}
-					srcSet={USERS.ELLA.srcSet}
-					color={USERS.ELLA.color}
-					userName={`${USERS.ELLA.name} ${USERS.ELLA.surname}`}
-				/>
-				<Avatar
-					src={USERS.CHLOE.src}
-					srcSet={USERS.CHLOE.srcSet}
-					color={USERS.CHLOE.color}
-					userName={`${USERS.CHLOE.name} ${USERS.CHLOE.surname}`}
-				/>
-				<Avatar
-					src={USERS.SAM.src}
-					srcSet={USERS.SAM.srcSet}
-					color={USERS.SAM.color}
-					userName={`${USERS.SAM.name} ${USERS.SAM.surname}`}
-				/>
+
+				{use.map(user => (	<Avatar
+					src={user.Gender==true?maleAvatar:femaleAvatar}
+					srcSet={user.Gender==true?maleAvatar:femaleAvatar}
+					color='info'
+					userName={user.Name}
+				/>))}
+			
 			</AvatarGroup>
 			{children && isAlignmentEnd && <span>{children}</span>}
 		</>

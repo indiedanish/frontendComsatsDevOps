@@ -16,7 +16,7 @@ const Footer = () => {
 			<div className='container-fluid'>
 				<div className='row'>
 					<div className='col'>
-						<span className='fw-light'>Copyright © 2022 - Version 2.2.6</span>
+						<span className='fw-light'>Copyright © 2022 - COMSATS DevOps Version 1</span>
 					</div>
 					<div className='col-auto'>
 						<a
@@ -25,7 +25,7 @@ const Footer = () => {
 								'link-dark': !darkModeStatus,
 								'link-light': darkModeStatus,
 							})}>
-							<small className='fw-bold'>Facit Theme</small>
+							<small className='fw-bold'>FYP-1 SDS Design By Danish, Ali & Leza</small>
 						</a>
 					</div>
 				</div>

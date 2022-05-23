@@ -109,7 +109,7 @@ const sam = {
 };
 
 const USERS = {
-	JOHN: 0.,
+	JOHN: john,
 	GRACE: grace,
 	JANE: jane,
 	RYAN: ryan,

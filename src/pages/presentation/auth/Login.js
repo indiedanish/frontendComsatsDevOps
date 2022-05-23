@@ -47,17 +47,19 @@ const Login = (props) => {
 
 	const handleOnClick=async (e) =>{
         e.preventDefault();
-        const response = await axios.post("http://localhost:4000/user/login",{Email,Password})
+        const response = await axios.post("http://localhost:4000/student/login",{Email,Password})
         setEmail('')
         setPassword('')
-        const data = response.data
+        const data = response.data[0]
+		const userData = response.data[1]
         if(data=="Logged in"){
             
 			// useCallback(() => navigate('/'), [navigate])
 
 			try {
 			// props.fun();
-			localStorage.setItem('user','test')
+			localStorage.setItem('user',JSON.stringify(userData))
+			
 			navigate('/dashboard' , {replace: true})
 			}
 			catch(err){

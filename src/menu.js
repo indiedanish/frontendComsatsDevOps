@@ -42,6 +42,14 @@ export const dashboardMenu = {
 		icon: 'Dashboard',
 		subMenu: null,
 	},
+
+	customersList: {
+		id: 'customersList',
+		text: 'Team',
+		path: 'crm/customers',
+		icon: 'PersonSearch',
+	},
+
 	dashboardBooking: {
 		id: 'dashboard-booking',
 		text: 'Sprints',
@@ -49,12 +57,9 @@ export const dashboardMenu = {
 		icon: 'emoji_transportation',
 		subMenu: null,
 	},
-	crmDashboard: {
-		id: 'crmDashboard',
-		text: 'CRM Dashboard',
-		path: 'crm/dashboard',
-		icon: 'RecentActors',
-	},
+	
+
+
 	summary: {
 		id: 'summary',
 		text: 'Summary',

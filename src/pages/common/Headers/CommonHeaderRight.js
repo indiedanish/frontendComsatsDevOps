@@ -60,32 +60,16 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 
 	const { setIsOpen } = useTour();
 
+	const logout = () => {
+		localStorage.removeItem('user');
+		window.location.href = '/login';
+	}
+
 	return (
 		<HeaderRight>
 			<div className='row g-3'>
 				{beforeChildren}
-				{/* Tour Modal */}
-				{localStorage.getItem('tourModalStarted') === 'shown' && (
-					<div className='col-auto position-relative'>
-						<Popovers trigger='hover' desc='Start the "Facit" tour'>
-							<Button
-								// eslint-disable-next-line react/jsx-props-no-spreading
-								{...styledBtn}
-								icon='Tour'
-								onClick={() => setIsOpen(true)}
-								aria-label='Start the "Facit" tour'
-							/>
-						</Popovers>
-						<Icon
-							icon='Circle'
-							className={classNames(
-								'position-absolute start-65',
-								'text-danger',
-								'animate__animated animate__heartBeat animate__infinite animate__slower',
-							)}
-						/>
-					</div>
-				)}
+			
 
 				{/* Dark Mode */}
 				<div className='col-auto'>
@@ -105,8 +89,26 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 					</Popovers>
 				</div>
 
-				{/*	Full Screen */}
+
 				<div className='col-auto'>
+					<Popovers trigger='hover' desc='Dark / Light mode'>
+						<Button
+							// eslint-disable-next-line react/jsx-props-no-spreading
+							{...styledBtn}
+							onClick={() => logout()}
+							className='btn-only-icon'
+							data-tour='dark-mode'>
+							<Icon
+								icon={darkModeStatus ? 'DarkMode' : 'LightMode'}
+								color={darkModeStatus ? 'info' : 'warning'}
+								className='btn-icon'
+							/>
+						</Button>
+					</Popovers>
+				</div>
+
+				{/*	Full Screen */}
+				{/* <div className='col-auto'>
 					<Popovers trigger='hover' desc='Fullscreen'>
 						<Button
 							// eslint-disable-next-line react/jsx-props-no-spreading
@@ -116,50 +118,13 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 							aria-label='Toggle dark mode'
 						/>
 					</Popovers>
-				</div>
+				</div> */}
 
-				{/* Lang Selector */}
-				<div className='col-auto'>
-					<Dropdown>
-						<DropdownToggle hasIcon={false}>
-							{typeof getLangWithKey(i18n.language)?.icon === 'undefined' ? (
-								<Button
-									// eslint-disable-next-line react/jsx-props-no-spreading
-									{...styledBtn}
-									className='btn-only-icon'
-									aria-label='Change language'
-									data-tour='lang-selector'>
-									<Spinner isSmall inButton='onlyIcon' isGrow />
-								</Button>
-							) : (
-								<Button
-									// eslint-disable-next-line react/jsx-props-no-spreading
-									{...styledBtn}
-									icon={getLangWithKey(i18n.language)?.icon}
-									aria-label='Change language'
-									data-tour='lang-selector'
-								/>
-							)}
-						</DropdownToggle>
-						<DropdownMenu isAlignmentEnd data-tour='lang-selector-menu'>
-							{Object.keys(LANG).map((i) => (
-								<DropdownItem key={LANG[i].lng}>
-									<Button
-										icon={LANG[i].icon}
-										onClick={() => changeLanguage(LANG[i].lng)}>
-										{LANG[i].text}
-									</Button>
-								</DropdownItem>
-							))}
-						</DropdownMenu>
-					</Dropdown>
-				</div>
 
 				{/* Quick Panel */}
-				<div className='col-auto'>
+				{/* <div className='col-auto'>
 					<Dropdown>
 						<DropdownToggle hasIcon={false}>
-							{/* eslint-disable-next-line react/jsx-props-no-spreading */}
 							<Button {...styledBtn} icon='Tune' aria-label='Quick menu' />
 						</DropdownToggle>
 						<DropdownMenu isAlignmentEnd size='lg' className='py-0 overflow-hidden'>
@@ -225,7 +190,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 							</div>
 						</DropdownMenu>
 					</Dropdown>
-				</div>
+				</div> */}
 
 				{/*	Notifications */}
 				<div className='col-auto'>

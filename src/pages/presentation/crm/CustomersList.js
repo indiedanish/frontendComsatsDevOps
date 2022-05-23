@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useFormik } from 'formik';
 import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
 import SubHeader, {
@@ -32,6 +32,7 @@ import Popovers from '../../../components/bootstrap/Popovers';
 import CustomerEditModal from './CustomerEditModal';
 import { getColorNameWithIndex } from '../../../common/data/enumColors';
 import useDarkMode from '../../../hooks/useDarkMode';
+import axios from 'axios';
 
 const CustomersList = () => {
 	const { darkModeStatus } = useDarkMode();
@@ -39,12 +40,33 @@ const CustomersList = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [perPage, setPerPage] = useState(PER_COUNT['10']);
 
+		
+	var [use, setuse] = useState([]);
+
+	useEffect(() => {
+
+	
+
+		 const fetchData = async () => {
+			const response = await axios.get("http://localhost:4000/student/getStudents")
+			console.log("ssss",response.data)
+			 setuse(response.data);
+			
+		  }
+		
+		  // call the function
+		  fetchData()
+	},[])
+	
+	
+	
 	const formik = useFormik({
 		initialValues: {
-			searchInput: '',
-			payment: Object.keys(PAYMENTS).map((i) => PAYMENTS[i].name),
-			minPrice: '',
-			maxPrice: '',
+			searchInput: ''
+			//,
+			// payment: Object.keys(PAYMENTS).map((i) => PAYMENTS[i].name),
+			// minPrice: '',
+			// maxPrice: '',
 		},
 		// eslint-disable-next-line no-unused-vars
 		onSubmit: (values) => {
@@ -52,18 +74,23 @@ const CustomersList = () => {
 		},
 	});
 
-	const filteredData = data.filter(
-		(f) =>
+	const filteredData = use.filter(
+		(f,key) =>
 			// Name
-			f.name.toLowerCase().includes(formik.values.searchInput.toLowerCase()) &&
-			// Price
-			(formik.values.minPrice === '' || f.balance > formik.values.minPrice) &&
-			(formik.values.maxPrice === '' || f.balance < formik.values.maxPrice) &&
+		
+	
+		f.Name.toLowerCase().includes(formik.values.searchInput.toLowerCase()) 
+			
+			// &&
+			// // Price
+			// (formik.values.minPrice === '' || f.balance > formik.values.minPrice) &&
+			// (formik.values.maxPrice === '' || f.balance < formik.values.maxPrice) &&
 			// Payment Type
-			formik.values.payment.includes(f.payout),
+			// formik.values.payment.includes(f.payout),
 	);
 
 	const { items, requestSort, getClassNamesFor } = useSortableData(filteredData);
+	console.log("MARDARCHOODD",items)
 
 	const [editModalStatus, setEditModalStatus] = useState(false);
 
@@ -80,13 +107,13 @@ const CustomersList = () => {
 						id='searchInput'
 						type='search'
 						className='border-0 shadow-none bg-transparent'
-						placeholder='Search customer...'
+						placeholder='Search Team Member...'
 						onChange={formik.handleChange}
 						value={formik.values.searchInput}
 					/>
 				</SubHeaderLeft>
 				<SubHeaderRight>
-					<Dropdown>
+					{/* <Dropdown>
 						<DropdownToggle hasIcon={false}>
 							<Button
 								icon='FilterAlt'
@@ -146,14 +173,14 @@ const CustomersList = () => {
 								</div>
 							</div>
 						</DropdownMenu>
-					</Dropdown>
+					</Dropdown> */}
 					<SubheaderSeparator />
 					<Button
 						icon='PersonAdd'
 						color='primary'
 						isLight
 						onClick={() => setEditModalStatus(true)}>
-						New Customer
+						New Team Member
 					</Button>
 				</SubHeaderRight>
 			</SubHeader>
@@ -166,21 +193,21 @@ const CustomersList = () => {
 									<thead>
 										<tr>
 											<th
-												onClick={() => requestSort('name')}
+												onClick={() => requestSort('Name')}
 												className='cursor-pointer text-decoration-underline'>
-												Customer{' '}
+												Team Member{' '}
 												<Icon
 													size='lg'
-													className={getClassNamesFor('name')}
+													className={getClassNamesFor('Name')}
 													icon='FilterList'
 												/>
 											</th>
 											<th>Email</th>
-											<th>Membership Date</th>
+											<th>Position</th>
 											<th
-												onClick={() => requestSort('balance')}
+												onClick={() => requestSort('RegNo')}
 												className='cursor-pointer text-decoration-underline'>
-												Balance
+												Registeration #
 												<Icon
 													size='lg'
 													className={getClassNamesFor('balance')}
@@ -188,21 +215,17 @@ const CustomersList = () => {
 												/>
 											</th>
 											<th
-												onClick={() => requestSort('payout')}
-												className='cursor-pointer text-decoration-underline'>
-												Payout{' '}
-												<Icon
-													size='lg'
-													className={getClassNamesFor('payout')}
-													icon='FilterList'
-												/>
+										
+												className='cursor-pointer'>
+												Delete{' '}
+											
 											</th>
 											<td />
 										</tr>
 									</thead>
 									<tbody>
-										{dataPagination(items, currentPage, perPage).map((i) => (
-											<tr key={i.id}>
+										{dataPagination(items, currentPage, perPage).map((i,key) => (
+											<tr key={key}>
 												<td>
 													<div className='d-flex align-items-center'>
 														<div className='flex-shrink-0'>
@@ -215,23 +238,23 @@ const CustomersList = () => {
 																			? 'o25'
 																			: '25'
 																	}-${getColorNameWithIndex(
-																		i.id,
+																		key,
 																	)} text-${getColorNameWithIndex(
-																		i.id,
+																		key,
 																	)} rounded-2 d-flex align-items-center justify-content-center`}>
 																	<span className='fw-bold'>
-																		{getFirstLetter(i.name)}
+																		{getFirstLetter(i.Name)}
 																	</span>
 																</div>
 															</div>
 														</div>
 														<div className='flex-grow-1'>
 															<div className='fs-6 fw-bold'>
-																{i.name}
+																{i.Name}
 															</div>
 															<div className='text-muted'>
 																<Icon icon='Label' />{' '}
-																<small>{i.type}</small>
+																<small>{i.Email}</small>
 															</div>
 														</div>
 													</div>
@@ -243,23 +266,23 @@ const CustomersList = () => {
 														icon='Email'
 														className='text-lowercase'
 														tag='a'
-														href={`mailto:${i.email}`}>
-														{i.email}
+														href={`mailto:${i.Email}`}>
+														{i.Email}
 													</Button>
 												</td>
 												<td>
-													<div>{i.membershipDate.format('ll')}</div>
+													{/* <div>{i.membershipDate.format('ll')}</div> */}
 													<div>
 														<small className='text-muted'>
-															{i.membershipDate.fromNow()}
+															{i.Position}
 														</small>
 													</div>
 												</td>
-												<td>{priceFormat(i.balance)}</td>
+												<td>{priceFormat(i.RegNo)}</td>
 												<td>
 													<Icon
 														size='lg'
-														icon={`custom ${i.payout.toLowerCase()}`}
+														icon={`custom ${i.Name.toLowerCase()}`}
 													/>{' '}
 													{i.payout}
 												</td>
@@ -278,7 +301,7 @@ const CustomersList = () => {
 																<Button
 																	icon='Visibility'
 																	tag='a'
-																	to={`../${demoPages.crm.subMenu.customerID.path}/${i.id}`}>
+																	to={`../${demoPages.crm.subMenu.customerID.path}/${key}`}>
 																	View
 																</Button>
 															</DropdownItem>

@@ -48,6 +48,8 @@ const Customer = () => {
 		setEditModalStatus(true);
 	};
 
+
+
 	return (
 		<PageWrapper title={demoPages.crm.subMenu.customer.text}>
 			<SubHeader>

@@ -56,6 +56,7 @@ import CommonTodo from '../common/CommonTodo';
 // eslint-disable-next-line react/prop-types
 const TableRow = ({ id, image, name, category, series, color, stock, price, store }) => {
 	const { darkModeStatus } = useDarkMode();
+
 	const dummyOptions = {
 		colors: [color],
 		chart: {
@@ -764,22 +765,14 @@ const DashboardPage = () => {
 		return name ? 'week' : moment().add(amount, 'week').format('w [th week]');
 	}
 
+
 	return (
 		<PageWrapper title={demoPages.sales.subMenu.dashboard.text}>
 			<SubHeader>
 				<SubHeaderLeft>
-					<span className='h4 mb-0 fw-bold'>Overview</span>
+					<span className='h4 mb-0 fw-bold'>Dashboard</span>
 					<SubheaderSeparator />
-					<ButtonGroup>
-						{Object.keys(TABS).map((key) => (
-							<Button
-								key={key}
-								color={activeTab === TABS[key] ? 'success' : themeStatus}
-								onClick={() => setActiveTab(TABS[key])}>
-								{TABS[key]}
-							</Button>
-						))}
-					</ButtonGroup>
+					<span className='h4 mb-0 fw-bold'>Welcome! Lets work togather</span>
 				</SubHeaderLeft>
 				<SubHeaderRight>
 					<CommonAvatarTeam>
@@ -806,7 +799,7 @@ const DashboardPage = () => {
 
 					<div className='col-xl-4'>
 						<UserContact
-							name={`${USERS.SAM.name} ${USERS.SAM.surname}`}
+							name={JSON.parse(localStorage.getItem('user')).Name}
 							position='Team Lead'
 							mail={`${USERS.SAM.username}@site.com`}
 							phone='1234567'
