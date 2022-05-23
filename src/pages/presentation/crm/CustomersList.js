@@ -283,7 +283,7 @@ const CustomersList = () => {
 														</small>
 													</div>
 												</td>
-												<td>{priceFormat(i.RegNo)}</td>
+												<td>{priceFormat(i.id)}</td>
 												<td>
 												<Dropdown>
 														<DropdownToggle hasIcon={false}>
