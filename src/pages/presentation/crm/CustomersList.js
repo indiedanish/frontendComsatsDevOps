@@ -94,6 +94,11 @@ const CustomersList = () => {
 
 	const [editModalStatus, setEditModalStatus] = useState(false);
 
+	const Delete=async(id)=>{
+		await axios.delete(`http://localhost:4000/student/${id}`)
+		getData()
+	  }
+
 	return (
 		<PageWrapper title={demoPages.crm.subMenu.customersList.text}>
 			<SubHeader>
@@ -280,14 +285,7 @@ const CustomersList = () => {
 												</td>
 												<td>{priceFormat(i.RegNo)}</td>
 												<td>
-													<Icon
-														size='lg'
-														icon={`custom ${i.Name.toLowerCase()}`}
-													/>{' '}
-													{i.payout}
-												</td>
-												<td>
-													<Dropdown>
+												<Dropdown>
 														<DropdownToggle hasIcon={false}>
 															<Button
 																icon='MoreHoriz'
@@ -301,13 +299,22 @@ const CustomersList = () => {
 																<Button
 																	icon='Visibility'
 																	tag='a'
-																	to={`../${demoPages.crm.subMenu.customerID.path}/${key}`}>
+																onClick={() =>{
+																	Delete(key)
+																	
+																}}
+																	
+																	
+																	>
+
+
 																	View
 																</Button>
 															</DropdownItem>
 														</DropdownMenu>
 													</Dropdown>
 												</td>
+												
 											</tr>
 										))}
 									</tbody>
