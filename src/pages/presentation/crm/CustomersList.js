@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
 import SubHeader, {
@@ -40,29 +40,22 @@ const CustomersList = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [perPage, setPerPage] = useState(PER_COUNT['10']);
 
-		
 	var [use, setuse] = useState([]);
 
 	useEffect(() => {
+		const fetchData = async () => {
+			const response = await axios.get('http://localhost:4000/student/getStudents');
+			console.log('ssss', response.data);
+			setuse(response.data);
+		};
 
-	
+		// call the function
+		fetchData();
+	}, []);
 
-		 const fetchData = async () => {
-			const response = await axios.get("http://localhost:4000/student/getStudents")
-			console.log("ssss",response.data)
-			 setuse(response.data);
-			
-		  }
-		
-		  // call the function
-		  fetchData()
-	},[])
-	
-	
-	
 	const formik = useFormik({
 		initialValues: {
-			searchInput: ''
+			searchInput: '',
 			//,
 			// payment: Object.keys(PAYMENTS).map((i) => PAYMENTS[i].name),
 			// minPrice: '',
@@ -77,29 +70,28 @@ const CustomersList = () => {
 	const [refresh, setRefresh] = useState(false);
 
 	const filteredData = use.filter(
-		(f,key) =>
+		(f, key) =>
 			// Name
-		
-	
-		f.Name.toLowerCase().includes(formik.values.searchInput.toLowerCase()) 
-			
-			// &&
-			// // Price
-			// (formik.values.minPrice === '' || f.balance > formik.values.minPrice) &&
-			// (formik.values.maxPrice === '' || f.balance < formik.values.maxPrice) &&
-			// Payment Type
-			// formik.values.payment.includes(f.payout),
+
+			f.Name.toLowerCase().includes(formik.values.searchInput.toLowerCase()),
+
+		// &&
+		// // Price
+		// (formik.values.minPrice === '' || f.balance > formik.values.minPrice) &&
+		// (formik.values.maxPrice === '' || f.balance < formik.values.maxPrice) &&
+		// Payment Type
+		// formik.values.payment.includes(f.payout),
 	);
 
 	const { items, requestSort, getClassNamesFor } = useSortableData(filteredData);
-	console.log("MARDARCHOODD",items)
+	console.log('MARDARCHOODD', items);
 
 	const [editModalStatus, setEditModalStatus] = useState(false);
 
-	const Delete=async(id)=>{
-		await axios.delete(`http://localhost:4000/student/${id}`)
-		getData()
-	  }
+	const Delete = async (id) => {
+		await axios.delete(`http://localhost:4000/student/${id}`);
+		getData();
+	};
 
 	return (
 		<PageWrapper title={demoPages.crm.subMenu.customersList.text}>
@@ -182,12 +174,13 @@ const CustomersList = () => {
 						</DropdownMenu>
 					</Dropdown> */}
 					<SubheaderSeparator />
+
 					<Button
 						icon='PersonAdd'
 						color='primary'
 						isLight
 						onClick={() => setEditModalStatus(true)}>
-						New Team Member
+						Assign Team
 					</Button>
 				</SubHeaderRight>
 			</SubHeader>
@@ -221,109 +214,95 @@ const CustomersList = () => {
 													icon='FilterList'
 												/>
 											</th>
-											<th
-										
-												className='cursor-pointer'>
-												Delete{' '}
-											
-											</th>
+											<th className='cursor-pointer'>Delete </th>
 											<td />
 										</tr>
 									</thead>
 									<tbody>
-										{dataPagination(items, currentPage, perPage).map((i,key) => (
-											<tr key={key}>
-												<td>
-													<div className='d-flex align-items-center'>
-														<div className='flex-shrink-0'>
-															<div
-																className='ratio ratio-1x1 me-3'
-																style={{ width: 48 }}>
+										{dataPagination(items, currentPage, perPage).map(
+											(i, key) => (
+												<tr key={key}>
+													<td>
+														<div className='d-flex align-items-center'>
+															<div className='flex-shrink-0'>
 																<div
-																	className={`bg-l${
-																		darkModeStatus
-																			? 'o25'
-																			: '25'
-																	}-${getColorNameWithIndex(
-																		key,
-																	)} text-${getColorNameWithIndex(
-																		key,
-																	)} rounded-2 d-flex align-items-center justify-content-center`}>
-																	<span className='fw-bold'>
-																		{getFirstLetter(i.Name)}
-																	</span>
+																	className='ratio ratio-1x1 me-3'
+																	style={{ width: 48 }}>
+																	<div
+																		className={`bg-l${
+																			darkModeStatus
+																				? 'o25'
+																				: '25'
+																		}-${getColorNameWithIndex(
+																			key,
+																		)} text-${getColorNameWithIndex(
+																			key,
+																		)} rounded-2 d-flex align-items-center justify-content-center`}>
+																		<span className='fw-bold'>
+																			{getFirstLetter(i.Name)}
+																		</span>
+																	</div>
+																</div>
+															</div>
+															<div className='flex-grow-1'>
+																<div className='fs-6 fw-bold'>
+																	{i.Name}
+																</div>
+																<div className='text-muted'>
+																	<Icon icon='Label' />{' '}
+																	<small>{i.Email}</small>
 																</div>
 															</div>
 														</div>
-														<div className='flex-grow-1'>
-															<div className='fs-6 fw-bold'>
-																{i.Name}
-															</div>
-															<div className='text-muted'>
-																<Icon icon='Label' />{' '}
-																<small>{i.Email}</small>
-															</div>
+													</td>
+													<td>
+														<Button
+															isLink
+															color='light'
+															icon='Email'
+															className='text-lowercase'
+															tag='a'
+															href={`mailto:${i.Email}`}>
+															{i.Email}
+														</Button>
+													</td>
+													<td>
+														{/* <div>{i.membershipDate.format('ll')}</div> */}
+														<div>
+															<small className='text-muted'>
+																{i.Position}
+															</small>
 														</div>
-													</div>
-												</td>
-												<td>
-													<Button
-														isLink
-														color='light'
-														icon='Email'
-														className='text-lowercase'
-														tag='a'
-														href={`mailto:${i.Email}`}>
-														{i.Email}
-													</Button>
-												</td>
-												<td>
-													{/* <div>{i.membershipDate.format('ll')}</div> */}
-													<div>
-														<small className='text-muted'>
-															{i.Position}
-														</small>
-													</div>
-												</td>
-												<td>{priceFormat(i.RegNo)}</td>
-												<td>
-												<Dropdown>
-														<DropdownToggle hasIcon={false}>
-															<Button
-																icon='MoreHoriz'
-																color='dark'
-																isLight
-																shadow='sm'
-															/>
-														</DropdownToggle>
-														<DropdownMenu isAlignmentEnd>
-															<DropdownItem>
+													</td>
+													<td>{priceFormat(i.RegNo)}</td>
+													<td>
+														<Dropdown>
+															<DropdownToggle hasIcon={false}>
 																<Button
-																	icon='Visibility'
-																	tag='a'
-																onClick={() =>{
-																Delete(i._id)
-																setRefresh(!refresh)
-															
-																	
-																}}
-																>
-
-
-																	
-																	
-																
-
-
-																	View
-																</Button>
-															</DropdownItem>
-														</DropdownMenu>
-													</Dropdown>
-												</td>
-												
-											</tr>
-										))}
+																	icon='MoreHoriz'
+																	color='dark'
+																	isLight
+																	shadow='sm'
+																/>
+															</DropdownToggle>
+															<DropdownMenu isAlignmentEnd>
+																<DropdownItem>
+																	<Button
+																		icon='Visibility'
+																		tag='a'
+																		onClick={() => {
+																			Delete(i._id);
+																			setRefresh(!refresh);
+																		}}>
+																		Delete
+																	</Button>
+																</DropdownItem>
+															</DropdownMenu>
+														</Dropdown>
+													</td>
+												</tr>
+											),
+										)}
 									</tbody>
 								</table>
 							</CardBody>

@@ -1,8 +1,10 @@
 import React, { forwardRef } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import Checks from '../bootstrap/forms/Checks';
+
 import Badge from '../bootstrap/Badge';
 import Button from '../bootstrap/Button';
 import Dropdown, { DropdownItem, DropdownMenu, DropdownToggle } from '../bootstrap/Dropdown';
@@ -39,6 +41,7 @@ const TodoPropTypes = {
 
 export const TodoItem = forwardRef(({ index, list, setList, ...props }, ref) => {
 	const itemData = list[index];
+	console.log('KUCH TOB HAI', index, ' MAZA', itemData._id);
 
 	const handleChange = (_index) => {
 		const newTodos = [...list];
@@ -46,13 +49,50 @@ export const TodoItem = forwardRef(({ index, list, setList, ...props }, ref) => 
 		setList(newTodos);
 	};
 
-	const removeTodo = (_index) => {
+	const removeTodo = async (id) => {
+		await axios.delete(`http://localhost:4000/test/${id}`, { id });
+
 		const newTodos = [...list];
-		newTodos.splice(_index, 1);
+		newTodos.splice(id, 1);
 		setList(newTodos);
 	};
 
+
+	
+	const markCompleted = async (id) => {
+		
+		await axios.put(`http://localhost:4000/test/${id}/markCompleted`, { id });
+
+	
+	};
+
+
+
 	const { themeStatus } = useDarkMode();
+
+	const getColorForStatus = (status) => {
+		switch (status) {
+			case 'Pass':
+				return 'success';
+
+			case 'Fail':
+				return 'danger';
+			case 'Review':
+				return 'info';
+
+			case 'Test':
+				return 'warning';
+			case 'Debug':
+				return 'info';
+
+			case 'Completed':
+				return 'primary';
+
+			default:
+				return 'primary';
+			// code block
+		}
+	};
 
 	return (
 		// eslint-disable-next-line react/jsx-props-no-spreading
@@ -60,31 +100,31 @@ export const TodoItem = forwardRef(({ index, list, setList, ...props }, ref) => 
 			<div className='todo-bar'>
 				<div
 					className={classNames('h-100 w-100', 'rounded', {
-						[`bg-${itemData?.badge?.color}`]: itemData?.badge,
+						[`bg-${getColorForStatus(itemData.Status)}`]: itemData?.Status,
 					})}
 				/>
 			</div>
 			<div className='todo-check'>
-				<Checks checked={list[index].status} onChange={() => handleChange(index)} />
+			{/* <Checks checked={list[index].status} onChange={() => handleChange(index)} /> */}
 			</div>
 			<div className='todo-content'>
 				<div
 					className={classNames('todo-title', {
-						'text-decoration-line-through': list[index].status,
+						'text-decoration-line-through': list[index].Completed,
 					})}>
-					{itemData.title}
+					{itemData.Title}
 				</div>
-				{itemData.date && (
+				{itemData.DeadlineDate && (
 					<div className='todo-subtitle text-muted small'>
-						{moment(itemData.date).fromNow()}
+						{moment(itemData.DeadlineDate).fromNow()}
 					</div>
 				)}
 			</div>
 			<div className='todo-extras'>
-				{itemData?.badge && (
+				{itemData?.Status && (
 					<span className='me-2'>
-						<Badge isLight color={itemData.badge.color}>
-							{itemData.badge.text}
+						<Badge isLight color={getColorForStatus(itemData.Status)}>
+							{itemData.Status}
 						</Badge>
 					</span>
 				)}
@@ -95,8 +135,14 @@ export const TodoItem = forwardRef(({ index, list, setList, ...props }, ref) => 
 						</DropdownToggle>
 						<DropdownMenu isAlignmentEnd>
 							<DropdownItem>
-								<Button onClick={() => removeTodo(index)} icon='Delete'>
+								<Button onClick={() => removeTodo(itemData._id)} icon='Delete'>
 									Delete
+								</Button>
+							</DropdownItem>
+
+							<DropdownItem>
+								<Button onClick={() => markCompleted(itemData._id)} icon='Done'>
+									Completed
 								</Button>
 							</DropdownItem>
 						</DropdownMenu>

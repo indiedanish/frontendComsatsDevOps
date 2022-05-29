@@ -16,15 +16,27 @@ const DashboardBookingHeader = () => {
 								className={classNames('fs-3', 'fw-bold', {
 									'text-dark': !darkModeStatus,
 								})}>
-								Hi, John!
+								Sprint Sheet
 							</div>
 						</div>
 					</div>
 				</div>
 			</HeaderLeft>
-			<HeaderRight>
-				<CommonHeaderChat />
-			</HeaderRight>
+			{/* <HeaderRight>
+			<div className='d-flex align-items-center'>
+					<div className='row g-4'>
+						<div className='col-md-auto'>
+							<div
+								className={classNames('fs-3', 'fw-bold', {
+									'text-dark': !darkModeStatus,
+								})}>
+								Add Tasks
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			</HeaderRight> */}
 		</Header>
 	);
 };

@@ -90,22 +90,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 				</div>
 
 
-				<div className='col-auto'>
-					<Popovers trigger='hover' desc='Dark / Light mode'>
-						<Button
-							// eslint-disable-next-line react/jsx-props-no-spreading
-							{...styledBtn}
-							onClick={() => logout()}
-							className='btn-only-icon'
-							data-tour='dark-mode'>
-							<Icon
-								icon={darkModeStatus ? 'DarkMode' : 'LightMode'}
-								color={darkModeStatus ? 'info' : 'warning'}
-								className='btn-icon'
-							/>
-						</Button>
-					</Popovers>
-				</div>
+			
 
 				{/*	Full Screen */}
 				{/* <div className='col-auto'>
@@ -202,6 +187,22 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 						aria-label='Notifications'
 					/>
 				</div>
+				<div className='col-auto'>
+					<Popovers trigger='hover' desc='Logout'>
+						<Button
+							// eslint-disable-next-line react/jsx-props-no-spreading
+							{...styledBtn}
+							onClick={() => logout()}
+							className='btn-only-icon'
+							data-tour='dark-mode'>
+							<Icon
+								icon='Logout'
+								color={darkModeStatus ? 'info' : 'warning'}
+								className='btn-icon'
+							/>
+						</Button>
+					</Popovers>
+				</div>
 				{afterChildren}
 			</div>
 
@@ -232,6 +233,10 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 					</Alert>
 				</OffCanvasBody>
 			</OffCanvas>
+
+		
+
+
 		</HeaderRight>
 	);
 };

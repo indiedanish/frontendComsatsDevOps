@@ -10,7 +10,9 @@ const DashboardHeader = () => {
 			<HeaderLeft>
 				<Search />
 			</HeaderLeft>
-			<CommonHeaderRight afterChildren={<CommonHeaderChat />} />
+			{/* FOR CHAT ICON AT HEADER */}
+			{/* <CommonHeaderRight afterChildren={<CommonHeaderChat />} />  */}
+						<CommonHeaderRight  />
 		</Header>
 	);
 };

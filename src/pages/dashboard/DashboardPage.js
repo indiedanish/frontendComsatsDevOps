@@ -52,6 +52,8 @@ import useSortableData from '../../hooks/useSortableData';
 import useDarkMode from '../../hooks/useDarkMode';
 import Timeline, { TimelineItem } from '../../components/extras/Timeline';
 import CommonTodo from '../common/CommonTodo';
+import axios from 'axios';
+import { getColorNameWithIndex } from '../../common/data/enumColors';
 
 // eslint-disable-next-line react/prop-types
 const TableRow = ({ id, image, name, category, series, color, stock, price, store }) => {
@@ -89,6 +91,7 @@ const TableRow = ({ id, image, name, category, series, color, stock, price, stor
 			width: 2,
 		},
 	};
+
 	return (
 		<tr>
 			<th scope='row'>{id}</th>
@@ -262,6 +265,10 @@ const DashboardPage = () => {
 				localStorage.setItem('tourModalStarted', 'shown');
 			}, 3000);
 		}
+		getTeams();
+		getTasks();
+		getStudents();
+
 		return () => {};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -765,6 +772,35 @@ const DashboardPage = () => {
 		return name ? 'week' : moment().add(amount, 'week').format('w [th week]');
 	}
 
+	const [tasks, setTasks] = useState([]);
+	const [teams, setTeams] = useState([]);
+	const [students, setStudents] = useState([]);
+
+	const getTasks = async () => {
+		const response = await axios.get('http://localhost:4000/task/view');
+		console.log('GET TASK: ', response.data);
+		setTasks(response.data);
+	};
+
+	const getTeams = async () => {
+		const response = await axios.get('http://localhost:4000/team/view');
+		console.log('GET TEAMS: ', response.data);
+		setTeams(response.data);
+	};
+
+	const getStudents = async (id) => {
+		const response = await axios.get('http://localhost:4000/student/getStudents');
+		//console.log('GET TEAMS: ', response.data);
+		setStudents(response.data);
+		console.log('STUDENTS: ', response.data);
+	};
+
+	const deleteTeam = async (id) => {
+		await axios.delete(`http://localhost:4000/team/${id}`, { id });
+		getTeams()
+
+	};
+
 
 	return (
 		<PageWrapper title={demoPages.sales.subMenu.dashboard.text}>
@@ -781,7 +817,14 @@ const DashboardPage = () => {
 				</SubHeaderRight>
 			</SubHeader>
 			<Page container='fluid'>
-				<div className='row'>
+				<div
+					style={{
+						overflowX: 'scroll',
+						overflowY: 'hidden',
+						whiteSpace: 'nowrap',
+						WebkitOverflowScrolling: 'touch',
+						position: 'relative',
+					}}>
 					{/* <div className='col-12'>
 						<Alert
 							icon='Verified'
@@ -797,10 +840,17 @@ const DashboardPage = () => {
 						</Alert>
 					</div> */}
 
-					<div className='col-xl-4'>
+					<div
+						className='col-xl-4'
+						style={{
+							display: 'inline-block',
+							zoom: 1,
+							float: 'none',
+							marginRight: 10,
+						}}>
 						<UserContact
 							name={JSON.parse(localStorage.getItem('user')).Name}
-							position='Team Lead'
+							position={JSON.parse(localStorage.getItem('user')).Position}
 							mail={`${USERS.SAM.username}@site.com`}
 							phone='1234567'
 							onChat={() =>
@@ -811,212 +861,91 @@ const DashboardPage = () => {
 							color={USERS.SAM.color}
 						/>
 					</div>
-					<div className='col-xl-4'>
-						<Card stretch>
-							<CardHeader className='bg-transparent'>
-								<CardLabel>
-									<CardTitle tag='h4' className='h5'>
-										Marketing Team
-									</CardTitle>
-									<CardSubTitle tag='h5' className='h6 text-muted'>
-										There is a meeting at 12 o'clock.
-									</CardSubTitle>
-								</CardLabel>
-								<CardActions>
-									<Button
-										icon='ArrowForwardIos'
-										aria-label='Read More'
-										hoverShadow='default'
-										color={darkModeStatus ? 'dark' : null}
-										onClick={handleOnClickToEmployeeListPage}
-									/>
-								</CardActions>
-							</CardHeader>
-							<CardBody>
-								<AvatarGroup>
-									<Avatar
-										srcSet={USERS.GRACE.srcSet}
-										src={USERS.GRACE.src}
-										userName={`${USERS.GRACE.name} ${USERS.GRACE.surname}`}
-										color={USERS.GRACE.color}
-									/>
-									<Avatar
-										srcSet={USERS.SAM.srcSet}
-										src={USERS.SAM.src}
-										userName={`${USERS.SAM.name} ${USERS.SAM.surname}`}
-										color={USERS.SAM.color}
-									/>
-									<Avatar
-										srcSet={USERS.CHLOE.srcSet}
-										src={USERS.CHLOE.src}
-										userName={`${USERS.CHLOE.name} ${USERS.CHLOE.surname}`}
-										color={USERS.CHLOE.color}
-									/>
 
-									<Avatar
-										srcSet={USERS.JANE.srcSet}
-										src={USERS.JANE.src}
-										userName={`${USERS.JANE.name} ${USERS.JANE.surname}`}
-										color={USERS.JANE.color}
-									/>
-									<Avatar
-										srcSet={USERS.JOHN.srcSet}
-										src={USERS.JOHN.src}
-										userName={`${USERS.JOHN.name} ${USERS.JOHN.surname}`}
-										color={USERS.JOHN.color}
-									/>
-									<Avatar
-										srcSet={USERS.RYAN.srcSet}
-										src={USERS.RYAN.src}
-										userName={`${USERS.RYAN.name} ${USERS.RYAN.surname}`}
-										color={USERS.RYAN.color}
-									/>
-								</AvatarGroup>
-							</CardBody>
-						</Card>
-					</div>
-					<div className='col-xl-4'>
-						<Card stretch>
-							<CardHeader className='bg-transparent'>
-								<CardLabel>
-									<CardTitle tag='h4' className='h5'>
-										Design Team
-									</CardTitle>
-									<CardSubTitle tag='h5' className='h6 text-muted'>
-										There is a meeting at 15 o'clock.
-									</CardSubTitle>
-								</CardLabel>
-								<CardActions>
-									<Button
-										icon='ArrowForwardIos'
-										aria-label='Read More'
-										hoverShadow='default'
-										color={darkModeStatus ? 'dark' : null}
-										onClick={handleOnClickToEmployeeListPage}
-									/>
-								</CardActions>
-							</CardHeader>
-							<CardBody>
-								<AvatarGroup>
-									<Avatar
-										srcSet={USERS.JANE.srcSet}
-										src={USERS.JANE.src}
-										userName={`${USERS.JANE.name} ${USERS.JANE.surname}`}
-										color={USERS.JANE.color}
-									/>
-									<Avatar
-										srcSet={USERS.JOHN.srcSet}
-										src={USERS.JOHN.src}
-										userName={`${USERS.JOHN.name} ${USERS.JOHN.surname}`}
-										color={USERS.JOHN.color}
-									/>
-									<Avatar
-										srcSet={USERS.ELLA.srcSet}
-										src={USERS.ELLA.src}
-										userName={`${USERS.ELLA.name} ${USERS.ELLA.surname}`}
-										color={USERS.ELLA.color}
-									/>
-									<Avatar
-										srcSet={USERS.RYAN.srcSet}
-										src={USERS.RYAN.src}
-										userName={`${USERS.RYAN.name} ${USERS.RYAN.surname}`}
-										color={USERS.RYAN.color}
-									/>
-								</AvatarGroup>
-							</CardBody>
-						</Card>
-					</div>
-
-					
+					{teams.map((i, key) => (
+						<div
+							className='col-xl-4'
+							style={{
+								display: 'inline-block',
+								zoom: 1,
+								float: 'none',
+								marginRight: 10,
+							}}>
+							<Card stretch>
+								<CardHeader className='bg-transparent'>
+									<CardLabel>
+										<CardTitle tag='h4' className='h5'>
+											{i.Name}
+										</CardTitle>
+										<CardSubTitle tag='h5' className='h6 text-muted'>
+											{i.Meeting}
+										</CardSubTitle>
+									</CardLabel>
+									<CardActions>
+										<Button
+											icon='ArrowForwardIos'
+											aria-label='Read More'
+											hoverShadow='default'
+											color={darkModeStatus ? 'dark' : null}
+											onClick={handleOnClickToEmployeeListPage}
+										/>
+											<Button
+											icon='Delete'
+											aria-label='Read More'
+											hoverShadow='default'
+											color={darkModeStatus ? 'dark' : null}
+											onClick={()=>{deleteTeam(i._id)}}
+											
+										/>
+									</CardActions>
+								</CardHeader>
+								<CardBody>
+									<h7>{i.Student==undefined?"Currently, no member is added":i.Student.length == 1?`${i.Student.length } Member`: `${i.Student.length } Members`}</h7>
+								</CardBody>
+							</Card>
+						</div>
+					))}
+				</div>
+				<div className='row'>
 					<div className='col-xxl-6'>
-
-			
-						
-									
 						<Card stretch>
 							<CardHeader>
 								<CardLabel icon='NotificationsActive' iconColor='warning'>
 									<CardTitle tag='h4' className='h5'>
-										Recent Activities
+										Recent Tasks
 									</CardTitle>
 									<CardSubTitle>last 2 weeks</CardSubTitle>
 								</CardLabel>
 							</CardHeader>
-							<CardBody >
-
+							<CardBody>
 								<Timeline>
-									<TimelineItem
-										label={moment().add(-0.25, 'hours').format('LT')}
-										color='primary'>
-										Extended license purchased from France.
-									</TimelineItem>
-									<TimelineItem
-										label={moment().add(-4.54, 'hours').format('LT')}
-										color='success'>
-										<Popovers desc='5 stars' trigger='hover'>
-											<span>
-												<Icon icon='StarFill' color='warning' />
-												<Icon icon='StarFill' color='warning' />
-												<Icon icon='StarFill' color='warning' />
-												<Icon icon='StarFill' color='warning' />
-												<Icon icon='StarFill' color='warning' />
-											</span>
-										</Popovers>
-										<b>, a new rating has been received.</b>
-									</TimelineItem>
-									<TimelineItem
-										label={moment().add(-9.34, 'hours').format('LT')}
-										color='warning'>
-										Customer's problem solved.
-									</TimelineItem>
-									<TimelineItem
-										label={moment().add(-1, 'day').fromNow()}
-										color='primary'>
-										Regular license purchased from United Kingdom.
-									</TimelineItem>
-									<TimelineItem
-										label={moment().add(-1, 'day').fromNow()}
-										color='primary'>
-										Regular license purchased from Italy.
-									</TimelineItem>
-									<TimelineItem
-										label={moment().add(-2, 'day').fromNow()}
-										color='info'>
-										<span className='text-muted'>
-											New version released.{' '}
-											<a href='/' className='fw-bold'>
-												V12.1.0
-											</a>
-										</span>
-									</TimelineItem>
-									<TimelineItem
-										label={moment().add(-3, 'day').fromNow()}
-										color='danger'>
-										Market research meeting for new product.
-									</TimelineItem>
-									<TimelineItem
-										label={moment().add(-7, 'day').fromNow()}
-										color='secondary'>
-										Updating, compiling and going live the product introduction
-										page.
-									</TimelineItem>
-									<TimelineItem
-										label={moment().add(-8, 'day').fromNow()}
-										color='primary'>
-										Regular license purchased from Germany.
-									</TimelineItem>
-								</Timeline>
+									{tasks.map((i, key) => (
+										<TimelineItem
+											label={new Date(i.end).toLocaleString('en-US', 
 
-								
+											{ year: 'numeric', month: 'long', day: 'numeric' }
+											// {
+											//  day: '2-digit',
+											// 	 month: '2-digit',
+											// 	// year: 'numeric',
+											// 	// hour: '2-digit',
+											// 	// minute: '2-digit',
+											// 	// // second: '2-digit',
+											// 	// hour12: true,
+											// }
+											
+											)}
+											color={getColorNameWithIndex(key)}>
+											{i.title} - {i.Priority} - {i.AssignStudentName}
+										</TimelineItem>
+									))}
+								</Timeline>
 							</CardBody>
 						</Card>
-					
 					</div>
 					<div className='col-xxl-6'>
 						<CommonTodo />
 					</div>
-
-				
 				</div>
 			</Page>
 		</PageWrapper>

@@ -51,9 +51,9 @@ export const dashboardMenu = {
 	},
 
 	dashboardBooking: {
-		id: 'dashboard-booking',
+		id: 'sprints',
 		text: 'Sprints',
-		path: 'dashboard-booking',
+		path: 'sprints',
 		icon: 'emoji_transportation',
 		subMenu: null,
 	},

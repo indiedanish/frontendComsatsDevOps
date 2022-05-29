@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar as DatePicker } from 'react-date-range';
 import moment from 'moment';
 import { useFormik } from 'formik';
@@ -19,16 +19,21 @@ import Label from '../../components/bootstrap/forms/Label';
 import Checks, { ChecksGroup } from '../../components/bootstrap/forms/Checks';
 import Badge from '../../components/bootstrap/Badge';
 import Progress from '../../components/bootstrap/Progress';
+import axios from 'axios';
+import Select from '../../components/bootstrap/forms/Select';
+import Option from '../../components/bootstrap/Option';
 
 const CommonTodo = () => {
 	const TODO_BADGES = {
-		NEW: { text: 'New', color: 'success' },
-		UPDATE: { text: 'Update', color: 'info' },
+		PASS: { text: 'Pass', color: 'success' },
+		FAIL: { text: 'Fail', color: 'danger' },
+		REVIEW: { text: 'Review', color: 'info' },
 		TEST: { text: 'Test', color: 'warning' },
-		REPORT: { text: 'Report', color: 'info' },
-		PRINT: { text: 'Print', color: 'danger' },
-		CONTROL: { text: 'Control', color: 'primary' },
-		MEETING: { text: 'Meeting', color: 'secondary' },
+
+		DEBUG: { text: 'Debug', color: 'info' },
+
+		COMPLETED: { text: 'Completed', color: 'primary' },
+		// MEETING: { text: 'Meeting', color: 'secondary' },
 	};
 	const getBadgeWithText = (text) => {
 		return TODO_BADGES[Object.keys(TODO_BADGES).filter((f) => TODO_BADGES[f].text === text)];
@@ -88,8 +93,12 @@ const CommonTodo = () => {
 			badge: TODO_BADGES.MEETING,
 		},
 	]);
-	const listLength = list.length;
-	const completeTaskLength = list.filter((i) => i.status).length;
+	
+	
+	const [listLength, setListLength] = useState(6);
+	const [completeTaskLength, setcompleteTaskLength] = useState(4)
+	
+
 
 	/**
 	 * Add New Modal Status
@@ -103,8 +112,8 @@ const CommonTodo = () => {
 	 * @param badge
 	 */
 	const addTodo = (title, date, badge) => {
-		const newTodos = [{ title, date, badge }, ...list];
-		setList(newTodos);
+		const newTodos = [{ title, date, badge }, ...use];
+		setuse(newTodos);
 	};
 
 	/**
@@ -114,22 +123,78 @@ const CommonTodo = () => {
 
 	const validate = (values) => {
 		const errors = {};
-		if (!values.todoTitle) {
-			errors.todoTitle = 'Required';
-		} else if (values.todoTitle.length > 40) {
-			errors.todoTitle = 'Must be 40 characters or less';
+		if (!values.testTitle) {
+			errors.testTitle = 'Required';
+		} else if (values.testTitle.length > 40) {
+			errors.testTitle = 'Must be 40 characters or less';
 		}
 
 		return errors;
 	};
+
+	// const item = id ? itemData[0] : {};
+
+	const addToDatabase = async (val) => {
+		console.log('AAGAYAHUM', val);
+
+		const Title = val.testTitle;
+		const Status = val.testStatus;
+		const Assign = val.teammember;
+		const DeadlineDate = val.dueDate;
+
+		await axios.post('http://localhost:4000/test/add', {
+			Title,
+			Assign,
+			Status,
+			DeadlineDate
+			
+		
+		});
+	};
+
+	var [use, setuse] = useState([]);
+	var [teammembers, setTeamMember] = useState([])
+ 
+	useEffect(() => {
+		const fetchData = async () => {
+			const response = await axios.get('http://localhost:4000/test/view');
+			console.log('All TASKKS', response.data);
+			setuse(response.data);
+			const listLength = list.length;
+			//const completeTaskLength = list.filter((i) => i.status).length;
+			setListLength(response.data.length)
+			setcompleteTaskLength(response.data.filter((i) => i.status).length);
+		};
+		const fetchDataOfStudent = async () => {
+			const response = await axios.get('http://localhost:4000/student/getStudents');
+			console.log('ssss', response.data);
+			setTeamMember(response.data);
+		};
+
+		// call the function
+		fetchDataOfStudent();
+
+		fetchData();
+	
+		// call the function
+	
+	}, []);
+
+	console.log('DEKHO: ', use);
 	const formik = useFormik({
 		initialValues: {
-			todoTitle: '',
-			todoBadges: '',
+			testTitle: '',
+
+			testStatus: '',
+			teammember: '',
+			dueDate: date,
 		},
 		validate,
 		onSubmit: (values, { resetForm }) => {
-			addTodo(values.todoTitle, date, getBadgeWithText(values.todoBadges));
+			addTodo(values.testTitle, date, getBadgeWithText(values.testStatus), teammember);
+			console.log('we goott itt', values);
+			addToDatabase(values);
+
 			setModalStatus(false);
 			resetForm({ values: '' });
 		},
@@ -140,13 +205,13 @@ const CommonTodo = () => {
 			<CardHeader>
 				<CardLabel icon='AssignmentTurnedIn' iconColor='danger'>
 					<CardTitle tag='h4' className='h5'>
-						John's Issue
+						Testing Updates
 					</CardTitle>
 					<CardSubTitle>
 						<Progress
 							height={8}
 							max={listLength}
-							value={completeTaskLength}
+							value={use}
 							color={completeTaskLength === listLength ? 'success' : 'primary'}
 						/>
 					</CardSubTitle>
@@ -161,20 +226,20 @@ const CommonTodo = () => {
 					</Button>
 					<Modal setIsOpen={setModalStatus} isOpen={modalStatus} titleId='new-todo-modal'>
 						<ModalHeader setIsOpen={setModalStatus}>
-							<ModalTitle id='new-todo-modal'>New Issue</ModalTitle>
+							<ModalTitle id='new-todo-modal'>New Test</ModalTitle>
 						</ModalHeader>
 						<ModalBody>
 							<form className='row g-3' onSubmit={formik.handleSubmit}>
 								<div className='col-12'>
-									<FormGroup id='todoTitle' label='Title'>
+									<FormGroup id='testTitle' label='Title'>
 										<Input
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											isValid={formik.isValid}
-											isTouched={formik.touched.todoTitle}
-											invalidFeedback={formik.errors.todoTitle}
+											isTouched={formik.touched.testTitle}
+											invalidFeedback={formik.errors.testTitle}
 											validFeedback='Looks good!'
-											value={formik.values.todoTitle}
+											value={formik.values.testTitle}
 										/>
 									</FormGroup>
 								</div>
@@ -183,23 +248,33 @@ const CommonTodo = () => {
 										<Label>Due Date</Label>
 									</div>
 									<div className='text-center mt-n4'>
+										{/* <DatePicker
+											onChange={formik.handleChange}
+											date={formik.values.dueDate}
+											minDate={new Date()}
+											color={process.env.REACT_APP_PRIMARY_COLOR}
+										/> */}
+
 										<DatePicker
 											onChange={(item) => setDate(item)}
 											date={date}
 											minDate={new Date()}
 											color={process.env.REACT_APP_PRIMARY_COLOR}
 										/>
+
+
+								
 									</div>
 								</div>
 								<div className='col-12'>
 									<FormGroup>
-										<Label>Badge</Label>
+										<Label>Status</Label>
 										<ChecksGroup isInline>
 											{Object.keys(TODO_BADGES).map((i) => (
 												<Checks
 													key={TODO_BADGES[i].text}
 													type='radio'
-													name='todoBadges'
+													name='testStatus'
 													id={TODO_BADGES[i].text}
 													label={
 														<Badge isLight color={TODO_BADGES[i].color}>
@@ -208,10 +283,31 @@ const CommonTodo = () => {
 													}
 													value={TODO_BADGES[i].text}
 													onChange={formik.handleChange}
-													checked={formik.values.todoBadges}
+													checked={formik.values.testStatus}
 												/>
 											))}
 										</ChecksGroup>
+									</FormGroup>
+
+									
+								</div>
+
+								<div className='col-12'>
+									<FormGroup
+										id='teammember'
+										label='Select Team Member'
+										className='col-md-6'>
+										<Select
+											placeholder='Please select...'
+											value={formik.values.teammember}
+											onChange={formik.handleChange}
+											ariaLabel='Team member select'>
+											{teammembers.map((u, k) => (
+												<Option key={k} value={u._id}>
+													{`${u.Name}`}
+												</Option>
+											))}
+										</Select>
 									</FormGroup>
 								</div>
 								<div className='col' />
@@ -221,7 +317,7 @@ const CommonTodo = () => {
 										color='info'
 										isLight
 										isDisable={!formik.isValid && !!formik.submitCount}>
-										Add Item
+										Add Test
 									</Button>
 								</div>
 							</form>
@@ -230,7 +326,7 @@ const CommonTodo = () => {
 				</CardActions>
 			</CardHeader>
 			<CardBody isScrollable>
-				<Todo list={list} setList={setList} />
+				<Todo list={use} setList={setuse} />
 			</CardBody>
 		</Card>
 	);

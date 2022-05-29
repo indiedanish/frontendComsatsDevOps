@@ -48,6 +48,8 @@ import CommonDashboardBookingLists from '../common/BookingComponents/CommonDashb
 import CommonRightPanel from '../common/BookingComponents/CommonRightPanel';
 import useDarkMode from '../../hooks/useDarkMode';
 
+import axios from 'axios';
+
 const localizer = momentLocalizer(moment);
 const now = new Date();
 
@@ -58,10 +60,12 @@ const MyEvent = (data) => {
 	return (
 		<div className='row g-2'>
 			<div className='col text-truncate'>
-				{event?.icon && <Icon icon={event?.icon} size='lg' className='me-2' />}
-				{event?.name}
+				{/* {event?.icon && <Icon icon={event?.icon} size='lg' className='me-2' />} */}
+				{event?.title}
+				{' - '}
+				
 			</div>
-			{event?.user?.src && (
+			{/* {event?.user?.src && (
 				<div className='col-auto'>
 					<div className='row g-1 align-items-baseline'>
 						<div className='col-auto'>
@@ -86,7 +90,7 @@ const MyEvent = (data) => {
 						))}
 					</AvatarGroup>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 };
@@ -141,8 +145,8 @@ const DashboardBookingPage = () => {
 	// BEGIN :: Calendar
 	// Active employee
 	const [employeeList, setEmployeeList] = useState({
-		[USERS.JOHN.username]: true,
-		[USERS.ELLA.username]: true,
+		[USERS.CHLOE.username]: true,
+
 		[USERS.RYAN.username]: true,
 		[USERS.GRACE.username]: true,
 	});
@@ -202,9 +206,25 @@ const DashboardBookingPage = () => {
 	 */
 	// eslint-disable-next-line no-unused-vars
 	const eventStyleGetter = (event, start, end, isSelected) => {
+		const getColorForStatus = (Priority) => {
+			switch (Priority) {
+				case 'Medium':
+					return 'success';
+
+				case 'High':
+					return 'danger';
+				case 'Low':
+					return 'warning';
+
+				default:
+					return 'primary';
+				// code block
+			}
+		};
+
 		const isActiveEvent = start <= now && end >= now;
 		const isPastEvent = end < now;
-		const color = isActiveEvent ? 'success' : event.color;
+		const color = getColorForStatus(event.Priority);
 
 		return {
 			className: classNames({
@@ -214,23 +234,42 @@ const DashboardBookingPage = () => {
 			}),
 		};
 	};
+	const addToDatabase = async (val) => {
+		console.log('AAGAYAHUM', val);
+
+		const title = val.title;
+		const Priority = val.Priority;
+		const Assign = val.teammember;
+		const start = val.start;
+		const end = val.end;
+
+		await axios.post('http://localhost:4000/task/add', {
+			title,
+			Assign,
+			Priority,
+			start,
+			end,
+		});
+	};
 
 	const formik = useFormik({
 		initialValues: {
-			eventName: '',
-			eventStart: '',
-			eventEnd: '',
-			eventEmployee: '',
+			title: '',
+			teammember: '',
+			start: Date.now(),
+			end: Date.now(),
 		},
 		onSubmit: (values) => {
+			addToDatabase(values);
+
 			if (eventAdding) {
 				setEvents((prevEvents) => [
 					...prevEvents,
 					{
-						id: values.eventStart,
+						id: values.start,
 						...getServiceDataWithServiceName(values.eventName),
-						end: values.eventEnd,
-						start: values.eventStart,
+						end: values.end,
+						start: values.start,
 						user: { ...getUserDataWithUsername(values.eventEmployee) },
 					},
 				]);
@@ -242,14 +281,99 @@ const DashboardBookingPage = () => {
 		},
 	});
 
+	const [tasks, setTasks] = useState([]);
+	const [teammember, setTeammember] = useState([]);
+
+	const [totalHighPriorityTask, setTotalHighPriorityTask] = useState(0);
+	const [totalMediumPriorityTask, setTotalMediumPriorityTask] = useState(0);
+	const [totalLowPriorityTask, setTotalLowPriorityTask] = useState(0);
+
+	const calculateTasksPriority = (
+
+	) => {
+		tasks.map((i) => {
+			console.log(i.Priority);
+			if (i.Priority == 'High') {
+				setTotalHighPriorityTask(6);
+				console.log("getting: ",i.Priority,totalHighPriorityTask);
+			} else if (i.Priority == 'Medium') {
+				setTotalMediumPriorityTask(totalMediumPriorityTask + 1);
+			} else if (i.Priority == 'Low') {
+				setTotalLowPriorityTask(totalLowPriorityTask + 1);
+			}
+
+			return;
+		});
+
+		console.log(
+			'CALCULATE',
+			totalHighPriorityTask,
+			totalMediumPriorityTask,
+			totalLowPriorityTask,
+		);
+	};
+
+	useEffect (()=>{
+	
+	
+		var highcount = 0;
+		var midcount = 0;
+		var lowcount = 0;
+
+		tasks.map((i) => {
+			console.log(i.Priority);
+			if (i.Priority == 'High') {
+				
+				highcount++
+				console.log("TTT: ",highcount);
+			
+			} else if (i.Priority == 'Medium') {
+				midcount++
+			
+			} else if (i.Priority == 'Low') {
+				lowcount++
+			
+			}
+
+			return;
+		});
+		setTotalHighPriorityTask(highcount);
+		setTotalMediumPriorityTask(midcount);
+		setTotalLowPriorityTask(lowcount);
+
+
+
+	},[tasks])
+
+
+	const getTasks = async (
+	
+	) => {
+		const response = await axios.get('http://localhost:4000/task/view');
+		console.log('Tasks: ', response.data);
+		setTasks(response.data);
+	
+	
+		
+	};
+
+	const fetchData = async () => {
+		const response = await axios.get('http://localhost:4000/student/getStudents');
+		console.log('Team Members: ', response.data);
+		setTeammember(response.data);
+	};
+
 	useEffect(() => {
+		fetchData();
+
+		getTasks();
 		if (eventItem)
 			formik.setValues({
 				...formik.values,
 				eventId: eventItem.id || null,
 				eventName: eventItem.name,
-				eventStart: moment(eventItem.start).format(),
-				eventEnd: moment(eventItem.end).format(),
+				start: moment(eventItem.start).format(),
+				end: moment(eventItem.end).format(),
 				eventEmployee: eventItem?.user?.username,
 			});
 		return () => {};
@@ -263,22 +387,26 @@ const DashboardBookingPage = () => {
 		<PageWrapper title={demoPages.appointment.subMenu.dashboard.text}>
 			<SubHeader>
 				<SubHeaderLeft>
-					<Icon icon='Info' className='me-2' size='2x' />
-					<span className='text-muted'>
-						You have{' '}
-						<Icon icon='Check Circle ' color='success' className='mx-1' size='lg' /> 12
-						approved appointments and{' '}
-						<Icon icon='pending_actions ' color='danger' className='mx-1' size='lg' /> 3
-						pending appointments for today.
-					</span>
+					
+				
+					<Button color={'danger'} isLight>
+					High:{' '}{totalHighPriorityTask}
+						</Button>
+						<Button color={'success'} isLight >
+						Medium: {totalMediumPriorityTask} 
+						</Button>
+						<Button color={'warning'} isLight>
+						Low: {totalLowPriorityTask}
+						</Button>
+
 				</SubHeaderLeft>
 				<SubHeaderRight>
-					<Button
+					{/* <Button
 						icon='Groups'
 						onClick={() => setToggleRightPanel(!toggleRightPanel)}
 						color={toggleRightPanel ? 'dark' : 'light'}
 						aria-label='Toggle right panel'
-					/>
+					/> */}
 					<Button
 						icon='AreaChart'
 						onClick={() => setToggleCalendar(!toggleCalendar)}
@@ -305,75 +433,6 @@ const DashboardBookingPage = () => {
 			<Page container='fluid'>
 				{toggleCalendar && (
 					<>
-						<div className='row mb-4 g-3'>
-							{Object.keys(USERS).map((u) => (
-								<div key={USERS[u].username} className='col-auto'>
-									<Popovers
-										trigger='hover'
-										desc={
-											<>
-												<div className='h6'>{`${USERS[u].name} ${USERS[u].surname}`}</div>
-												<div>
-													<b>Event: </b>
-													{
-														events.filter(
-															(i) =>
-																i.user?.username ===
-																USERS[u].username,
-														).length
-													}
-												</div>
-												<div>
-													<b>Approved: </b>
-													{
-														events.filter(
-															(i) =>
-																i.user?.username ===
-																	USERS[u].username &&
-																i.color === 'info',
-														).length
-													}
-												</div>
-											</>
-										}>
-										<div className='position-relative'>
-											<Avatar
-												srcSet={USERS[u].srcSet}
-												src={USERS[u].src}
-												color={USERS[u].color}
-												size={64}
-												border={4}
-												className='cursor-pointer'
-												borderColor={
-													employeeList[USERS[u].username]
-														? 'info'
-														: themeStatus
-												}
-												onClick={() =>
-													setEmployeeList({
-														...employeeList,
-														[USERS[u].username]:
-															!employeeList[USERS[u].username],
-													})
-												}
-											/>
-											{!!events.filter(
-												(i) =>
-													i.user?.username === USERS[u].username &&
-													i.start < now &&
-													i.end > now,
-											).length && (
-												<span className='position-absolute top-85 start-85 translate-middle badge border border-2 border-light rounded-circle bg-success p-2'>
-													<span className='visually-hidden'>
-														Online user
-													</span>
-												</span>
-											)}
-										</div>
-									</Popovers>
-								</div>
-							))}
-						</div>
 						<div className='row h-100'>
 							<div
 								className={classNames({
@@ -399,12 +458,17 @@ const DashboardBookingPage = () => {
 									</CardHeader>
 									<CardBody isScrollable>
 										<Calendar
+											showAllEvents={true}
 											selectable
 											toolbar={false}
 											localizer={localizer}
-											events={events.filter(
-												(i) => employeeList[i.user?.username],
-											)}
+											// events={events.filter(
+											// (i) =>{
+
+											// 	return employeeList[i.user?.username]}
+											// )}
+
+											events={tasks}
 											defaultView={Views.WEEK}
 											views={views}
 											view={viewMode}
@@ -484,122 +548,91 @@ const DashboardBookingPage = () => {
 							setEventAdding(status);
 						}}
 						className='p-4'>
-						<OffCanvasTitle id='canvas-title'>
-							{eventAdding ? 'Add Event' : 'Edit Event'}
-						</OffCanvasTitle>
+						<OffCanvasTitle id='canvas-title'>Add Task</OffCanvasTitle>
 					</OffCanvasHeader>
 					<OffCanvasBody tag='form' onSubmit={formik.handleSubmit} className='p-4'>
 						<div className='row g-4'>
 							{/* Name */}
 							<div className='col-12'>
-								<FormGroup id='eventName' label='Name'>
+								<FormGroup id='title' label='Task' className='col-md'>
+									<Input
+										onChange={formik.handleChange}
+										value={formik.values.task}
+									/>
+								</FormGroup>
+							</div>
+							<div className='col-12'>
+								<FormGroup id='Priority' label='Priority' className='col-md'>
 									<Select
-										ariaLabel='Service select'
-										placeholder='Please select...'
-										size='lg'
-										value={formik.values.eventName}
-										onChange={formik.handleChange}>
-										{Object.keys(SERVICES).map((s) => (
-											<Option key={SERVICES[s].name} value={SERVICES[s].name}>
-												{SERVICES[s].name}
-											</Option>
-										))}
+										placeholder='Select Priority...'
+										value={formik.values.priority}
+										onChange={formik.handleChange}
+										ariaLabel='Team member select'>
+										<Option value='Low'>Low</Option>
+										<Option value='Medium'>Medium</Option>
+										<Option value='High'>High</Option>
 									</Select>
 								</FormGroup>
 							</div>
+
 							{/* Date */}
 							<div className='col-12'>
 								<Card className='mb-0 bg-l10-info' shadow='sm'>
 									<CardHeader className='bg-l25-info'>
 										<CardLabel icon='DateRange' iconColor='info'>
-											<CardTitle className='text-info'>
-												Date Options
-											</CardTitle>
+											<CardTitle className='text-info'>Select Date</CardTitle>
 										</CardLabel>
 									</CardHeader>
 									<CardBody>
 										<div className='row g-3'>
 											<div className='col-12'>
-												<FormGroup id='eventAllDay'>
-													<Checks
-														type='switch'
-														value='true'
-														label='All day event'
-														checked={formik.values.eventAllDay}
-														onChange={formik.handleChange}
-													/>
-												</FormGroup>
-											</div>
-											<div className='col-12'>
-												<FormGroup
-													id='eventStart'
-													label={
-														formik.values.eventAllDay
-															? 'Date'
-															: 'Start Date'
-													}>
+												<FormGroup id='start' label='Start Date'>
 													<Input
-														type={
-															formik.values.eventAllDay
-																? 'date'
-																: 'datetime-local'
-														}
-														value={
-															formik.values.eventAllDay
-																? moment(
-																		formik.values.eventStart,
-																  ).format(moment.HTML5_FMT.DATE)
-																: moment(
-																		formik.values.eventStart,
-																  ).format(
-																		moment.HTML5_FMT
-																			.DATETIME_LOCAL,
-																  )
-														}
+														type='datetime-local'
+														value={moment(formik.values.start).format(
+															moment.HTML5_FMT.DATETIME_LOCAL,
+														)}
 														onChange={formik.handleChange}
 													/>
 												</FormGroup>
 											</div>
 
-											{!formik.values.eventAllDay && (
-												<div className='col-12'>
-													<FormGroup id='eventEnd' label='End Date'>
-														<Input
-															type='datetime-local'
-															value={moment(
-																formik.values.eventEnd,
-															).format(
-																moment.HTML5_FMT.DATETIME_LOCAL,
-															)}
-															onChange={formik.handleChange}
-														/>
-													</FormGroup>
-												</div>
-											)}
+											<div className='col-12'>
+												<FormGroup id='end' label='End Date'>
+													<Input
+														type='datetime-local'
+														value={moment(formik.values.end).format(
+															moment.HTML5_FMT.DATETIME_LOCAL,
+														)}
+														onChange={formik.handleChange}
+													/>
+												</FormGroup>
+											</div>
 										</div>
 									</CardBody>
 								</Card>
 							</div>
-							{/* Employee */}
+							{/* Task */}
 							<div className='col-12'>
 								<Card className='mb-0 bg-l10-dark' shadow='sm'>
 									<CardHeader className='bg-l25-dark'>
 										<CardLabel icon='Person Add' iconColor='dark'>
-											<CardTitle>Employee Options</CardTitle>
+											<CardTitle>Select Team Member</CardTitle>
 										</CardLabel>
 									</CardHeader>
 									<CardBody>
-										<FormGroup id='eventEmployee' label='Employee'>
+										<FormGroup
+											id='teammember'
+											label='Select Team Member'
+											className='col-md'>
 											<Select
 												placeholder='Please select...'
-												value={formik.values.eventEmployee}
+												value={formik.values.teammember}
 												onChange={formik.handleChange}
-												ariaLabel='Employee select'>
-												{Object.keys(USERS).map((u) => (
-													<Option
-														key={USERS[u].id}
-														value={USERS[u].username}>
-														{`${USERS[u].name} ${USERS[u].surname}`}
+												ariaLabel='Team member select'>
+												{teammember.map((u, k) => (
+													<Option key={k} value={u._id}>
+														{`${u.Name}`}
 													</Option>
 												))}
 											</Select>
@@ -607,16 +640,16 @@ const DashboardBookingPage = () => {
 									</CardBody>
 								</Card>
 							</div>
-							<div className='col'>
+							<div className='col' style={{ textAlign: 'center' }}>
 								<Button color='info' type='submit'>
-									Save
+									Add Task
 								</Button>
 							</div>
 						</div>
 					</OffCanvasBody>
 				</OffCanvas>
 
-				<CommonRightPanel setOpen={setToggleRightPanel} isOpen={toggleRightPanel} />
+				{/* <CommonRightPanel setOpen={setToggleRightPanel} isOpen={toggleRightPanel} /> */}
 			</Page>
 		</PageWrapper>
 	);

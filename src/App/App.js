@@ -100,24 +100,16 @@ const App = () => {
 						<Route path='/dashboard' element={<Dashboard/>}  />
 						<Route path='*' element={<Aside />} /> */}
 
-						
 						<Route path='login' element={<PublicRoutes />}>
-						
-							
 							<Route path='/login' element={<Login />} />
 						</Route>
 
 						<Route path='/' element={<ProtectedRoutes />}>
-
-							
-
-						
 							{withOutAsidePages.map((path) => (
 								<Route key={path} path={path} />
 							))}
 							<Route path='*' element={<Aside />} />
 						</Route>
-
 
 						{/* { withOutAsidePages.map((path) => (
 							<Route key={path} path={path} />
