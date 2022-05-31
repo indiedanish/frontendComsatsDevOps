@@ -3,6 +3,7 @@ import { componentsMenu, dashboardMenu, demoPages, layoutMenu } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 const LANDING = {
+	TEAMMEMBERS: lazy(() => import('../pages/presentation/crm/CustomersList')),
 	DASHBOARD: lazy(() => import('../pages/dashboard/DashboardPage')),
 	DASHBOARD_BOOKING: lazy(() => import('../pages/dashboard/DashboardBookingPage')),
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
@@ -60,6 +61,7 @@ const APP = {
 		APPOINTMENT_LIST: lazy(() => import('../pages/presentation/appointment/AppointmentList')),
 	},
 	CRM: {
+		
 		CRM_DASHBOARD: lazy(() => import('../pages/presentation/crm/CrmDashboard')),
 		CUSTOMERS: lazy(() => import('../pages/presentation/crm/CustomersList')),
 		CUSTOMER: lazy(() => import('../pages/presentation/crm/Customer')),
@@ -195,6 +197,12 @@ const presentation = [
 		exact: true,
 	},
 
+	{
+		path: dashboardMenu.team.path,
+		element: <LANDING.TEAMMEMBERS />,
+		exact: true,
+	},
+
 	/** ************************************************** */
 
 	/**
@@ -218,16 +226,16 @@ const presentation = [
 	/**
 	 * List
 	 */
-	{
-		path: demoPages.listPages.subMenu.listBoxed.path,
-		element: <LIST.BOXED />,
-		exact: true,
-	},
-	{
-		path: demoPages.listPages.subMenu.listFluid.path,
-		element: <LIST.FLUID />,
-		exact: true,
-	},
+	// {
+	// 	path: demoPages.listPages.subMenu.listBoxed.path,
+	// 	element: <LIST.BOXED />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.listPages.subMenu.listFluid.path,
+	// 	element: <LIST.FLUID />,
+	// 	exact: true,
+	// },
 
 	/**
 	 * Grid
@@ -246,42 +254,42 @@ const presentation = [
 	/**
 	 * Edit
 	 */
-	{
-		path: demoPages.editPages.subMenu.editModern.path,
-		element: <EDIT.MODERN />,
-		exact: true,
-	},
-	{
-		path: demoPages.editPages.subMenu.editBoxed.path,
-		element: <EDIT.BOXED />,
-		exact: true,
-	},
-	{
-		path: demoPages.editPages.subMenu.editFluid.path,
-		element: <EDIT.FLUID />,
-		exact: true,
-	},
-	{
-		path: demoPages.editPages.subMenu.editWizard.path,
-		element: <EDIT.WIZARD />,
-		exact: true,
-	},
-	{
-		path: demoPages.editPages.subMenu.editInCanvas.path,
-		element: <EDIT.IN_CANVAS />,
-		exact: true,
-	},
-	{
-		path: demoPages.editPages.subMenu.editInModal.path,
-		element: <EDIT.IN_MODAL />,
-		exact: true,
-	},
+	// {
+	// 	path: demoPages.editPages.subMenu.editModern.path,
+	// 	element: <EDIT.MODERN />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editBoxed.path,
+	// 	element: <EDIT.BOXED />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editFluid.path,
+	// 	element: <EDIT.FLUID />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editWizard.path,
+	// 	element: <EDIT.WIZARD />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editInCanvas.path,
+	// 	element: <EDIT.IN_CANVAS />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editInModal.path,
+	// 	element: <EDIT.IN_MODAL />,
+	// 	exact: true,
+	// },
 
-	{
-		path: demoPages.pricingTable.path,
-		element: <PRICING.PRICING_TABLE />,
-		exact: true,
-	},
+	// {
+	// 	path: demoPages.pricingTable.path,
+	// 	element: <PRICING.PRICING_TABLE />,
+	// 	exact: true,
+	// },
 
 	/**
 	 * END - Pages
@@ -428,41 +436,41 @@ const presentation = [
 	/**
 	 * Page Layout Types
 	 */
-	{
-		path: layoutMenu.blank.path,
-		element: <PAGE_LAYOUTS.BLANK />,
-		exact: true,
-	},
-	{
-		path: layoutMenu.pageLayout.subMenu.headerAndSubheader.path,
-		element: <PAGE_LAYOUTS.HEADER_SUBHEADER />,
-		exact: true,
-	},
-	{
-		path: layoutMenu.pageLayout.subMenu.onlyHeader.path,
-		element: <PAGE_LAYOUTS.HEADER />,
-		exact: true,
-	},
-	{
-		path: layoutMenu.pageLayout.subMenu.onlySubheader.path,
-		element: <PAGE_LAYOUTS.SUBHEADER />,
-		exact: true,
-	},
-	{
-		path: layoutMenu.pageLayout.subMenu.onlyContent.path,
-		element: <PAGE_LAYOUTS.CONTENT />,
-		exact: true,
-	},
-	{
-		path: layoutMenu.asideTypes.subMenu.defaultAside.path,
-		element: <PAGE_LAYOUTS.ASIDE />,
-		exact: true,
-	},
-	{
-		path: layoutMenu.asideTypes.subMenu.minimizeAside.path,
-		element: <PAGE_LAYOUTS.MINIMIZE_ASIDE />,
-		exact: true,
-	},
+	// {
+	// 	path: layoutMenu.blank.path,
+	// 	element: <PAGE_LAYOUTS.BLANK />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.pageLayout.subMenu.headerAndSubheader.path,
+	// 	element: <PAGE_LAYOUTS.HEADER_SUBHEADER />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.pageLayout.subMenu.onlyHeader.path,
+	// 	element: <PAGE_LAYOUTS.HEADER />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.pageLayout.subMenu.onlySubheader.path,
+	// 	element: <PAGE_LAYOUTS.SUBHEADER />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.pageLayout.subMenu.onlyContent.path,
+	// 	element: <PAGE_LAYOUTS.CONTENT />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.asideTypes.subMenu.defaultAside.path,
+	// 	element: <PAGE_LAYOUTS.ASIDE />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.asideTypes.subMenu.minimizeAside.path,
+	// 	element: <PAGE_LAYOUTS.MINIMIZE_ASIDE />,
+	// 	exact: true,
+	// },
 ];
 const documentation = [
 	/**

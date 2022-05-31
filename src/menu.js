@@ -43,10 +43,10 @@ export const dashboardMenu = {
 		subMenu: null,
 	},
 
-	customersList: {
-		id: 'customersList',
+	team: {
+		id: 'team',
 		text: 'Team',
-		path: 'crm/customers',
+		path: '/team',
 		icon: 'PersonSearch',
 	},
 
@@ -62,8 +62,8 @@ export const dashboardMenu = {
 
 	summary: {
 		id: 'summary',
-		text: 'Summary',
-		path: 'summary',
+		text: 'Video Chat',
+		path: 'chat',
 		icon: 'sticky_note_2',
 		subMenu: null,
 	},

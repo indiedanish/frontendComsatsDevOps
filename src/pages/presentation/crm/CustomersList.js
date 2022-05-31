@@ -56,14 +56,11 @@ const CustomersList = () => {
 	const formik = useFormik({
 		initialValues: {
 			searchInput: '',
-			//,
-			// payment: Object.keys(PAYMENTS).map((i) => PAYMENTS[i].name),
-			// minPrice: '',
-			// maxPrice: '',
+			
 		},
 		// eslint-disable-next-line no-unused-vars
 		onSubmit: (values) => {
-			// alert(JSON.stringify(values, null, 2));
+	
 		},
 	});
 
@@ -71,20 +68,14 @@ const CustomersList = () => {
 
 	const filteredData = use.filter(
 		(f, key) =>
-			// Name
+		
 
 			f.Name.toLowerCase().includes(formik.values.searchInput.toLowerCase()),
 
-		// &&
-		// // Price
-		// (formik.values.minPrice === '' || f.balance > formik.values.minPrice) &&
-		// (formik.values.maxPrice === '' || f.balance < formik.values.maxPrice) &&
-		// Payment Type
-		// formik.values.payment.includes(f.payout),
 	);
 
 	const { items, requestSort, getClassNamesFor } = useSortableData(filteredData);
-	console.log('MARDARCHOODD', items);
+
 
 	const [editModalStatus, setEditModalStatus] = useState(false);
 

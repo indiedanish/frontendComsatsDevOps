@@ -812,7 +812,7 @@ const DashboardPage = () => {
 				</SubHeaderLeft>
 				<SubHeaderRight>
 					<CommonAvatarTeam>
-						<strong>Marketing</strong> Team
+						<strong>Team</strong> Members
 					</CommonAvatarTeam>
 				</SubHeaderRight>
 			</SubHeader>
@@ -887,7 +887,9 @@ const DashboardPage = () => {
 											aria-label='Read More'
 											hoverShadow='default'
 											color={darkModeStatus ? 'dark' : null}
-											onClick={handleOnClickToEmployeeListPage}
+											onClick={() => {}
+
+											}
 										/>
 											<Button
 											icon='Delete'

@@ -62,8 +62,7 @@ const Search = () => {
 					type='search'
 					className='border-0 shadow-none bg-transparent'
 					placeholder='Search...'
-					onChange={formik.handleChange}
-					value={formik.values.searchInput}
+			
 					autoComplete='off'
 				/>
 			</div>

@@ -11,11 +11,7 @@ const SummaryHeader = () => {
 	return (
 		<Header>
 			<HeaderLeft>
-				<Navigation
-					menu={homeMenu}
-					id='summary-top-menu'
-					horizontal={deviceScreen?.width >= process.env.REACT_APP_MOBILE_BREAKPOINT_SIZE}
-				/>
+				<h5>Start Video Calling </h5>
 			</HeaderLeft>
 			<CommonHeaderRight />
 		</Header>

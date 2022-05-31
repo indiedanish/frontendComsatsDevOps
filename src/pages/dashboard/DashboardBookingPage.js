@@ -510,30 +510,15 @@ const DashboardBookingPage = () => {
 											},
 											'col-md-6',
 										)}>
-										<CommonApprovedAppointmentChart />
+										
 									</div>
-									<div
-										className={classNames(
-											{
-												'col-xxl-12': !toggleRightPanel,
-											},
-											'col-md-6',
-										)}>
-										<CommonPercentageOfLoadChart />
-									</div>
+							
 								</div>
 							</div>
 						</div>
 					</>
 				)}
-				<div className='row'>
-					<div className='col-12'>
-						<CommonDashboardBookingLists />
-					</div>
-					<div className='col-12'>
-						<CommonUpcomingEvents />
-					</div>
-				</div>
+			
 
 				<OffCanvas
 					setOpen={(status) => {

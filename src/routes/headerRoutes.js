@@ -26,6 +26,11 @@ const headers = [
 	{ path: demoPages.knowledge.subMenu.grid.path, element: null, exact: true },
 	{ path: dashboardMenu.dashboard.path, element: <DashboardHeader />, exact: true },
 	{
+		path: dashboardMenu.team.path,
+		element: <ProfilePageHeader />,
+		exact: true,
+	},
+	{
 		path: demoPages.projectManagement.subMenu.list.path,
 		element: <DashboardHeader />,
 		exact: true,
