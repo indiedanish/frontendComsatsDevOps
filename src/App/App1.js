@@ -95,8 +95,6 @@ const App = () => {
 						overflow: fullScreenStatus && 'scroll',
 					}}>
 					<Routes>
-
-						
 						{/* 						
 						<Route path='/dashboard' element={<Dashboard/>}  />
 						<Route path='*' element={<Aside />} /> */}
