@@ -11,6 +11,7 @@ import ThemeContext from '../contexts/themeContext';
 import Aside from '../layout/Aside/Aside';
 import Wrapper from '../layout/Wrapper/Wrapper';
 import Portal from '../layout/Portal/Portal';
+// eslint-disable-next-line no-unused-vars
 import { demoPages, layoutMenu } from '../menu';
 import { Toast, ToastContainer } from '../components/bootstrap/Toasts';
 import useDarkMode from '../hooks/useDarkMode';
@@ -18,11 +19,13 @@ import COLORS from '../common/data/enumColors';
 import { getOS } from '../helpers/helpers';
 
 import Login from '../pages/presentation/auth/Login';
-
+import Layout from './Layout';
 
 import ProtectedRoutes from './ProtectedRoutes';
 
 import PublicRoutes from './PublicRoutes';
+
+import PAGE_404 from '../pages/presentation/auth/Page404';
 
 const App = () => {
 	getOS();
@@ -74,11 +77,13 @@ const App = () => {
 
 	//	Add paths to the array that you don't want to be "Aside".
 	const withOutAsidePages = [demoPages.login.path];
+	// eslint-disable-next-line no-unused-vars
 	const [login, setlogin] = useState(true);
-
+	// eslint-disable-next-line no-unused-vars
 	const LoggingIn = () => {
 		setlogin(true);
 	};
+	// eslint-disable-next-line no-unused-vars
 	const LoggingOut = () => {
 		setlogin(false);
 	};
@@ -95,28 +100,38 @@ const App = () => {
 						overflow: fullScreenStatus && 'scroll',
 					}}>
 					<Routes>
+						<Route path='/' element={<Layout />}>
+							
 
-						
-						{/* 						
-						<Route path='/dashboard' element={<Dashboard/>}  />
-						<Route path='*' element={<Aside />} /> */}
+							<Route element={<ProtectedRoutes />}>
+								{withOutAsidePages.map((path) => (
+									<Route key={path} path={path} />
+								))}
+								<Route path='*' element={<Aside />} />
+							</Route>
+						</Route>
 
-						<Route path='login' element={<PublicRoutes />}>
+						<Route path='*' element={<PAGE_404 />} />
+					</Routes>
+
+					{/* <Routes>
+				
+		
+
+						<Route  element={<PublicRoutes />}>
 							<Route path='/login' element={<Login />} />
 						</Route>
 
-						<Route path='/' element={<ProtectedRoutes />}>
+						<Route  element={<ProtectedRoutes />}>
 							{withOutAsidePages.map((path) => (
 								<Route key={path} path={path} />
 							))}
 							<Route path='*' element={<Aside />} />
 						</Route>
 
-						{/* { withOutAsidePages.map((path) => (
-							<Route key={path} path={path} />
-						))}
-					<Route path='*' element={<Aside />} /> */}
-					</Routes>
+						
+
+					</Routes> */}
 					<Wrapper />
 				</div>
 				<Portal id='portal-notification'>
