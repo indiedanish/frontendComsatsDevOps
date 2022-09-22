@@ -1,5 +1,4 @@
 
-node_modules
 # Created by https://www.toptal.com/developers/gitignore/api/storybookjs,windows,macos,webstorm+all,visualstudiocode,openframeworks+visualstudio,intellij+all,git,yarn,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=storybookjs,windows,macos,webstorm+all,visualstudiocode,openframeworks+visualstudio,intellij+all,git,yarn,node
 
@@ -7,7 +6,7 @@ node_modules
 # Created by git for backups. To disable backups in Git:
 # $ git config --global mergetool.keepBackup false
 *.orig
-
+node_modules
 # Created by git when using merge tools for conflicts
 *.BACKUP.*
 *.BASE.*
