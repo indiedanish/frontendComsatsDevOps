@@ -30,11 +30,25 @@ export const homeMenu = {
 	},
 };
 
+export const adminSidebarMenu = {
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+}
+
+
+
+
 export const dashboardMenu = {
 
 
 
-	
+
 	dashboard: {
 		id: 'dashboard',
 		text: 'Dashboard',
@@ -57,7 +71,7 @@ export const dashboardMenu = {
 		icon: 'emoji_transportation',
 		subMenu: null,
 	},
-	
+
 
 
 	summary: {
@@ -195,7 +209,7 @@ export const demoPages = {
 	login: {
 		id: 'login',
 		text: 'Login',
-		path: '/login',
+		path: 'login',
 		icon: 'Login',
 	},
 	signUp: {

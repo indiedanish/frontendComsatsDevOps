@@ -177,6 +177,20 @@ const EXTRA = {
 	HOOKS: lazy(() => import('../pages/documentation/extras/HooksPage')),
 };
 
+const student = [
+	{
+		path: demoPages.gridPages.subMenu.gridBoxed.path,
+		element: <GRID.BOXED />,
+		exact: true,
+	},
+	{
+		path: demoPages.login.path,
+		element: <GRID.BOXED  />,
+		exact: true,
+	},
+
+]
+
 const presentation = [
 	/**
 	 * Landing
@@ -303,16 +317,16 @@ const presentation = [
 		element: <AUTH.PAGE_404 />,
 		exact: true,
 	},
-	{
-		path: demoPages.login.path,
-		element: <Login />,
-		exact: true,
-	},
-	{
-		path: demoPages.signUp.path,
-		element: <Login isSignUp />,
-		exact: true,
-	},
+	// {
+	// 	path: demoPages.login.path,
+	// 	element: <Login />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.signUp.path,
+	// 	element: <Login isSignUp />,
+	// 	exact: true,
+	// },
 
 	/**
 	 * App
@@ -901,6 +915,6 @@ const documentation = [
 		exact: true,
 	},
 ];
-const contents = [...presentation, ...documentation];
+const contents = {presentation, documentation , student};
 
 export default contents;

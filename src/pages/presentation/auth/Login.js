@@ -47,7 +47,9 @@ const Login = (props) => {
 
 	const handleOnClick=async (e) =>{
         e.preventDefault();
-        const response = await axios.post("http://localhost:4000/student/login",{Email,Password})
+        const response = await axios.post("http://localhost:3500/auth/teacher",{Email,Password})
+
+		console.log(response.data);
         setEmail('')
         setPassword('')
         const data = response.data[0]

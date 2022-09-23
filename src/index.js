@@ -15,10 +15,10 @@ const children = (
 		
 			<ThemeContextProvider>
 
-<Routes>
 
-<Route path="*" element={<App />}  />
-</Routes>
+
+<App /> 
+
 			
 			</ThemeContextProvider>
 	

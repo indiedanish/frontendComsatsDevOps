@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState, useLayoutEffect, useRef } from 
 import { ThemeProvider } from 'react-jss';
 import { ReactNotifications } from 'react-notifications-component';
 import { useFullscreen } from 'react-use';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 // import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ToastProvider } from 'react-toast-notifications';
 
 import ThemeContext from '../contexts/themeContext';
 
-import AdminSidebar from '../layout/Aside/adminSidebar';
+import Aside from '../layout/Aside/Aside';
 import Wrapper from '../layout/Wrapper/Wrapper';
 import Portal from '../layout/Portal/Portal';
 // eslint-disable-next-line no-unused-vars
@@ -17,14 +17,15 @@ import { Toast, ToastContainer } from '../components/bootstrap/Toasts';
 import useDarkMode from '../hooks/useDarkMode';
 import COLORS from '../common/data/enumColors';
 import { getOS } from '../helpers/helpers';
-import { Outlet, Link } from "react-router-dom";
- import Login from '../pages/presentation/auth/Login';
-// import Layout from '../layout/Wrapper/Layout';
 
+import Login from '../pages/presentation/auth/Login';
+import Layout from './Layout';
 
-// import contents from '../routes/contentRoutes';
+import ProtectedRoutes from './ProtectedRoutes';
 
-// import PAGE_404 from '../pages/presentation/auth/Page404';
+import contents from '../routes/contentRoutes';
+
+import PAGE_404 from '../pages/presentation/auth/Page404';
 
 const App = () => {
 	getOS();
@@ -75,7 +76,7 @@ const App = () => {
 	});
 
 	//	Add paths to the array that you don't want to be "Aside".
-
+	const withOutAsidePages = [demoPages.login.path];
 	// eslint-disable-next-line no-unused-vars
 	const [login, setlogin] = useState(true);
 	// eslint-disable-next-line no-unused-vars
@@ -86,7 +87,6 @@ const App = () => {
 	const LoggingOut = () => {
 		setlogin(false);
 	};
-	const withOutAsidePages = [demoPages.login.path, demoPages.signUp.path, layoutMenu.blank.path ,demoPages.page404.path ];
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -100,29 +100,24 @@ const App = () => {
 						overflow: fullScreenStatus && 'scroll',
 					}}>
 					<Routes>
-				
-						
-					
-{false?  "logged in" : <Route  path="login" element={<Login/>} /> }
+						<Route path='/' element={<Layout />}>
+							<Route path='/login' element={<Login />} />
 
-							<Route >
-								{withOutAsidePages.map((path) => (
+							<Route element={<ProtectedRoutes />}>
+								{/* {withOutAsidePages.map((path) => (
 									<Route key={path} path={path} />
 								))}
-								<Route path='*' element={<AdminSidebar />} /> 
-								{/* we will use authenticate here too, to make correct sidebar */}
-									
-								
+								<Route path='*' element={<Aside />} /> */}
+									<Wrapper />
 
+
+								<Route path='*' element={<PAGE_404 />} />
 							</Route>
-						
-							
+						</Route>
 
-						
+						<Route path='*' element={<PAGE_404 />} />
 					</Routes>
-					<Wrapper/>
 
-					
 					{/* <Routes>
 				
 		
