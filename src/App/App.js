@@ -1,3 +1,5 @@
+
+/* eslint-disable react/no-direct-mutation-state */
 import React, { useContext, useEffect, useState, useLayoutEffect, useRef } from 'react';
 import { ThemeProvider } from 'react-jss';
 import { ReactNotifications } from 'react-notifications-component';
@@ -18,7 +20,10 @@ import useDarkMode from '../hooks/useDarkMode';
 import COLORS from '../common/data/enumColors';
 import { getOS } from '../helpers/helpers';
 import { Outlet, Link } from "react-router-dom";
- import Login from '../pages/presentation/auth/Login';
+import Login from '../pages/presentation/auth/Login';
+import { Cookies } from 'react-cookie';
+import jwt_decode from "jwt-decode";
+
 // import Layout from '../layout/Wrapper/Layout';
 
 
@@ -86,7 +91,16 @@ const App = () => {
 	const LoggingOut = () => {
 		setlogin(false);
 	};
-	const withOutAsidePages = [demoPages.login.path, demoPages.signUp.path, layoutMenu.blank.path ,demoPages.page404.path ];
+	const withOutAsidePages = [demoPages.login.path, demoPages.signUp.path, layoutMenu.blank.path, demoPages.page404.path];
+	useEffect(() => {
+		//check if the user is logged in
+	}, [])
+
+	const cookies = new Cookies();
+	const token = cookies.get('jwt')
+	var decoded = jwt_decode(token);
+	console.log(decoded)
+
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -100,29 +114,29 @@ const App = () => {
 						overflow: fullScreenStatus && 'scroll',
 					}}>
 					<Routes>
-				
-						
-					
-{false?  "logged in" : <Route  path="login" element={<Login/>} /> }
 
-							<Route >
-								{withOutAsidePages.map((path) => (
-									<Route key={path} path={path} />
-								))}
-								<Route path='*' element={<AdminSidebar />} /> 
-								{/* we will use authenticate here too, to make correct sidebar */}
-									
-								
 
-							</Route>
-						
-							
 
-						
+						{false ? "logged in" : <Route path="login" element={<Login />} />}
+
+						<Route >
+							{withOutAsidePages.map((path) => (
+								<Route key={path} path={path} />
+							))}
+							<Route path='*' element={<AdminSidebar />} />
+							{/* we will use authenticate here too, to make correct sidebar */}
+
+
+
+						</Route>
+
+
+
+
 					</Routes>
-					<Wrapper/>
+					<Wrapper />
 
-					
+
 					{/* <Routes>
 				
 		
@@ -141,7 +155,7 @@ const App = () => {
 						
 
 					</Routes> */}
-					
+
 				</div>
 				<Portal id='portal-notification'>
 					<ReactNotifications />
