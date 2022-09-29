@@ -10,7 +10,11 @@ const useAsideTouch = () => {
 	const hasTouchButton =
 		deviceScreen?.width > process.env.REACT_APP_ASIDE_MINIMIZE_BREAKPOINT_SIZE;
 
-	const asideWidthWithSpace = 'true';
+	const asideWidthWithSpace =
+		(parseInt(process.env.REACT_APP_ASIDE_WIDTH_PX, 10) +
+			parseInt(process.env.REACT_APP_SPACER_PX, 10)) *
+		-1;
+
 	const x = useMotionValue(
 		process.env.REACT_APP_ASIDE_TOUCH_STATUS === 'true' ? 0 : asideWidthWithSpace,
 	);

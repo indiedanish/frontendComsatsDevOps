@@ -6,6 +6,10 @@ import WrapperOverlay from './WrapperOverlay';
 import HeaderRoutes from '../Header/HeaderRoutes';
 import FooterRoutes from '../Footer/FooterRoutes';
 import ThemeContext from '../../contexts/themeContext';
+import { Route, Routes } from "react-router-dom";
+import PAGE_404 from '../../pages/presentation/auth/Page404';
+import RequireAuth from '../Content/RequireAuth';
+
 
 export const WrapperContainer = ({ children, className, ...props }) => {
 	const { rightPanel } = useContext(ThemeContext);
@@ -30,13 +34,21 @@ WrapperContainer.defaultProps = {
 	className: null,
 };
 
+// page autherization when at login and wants to show Page404
+
 const Wrapper = () => {
 	return (
 		<>
 
+
 			<WrapperContainer>
-				<HeaderRoutes />
 				<Content />
+
+
+				
+
+
+				<HeaderRoutes />
 				<FooterRoutes />
 			</WrapperContainer>
 			<WrapperOverlay />

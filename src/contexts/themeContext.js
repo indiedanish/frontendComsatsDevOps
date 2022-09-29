@@ -1,13 +1,36 @@
-import React, { createContext, useLayoutEffect, useState, useMemo } from 'react';
+import React, { createContext, useLayoutEffect, useState, useMemo,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useDeviceScreen from '../hooks/useDeviceScreen';
+import { Cookies } from "react-cookie";
+import jwt_decode from "jwt-decode";
 
 const ThemeContext = createContext(null);
 
 export const ThemeContextProvider = ({ children }) => {
+	
+
+
+	const cookies = new Cookies();
+	const token = cookies.get("jwt");
+	var decoded = null
+try{
+	decoded = jwt_decode(token);
+}
+catch(e){
+	console.log(e);
+	
+}
+
+	const [auth, setAuth] = useState(decoded==null? {} : decoded);
+	
+	useLayoutEffect(() => {
+		localStorage.setItem('facit_darkModeStatus', darkModeStatus.toString());
+	}, [darkModeStatus]);
+
+
 	const deviceScreen = useDeviceScreen();
 	const mobileDesign = deviceScreen?.width <= process.env.REACT_APP_MOBILE_BREAKPOINT_SIZE;
-
+	
 	const [darkModeStatus, setDarkModeStatus] = useState(
 		localStorage.getItem('facit_darkModeStatus')
 			? localStorage.getItem('facit_darkModeStatus') === 'true'
@@ -49,6 +72,8 @@ export const ThemeContextProvider = ({ children }) => {
 			mobileDesign,
 			darkModeStatus,
 			setDarkModeStatus,
+			auth, 
+			setAuth,
 			fullScreenStatus,
 			setFullScreenStatus,
 			asideStatus,
@@ -63,6 +88,7 @@ export const ThemeContextProvider = ({ children }) => {
 		[
 			asideStatus,
 			darkModeStatus,
+			auth,
 			fullScreenStatus,
 			leftMenuStatus,
 			mobileDesign,

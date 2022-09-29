@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import PageWrapper from "../../../layout/PageWrapper/PageWrapper";
@@ -11,10 +11,10 @@ import Button from "../../../components/bootstrap/Button";
 import axios from "axios";
 import SweetAlert from "react-bootstrap-sweetalert";
 import useDarkMode from "../../../hooks/useDarkMode";
-
-
+import useAuth from "../../../hooks/useAuth";
 import { replace } from "formik";
-
+import { Cookies } from "react-cookie";
+import jwt_decode from "jwt-decode";
 // eslint-disable-next-line react/prop-types
 const LoginHeader = ({ isNewUser }) => {
   // if (isNewUser) {
@@ -45,31 +45,46 @@ const Login = (props) => {
   const [errorModal, setErrorModal] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
   //const handleOnClick = useCallback(() => navigate('/'), [navigate]);
+
+
+  const { auth, setAuth } = useAuth();
+
+  console.log("THIS IA AUTH IN LOGIN PAGE", auth)
+        
+	const cookies = new Cookies();
+	const token = cookies.get("jwt");
 
   const handleOnClick = async (e) => {
     console.log(Email, Password);
     e.preventDefault();
-    
 
     try {
-      const response = await axios.post("http://localhost:3500/auth/admin",
-	  {
-        Email,
-        Password,
-      }
-	  ,
-	  {
-		//AxiosRequestConfig parameter
-		withCredentials: true //correct
-	  } ,
-	
-	  );
+      const response = await axios.post(
+        "http://localhost:3500/auth/admin",
+        {
+          Email,
+          Password,
+        },
+        {
+          withCredentials: true, //correct
+        }
+      );
 
 
-      console.log( "find it ",response);
+      console.log("find it ", response.data);
+
+	var decoded = jwt_decode(response.data.refreshToken);
+
+	console.log("decoded", decoded);
+      setAuth(decoded);
+    console.log("SVED AUTH", auth)
+  
+       navigate("/sales/sales-list", { replace: true });
+
     } catch (e) {
-      console.log("oh no" + e.response.statuscode);
+      console.log("oh no" + e);
       setErrorModal(true);
     }
 
@@ -84,7 +99,7 @@ const Login = (props) => {
         // props.fun();
         localStorage.setItem("user", JSON.stringify(userData));
 
-        navigate("/dashboard", { replace: true });
+        navigate("/sales/sales-list", { replace: true });
       } catch (err) {
         console.log(err);
       }
