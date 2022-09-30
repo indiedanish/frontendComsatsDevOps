@@ -38,6 +38,20 @@ export const adminSidebarMenu = {
 		icon: 'Dashboard',
 		subMenu: null,
 	},
+	students: {
+		id: 'dashboard',
+		text: 'Students',
+		path: '/students',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+	teachers: {
+		id: 'dashboard',
+		text: 'Teachers',
+		path: '/teacher',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
 
 }
 

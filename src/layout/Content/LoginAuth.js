@@ -14,6 +14,7 @@ const RequireAuth = () => {
   return (
     // auth?.roles?.find(role => allowedRoles?.includes(role))
     auth?.Role
+   
     ? <Navigate to="/sales/sales-list" state={{ from: location }} replace />
     :
     //  auth?.user

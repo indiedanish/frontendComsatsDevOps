@@ -28,7 +28,6 @@ import { Outlet, Link } from "react-router-dom";
 import Login from "../pages/presentation/auth/Login";
 import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
-import RequireAuth from "../layout/Content/RequireAuth";
 import Page404 from "../pages/presentation/auth/Page404";
 
 // import Layout from '../layout/Wrapper/Layout';
