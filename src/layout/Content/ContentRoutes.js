@@ -22,7 +22,7 @@ const ContentRoutes = () => {
 
   const location = useLocation();
   
-  console.log("Admin Auth ", auth.Role );
+  console.log("ContentRoutes ", auth.Role );
   
   return (
     <>
@@ -41,19 +41,15 @@ const ContentRoutes = () => {
         </Route>
     
     
-        {/* <Route element={<StudentAuth />}>
+        <Route element={<AdminAuth role="TeamMember" />}>
           <Route element={<StudentLayout />}>
             {contents.presentation.map((page) => (
               <Route key={page.path} {...page} />
             ))}
-            <Route path="*"
-          element={
-            <Page404/>
-          }
-        />
+            
           </Route>
           
-        </Route> */}
+        </Route>
      
     
       
