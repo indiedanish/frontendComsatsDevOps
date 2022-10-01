@@ -18,68 +18,55 @@ import Page404 from "../../pages/presentation/auth/Page404";
 const ContentRoutes = () => {
   const { auth } = useAuth();
   // const auth = {Role: "Admin"}
-  console.log("Content contents: ", contents);
+  console.log("ContentRoutes: ", contents);
 
   const location = useLocation();
+  
+  console.log("Admin Auth ", auth.Role );
+  
   return (
     <>
       <Routes>
         <Route element={<LoginAuth />}>
           <Route path="/login" element={<Login />} />
         </Route>
-      </Routes>
-
-      {auth.Role == "Admin" ? (
-        <Routes>
-          <Route element={<AdminAuth />}>
-            <Route element={<AdminLayout />}>
-              {contents.presentation.map((page) => (
-                <Route key={page.path} {...page} />
-              ))}
-            
-            </Route>
+ 
+        <Route element={<AdminAuth role="Admin" />}>
+          <Route element={<AdminLayout />}>
+            {contents.presentation.map((page) => (
+              <Route key={page.path} {...page} />
+            ))}
+          
           </Route>
-        </Routes>
-      ) : auth.Role == "Student" ? (
-        <Routes>
-          <Route element={<StudentAuth />}>
-            <Route element={<StudentLayout />}>
-              {contents.student.map((page) => (
-                <Route key={page.path} {...page} />
-              ))}
-              <Route path="*"
-            element={
-              <Page404/>
-            }
-          />
-            </Route>
-            
-          </Route>
-        </Routes>
-      ) : auth.Role == "Teacher" ? (
-        <Routes>
-          <Route element={<StudentAuth />}>
-            <Route element={<StudentLayout />}>
-              {contents.student.map((page) => (
-                <Route key={page.path} {...page} />
-              ))}
-            </Route>
+        </Route>
+    
+    
+        {/* <Route element={<StudentAuth />}>
+          <Route element={<StudentLayout />}>
+            {contents.presentation.map((page) => (
+              <Route key={page.path} {...page} />
+            ))}
             <Route path="*"
-            element={
-              <Page404/>
-            }
-          />
+          element={
+            <Page404/>
+          }
+        />
           </Route>
-        </Routes>
-      ) : (
-        <Routes>
-          <Route path="*"
+          
+        </Route> */}
+     
+    
+      
+
+             <Route path='*' element={<Page404 />} />
+       
+          {/* <Route path="*"
             element={
               <Navigate to="/login"  replace />
             }
-          />
+          /> */}
         </Routes>
-      )}
+    
     </>
   );
 };

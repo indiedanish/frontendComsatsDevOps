@@ -9,7 +9,8 @@ const RequireAuth = () => {
   
 
   const location = useLocation();
-  console.log("I AM A GOOD BOY", auth);
+  console.log("Login Auth", auth.Role);
+ 
 
   return (
     // auth?.roles?.find(role => allowedRoles?.includes(role))

@@ -46,18 +46,19 @@ const Login = (props) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  //const handleOnClick = useCallback(() => navigate('/'), [navigate]);
+  //const handleAdminLogin = useCallback(() => navigate('/'), [navigate]);
 
+  const [asStudent, setasStudent] = useState(false);
 
   const { auth, setAuth } = useAuth();
 
-  console.log("THIS IA AUTH IN LOGIN PAGE", auth)
-        
-	const cookies = new Cookies();
-	const token = cookies.get("jwt");
+  console.log("THIS IA AUTH IN LOGIN PAGE", auth);
 
-  const handleOnClick = async (e) => {
-    console.log(Email, Password);
+  const cookies = new Cookies();
+  const token = cookies.get("jwt");
+
+  const handleAdminLogin = async (e) => {
+
     e.preventDefault();
 
     try {
@@ -72,39 +73,54 @@ const Login = (props) => {
         }
       );
 
-
       console.log("find it ", response.data);
 
-	var decoded = jwt_decode(response.data.refreshToken);
+      var decoded = jwt_decode(response.data.refreshToken);
 
-	console.log("decoded", decoded);
+      console.log("decoded", decoded);
       setAuth(decoded);
-    console.log("SVED AUTH", auth)
-  
-       navigate("/sales/sales-list", { replace: true });
+      console.log("SVED AUTH", auth);
 
     } catch (e) {
       console.log("oh no" + e);
       setErrorModal(true);
     }
 
-    setEmail("");
-    setPassword("");
-    const data = response.data[0];
-    const userData = response.data[1];
-    if (data == "Logged in") {
-      // useCallback(() => navigate('/'), [navigate])
+    // setEmail("");
+    // setPassword("");
+  };
 
-      try {
-        // props.fun();
-        localStorage.setItem("user", JSON.stringify(userData));
+  const handleStudentLogin = async (e) => {
 
-        navigate("/sales/sales-list", { replace: true });
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
+    e.preventDefault();
+
+    try {const RegNo = Email;
+      const response = await axios.post(
+        "http://localhost:3500/auth/student",
+        {
+          RegNo,
+          Password,
+        },
+        {
+          withCredentials: true, //correct
+        }
+      );
+
+      console.log("find it ", response.data);
+
+      var decoded = jwt_decode(response.data.refreshToken);
+
+      console.log("decoded", decoded);
+      setAuth(decoded);
+      console.log("SVED AUTH", auth);
+
+    } catch (e) {
+      console.log("oh no" + e);
+      setErrorModal(true);
     }
+
+    // setEmail("");
+    // setPassword("");
   };
 
   return (
@@ -186,11 +202,25 @@ const Login = (props) => {
                       <Button
                         color="warning"
                         className="w-100 py-3"
-                        onClick={handleOnClick}
+                        onClick={asStudent?handleStudentLogin : handleAdminLogin   }
                       >
                         Login
                       </Button>
                     </div>
+                    {asStudent ? (
+                      <div className="border-2 border-black w-full justify-center items-center text-center">
+                        <Button  onClick={() => setasStudent(!asStudent)} className="">Login as admin</Button>
+                      </div>
+                    ) : (
+                      <div className="border-2 border-black w-full justify-center items-center text-center">
+                        <Button
+                          onClick={() => setasStudent(!asStudent)}
+                          className=""
+                        >
+                          Login as student
+                        </Button>
+                      </div>
+                    )}
                   </>
 
                   {/* BEGIN :: Social Login */}

@@ -188,6 +188,11 @@ const student = [
 		element: <GRID.BOXED  />,
 		exact: true,
 	},
+	{
+		path: demoPages.sales.subMenu.salesList.path,
+		element: <APP.SALES.PRODUCTS />,
+		exact: true,
+	},
 
 ]
 
@@ -254,16 +259,16 @@ const presentation = [
 	/**
 	 * Grid
 	 */
-	{
-		path: demoPages.gridPages.subMenu.gridBoxed.path,
-		element: <GRID.BOXED />,
-		exact: true,
-	},
-	{
-		path: demoPages.gridPages.subMenu.gridFluid.path,
-		element: <GRID.FLUID />,
-		exact: true,
-	},
+	// {
+	// 	path: demoPages.gridPages.subMenu.gridBoxed.path,
+	// 	element: <GRID.BOXED />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.gridPages.subMenu.gridFluid.path,
+	// 	element: <GRID.FLUID />,
+	// 	exact: true,
+	// },
 
 	/**
 	 * Edit

@@ -9,12 +9,13 @@ const StudentAuth = () => {
   
 
   const location = useLocation();
-  console.log("I AM A GOOD BOY", auth.Role);
+  console.log("Studeent auth", auth.Role);
+
 
   return (
 
-    //auth.Role == "Student"
-    true
+   auth.Role == "TeamMember"
+  
     ? <Outlet />
     :
          <Navigate to="/login" state={{ from: location }} replace />
