@@ -124,9 +124,9 @@ const DashboardPage = () => {
     { text: "Medium", color: "info" },
   ];
   const getTaskColor = (priority) => {
-    return PRIORITY_BADGES.find((badge) => badge.text == priority).color;   
+    return PRIORITY_BADGES.find((badge) => badge.text == priority).color;
   }
-  
+
   return (
     <PageWrapper title={demoPages.sales.subMenu.dashboard.text}>
       <SubHeader>
@@ -179,7 +179,7 @@ const DashboardPage = () => {
               name={`${studentSelf.Name} - ${studentSelf.RegNo}`}
               position={studentSelf.Role}
               mail={studentSelf.Email}
-              phone="234234234"
+              phone={studentSelf.length == 0 ? "" : studentSelf.PhoneNumber.toString()}
               onChat={() =>
                 navigate(`../${demoPages.chat.subMenu.withListChat.path}`)
               }
@@ -215,7 +215,7 @@ const DashboardPage = () => {
                       aria-label="Read More"
                       hoverShadow="default"
                       color={darkModeStatus ? "dark" : null}
-                      onClick={() => {}}
+                      onClick={() => { }}
                     />
                     <Button
                       icon="Delete"
@@ -233,8 +233,8 @@ const DashboardPage = () => {
                     {i.Student == undefined
                       ? "Currently, no member is added"
                       : i.Student.length == 1
-                      ? `${i.Student.length} Member`
-                      : `${i.Student.length} Members`}
+                        ? `${i.Student.length} Member`
+                        : `${i.Student.length} Members`}
                   </h7>
                 </CardBody>
               </Card>
