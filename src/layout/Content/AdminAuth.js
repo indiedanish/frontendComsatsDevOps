@@ -7,7 +7,7 @@ const AdminAuth = (props) => {
   const { auth } = useAuth();
 
   const location = useLocation();
-  console.log("Admin2Auth ", auth.Role , " ANDsss " , props.role);
+
 
   return (
     auth.Role == props.role

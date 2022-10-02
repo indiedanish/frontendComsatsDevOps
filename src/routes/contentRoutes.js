@@ -197,6 +197,116 @@ const student = [
 ]
 
 const presentation = [
+
+	// Charts
+
+	{
+		path: componentsMenu.charts.path,
+		element: <CHARTS_PAGE.CHART_LIST />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsUsage.path,
+		element: <CHARTS_PAGE.GENERAL_USAGE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsSparkline.path,
+		element: <CHARTS_PAGE.SPARKLINE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsLine.path,
+		element: <CHARTS_PAGE.LINE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsArea.path,
+		element: <CHARTS_PAGE.AREA />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsColumn.path,
+		element: <CHARTS_PAGE.COLUMN />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsBar.path,
+		element: <CHARTS_PAGE.BAR />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsMixed.path,
+		element: <CHARTS_PAGE.MIXED />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsTimeline.path,
+		element: <CHARTS_PAGE.TIMELINE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsCandleStick.path,
+		element: <CHARTS_PAGE.CANDLESTICK />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsBoxWhisker.path,
+		element: <CHARTS_PAGE.BOX_WHISKER />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsPieDonut.path,
+		element: <CHARTS_PAGE.PIE_DONUT />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsRadar.path,
+		element: <CHARTS_PAGE.RADAR />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsPolar.path,
+		element: <CHARTS_PAGE.POLAR />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsRadialBar.path,
+		element: <CHARTS_PAGE.RADIAL_BAR />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsBubble.path,
+		element: <CHARTS_PAGE.BUBBLE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsScatter.path,
+		element: <CHARTS_PAGE.SCATTER />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsHeatMap.path,
+		element: <CHARTS_PAGE.HEAT_MAP />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsTreeMap.path,
+		element: <CHARTS_PAGE.TREE_MAP />,
+		exact: true,
+	},
+
+	{
+		path: componentsMenu.notification.path,
+		element: <EXTRA.NOTIFICATION />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.hooks.path,
+		element: <EXTRA.HOOKS />,
+		exact: true,
+	},
+
 	/**
 	 * Landing
 	 */

@@ -81,6 +81,7 @@ const Login = (props) => {
       setAuth(decoded);
       console.log("SVED AUTH", auth);
 
+    //  navigate("/sales/sales-list", { replace: true });
     } catch (e) {
       console.log("oh no" + e);
       setErrorModal(true);
@@ -108,12 +109,26 @@ const Login = (props) => {
 
       console.log("find it ", response.data);
 
+      const cookies = new Cookies();
+      const token = cookies.get("jwt");
+    
+      var decoded = jwt_decode(token);
+    
+      
       var decoded = jwt_decode(response.data.refreshToken);
+      
+      console.log("decodedNEW" , decoded.RegNo);
+      const studentInfo = await axios.post(
+        "http://localhost:3500/student/getStudent",
+        { RegNo: decoded.RegNo },
+        {
+          withCredentials: true, //correct
+        }
+      );
+     console.log("GIVEEE",studentInfo)
+      setAuth(studentInfo.data);
 
-      console.log("decoded", decoded);
-      setAuth(decoded);
-      console.log("SVED AUTH", auth);
-
+     // navigate("/sales/sales-list", { replace: true });
     } catch (e) {
       console.log("oh no" + e);
       setErrorModal(true);

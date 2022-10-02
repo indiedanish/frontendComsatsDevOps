@@ -118,7 +118,7 @@ const AreaIrregular = () => {
 		},
 	});
 	return (
-		<div className='col-lg-6'>
+		<div className='col-xxl-4'>
 			<Card stretch>
 				<CardHeader>
 					<CardLabel icon='AreaChart'>

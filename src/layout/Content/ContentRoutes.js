@@ -18,11 +18,11 @@ import Page404 from "../../pages/presentation/auth/Page404";
 const ContentRoutes = () => {
   const { auth } = useAuth();
   // const auth = {Role: "Admin"}
-  console.log("ContentRoutes: ", contents);
+
 
   const location = useLocation();
   
-  console.log("ContentRoutes ", auth.Role );
+
   
   return (
     <>
@@ -31,14 +31,14 @@ const ContentRoutes = () => {
           <Route path="/login" element={<Login />} />
         </Route>
  
-        <Route element={<AdminAuth role="Admin" />}>
+        {/* <Route element={<AdminAuth role="Admin" />}>
           <Route element={<AdminLayout />}>
             {contents.presentation.map((page) => (
               <Route key={page.path} {...page} />
             ))}
           
           </Route>
-        </Route>
+        </Route> */}
     
     
         <Route element={<AdminAuth role="TeamMember" />}>
