@@ -95,7 +95,9 @@ const Login = (props) => {
 
     e.preventDefault();
 
-    try {const RegNo = Email;
+    try {
+      
+      const RegNo = Email;
       const response = await axios.post(
         "http://localhost:3500/auth/student",
         {
@@ -109,15 +111,12 @@ const Login = (props) => {
 
       console.log("find it ", response.data);
 
-      const cookies = new Cookies();
-      const token = cookies.get("jwt");
     
-      var decoded = jwt_decode(token);
-    
-      
+
       var decoded = jwt_decode(response.data.refreshToken);
       
       console.log("decodedNEW" , decoded.RegNo);
+      
       const studentInfo = await axios.post(
         "http://localhost:3500/student/getStudent",
         { RegNo: decoded.RegNo },
@@ -217,7 +216,7 @@ const Login = (props) => {
                       <Button
                         color="warning"
                         className="w-100 py-3"
-                        onClick={asStudent?handleStudentLogin : handleAdminLogin   }
+                        onClick={asStudent ? handleStudentLogin : handleAdminLogin   }
                       >
                         Login
                       </Button>

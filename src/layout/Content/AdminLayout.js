@@ -6,6 +6,7 @@ const Layout = () => {
       <>
             <AdminSidebar/>
             <Outlet />
+            
       </>
        
        
@@ -13,3 +14,5 @@ const Layout = () => {
 }
 
 export default Layout
+
+

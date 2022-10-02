@@ -64,6 +64,8 @@ import AreaChart from "../documentation/charts/chart-area/AreaIrregular.js";
 axios.defaults.withCredentials = true;
 import useAuth from "../../hooks/useAuth";
 
+import BarBasic from "../documentation/charts/chart-bar/BarBasic.js";
+
 const DashboardPage = () => {
   useEffect(() => {
     getstudentSelf();
@@ -80,17 +82,36 @@ const DashboardPage = () => {
 
   const [studentSelf, setstudentSelf] = useState([]);
 
-  const getTasks = async (projectname, regno) => {
+  const [projectInfo, setProjectInfo] = useState([]);
+  const [groupMembers, setGroupMembers] = useState([]);
+
+  // const getTasks = async (projectname, regno) => {
+  //   console.log("projectname", projectname);
+  //   const response = await axios.post(
+  //     "http://localhost:3500/student/getStudentRequirement",
+  //     { ProjectName: projectname, RegNo: regno },
+  //     {
+  //       withCredentials: true, //correct
+  //     }
+  //   );
+  //   console.log("TASKS: ", response.data);
+  //   setTasks(response.data);
+  // };
+
+  const getProject = async (projectname) => {
     console.log("projectname", projectname);
     const response = await axios.post(
-      "http://localhost:3500/student/getStudentRequirement",
-      { ProjectName: projectname, RegNo: regno },
+      "http://localhost:3500/student/project",
+      { Name: projectname },
       {
-        withCredentials: true, //correct
+        withCredentials: true,
       }
     );
-    console.log("TASKS: ", response.data);
-    setTasks(response.data);
+    console.log("Project Info: ", response.data);
+    setProjectInfo(response.data);
+    setGroupMembers(response.data.GroupMembers);
+    console.log("Group Members!!!: ", response.data.GroupMembers);
+    setTasks(response.data.Requirements);
   };
 
   const getstudentSelf = async () => {
@@ -110,7 +131,7 @@ const DashboardPage = () => {
     setstudentSelf(response.data);
     console.log("STUDENT himself: ", response.data);
 
-    getTasks(response.data.Project.Name, decoded.RegNo);
+    getProject(response.data.Project.Name);
   };
 
   const deleteTeam = async (id) => {
@@ -125,7 +146,7 @@ const DashboardPage = () => {
   ];
   const getTaskColor = (priority) => {
     return PRIORITY_BADGES.find((badge) => badge.text == priority).color;
-  }
+  };
 
   return (
     <PageWrapper title={demoPages.sales.subMenu.dashboard.text}>
@@ -165,31 +186,32 @@ const DashboardPage = () => {
 							<span>You have reached your monthly sales targets.</span>
 						</Alert>
 					</div> */}
+          {groupMembers.map((i, key) => (
+            <div
+              className="col-xl-4"
+              style={{
+                display: "inline-block",
+                zoom: 1,
+                float: "none",
+                marginRight: 10,
+              }}
+            >
+              <UserContact
+                name={`${i.Name} - ${i.RegNo}`}
+                position={i.Role}
+                mail={i.Email}
+                phone={i.length == 0 ? "" : i.PhoneNumber.toString()}
+                onChat={() =>
+                  navigate(`../${demoPages.chat.subMenu.withListChat.path}`)
+                }
+                src={USERS.SAM.src}
+                srcSet={USERS.SAM.srcSet}
+                color={USERS.SAM.color}
+              />
+            </div>
+          ))}
 
-          <div
-            className="col-xl-4"
-            style={{
-              display: "inline-block",
-              zoom: 1,
-              float: "none",
-              marginRight: 10,
-            }}
-          >
-            <UserContact
-              name={`${studentSelf.Name} - ${studentSelf.RegNo}`}
-              position={studentSelf.Role}
-              mail={studentSelf.Email}
-              phone={studentSelf.length == 0 ? "" : studentSelf.PhoneNumber.toString()}
-              onChat={() =>
-                navigate(`../${demoPages.chat.subMenu.withListChat.path}`)
-              }
-              src={USERS.SAM.src}
-              srcSet={USERS.SAM.srcSet}
-              color={USERS.SAM.color}
-            />
-          </div>
-
-          {[1, 2, 3].map((i, key) => (
+          {/* {groupMembers.map((i, key) => (
             <div
               className="col-xl-4"
               style={{
@@ -239,7 +261,7 @@ const DashboardPage = () => {
                 </CardBody>
               </Card>
             </div>
-          ))}
+          ))} */}
         </div>
         <div className="row">
           <div className="col-xxl-4">
@@ -283,7 +305,7 @@ const DashboardPage = () => {
             <CommonTodo />
           </div>
 
-          <AreaChart />
+        
         </div>
       </Page>
     </PageWrapper>

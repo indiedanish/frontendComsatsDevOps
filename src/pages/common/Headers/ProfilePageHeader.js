@@ -4,8 +4,12 @@ import Avatar from '../../../components/Avatar';
 import UserImage2Webp from '../../../assets/img/wanna/wanna1.webp';
 import UserImage2 from '../../../assets/img/wanna/wanna1.png';
 import CommonHeaderRight from './CommonHeaderRight';
+import useAuth from '../../../hooks/useAuth';
 
 const ProfilePageHeader = () => {
+	const { auth } = useAuth();
+
+
 	return (
 		<Header>
 			<HeaderLeft>
@@ -19,9 +23,9 @@ const ProfilePageHeader = () => {
 						/>
 					</div>
 					<div>
-						<div className='fw-bold fs-6 mb-0'>{JSON.parse(localStorage.getItem('user')).Name}</div>
+						<div className='fw-bold fs-6 mb-0'>{auth.Role == "Supervisor" || "Committee" ? auth.Email : auth.RegNo}</div>
 						<div className='text-muted'>
-							<small>{JSON.parse(localStorage.getItem('user')).Email}</small>
+							<small>{auth.Role}</small>
 						</div>
 					</div>
 				</div>

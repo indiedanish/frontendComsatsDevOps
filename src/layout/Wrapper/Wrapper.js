@@ -46,11 +46,15 @@ const Wrapper = () => {
 				
 
 			<HeaderRoutes /> 
+
+
 				<Content />
 
 
-
 				<FooterRoutes /> 
+
+
+
 			</WrapperContainer>
 			<WrapperOverlay />
 		</>
@@ -58,3 +62,14 @@ const Wrapper = () => {
 };
 
 export default Wrapper;
+
+
+
+
+
+
+
+
+
+
+

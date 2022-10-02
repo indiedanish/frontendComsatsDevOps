@@ -13,6 +13,8 @@ export const ThemeContextProvider = ({ children }) => {
 	const cookies = new Cookies();
 	const token = cookies.get("jwt");
 	var decoded = null
+
+	
 try{
 	decoded = jwt_decode(token);
 }

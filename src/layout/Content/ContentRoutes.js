@@ -13,7 +13,11 @@ import AdminSidebar from "../Aside/adminSidebar";
 import AdminLayout from "./AdminLayout";
 import StudentLayout from "./StudentLayout";
 import useAuth from "../../hooks/useAuth";
+
+
+
 import Page404 from "../../pages/presentation/auth/Page404";
+
 
 const ContentRoutes = () => {
   const { auth } = useAuth();
@@ -41,9 +45,9 @@ const ContentRoutes = () => {
         </Route> */}
     
     
-        <Route element={<AdminAuth role="TeamMember" />}>
+        <Route element={<AdminAuth role="TeamLead" />}>
           <Route element={<StudentLayout />}>
-            {contents.presentation.map((page) => (
+            {contents.teamLead.map((page) => (
               <Route key={page.path} {...page} />
             ))}
             
@@ -72,3 +76,9 @@ export default ContentRoutes;
 {
   /* <Route path="*" element={<PAGE_404 />} /> */
 }
+
+
+
+
+
+

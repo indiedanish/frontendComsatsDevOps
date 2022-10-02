@@ -141,39 +141,7 @@ const App = () => {
         >
 
              <Wrapper />
-            {/* <Route path='*' element={<Page404 />} /> */}
-   
-
-          {/* {alreadyTokenExists ? (
-            setclicked(true)
-			// <Routes>
-			// 	<Route path="login"  element={<Wrapper />}></Route>
-			// </Routes>
-            ) : (
-				<Routes>
-
-              <Route path="login" element={<Login />} />
-				</Routes>
-            )} */}
-
-          {/* <Routes>
-				
-		
-
-						<Route  element={<PublicRoutes />}>
-							<Route path='/login' element={<Login />} />
-						</Route>
-
-						<Route  element={<ProtectedRoutes />}>
-							{withOutAsidePages.map((path) => (
-								<Route key={path} path={path} />
-							))}
-							<Route path='*' element={<Aside />} />
-						</Route>
-
-						
-
-					</Routes> */}
+           
         </div>
         <Portal id="portal-notification">
           <ReactNotifications />
@@ -184,3 +152,8 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+
