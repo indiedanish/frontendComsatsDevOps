@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import AdminBrand from '../Brand/adminBrand';
 import Navigation, { NavigationLine } from '../Navigation/Navigation';
 import User from '../User/User';
-import { componentsMenu, dashboardMenu, adminMenu, demoPages, layoutMenu } from '../../menu';
+import { componentsMenu, dashboardMenu, adminMenuSideBar, demoPages, layoutMenu } from '../../menu';
 import ThemeContext from '../../contexts/themeContext';
 import Card, { CardBody } from '../../components/bootstrap/Card';
 
@@ -49,7 +49,7 @@ const AdminSidebar = () => {
 					<AdminBrand asideStatus={asideStatus} setAsideStatus={setAsideStatus} />
 				</div>
 				<div className='aside-body'>
-					<Navigation menu={adminMenu} id='aside-dashboard' />
+					<Navigation menu={adminMenuSideBar} id='aside-dashboard' />
 
 
 

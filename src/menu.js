@@ -114,6 +114,146 @@ export const teamLeadMenu = {
 	},
 };
 
+export const adminMenuSideBar = {
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/admin/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+	students: {
+		id: 'students',
+		text: 'Students',
+		path: '/admin/students',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+	teachers: {
+		id: 'dashboard',
+		text: 'Teachers',
+		path: '/admin/teachers',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	templates: {
+		id: 'templates',
+		text: 'Templates',
+		path: '/admin/templates',
+		icon: 'ViewList',
+		subMenu: null,
+	},
+
+	announcements: {
+		id: 'announcements',
+		text: 'Announcements',
+		path: '/admin/announcements',
+		icon: 'Volume',
+		subMenu: null,
+	},
+
+	rubrics: {
+		id: 'rubrics',
+		text: 'Rubrics',
+		path: '/admin/rubrics',
+		icon: 'Article',
+		subMenu: {
+			supervisor: {
+				id: 'supervisor',
+				text: 'Supervisor',
+				path: '/admin/rubrics/supervisor',
+				icon: 'Person',
+			},
+			committee: {
+				id: 'committee',
+				text: 'Committee',
+				path: '/admin/rubrics/committee',
+				icon: 'Group',
+			},
+		},
+	},
+
+	committee: {
+		id: 'committee',
+		text: 'Committee',
+		path: '/admin/committee',
+		icon: 'Group',
+		subMenu: null,
+	},
+
+	project: {
+		id: 'project',
+		text: 'Assign Project',
+		path: '/admin/project',
+		icon: 'Project',
+		subMenu: null,
+	},
+	///////////////////////////////////////////////
+
+	forms: {
+		id: 'forms',
+		text: 'Forms',
+		path: '/admin/forms',
+		icon: 'CheckBox',
+		notification: 'success',
+		subMenu: {
+			formGroup: {
+				id: 'formGroup',
+				text: 'Form Group',
+				path: '/admin/forms/form-group',
+				icon: 'Source',
+			},
+			formControl: {
+				id: 'formControl',
+				text: 'Form Controls',
+				path: '/admin/forms/form-controls',
+				icon: 'Create',
+			},
+			select: {
+				id: 'select',
+				text: 'Select',
+				path: '/admin/forms/select',
+				icon: 'Checklist',
+			},
+			checksAndRadio: {
+				id: 'checksAndRadio',
+				text: 'Checks & Radio',
+				path: '/admin/forms/checks-and-radio',
+				icon: 'CheckBox',
+			},
+			range: {
+				id: 'range',
+				text: 'Range',
+				path: '/admin/forms/range',
+				icon: 'HdrStrong',
+			},
+			inputGroup: {
+				id: 'inputGroup',
+				text: 'Input Group',
+				path: '/admin/forms/input-group',
+				icon: 'PowerInput',
+			},
+			validation: {
+				id: 'validation',
+				text: 'Validation',
+				path: '/admin/forms/validation',
+				icon: 'VerifiedUser',
+			},
+			wizard: {
+				id: 'wizard',
+				text: 'Wizard',
+				path: '/admin/forms/wizard',
+				icon: 'LinearScale',
+			},
+		},
+	},
+
+
+}
+
 
 export const adminMenu = {
 
