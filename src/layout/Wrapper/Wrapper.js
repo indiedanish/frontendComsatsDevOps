@@ -8,7 +8,7 @@ import FooterRoutes from '../Footer/FooterRoutes';
 import ThemeContext from '../../contexts/themeContext';
 import { Route, Routes } from "react-router-dom";
 import PAGE_404 from '../../pages/presentation/auth/Page404';
-import RequireAuth from '../Content/AdminAuth';
+
 
 
 export const WrapperContainer = ({ children, className, ...props }) => {

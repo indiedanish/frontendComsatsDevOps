@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom"
 import React, { useContext, useEffect, useState, useLayoutEffect, useRef } from 'react';
-import StudentSidebar from "../Aside/studentSidebar";
+import TeamLeadSidebar from "../Aside/TeamLeadSidebar";
 const Layout = () => {
     return (
       <>
-            <StudentSidebar/>
+            <TeamLeadSidebar/>
             <Outlet />
       </>
        

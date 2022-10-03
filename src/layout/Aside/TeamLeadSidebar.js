@@ -2,10 +2,10 @@ import React, { useContext, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import Brand from '../Brand/Brand';
+import TeamLeadBrand from '../Brand/TeamLeadBrand';
 import Navigation, { NavigationLine } from '../Navigation/Navigation';
 import User from '../User/User';
-import { componentsMenu, dashboardMenu, demoPages, layoutMenu } from '../../menu';
+import { componentsMenu, teamLeadMenu, demoPages, layoutMenu } from '../../menu';
 import ThemeContext from '../../contexts/themeContext';
 import Card, { CardBody } from '../../components/bootstrap/Card';
 
@@ -17,7 +17,7 @@ import Tooltips from '../../components/bootstrap/Tooltips';
 import useDarkMode from '../../hooks/useDarkMode';
 import useAsideTouch from '../../hooks/useAsideTouch';
 
-const Aside = () => {
+const TeamLeadSidebar = () => {
 	const { asideStatus, setAsideStatus } = useContext(ThemeContext);
 
 	const { asideStyle, touchStatus, hasTouchButton, asideWidthWithSpace, x } = useAsideTouch();
@@ -46,10 +46,10 @@ const Aside = () => {
 					},
 				)}>
 				<div className='aside-head'>
-					<Brand asideStatus={asideStatus} setAsideStatus={setAsideStatus} />
+					<TeamLeadBrand asideStatus={asideStatus} setAsideStatus={setAsideStatus} />
 				</div>
 				<div className='aside-body'>
-					<Navigation menu={dashboardMenu} id='aside-dashboard' />
+					<Navigation menu={teamLeadMenu} id='aside-dashboard' />
 				
 
 				
@@ -79,4 +79,4 @@ const Aside = () => {
 	);
 };
 
-export default Aside;
+export default TeamLeadSidebar;

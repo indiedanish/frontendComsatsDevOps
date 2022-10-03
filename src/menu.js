@@ -97,6 +97,49 @@ export const dashboardMenu = {
 	},
 };
 
+
+export const teamLeadMenu = {
+
+
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/teamlead/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	team: {
+		id: 'team',
+		text: 'Team',
+		path: '/teamlead/team',
+		icon: 'PersonSearch',
+	},
+
+	dashboardBooking: {
+		id: 'sprints',
+		text: 'Sprints',
+		path: 'sprints',
+		icon: 'emoji_transportation',
+		subMenu: null,
+	},
+
+
+
+	summary: {
+		id: 'summary',
+		text: 'Video Chat',
+		path: 'chat',
+		icon: 'sticky_note_2',
+		subMenu: null,
+	},
+};
+
+
+
+
 export const demoPages = {
 	pages: {
 		id: 'pages',

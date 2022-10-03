@@ -6,67 +6,43 @@ const PAGE_404 = lazy(() => import("../../pages/presentation/auth/Page404"));
 
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import Login from "../../pages/presentation/auth/Login";
-import AdminAuth from "./AdminAuth";
+import RequireAuth from "./RequireAuth";
 import StudentAuth from "./StudentAuth";
 import LoginAuth from "./LoginAuth";
 import AdminSidebar from "../Aside/adminSidebar";
 import AdminLayout from "./AdminLayout";
-import StudentLayout from "./StudentLayout";
+import StudentLayout from "./TeamLeadLayout";
 import useAuth from "../../hooks/useAuth";
-
-
+import AdminRoutes from "./AdminRoutes";
 
 import Page404 from "../../pages/presentation/auth/Page404";
-
-
+import TeamLeadRoutes from "./TeadLeadRoutes";
 const ContentRoutes = () => {
   const { auth } = useAuth();
   // const auth = {Role: "Admin"}
 
-
   const location = useLocation();
-  
 
-  
   return (
     <>
-      <Routes>
+      <Routes path="/">
         <Route element={<LoginAuth />}>
           <Route path="/login" element={<Login />} />
         </Route>
- 
-        {/* <Route element={<AdminAuth role="Admin" />}>
-          <Route element={<AdminLayout />}>
-            {contents.presentation.map((page) => (
-              <Route key={page.path} {...page} />
-            ))}
-          
-          </Route>
-        </Route> */}
-    
-    
-        <Route element={<AdminAuth role="TeamLead" />}>
-          <Route element={<StudentLayout />}>
-            {contents.teamLead.map((page) => (
-              <Route key={page.path} {...page} />
-            ))}
-            
-          </Route>
-          
-        </Route>
-     
-    
-      
 
-             <Route path='*' element={<Page404 />} />
-       
-          {/* <Route path="*"
-            element={
-              <Navigate to="/login"  replace />
-            }
-          /> */}
-        </Routes>
-    
+        <Route element={<RequireAuth role="Admin" />}>
+          <Route path="/admin/*" element={<AdminRoutes/>} />
+
+        </Route>
+
+        <Route element={<RequireAuth role="TeamLead" />}>
+          <Route path="/teamlead/*" element={<TeamLeadRoutes/>} />
+
+        </Route>
+
+
+        <Route path="*" element={<Page404 />} />
+      </Routes>
     </>
   );
 };
@@ -76,9 +52,3 @@ export default ContentRoutes;
 {
   /* <Route path="*" element={<PAGE_404 />} /> */
 }
-
-
-
-
-
-
