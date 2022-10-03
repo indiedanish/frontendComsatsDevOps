@@ -7,7 +7,7 @@ const PAGE_404 = lazy(() => import("../../pages/presentation/auth/Page404"));
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import Login from "../../pages/presentation/auth/Login";
 import RequireAuth from "./RequireAuth";
-import StudentAuth from "./StudentAuth";
+
 import LoginAuth from "./LoginAuth";
 import AdminSidebar from "../Aside/adminSidebar";
 import AdminLayout from "./AdminLayout";

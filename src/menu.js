@@ -30,30 +30,7 @@ export const homeMenu = {
 	},
 };
 
-export const adminSidebarMenu = {
-	dashboard: {
-		id: 'dashboard',
-		text: 'Dashboard',
-		path: '/dashboard',
-		icon: 'Dashboard',
-		subMenu: null,
-	},
-	students: {
-		id: 'dashboard',
-		text: 'Students',
-		path: '/students',
-		icon: 'Dashboard',
-		subMenu: null,
-	},
-	teachers: {
-		id: 'dashboard',
-		text: 'Teachers',
-		path: '/teacher',
-		icon: 'Dashboard',
-		subMenu: null,
-	},
 
-}
 
 
 
@@ -136,6 +113,89 @@ export const teamLeadMenu = {
 		subMenu: null,
 	},
 };
+
+
+export const adminMenu = {
+
+	
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+	students: {
+		id: 'dashboard',
+		text: 'Students',
+		path: '/students',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+	teachers: {
+		id: 'dashboard',
+		text: 'Teachers',
+		path: '/teacher',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	templates: {
+		id: 'templates',
+		text: 'Templates',
+		path: '/templates',
+		icon: 'ViewList',
+		subMenu: null,
+	},
+
+	announcements: {
+		id: 'announcements',
+		text: 'Announcements',
+		path: '/announcements',
+		icon: 'Volume',
+		subMenu: null,
+	},
+
+	rubrics: {
+		id: 'rubrics',
+		text: 'Rubrics',
+		path: '/rubrics',
+		icon: 'Article',
+		subMenu: {
+			supervisor: {
+				id: 'supervisor',
+				text: 'Supervisor',
+				path: '/rubrics/supervisor',
+				icon: 'Person',
+			},
+			committee: {
+				id: 'committee',
+				text: 'Committee',
+				path: '/rubrics/committee',
+				icon: 'Group',
+			},
+		},
+	},
+
+	committee: {
+		id: 'committee',
+		text: 'Committee',
+		path: '/committee',
+		icon: 'Group',
+		subMenu: null,
+	},
+
+	project: {
+		id: 'project',
+		text: 'Assign Project',
+		path: '/project',
+		icon: 'Project',
+		subMenu: null,
+	},
+
+
+
+}
 
 
 

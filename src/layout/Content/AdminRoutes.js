@@ -1,13 +1,13 @@
 import React from 'react'
 import AdminAuth from "./RequireAuth";
-import StudentLayout from "./TeamLeadLayout";
+import AdminLayout from "./AdminLayout";
 import { Route, Routes } from "react-router-dom";
 import contents from "../../routes/contentRoutes";
-const TeadLeadRoutes = () => {
+const AdminRoutes = () => {
   return (
     <Routes>
-      <Route element={<StudentLayout />}>
-            {contents.presentation.map((page) => (
+      <Route element={<AdminLayout />}>
+            {contents.admin.map((page) => (
               <Route key={page.path} {...page} />
               ))}
           
@@ -16,4 +16,4 @@ const TeadLeadRoutes = () => {
   )
 }
 
-export default TeadLeadRoutes
+export default AdminRoutes

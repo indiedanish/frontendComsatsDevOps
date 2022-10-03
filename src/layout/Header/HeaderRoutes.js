@@ -5,7 +5,7 @@ import headers from '../../routes/headerRoutes';
 const HeaderRoutes = () => {
 	return (
 		<Routes>
-			{headers.map((page) => (
+			{headers.allHeaders.map((page) => (
 				// eslint-disable-next-line react/jsx-props-no-spreading
 				<Route key={page.path} {...page} />
 			))}

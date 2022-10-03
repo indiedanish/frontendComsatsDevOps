@@ -1,6 +1,14 @@
 import React, { lazy } from 'react';
-import { componentsMenu, dashboardMenu, demoPages, layoutMenu } from '../menu';
+import { componentsMenu, dashboardMenu,adminMenu, demoPages, layoutMenu } from '../menu';
 import Login from '../pages/presentation/auth/Login';
+
+
+const ADMIN = {
+	
+	DASHBOARD: lazy(() => import('../App/screens/admin/Dashboard')),
+
+};
+
 
 const LANDING = {
 	TEAMMEMBERS: lazy(() => import('../pages/presentation/crm/CustomersList')),
@@ -1446,6 +1454,20 @@ const teamLead = [
 	// },
 ];
 
-const contents = {presentation, teamLead,documentation , student};
+
+
+
+const admin = [
+
+	{
+		path: adminMenu.dashboard.path, 
+		element: <ADMIN.DASHBOARD />,
+		exact: true,
+	},
+];
+
+
+
+const contents = {presentation, teamLead,documentation , admin, student};
 
 export default contents;

@@ -9,6 +9,9 @@ const LoginAuth = () => {
   const location = useLocation();
 
   return auth?.Role ? (
+    auth.Role == "Admin" ? (
+      <Navigate to="/admin/dashboard" replace />
+    ) :
     auth.Role == "TeamLead" ? (
       <Navigate to="/teamlead/dashboard" replace />
     ) : auth.Role == "TeamMember" ? (
