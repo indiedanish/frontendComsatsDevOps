@@ -1,11 +1,13 @@
 import React, { lazy } from 'react';
-import { componentsMenu, dashboardMenu,adminMenu, demoPages, layoutMenu } from '../menu';
+import { componentsMenu, dashboardMenu, adminMenu, demoPages, layoutMenu } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 
 const ADMIN = {
-	
+
 	DASHBOARD: lazy(() => import('../App/screens/admin/Dashboard')),
+	STUDENTS: lazy(() => import('../App/screens/admin/Students')),
+	TEACHERS: lazy(() => import('../App/screens/admin/Teachers')),
 
 };
 
@@ -69,7 +71,7 @@ const APP = {
 		APPOINTMENT_LIST: lazy(() => import('../pages/presentation/appointment/AppointmentList')),
 	},
 	CRM: {
-		
+
 		CRM_DASHBOARD: lazy(() => import('../pages/presentation/crm/CrmDashboard')),
 		CUSTOMERS: lazy(() => import('../pages/presentation/crm/CustomersList')),
 		CUSTOMER: lazy(() => import('../pages/presentation/crm/Customer')),
@@ -193,7 +195,7 @@ const student = [
 	},
 	{
 		path: demoPages.login.path,
-		element: <GRID.BOXED  />,
+		element: <GRID.BOXED />,
 		exact: true,
 	},
 	{
@@ -1163,7 +1165,7 @@ const teamLead = [
 	 * Landing
 	 */
 	{
-		path: dashboardMenu.dashboard.path, 
+		path: dashboardMenu.dashboard.path,
 		element: <LANDING.DASHBOARD />,
 		exact: true,
 	},
@@ -1460,14 +1462,76 @@ const teamLead = [
 const admin = [
 
 	{
-		path: adminMenu.dashboard.path, 
+		path: adminMenu.dashboard.path,
 		element: <ADMIN.DASHBOARD />,
 		exact: true,
 	},
+
+	{
+		path: adminMenu.students.path,
+		element: <ADMIN.STUDENTS />,
+		exact: true,
+	},
+
+	{
+		path: adminMenu.teachers.path,
+		element: <ADMIN.TEACHERS />,
+		exact: true,
+	},
+
+	/**
+ * Forms
+ */
+	{
+		path: componentsMenu.forms.path,
+		element: <FORMS_PAGE.FORMS />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.forms.subMenu.formGroup.path,
+		element: <FORMS_PAGE.FORM_GROUP />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.forms.subMenu.formControl.path,
+		element: <FORMS_PAGE.FORM_CONTROLS />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.forms.subMenu.select.path,
+		element: <FORMS_PAGE.SELECT />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.forms.subMenu.checksAndRadio.path,
+		element: <FORMS_PAGE.CHECKS_AND_RADIO />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.forms.subMenu.range.path,
+		element: <FORMS_PAGE.RANGE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.forms.subMenu.inputGroup.path,
+		element: <FORMS_PAGE.INPUT_GROUP />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.forms.subMenu.validation.path,
+		element: <FORMS_PAGE.VALIDATION />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.forms.subMenu.wizard.path,
+		element: <FORMS_PAGE.WIZARD />,
+		exact: true,
+	},
+
 ];
 
 
 
-const contents = {presentation, teamLead,documentation , admin, student};
+const contents = { presentation, teamLead, documentation, admin, student };
 
 export default contents;

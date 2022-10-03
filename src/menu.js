@@ -117,7 +117,7 @@ export const teamLeadMenu = {
 
 export const adminMenu = {
 
-	
+
 	dashboard: {
 		id: 'dashboard',
 		text: 'Dashboard',
@@ -126,7 +126,7 @@ export const adminMenu = {
 		subMenu: null,
 	},
 	students: {
-		id: 'dashboard',
+		id: 'students',
 		text: 'Students',
 		path: '/students',
 		icon: 'Dashboard',
@@ -135,7 +135,7 @@ export const adminMenu = {
 	teachers: {
 		id: 'dashboard',
 		text: 'Teachers',
-		path: '/teacher',
+		path: '/teachers',
 		icon: 'Dashboard',
 		subMenu: null,
 	},
@@ -192,7 +192,65 @@ export const adminMenu = {
 		icon: 'Project',
 		subMenu: null,
 	},
+	///////////////////////////////////////////////
 
+	forms: {
+		id: 'forms',
+		text: 'Forms',
+		path: 'forms',
+		icon: 'CheckBox',
+		notification: 'success',
+		subMenu: {
+			formGroup: {
+				id: 'formGroup',
+				text: 'Form Group',
+				path: 'forms/form-group',
+				icon: 'Source',
+			},
+			formControl: {
+				id: 'formControl',
+				text: 'Form Controls',
+				path: 'forms/form-controls',
+				icon: 'Create',
+			},
+			select: {
+				id: 'select',
+				text: 'Select',
+				path: 'forms/select',
+				icon: 'Checklist',
+			},
+			checksAndRadio: {
+				id: 'checksAndRadio',
+				text: 'Checks & Radio',
+				path: 'forms/checks-and-radio',
+				icon: 'CheckBox',
+			},
+			range: {
+				id: 'range',
+				text: 'Range',
+				path: 'forms/range',
+				icon: 'HdrStrong',
+			},
+			inputGroup: {
+				id: 'inputGroup',
+				text: 'Input Group',
+				path: 'forms/input-group',
+				icon: 'PowerInput',
+			},
+			validation: {
+				id: 'validation',
+				text: 'Validation',
+				path: 'forms/validation',
+				icon: 'VerifiedUser',
+			},
+			wizard: {
+				id: 'wizard',
+				text: 'Wizard',
+				path: 'forms/wizard',
+				icon: 'LinearScale',
+			},
+		},
+	},
 
 
 }
