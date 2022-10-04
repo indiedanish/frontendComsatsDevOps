@@ -63,8 +63,6 @@ export const dashboardMenu = {
 		subMenu: null,
 	},
 
-
-
 	summary: {
 		id: 'summary',
 		text: 'Video Chat',
