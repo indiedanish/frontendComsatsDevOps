@@ -13,18 +13,15 @@ import Icon from "../../../components/icon/Icon";
 import Select from "../../../components/bootstrap/forms/Select";
 import axios from "axios";
 
-//////////////////////
+import SweetAlert from "react-bootstrap-sweetalert";
 
 import FormGroup from "../../../components/bootstrap/forms/FormGroup";
 import Input from "../../../components/bootstrap/forms/Input";
 
 import Button from "../../../components/bootstrap/Button";
 
-
-
 const TemplateAddModal = ({ id, isOpen, setIsOpen, reload }) => {
-
-
+  const [errorModal, setErrorModal] = useState(false);
 
   const addToDatabase = async (val) => {
     console.log("ADD Template!!!!", val);
@@ -33,72 +30,24 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen, reload }) => {
     const DateModified = val.datemodified;
     const Deadline = val.deadline;
     const File = val.file;
-<<<<<<< HEAD
+
     const Description = val.description;
 
-   
-=======
+    try {
+      await axios.post(
+        "http://localhost:3500/admin/template",
+        {
+          Title,
+          DateModified,
+          Deadline,
 
->>>>>>> 7b3623f (updated)
-    await axios.post(
-      "http://localhost:3500/admin/template",
-      {
-        Title,
-        DateModified,
-        Deadline,
-<<<<<<< HEAD
-        Description,
-        File      
-=======
-        File
->>>>>>> 7b3623f (updated)
-      },
-      {
-        withCredentials: true,
-      }
-    );
-
-    reload()
-  };
-
-
-  var [use, setuse] = useState([]);
-  var [selectedMembersID, setselectedMembersID] = useState([]);
-  var [selectedMembersName, setselectedMembersName] = useState([]);
-  var [flipState, setflipState] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:4000/template/getTemplates"
+          Description,
+          File,
+        },
+        {
+          withCredentials: true,
+        }
       );
-      console.log("ssss", response.data);
-      setuse(response.data);
-      setselectedMembersID([]);
-      setselectedMembersName([]);
-    };
-
-    // call the function
-    fetchData();
-  }, [flipState, isOpen]);
-
-  console.log("USERS: ", use);
-
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      datemodified: "",
-      deadline: "",
-      file: "",
-      description: ""
-    },
-
-    validateOnChange: false,
-    validateOnBlur: false,
-    onSubmit: (values) => {
-      console.log("VALUES: ", values);
-      addToDatabase(values);
-      setflipState(!flipState);
 
       setIsOpen(false);
       showNotification(
@@ -108,12 +57,49 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen, reload }) => {
         </span>,
         "Template has been added successfully"
       );
+    } catch (error) {
+      setErrorModal(true);
+    }
+
+    reload();
+  };
+
+
+
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      datemodified: "",
+      deadline: "",
+      file: "",
+      description: "",
+    },
+
+    validateOnChange: false,
+    validateOnBlur: false,
+    onSubmit: (values) => {
+
+      addToDatabase(values);
+
     },
   });
 
   if (id || id === 0) {
     return (
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} size="xl" titleId={id}>
+        {errorModal ? (
+          <SweetAlert
+            error
+            confirmBtnBsStyle="primary"
+            title="Invalid Details"
+            onConfirm={() => setErrorModal(false)}
+          >
+            Please enter correct details
+          </SweetAlert>
+        ) : (
+          ""
+        )}
         <ModalHeader setIsOpen={setIsOpen} className="p-4">
           <ModalTitle id={id}>{"Add Template"}</ModalTitle>
         </ModalHeader>
@@ -138,8 +124,7 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 value={formik.values.deadline}
               />
             </FormGroup>
-<<<<<<< HEAD
-        
+
             <FormGroup className="col-12" id="description" label="Description">
               <Input
                 required
@@ -147,11 +132,6 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 value={formik.values.Description}
               />
             </FormGroup>
-                   
-=======
-
-
->>>>>>> 7b3623f (updated)
 
             <FormGroup className="col-12" id="formFile" label="Upload File">
               <Input

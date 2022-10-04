@@ -20,21 +20,8 @@ import PAYMENTS from "../../../common/data/enumPaymentMethod";
 import Select from "../../../components/bootstrap/forms/Select";
 import Option from "../../../components/bootstrap/Option";
 import axios from "axios";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
-//////////////////////
-
-import Card, {
-  CardActions,
-  CardBody,
-  CardCodeView,
-  CardFooter,
-  CardFooterLeft,
-  CardFooterRight,
-  CardHeader,
-  CardLabel,
-  CardSubTitle,
-  CardTitle,
-} from "../../../components/bootstrap/Card";
 import FormGroup from "../../../components/bootstrap/forms/FormGroup";
 import Input from "../../../components/bootstrap/forms/Input";
 
@@ -42,11 +29,12 @@ import Button from "../../../components/bootstrap/Button";
 
 
 
-const StudentAddModal = ({ id, isOpen, setIsOpen,reload }) => {
+const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 
 
-  const [invalidEmail, setInvalidEmail] = useState(false);
 
+
+  const [errorModal, setErrorModal] = useState(false);
   const addToDatabase = async (val) => {
     console.log("ADD STUDENT!!!!", val);
 
@@ -59,47 +47,46 @@ const StudentAddModal = ({ id, isOpen, setIsOpen,reload }) => {
     const Role = "TeamMember";
     const FypStatus = "Scope";
 
-    await axios.post(
-      "http://localhost:3500/admin/student",
-      {
-        RegNo,
-        Name,
-        Password,
-        Email,
-        PhoneNumber,
-        Gender,
-        Role,
-        FypStatus,
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    try {
+      const resposne = await axios.post(
+        "http://localhost:3500/admin/student",
+        {
+          RegNo,
+          Name,
+          Password,
+          Email,
+          PhoneNumber,
+          Gender,
+          Role,
+          FypStatus,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      setIsOpen(false);
+      showNotification(
+        <span className="d-flex align-items-center">
+          <Icon icon="Info" size="lg" className="me-1" />
+          <span>Student Added Successfully</span>
+        </span>,
+        "Student has been added successfully"
+      );
+    }
+    catch (err) {
+      console.log("Status", err.response.status);
+      console.log("errorModal", errorModal);
+      setErrorModal(true);
+
+    }
 
     reload()
+
+
+
   };
 
-  var [use, setuse] = useState([]);
-  var [selectedMembersID, setselectedMembersID] = useState([]);
-  var [selectedMembersName, setselectedMembersName] = useState([]);
-  var [flipState, setflipState] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:4000/student/getStudents"
-      );
-      console.log("ssss", response.data);
-      setuse(response.data);
-      setselectedMembersID([]);
-      setselectedMembersName([]);
-    };
-
-    // call the function
-    fetchData();
-  }, [flipState, isOpen]);
-
-  console.log("USERS: ", use);
 
   const formik = useFormik({
     initialValues: {
@@ -118,22 +105,29 @@ const StudentAddModal = ({ id, isOpen, setIsOpen,reload }) => {
     onSubmit: (values) => {
       console.log("VALUES: ", values);
       addToDatabase(values);
-      setflipState(!flipState);
 
-      setIsOpen(false);
-      showNotification(
-        <span className="d-flex align-items-center">
-          <Icon icon="Info" size="lg" className="me-1" />
-          <span>Student Added Successfully</span>
-        </span>,
-        "Student has been added successfully"
-      );
+
+
+
     },
   });
 
   if (id || id === 0) {
     return (
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} size="xl" titleId={id}>
+        {errorModal ? (
+          <SweetAlert
+            error
+            confirmBtnBsStyle="primary"
+            title="Invalid Details"
+            onConfirm={() => setErrorModal(false)}
+          >
+            Please enter correct details
+          </SweetAlert>
+        ) : (
+          ""
+        )}
+
         <ModalHeader setIsOpen={setIsOpen} className="p-4">
           <ModalTitle id={id}>{"Add Student"}</ModalTitle>
         </ModalHeader>
@@ -192,20 +186,20 @@ const StudentAddModal = ({ id, isOpen, setIsOpen,reload }) => {
                 autoComplete="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
-                // onBlur={(e)=>{
+              // onBlur={(e)=>{
 
-                //     const check = String(e.target.value)
-                //     .toLowerCase()
-                //     .match(
-                //       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                //     );
+              //     const check = String(e.target.value)
+              //     .toLowerCase()
+              //     .match(
+              //       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+              //     );
 
-                //     if(check==null) setInvalidEmail(false)
-                //     else return
+              //     if(check==null) setInvalidEmail(false)
+              //     else return
 
-                // }
+              // }
 
-                // }
+              // }
               />
             </FormGroup>
 

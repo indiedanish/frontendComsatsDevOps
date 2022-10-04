@@ -22,13 +22,10 @@ import Button from "../../../components/bootstrap/Button";
 
 /////////////////////////////
 
-const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo }) => {
-  // const itemData = id ? data.filter((item) => item.id.toString() === id.toString()) : {};
-  // const item = id ? itemData[0] : {};
+const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
+
 
     const [template, setTemplate] = useState(templateInfo);
-
-  const [invalidEmail, setInvalidEmail] = useState(false);
 
   const addToDatabase = async (val) => {
     console.log("Edit Template!!!!", val);
@@ -52,6 +49,7 @@ const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo }) => {
         withCredentials: true,
       }
     );
+    reload()
   };
 
   var [use, setuse] = useState([]);

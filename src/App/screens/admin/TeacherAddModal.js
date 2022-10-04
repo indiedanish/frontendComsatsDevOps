@@ -19,12 +19,10 @@ import FormGroup from "../../../components/bootstrap/forms/FormGroup";
 import Input from "../../../components/bootstrap/forms/Input";
 
 import Button from "../../../components/bootstrap/Button";
+import SweetAlert from "react-bootstrap-sweetalert";
 
-
-
-const TeacherAddModal = ({ id, isOpen, setIsOpen,reload }) => {
-
-
+const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
+  const [errorModal, setErrorModal] = useState(false);
 
   const addToDatabase = async (val) => {
     console.log("ADD Teacher!!!!", val);
@@ -36,48 +34,47 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen,reload }) => {
     const Gender = val.gender;
     const Designation = val.designation;
     const isSupervisor = true;
-    const isCommittee= false;
-    await axios.post(
-      "http://localhost:3500/admin/teacher",
-      {
-        Name,
-        Password,
-        Email,
-        PhoneNumber,
-        Gender,
-        Designation,
-        isSupervisor,
-        isCommittee
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    const isCommittee = false;
 
-    reload()
+    try {
+      await axios.post(
+        "http://localhost:3500/admin/teacher",
+        {
+          Name,
+          Password,
+          Email,
+          PhoneNumber,
+          Gender,
+          Designation,
+          isSupervisor,
+          isCommittee,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      setIsOpen(false);
+      showNotification(
+        <span className="d-flex align-items-center">
+          <Icon icon="Info" size="lg" className="me-1" />
+          <span>Teacher Added Successfully</span>
+        </span>,
+        "Teacher has been added successfully"
+      );
+
+    }
+    catch (e) {
+      setErrorModal(true)
+
+
+    }
+
+    reload();
   };
 
-  var [use, setuse] = useState([]);
-  var [selectedMembersID, setselectedMembersID] = useState([]);
-  var [selectedMembersName, setselectedMembersName] = useState([]);
-  var [flipState, setflipState] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:4000/teacher/getTeachers"
-      );
-      console.log("ssss", response.data);
-      setuse(response.data);
-      setselectedMembersID([]);
-      setselectedMembersName([]);
-    };
 
-    // call the function
-    fetchData();
-  }, [flipState, isOpen]);
-
-  console.log("USERS: ", use);
 
   const formik = useFormik({
     initialValues: {
@@ -88,7 +85,7 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen,reload }) => {
       gender: "",
       designation: "",
       isSupervisor: "",
-      isCommittee: ""
+      isCommittee: "",
     },
     // eslint-disable-next-line no-unused-vars
 
@@ -97,28 +94,37 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen,reload }) => {
     onSubmit: (values) => {
       console.log("VALUES: ", values);
       addToDatabase(values);
-      setflipState(!flipState);
 
-      setIsOpen(false);
-      showNotification(
-        <span className="d-flex align-items-center">
-          <Icon icon="Info" size="lg" className="me-1" />
-          <span>Teacher Added Successfully</span>
-        </span>,
-        "Teacher has been added successfully"
-      );
+
     },
   });
 
   if (id || id === 0) {
     return (
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} size="xl" titleId={id}>
+        {errorModal ? (
+          <SweetAlert
+            error
+            confirmBtnBsStyle="primary"
+            title="Invalid Details"
+            onConfirm={() => setErrorModal(false)}
+          >
+            Please enter correct details
+          </SweetAlert>
+        ) : (
+          ""
+        )}
+
         <ModalHeader setIsOpen={setIsOpen} className="p-4">
           <ModalTitle id={id}>{"Add Teacher"}</ModalTitle>
         </ModalHeader>
         <ModalBody className="px-4">
           <div className="row g-4">
-            <FormGroup className="col-lg-6" id="designation" label="Designation">
+            <FormGroup
+              className="col-lg-6"
+              id="designation"
+              label="Designation"
+            >
               <Input
                 required
                 placeholder="Designation"
@@ -171,20 +177,20 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen,reload }) => {
                 autoComplete="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
-                // onBlur={(e)=>{
+              // onBlur={(e)=>{
 
-                //     const check = String(e.target.value)
-                //     .toLowerCase()
-                //     .match(
-                //       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                //     );
+              //     const check = String(e.target.value)
+              //     .toLowerCase()
+              //     .match(
+              //       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+              //     );
 
-                //     if(check==null) setInvalidEmail(false)
-                //     else return
+              //     if(check==null) setInvalidEmail(false)
+              //     else return
 
-                // }
+              // }
 
-                // }
+              // }
               />
             </FormGroup>
 
