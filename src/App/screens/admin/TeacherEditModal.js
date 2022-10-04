@@ -1,40 +1,20 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
-import moment from "moment";
 import Modal, {
   ModalBody,
   ModalFooter,
   ModalHeader,
   ModalTitle,
 } from "../../../components/bootstrap/Modal";
-import data from "../../../common/data/dummyCustomerData";
 import showNotification from "../../../components/extras/showNotification";
 import Icon from "../../../components/icon/Icon";
 
-import Label from "../../../components/bootstrap/forms/Label";
-import Checks, {
-  ChecksGroup,
-} from "../../../components/bootstrap/forms/Checks";
-import PAYMENTS from "../../../common/data/enumPaymentMethod";
 import Select from "../../../components/bootstrap/forms/Select";
-import Option from "../../../components/bootstrap/Option";
 import axios from "axios";
 
 //////////////////////
 
-import Card, {
-  CardActions,
-  CardBody,
-  CardCodeView,
-  CardFooter,
-  CardFooterLeft,
-  CardFooterRight,
-  CardHeader,
-  CardLabel,
-  CardSubTitle,
-  CardTitle,
-} from "../../../components/bootstrap/Card";
 import FormGroup from "../../../components/bootstrap/forms/FormGroup";
 import Input from "../../../components/bootstrap/forms/Input";
 
@@ -56,7 +36,6 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
 
     const Name = val.name;
     const Password = val.password;
-    const Email = val.email;
     const PhoneNumber = val.phonenumber;
     const Gender = val.gender;
     const Designation = val.designation;
@@ -68,7 +47,7 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
       {
         Name,
         Password,
-        Email,
+        Email : `${teacherInfo.Email}`,
         PhoneNumber,
         Gender,
         Designation,
@@ -143,28 +122,26 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
           <div className="row g-4">
             <FormGroup className="col-lg-6" id="designation" label="Designation">
               <Input
-                placeholder={`${teacherInfo.Designation}`}
                 autoComplete="honorific-prefix"
                 onChange={formik.handleChange}
-                value={formik.values.designation}
+                defaultValue={`${teacherInfo.Designation}`}
+
               />
             </FormGroup>
             <FormGroup className="col-lg-6" id="name" label="Name">
               <Input
                 required
-                placeholder={`${teacherInfo.Name}`}
                 autoComplete="given-name"
+                defaultValue={`${teacherInfo.Name}`}
                 onChange={formik.handleChange}
-                value={formik.values.name}
               />
             </FormGroup>
             <FormGroup className="col-lg-6" id="password" label="Password">
               <Input
                 required
-                placeholder={`${teacherInfo.Password}`}
+                defaultValue={`${teacherInfo.Password}`}
                 autoComplete="additional-name"
                 onChange={formik.handleChange}
-                value={formik.values.password}
               />
             </FormGroup>
             <FormGroup
@@ -175,9 +152,8 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
               <Select
                 required
                 ariaLabel="Gender"
-                placeholder={`${teacherInfo.Gender?"Male":"Female" }`}
+                defaultValue={`${teacherInfo.Gender}`}
                 onChange={formik.handleChange}
-                value={formik.values.gender}
                 list={[
                   { value: false, text: "Male" },
                   { value: true, text: "Female" },
@@ -189,10 +165,12 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
               <Input
                 disabled
                 type="email"
-                placeholder={`${teacherInfo.Email}`}
                 autoComplete="email"
                 onChange={formik.handleChange}
-                value={formik.values.email}
+                defaultValue={`${teacherInfo.Email}`}
+                value={`${teacherInfo.Email}`}
+
+
                 // onBlur={(e)=>{
 
                 //     const check = String(e.target.value)
@@ -218,10 +196,9 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
               <Input
                 required
                 type="tel"
-                placeholder={`${teacherInfo.PhoneNumber}`}
+                defaultValue={`${teacherInfo.PhoneNumber}`}
                 autoComplete="tel"
                 onChange={formik.handleChange}
-                value={formik.values.phonenumber}
               />
             </FormGroup>
 

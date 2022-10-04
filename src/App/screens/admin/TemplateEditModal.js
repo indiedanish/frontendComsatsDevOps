@@ -20,37 +20,39 @@ import Input from "../../../components/bootstrap/forms/Input";
 
 import Button from "../../../components/bootstrap/Button";
 
+/////////////////////////////
 
+const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo }) => {
+  // const itemData = id ? data.filter((item) => item.id.toString() === id.toString()) : {};
+  // const item = id ? itemData[0] : {};
 
-const TemplateAddModal = ({ id, isOpen, setIsOpen }) => {
+    const [template, setTemplate] = useState(templateInfo);
 
-
+  const [invalidEmail, setInvalidEmail] = useState(false);
 
   const addToDatabase = async (val) => {
-    console.log("ADD Template!!!!", val);
+    console.log("Edit Template!!!!", val);
+
 
     const Title = val.title;
-    const DateModified = val.datemodified;
     const Deadline = val.deadline;
     const File = val.file;
     const Description = val.description;
 
-   
-    await axios.post(
+
+    await axios.put(
       "http://localhost:3500/admin/template",
       {
-        Title,
-        DateModified,
+        Title : `${templateInfo.Title}`,
         Deadline,
-        Description,
-        File      
+        File,
+        Description
       },
       {
         withCredentials: true,
       }
     );
   };
-  
 
   var [use, setuse] = useState([]);
   var [selectedMembersID, setselectedMembersID] = useState([]);
@@ -77,14 +79,14 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen }) => {
   const formik = useFormik({
     initialValues: {
       title: "",
-      datemodified: "",
-      deadline: "",
       file: "",
-      description: ""
+      dateModified: "",
+      deadline: "",
+     
     },
 
-    validateOnChange: false,
-    validateOnBlur: false,
+    validateOnChange: true,
+    validateOnBlur: true,
     onSubmit: (values) => {
       console.log("VALUES: ", values);
       addToDatabase(values);
@@ -94,63 +96,77 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen }) => {
       showNotification(
         <span className="d-flex align-items-center">
           <Icon icon="Info" size="lg" className="me-1" />
-          <span>Template Added Successfully</span>
+          <span>Template Updated Successfully</span>
         </span>,
-        "Template has been added successfully"
+        "Template has been updated successfully"
       );
     },
   });
-
+ 
   if (id || id === 0) {
     return (
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} size="xl" titleId={id}>
         <ModalHeader setIsOpen={setIsOpen} className="p-4">
-          <ModalTitle id={id}>{"Add Template"}</ModalTitle>
+          <ModalTitle id={id}>{"Edit Template: "+ templateInfo.Title}</ModalTitle>
         </ModalHeader>
         <ModalBody className="px-4">
           <div className="row g-4">
+                 
+          
+
             <FormGroup className="col-lg-6" id="title" label="Title">
               <Input
-                required
-                placeholder="Title"
-                autoComplete="honorific-prefix"
+                disabled
+                type="title"
+                autoComplete="title"
                 onChange={formik.handleChange}
-                value={formik.values.title}
-              />
-            </FormGroup>
-            <FormGroup className="col-lg-6" id="deadline" label="Deadline">
-              <Input
-                required
-                type="date"
-                placeholder="Deadline"
-                autoComplete="given-name"
-                onChange={formik.handleChange}
-                value={formik.values.deadline}
-              />
-            </FormGroup>
-        
-            <FormGroup className="col-12" id="description" label="Description">
-              <Input
-                required
-                onChange={formik.handleChange}
-                value={formik.values.Description}
-              />
-            </FormGroup>
-                   
+                defaultValue={`${templateInfo.Title}`}
+                value={`${templateInfo.Title}`}
 
-            <FormGroup className="col-12" id="formFile" label="Upload File">
+
+              />
+            </FormGroup>
+
+            <FormGroup
+              className="col-lg-6"
+              id="deadline"
+              label="Deadline"
+            >
+              <Input
+              
+                type="date"
+                defaultValue={`${templateInfo.Deadline}`}
+                autoComplete="date"
+                onChange={formik.handleChange}
+              />
+            </FormGroup>
+
+            <FormGroup
+              className="col-lg-12"
+              id="description"
+              label="Description"
+            >
+              <Input
+              
+                defaultValue={`${templateInfo.Description}`}
+                autoComplete="description"
+                onChange={formik.handleChange}
+              />
+            </FormGroup>
+
+            <FormGroup className="col-12" id="formFile" label="Profile picture">
               <Input
                 required
                 type="file"
                 onChange={formik.handleChange}
-                value={formik.values.file}
+                value={formik.values.formFile}
               />
             </FormGroup>
           </div>
         </ModalBody>
         <ModalFooter className="px-4 pb-4">
           <Button color="info" onClick={formik.handleSubmit}>
-            Add Template
+            Edit Template
           </Button>
         </ModalFooter>
       </Modal>
@@ -158,10 +174,10 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen }) => {
   }
   return null;
 };
-TemplateAddModal.propTypes = {
+TemplateEditModal.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
 };
 
-export default TemplateAddModal;
+export default TemplateEditModal;

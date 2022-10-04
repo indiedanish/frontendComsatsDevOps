@@ -26,7 +26,7 @@ import Dropdown, {
 
 import useSortableData from '../../../hooks/useSortableData';
 import TemplateAddModal from './TemplateAddModal';
-// import TemplateEditModal from "./TemplateEditModal";
+import TemplateEditModal from "./TemplateEditModal";
 import { getColorNameWithIndex } from '../../../common/data/enumColors';
 import useDarkMode from '../../../hooks/useDarkMode';
 import axios from 'axios';
@@ -135,6 +135,18 @@ const Templates = () => {
 													icon='FilterList'
 												/>
 											</th>
+
+											<th
+												onClick={() => requestSort('Description')}
+												className='cursor-pointer text-decoration-underline'>
+												Description
+												<Icon
+													size='lg'
+													className={getClassNamesFor('Description')}
+													icon='FilterList'
+												/>
+											</th>
+
 											<th
 												onClick={() => requestSort('DateModified')}
 												className='cursor-pointer text-decoration-underline'>
@@ -194,11 +206,16 @@ const Templates = () => {
 														</div>
 													</td>
 
+													<td>{i.Description}</td>
+
+
 													<td>
 														{/* <div>{i.membershipDate.format('ll')}</div> */}
 														<div>{i.DateModified}</div>
 													</td>
+
 													<td>{i.Deadline}</td>
+
 													<td>
 														<Dropdown>
 															<DropdownToggle hasIcon={false}>
@@ -268,13 +285,13 @@ const Templates = () => {
 					</div>
 				</div>
 			</Page>
-			{/* <TemplateEditModal
+			<TemplateEditModal
         setIsOpen={setEditModalStatus}
         isOpen={editModalStatus}
         templateInfo = {templateInfo}
         id={0}
       />
-       */}
+      
 			<TemplateAddModal setIsOpen={setAddModalStatus} isOpen={addModalStatus} id={0} />
 		</PageWrapper>
 	);
