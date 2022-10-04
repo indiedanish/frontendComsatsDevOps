@@ -22,7 +22,7 @@ import Button from "../../../components/bootstrap/Button";
 
 
 
-const TeacherAddModal = ({ id, isOpen, setIsOpen }) => {
+const TeacherAddModal = ({ id, isOpen, setIsOpen,reload }) => {
 
 
 
@@ -53,6 +53,8 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen }) => {
         withCredentials: true,
       }
     );
+
+    reload()
   };
 
   var [use, setuse] = useState([]);

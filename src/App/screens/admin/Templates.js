@@ -48,6 +48,10 @@ const Templates = () => {
 
 	const [allTemplates, setAllTemplates] = useState([]);
 
+	const reload = () => {
+		getAllTemplates()  
+	  }
+
 	const getAllTemplates = async () => {
 		const res = await axios.get('http://localhost:3500/admin/getAllTemplate', {
 			withCredentials: true,
@@ -291,8 +295,13 @@ const Templates = () => {
         templateInfo = {templateInfo}
         id={0}
       />
+<<<<<<< HEAD
       
 			<TemplateAddModal setIsOpen={setAddModalStatus} isOpen={addModalStatus} id={0} />
+=======
+       */}
+			<TemplateAddModal reload={reload} setIsOpen={setAddModalStatus} isOpen={addModalStatus} id={0} />
+>>>>>>> 7b3623f (updated)
 		</PageWrapper>
 	);
 };

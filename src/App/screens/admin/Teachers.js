@@ -55,7 +55,9 @@ const Teachers = () => {
 
   const [allTeachers, setAllTeachers] = useState([])
 
-
+  const reload = () => {
+    getAllTeachers()  
+  }
 
   const getAllTeachers = async () => {
 
@@ -286,12 +288,14 @@ const Teachers = () => {
         isOpen={editModalStatus}
         teacherInfo = {teacherInfo}
         id={0}
+        reload={reload}
       />
       
       <TeacherAddModal
         setIsOpen={setAddModalStatus}
         isOpen={addModalStatus}
         id={0}
+        reload={reload}
       />
 
 

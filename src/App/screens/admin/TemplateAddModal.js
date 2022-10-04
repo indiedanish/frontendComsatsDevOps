@@ -22,7 +22,7 @@ import Button from "../../../components/bootstrap/Button";
 
 
 
-const TemplateAddModal = ({ id, isOpen, setIsOpen }) => {
+const TemplateAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 
 
 
@@ -33,24 +33,34 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen }) => {
     const DateModified = val.datemodified;
     const Deadline = val.deadline;
     const File = val.file;
+<<<<<<< HEAD
     const Description = val.description;
 
    
+=======
+
+>>>>>>> 7b3623f (updated)
     await axios.post(
       "http://localhost:3500/admin/template",
       {
         Title,
         DateModified,
         Deadline,
+<<<<<<< HEAD
         Description,
         File      
+=======
+        File
+>>>>>>> 7b3623f (updated)
       },
       {
         withCredentials: true,
       }
     );
+
+    reload()
   };
-  
+
 
   var [use, setuse] = useState([]);
   var [selectedMembersID, setselectedMembersID] = useState([]);
@@ -128,6 +138,7 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen }) => {
                 value={formik.values.deadline}
               />
             </FormGroup>
+<<<<<<< HEAD
         
             <FormGroup className="col-12" id="description" label="Description">
               <Input
@@ -137,6 +148,10 @@ const TemplateAddModal = ({ id, isOpen, setIsOpen }) => {
               />
             </FormGroup>
                    
+=======
+
+
+>>>>>>> 7b3623f (updated)
 
             <FormGroup className="col-12" id="formFile" label="Upload File">
               <Input

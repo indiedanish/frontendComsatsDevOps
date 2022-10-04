@@ -42,7 +42,7 @@ import Button from "../../../components/bootstrap/Button";
 
 /////////////////////////////
 
-const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
+const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo, reload }) => {
   // const itemData = id ? data.filter((item) => item.id.toString() === id.toString()) : {};
   // const item = id ? itemData[0] : {};
 
@@ -53,7 +53,6 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
   const addToDatabase = async (val) => {
     console.log("ADD STUDENT!!!!", val);
 
-    const RegNo = val.regno;
     const Name = val.name;
     const Password = val.password;
     const Email = val.email;
@@ -78,6 +77,10 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
         withCredentials: true,
       }
     );
+
+    reload()
+
+   
   };
 
   var [use, setuse] = useState([]);

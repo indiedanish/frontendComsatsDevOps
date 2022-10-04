@@ -22,7 +22,7 @@ import Button from "../../../components/bootstrap/Button";
 
 /////////////////////////////
 
-const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
+const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo ,reload}) => {
   // const itemData = id ? data.filter((item) => item.id.toString() === id.toString()) : {};
   // const item = id ? itemData[0] : {};
 
@@ -58,6 +58,8 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
         withCredentials: true,
       }
     );
+
+    reload()
   };
 
   var [use, setuse] = useState([]);

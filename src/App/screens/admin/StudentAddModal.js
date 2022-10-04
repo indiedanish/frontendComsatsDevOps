@@ -42,7 +42,7 @@ import Button from "../../../components/bootstrap/Button";
 
 
 
-const StudentAddModal = ({ id, isOpen, setIsOpen }) => {
+const StudentAddModal = ({ id, isOpen, setIsOpen,reload }) => {
 
 
   const [invalidEmail, setInvalidEmail] = useState(false);
@@ -75,6 +75,8 @@ const StudentAddModal = ({ id, isOpen, setIsOpen }) => {
         withCredentials: true,
       }
     );
+
+    reload()
   };
 
   var [use, setuse] = useState([]);

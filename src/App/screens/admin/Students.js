@@ -57,6 +57,7 @@ import Button from '../../../components/bootstrap/Button';
 
 
 const Students = () => {
+
   const { darkModeStatus } = useDarkMode();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,6 +81,10 @@ const Students = () => {
 
 
   }
+
+  useEffect(() => {
+    getAllStudents();
+  }, [editModalStatus]);
 
 
   const getstudentSelf = async () => {
@@ -133,6 +138,10 @@ const Students = () => {
      { withCredentials: true });
      getAllStudents()
   };
+
+  const reload = () => {
+    getAllStudents()  
+  }
 
   return (
     <PageWrapper title={demoPages.crm.subMenu.customersList.text}>
@@ -316,12 +325,14 @@ const Students = () => {
         isOpen={editModalStatus}
         studentInfo = {studentInfo}
         id={0}
+        reload={reload}
       />
       
       <StudentAddModal
         setIsOpen={setAddModalStatus}
         isOpen={addModalStatus}
         id={0}
+        reload={reload}
       />
 
 
