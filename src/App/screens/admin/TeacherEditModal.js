@@ -114,7 +114,6 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
       isSupervisor: "",
       isCommittee: ""
     },
-    // eslint-disable-next-line no-unused-vars
 
     validateOnChange: true,
     validateOnBlur: true,

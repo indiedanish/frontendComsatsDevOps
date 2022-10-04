@@ -65,7 +65,7 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
     await axios.put(
       "http://localhost:3500/admin/student",
       {
-        RegNo,
+        RegNo : `${studentInfo.RegNo}`,
         Name,
         Password,
         Email,
@@ -112,7 +112,6 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
       gender: "",
       fypstatus: "Scope",
     },
-    // eslint-disable-next-line no-unused-vars
 
     validateOnChange: true,
     validateOnBlur: true,
@@ -142,29 +141,31 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
           <div className="row g-4">
             <FormGroup className="col-lg-6" id="regno" label="Registration No">
               <Input
-                disabled
-                placeholder={`${studentInfo.RegNo}`}
+              disabled
                 autoComplete="honorific-prefix"
+                defaultValue={`${studentInfo.RegNo}`}
                 onChange={formik.handleChange}
-                value={formik.values.regno}
+                value={`${studentInfo.RegNo}`}
+
               />
             </FormGroup>
             <FormGroup className="col-lg-6" id="name" label="Name">
               <Input
                 required
-                placeholder={`${studentInfo.Name}`}
+
+
                 autoComplete="given-name"
+                defaultValue={`${studentInfo.Name}`}
                 onChange={formik.handleChange}
-                value={formik.values.name}
+
               />
             </FormGroup>
             <FormGroup className="col-lg-6" id="password" label="Password">
               <Input
                 required
-                placeholder={`${studentInfo.Password}`}
                 autoComplete="additional-name"
+                defaultValue={`${studentInfo.Password}`}
                 onChange={formik.handleChange}
-                value={formik.values.password}
               />
             </FormGroup>
             <FormGroup
@@ -176,8 +177,9 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
                 required
                 ariaLabel="Gender"
                 placeholder={`${studentInfo.Gender?"Male":"Female" }`}
+                defaultValue={`${studentInfo.Gender}`}
                 onChange={formik.handleChange}
-                value={formik.values.gender}
+
                 list={[
                   { value: false, text: "Male" },
                   { value: true, text: "Female" },
@@ -189,10 +191,10 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
               <Input
                 required
                 type="email"
-                placeholder={`${studentInfo.Email}`}
+                defaultValue={`${studentInfo.Email}`}
+
                 autoComplete="email"
                 onChange={formik.handleChange}
-                value={formik.values.email}
                 // onBlur={(e)=>{
 
                 //     const check = String(e.target.value)
@@ -218,10 +220,9 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo }) => {
               <Input
                 required
                 type="tel"
-                placeholder={`${studentInfo.PhoneNumber}`}
                 autoComplete="tel"
-                onChange={formik.handleChange}
-                value={formik.values.phonenumber}
+                onChange={formik.handleChange}            
+                defaultValue={`${studentInfo.PhoneNumber}`}
               />
             </FormGroup>
 
