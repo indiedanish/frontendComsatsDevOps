@@ -1,40 +1,20 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
-import moment from "moment";
 import Modal, {
   ModalBody,
   ModalFooter,
   ModalHeader,
   ModalTitle,
 } from "../../../components/bootstrap/Modal";
-import data from "../../../common/data/dummyCustomerData";
 import showNotification from "../../../components/extras/showNotification";
 import Icon from "../../../components/icon/Icon";
 
-import Label from "../../../components/bootstrap/forms/Label";
-import Checks, {
-  ChecksGroup,
-} from "../../../components/bootstrap/forms/Checks";
-import PAYMENTS from "../../../common/data/enumPaymentMethod";
 import Select from "../../../components/bootstrap/forms/Select";
-import Option from "../../../components/bootstrap/Option";
 import axios from "axios";
 
 //////////////////////
 
-import Card, {
-  CardActions,
-  CardBody,
-  CardCodeView,
-  CardFooter,
-  CardFooterLeft,
-  CardFooterRight,
-  CardHeader,
-  CardLabel,
-  CardSubTitle,
-  CardTitle,
-} from "../../../components/bootstrap/Card";
 import FormGroup from "../../../components/bootstrap/forms/FormGroup";
 import Input from "../../../components/bootstrap/forms/Input";
 
@@ -56,7 +36,6 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo }) => {
 
     const Name = val.name;
     const Password = val.password;
-    const Email = val.email;
     const PhoneNumber = val.phonenumber;
     const Gender = val.gender;
     const Designation = val.designation;
