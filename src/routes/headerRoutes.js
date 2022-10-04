@@ -17,11 +17,33 @@ import ExtrasHeader from '../pages/common/Headers/ExtrasHeader';
 import DefaultHeader from '../pages/common/Headers/DefaultHeader';
 
 const allHeaders = [
+	{
+		path: `login`,
+		element: null,
+	},
 	
 	{
-		path: `*`,
+		path: `/admin/*`,
 		element: <DashboardHeader />,
 	},
+	{
+		path: `/teamlead/*`,
+		element: <DashboardHeader />,
+	},
+	{
+		path: `/teammember/*`,
+		element: <DashboardHeader />,
+	},
+	{
+		path: `/supervisor/*`,
+		element: <DashboardHeader />,
+	},
+	{
+		path: `/committee/*`,
+		element: <DashboardHeader />,
+	},
+
+
 ];
 
 const  teamLeadHeaders = [

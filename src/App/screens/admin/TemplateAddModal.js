@@ -10,7 +10,6 @@ import Modal, {
 import showNotification from "../../../components/extras/showNotification";
 import Icon from "../../../components/icon/Icon";
 
-import Select from "../../../components/bootstrap/forms/Select";
 import axios from "axios";
 
 import SweetAlert from "react-bootstrap-sweetalert";

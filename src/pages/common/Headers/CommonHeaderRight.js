@@ -23,9 +23,13 @@ import showNotification from '../../../components/extras/showNotification';
 import useDarkMode from '../../../hooks/useDarkMode';
 import Popovers from '../../../components/bootstrap/Popovers';
 import Spinner from '../../../components/bootstrap/Spinner';
-
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import axios from 'axios'
 // eslint-disable-next-line react/prop-types
 const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
+
+	const navigate = useNavigate();
+	const location = useLocation();
 	const { darkModeStatus, setDarkModeStatus } = useDarkMode();
 
 	const { fullScreenStatus, setFullScreenStatus } = useContext(ThemeContext);
@@ -60,16 +64,25 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 
 	const { setIsOpen } = useTour();
 
-	const logout = () => {
-		localStorage.removeItem('user');
-		window.location.href = '/login';
+	const logout = async () => {
+		await axios.get(
+			"http://localhost:3500/logout",
+
+			{
+				withCredentials: true,
+			}
+		);
+
+
+		window.location.reload(false);
 	}
+
 
 	return (
 		<HeaderRight>
 			<div className='row g-3'>
 				{beforeChildren}
-			
+
 
 				{/* Dark Mode */}
 				<div className='col-auto'>
@@ -90,7 +103,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 				</div>
 
 
-			
+
 
 				{/*	Full Screen */}
 				{/* <div className='col-auto'>
@@ -234,7 +247,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 				</OffCanvasBody>
 			</OffCanvas>
 
-		
+
 
 
 		</HeaderRight>

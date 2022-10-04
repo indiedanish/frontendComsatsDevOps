@@ -1462,6 +1462,7 @@ const teamLead = [
 
 
 const admin = [
+	
 
 	{
 		path: adminMenu.dashboard.path,
@@ -1533,6 +1534,11 @@ const admin = [
 	{
 		path: componentsMenu.forms.subMenu.wizard.path,
 		element: <FORMS_PAGE.WIZARD />,
+		exact: true,
+	},
+	{
+		path: "*",
+		element: <AUTH.PAGE_404 />,
 		exact: true,
 	},
 

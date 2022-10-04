@@ -26,6 +26,11 @@ const ContentRoutes = () => {
   return (
     <>
       <Routes path="/">
+
+      <Route element={<LoginAuth />}>
+          <Route path="/" element={<Login />} />
+        </Route>
+
         <Route element={<LoginAuth />}>
           <Route path="/login" element={<Login />} />
         </Route>
