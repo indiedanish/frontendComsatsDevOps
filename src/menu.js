@@ -128,14 +128,14 @@ export const adminMenuSideBar = {
 		id: 'students',
 		text: 'Students',
 		path: '/admin/students',
-		icon: 'Dashboard',
+		icon: 'People',
 		subMenu: null,
 	},
 	teachers: {
 		id: 'dashboard',
 		text: 'Teachers',
 		path: '/admin/teachers',
-		icon: 'Dashboard',
+		icon: 'PeopleAlt',
 		subMenu: null,
 	},
 
@@ -151,7 +151,7 @@ export const adminMenuSideBar = {
 		id: 'announcements',
 		text: 'Announcements',
 		path: '/admin/announcements',
-		icon: 'Volume',
+		icon: 'EmojiPeople',
 		subMenu: null,
 	},
 
@@ -180,7 +180,7 @@ export const adminMenuSideBar = {
 		id: 'committee',
 		text: 'Committee',
 		path: '/admin/committee',
-		icon: 'Group',
+		icon: 'AddModerator',
 		subMenu: null,
 	},
 
@@ -188,7 +188,7 @@ export const adminMenuSideBar = {
 		id: 'project',
 		text: 'Assign Project',
 		path: '/admin/project',
-		icon: 'Project',
+		icon: 'Add',
 		subMenu: null,
 	},
 	///////////////////////////////////////////////
@@ -269,14 +269,14 @@ export const adminMenu = {
 		id: 'students',
 		text: 'Students',
 		path: '/students',
-		icon: 'Dashboard',
+		icon: 'People',
 		subMenu: null,
 	},
 	teachers: {
 		id: 'dashboard',
 		text: 'Teachers',
 		path: '/teachers',
-		icon: 'Dashboard',
+		icon: 'PeopleAlt',
 		subMenu: null,
 	},
 
@@ -292,7 +292,7 @@ export const adminMenu = {
 		id: 'announcements',
 		text: 'Announcements',
 		path: '/announcements',
-		icon: 'Volume',
+		icon: 'EmojiPeople',
 		subMenu: null,
 	},
 
@@ -321,7 +321,7 @@ export const adminMenu = {
 		id: 'committee',
 		text: 'Committee',
 		path: '/committee',
-		icon: 'Group',
+		icon: 'AddModerator',
 		subMenu: null,
 	},
 
