@@ -26,7 +26,7 @@ import CommonAvatarTeam from "../../../components/common/CommonAvatarTeam";
 import UserContact from "../../../components/UserContact";
 import Avatar, { AvatarGroup } from "../../../components/Avatar";
 import USERS from "../../../common/data/userDummyData";
-import { demoPages } from "../../../menu";
+import { adminMenu } from "../../../menu";
 import data from "../../../common/data/dummyProductData";
 import { average, priceFormat } from "../../../helpers/helpers";
 import PercentComparison from "../../../components/extras/PercentComparison";
@@ -132,7 +132,7 @@ const Dashboard = () => {
   };
 
   return (
-    <PageWrapper title={demoPages.sales.subMenu.dashboard.text}>
+    <PageWrapper title={adminMenu.dashboard.text}>
       <SubHeader>
         <SubHeaderLeft>
           <span className="h4 mb-0 fw-bold">Dashboard </span>

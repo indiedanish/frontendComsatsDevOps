@@ -7,7 +7,7 @@ import SubHeader, {
   SubheaderSeparator,
 } from "../../../layout/SubHeader/SubHeader";
 import Page from "../../../layout/Page/Page";
-import { demoPages } from "../../../menu";
+import { adminMenu } from "../../../menu";
 
 import { getFirstLetter, priceFormat } from "../../../helpers/helpers";
 
@@ -144,7 +144,7 @@ const Students = () => {
   }
 
   return (
-    <PageWrapper title={demoPages.crm.subMenu.customersList.text}>
+    <PageWrapper title={adminMenu.students.text}>
       <SubHeader>
         <SubHeaderLeft>
           <label
@@ -344,3 +344,4 @@ const Students = () => {
 };
 
 export default Students;
+
