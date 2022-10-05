@@ -167,6 +167,8 @@ const Announcements = () => {
                           icon="FilterList"
                         />
                       </th>
+                      <th className="cursor-pointer">Actions </th>
+
                     
                 
                       <td />

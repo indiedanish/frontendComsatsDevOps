@@ -176,7 +176,8 @@ const Templates = () => {
                           className={getClassNamesFor("Deadline")}
                           icon="FilterList"
                         />
-                      </th>{" "}
+                      </th>
+                      <th className="cursor-pointer">Actions </th>{" "}
                       <td />
                     </tr>
                   </thead>
