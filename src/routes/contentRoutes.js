@@ -8,7 +8,9 @@ const ADMIN = {
 	DASHBOARD: lazy(() => import('../App/screens/admin/Dashboard')),
 	STUDENTS: lazy(() => import('../App/screens/admin/Students')),
 	TEACHERS: lazy(() => import('../App/screens/admin/Teachers')),
-	Templates: lazy(() => import('../App/screens/admin/Templates')),
+	TEMPLATES: lazy(() => import('../App/screens/admin/Templates')),
+	ANNOUNCEMENTS: lazy(() => import('../App/screens/admin/Announcements')),
+
 
 
 };
@@ -1484,7 +1486,13 @@ const admin = [
 
 	{
 		path: adminMenu.templates.path,
-		element: <ADMIN.Templates />,
+		element: <ADMIN.TEMPLATES />,
+		exact: true,
+	},
+
+	{
+		path: adminMenu.announcements.path,
+		element: <ADMIN.ANNOUNCEMENTS />,
 		exact: true,
 	},
 
