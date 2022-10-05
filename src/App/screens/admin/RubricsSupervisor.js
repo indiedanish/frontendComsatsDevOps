@@ -60,7 +60,7 @@ const RubricsSupervisor = () => {
 
   const [questions, setQuestions] = useState([]);
   const [rubrics, setRubrics] = useState([]);
-  const [Ev_type, setEv_type] = useState("Testing");
+  const [Name, setName] = useState("Testing");
 
   const getAllRubrics = async () => {
     const res = await axios.get(
@@ -74,7 +74,7 @@ const RubricsSupervisor = () => {
 
     setQuestions(res.data[0].Questions);
     console.log("ALL RUBRICS", res.data);
-    console.log("WE ARE questions", res.data[Ev_type].Questions);
+    
   };
 
   useEffect(() => {
@@ -111,31 +111,24 @@ const RubricsSupervisor = () => {
     await axios.delete(`http://localhost:3500/admin/student/${RegNo}`, {
       withCredentials: true,
     });
-    getAllStudents();
+    getAllRubrics();
   };
 
   const reload = () => {
-    getAllStudents();
+    getAllRubrics();
   };
 
   const addQuestionCall = async (Question, TotalMark) => {
-    alert(TotalMark + Question);
+   
 
 
-    console.log(
-
-
-
-      { Question_Object: { Criteria: "", TotalMark: "" }, Name: "" }
-
-    );
-
-
-    await axios.delete(`http://localhost:3500/admin/`, {
+    await axios.put(`http://localhost:3500/admin/supervisorAddQuestion`, 
+    { Question_Object: { Criteria: Question, TotalMark: TotalMark }, Name: Name },
+    {
       withCredentials: true,
     });
 
-    getAllStudents();
+    getAllRubrics();
   };
 
   const showQuestionModal = async () => {
@@ -183,8 +176,8 @@ const RubricsSupervisor = () => {
             color="primary"
             isLight
             onClick={() => {
-              setEv_type("Scope")
-              setQuestions(rubrics[2].Questions)
+              setName("Scope")
+              setQuestions(rubrics[0].Questions)
             }}
           >
             Scope
@@ -194,7 +187,16 @@ const RubricsSupervisor = () => {
             icon="PersonAdd"
             color="primary"
             isLight
-            onClick={() => { setEv_type("Testing"); setQuestions(rubrics[0].Questions) }}
+            onClick={() => { setName("SDS"); setQuestions(rubrics[1].Questions) }}
+          >
+            SDS
+          </Button>
+
+          <Button
+            icon="PersonAdd"
+            color="primary"
+            isLight
+            onClick={() => { setName("Testing"); setQuestions(rubrics[2].Questions) }}
           >
             Testing
           </Button>
@@ -203,19 +205,12 @@ const RubricsSupervisor = () => {
             icon="PersonAdd"
             color="primary"
             isLight
-            onClick={() => { setEv_type("Final"); setQuestions(rubrics[1].Questions) }}
+            onClick={() => { setName("Final"); setQuestions(rubrics[3].Questions) }}
           >
             Final
           </Button>
 
-          <Button
-            icon="PersonAdd"
-            color="primary"
-            isLight
-            onClick={() => { setEv_type("SDS"); setQuestions(rubrics[1].Questions) }}
-          >
-            SDS
-          </Button>
+        
 
           <SubheaderSeparator />
 
@@ -272,9 +267,9 @@ const RubricsSupervisor = () => {
                                       key
                                     )} rounded-2 d-flex align-items-center justify-content-center`}
                                 >
-                                  <span className="fw-bold">
+                                  {/* <span className="fw-bold">
                                     {getFirstLetter(i.Criteria)}
-                                  </span>
+                                  </span> */}
                                 </div>
                               </div>
                             </div>
