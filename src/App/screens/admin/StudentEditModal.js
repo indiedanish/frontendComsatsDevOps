@@ -50,6 +50,22 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo, reload }) => {
 
   const [invalidEmail, setInvalidEmail] = useState(false);
 
+
+  const [getFileBase64String, setFileBase64String] = useState(false);
+
+
+  const encodeFileBase64 = (file) => {
+    var reader = new FileReader();
+    console.log("\nfile", file);
+
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      var Base64 = reader.result;
+      console.log("Base64", Base64);
+      setFileBase64String(Base64);
+    };}
+
+
   const addToDatabase = async (val) => {
     console.log("ADD STUDENT!!!!", val);
 
@@ -60,6 +76,8 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo, reload }) => {
     const Gender = val.gender;
     const Role = "TeamMember";
     const FypStatus = "Scope";
+    const ProfilePicture = getFileBase64String;
+
 
     await axios.put(
       "http://localhost:3500/admin/student",
@@ -72,6 +90,7 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo, reload }) => {
         Gender,
         Role,
         FypStatus,
+        ProfilePicture,
       },
       {
         withCredentials: true,
@@ -114,6 +133,7 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo, reload }) => {
       phonenumber: "",
       gender: "",
       fypstatus: "Scope",
+      ProfilePicture: "",
     },
 
     validateOnChange: true,
@@ -229,14 +249,16 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo, reload }) => {
               />
             </FormGroup>
 
-            <FormGroup className="col-12" id="formFile" label="Profile picture">
-              <Input
-                required
-                type="file"
-                onChange={formik.handleChange}
-                value={formik.values.formFile}
-              />
-            </FormGroup>
+         
+            <FormGroup className="col-12" id="formFile" label="Profile Picture">
+                <Input
+                  required
+                  type="file"
+                  onChange={(e) => {
+                    encodeFileBase64(e.target.files[0]);
+                  }}
+                />
+              </FormGroup>
           </div>
         </ModalBody>
         <ModalFooter className="px-4 pb-4">

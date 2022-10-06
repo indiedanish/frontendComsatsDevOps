@@ -30,6 +30,23 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo ,reload}) => {
 
   const [invalidEmail, setInvalidEmail] = useState(false);
 
+
+  
+  const [getFileBase64String, setFileBase64String] = useState(false);
+
+
+  const encodeFileBase64 = (file) => {
+    var reader = new FileReader();
+    console.log("\nfile", file);
+
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      var Base64 = reader.result;
+      console.log("Base64", Base64);
+      setFileBase64String(Base64);
+    };}
+
+
   const addToDatabase = async (val) => {
     console.log("Edit Teacher!!!!", val);
 
@@ -42,6 +59,8 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo ,reload}) => {
     const isSupervisor = true;
     const isCommittee= false;
 
+    const ProfilePicture = getFileBase64String;
+
     await axios.put(
       "http://localhost:3500/admin/teacher",
       {
@@ -52,7 +71,8 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo ,reload}) => {
         Gender,
         Designation,
         isSupervisor,
-        isCommittee
+        isCommittee,
+        ProfilePicture
       },
       {
         withCredentials: true,
@@ -93,7 +113,9 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo ,reload}) => {
       gender: "",
       designation: "",
       isSupervisor: "",
-      isCommittee: ""
+      isCommittee: "",
+      ProfilePicture: "",
+
     },
 
     validateOnChange: true,
@@ -172,21 +194,6 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo ,reload}) => {
                 defaultValue={`${teacherInfo.Email}`}
                 value={`${teacherInfo.Email}`}
 
-
-                // onBlur={(e)=>{
-
-                //     const check = String(e.target.value)
-                //     .toLowerCase()
-                //     .match(
-                //       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                //     );
-
-                //     if(check==null) setInvalidEmail(false)
-                //     else return
-
-                // }
-
-                // }
               />
             </FormGroup>
 
@@ -204,14 +211,15 @@ const TeacherEditModal = ({ id, isOpen, setIsOpen, teacherInfo ,reload}) => {
               />
             </FormGroup>
 
-            <FormGroup className="col-12" id="formFile" label="Profile picture">
-              <Input
-                required
-                type="file"
-                onChange={formik.handleChange}
-                value={formik.values.formFile}
-              />
-            </FormGroup>
+            <FormGroup className="col-12" id="formFile" label="Profile Picture">
+                <Input
+                  required
+                  type="file"
+                  onChange={(e) => {
+                    encodeFileBase64(e.target.files[0]);
+                  }}
+                />
+              </FormGroup>
           </div>
         </ModalBody>
         <ModalFooter className="px-4 pb-4">
