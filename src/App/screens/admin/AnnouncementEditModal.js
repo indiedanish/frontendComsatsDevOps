@@ -10,7 +10,6 @@ import Modal, {
 import showNotification from "../../../components/extras/showNotification";
 import Icon from "../../../components/icon/Icon";
 
-import Select from "../../../components/bootstrap/forms/Select";
 import axios from "axios";
 
 //////////////////////
@@ -22,45 +21,25 @@ import Button from "../../../components/bootstrap/Button";
 
 /////////////////////////////
 
-const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
+const AnnouncementEditModal = ({ id, isOpen, setIsOpen, announcementInfo,reload }) => {
 
 
-    const [template, setTemplate] = useState(templateInfo);
+    const [announcement, setAnnouncement] = useState(announcementInfo);
 
-
-    const [getFileBase64String, setFileBase64String] = useState(false);
-
-
-    const encodeFileBase64 = (file) => {
-      var reader = new FileReader();
-      console.log("\nfile", file);
-  
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        var Base64 = reader.result;
-        console.log("Base64", Base64);
-        setFileBase64String(Base64);
-      };}
-  
 
 
   const addToDatabase = async (val) => {
-    console.log("Edit Template!!!!", val);
+    console.log("Edit Announcement!!!!", val);
 
 
     const Title = val.title;
-    const Deadline = val.deadline;
-    const File = val.file;
     const Description = val.description;
 
 
-
     await axios.put(
-      "http://localhost:3500/admin/template",
+      "http://localhost:3500/admin/announcement",
       {
-        Title : `${templateInfo.Title}`,
-        Deadline,
-        File,
+        Title : `${announcementInfo.Title}`,
         Description
       },
       {
@@ -78,7 +57,7 @@ const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:4000/template/getTemplates"
+        "http://localhost:4000/announcement/getAnnouncements"
       );
       console.log("ssss", response.data);
       setuse(response.data);
@@ -95,9 +74,9 @@ const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
   const formik = useFormik({
     initialValues: {
       title: "",
-      file: "",
-      dateModified: "",
-      deadline: "",
+      description: "",
+
+     
      
     },
 
@@ -112,9 +91,9 @@ const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
       showNotification(
         <span className="d-flex align-items-center">
           <Icon icon="Info" size="lg" className="me-1" />
-          <span>Template Updated Successfully</span>
+          <span>Announcement Updated Successfully</span>
         </span>,
-        "Template has been updated successfully"
+        "Announcement has been updated successfully"
       );
     },
   });
@@ -123,7 +102,7 @@ const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
     return (
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} size="xl" titleId={id}>
         <ModalHeader setIsOpen={setIsOpen} className="p-4">
-          <ModalTitle id={id}>{"Edit Template: "+ templateInfo.Title}</ModalTitle>
+          <ModalTitle id={id}>{"Edit Announcement: "+ announcementInfo.Title}</ModalTitle>
         </ModalHeader>
         <ModalBody className="px-4">
           <div className="row g-4">
@@ -136,24 +115,10 @@ const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
                 type="title"
                 autoComplete="title"
                 onChange={formik.handleChange}
-                defaultValue={`${templateInfo.Title}`}
-                value={`${templateInfo.Title}`}
+                defaultValue={`${announcementInfo.Title}`}
+                value={`${announcementInfo.Title}`}
 
 
-              />
-            </FormGroup>
-
-            <FormGroup
-              className="col-lg-6"
-              id="deadline"
-              label="Deadline"
-            >
-              <Input
-              
-                type="date"
-                defaultValue={`${templateInfo.Deadline}`}
-                autoComplete="date"
-                onChange={formik.handleChange}
               />
             </FormGroup>
 
@@ -164,26 +129,18 @@ const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
             >
               <Input
               
-                defaultValue={`${templateInfo.Description}`}
+                defaultValue={`${announcementInfo.Description}`}
                 autoComplete="description"
                 onChange={formik.handleChange}
               />
             </FormGroup>
 
-            <FormGroup className="col-12" id="formFile" label="Upload File">
-                <Input
-                  required
-                  type="file"
-                  onChange={(e) => {
-                    encodeFileBase64(e.target.files[0]);
-                  }}
-                />
-              </FormGroup>
+     
           </div>
         </ModalBody>
         <ModalFooter className="px-4 pb-4">
           <Button color="info" onClick={formik.handleSubmit}>
-            Edit Template
+            Edit Announcement
           </Button>
         </ModalFooter>
       </Modal>
@@ -191,10 +148,10 @@ const TemplateEditModal = ({ id, isOpen, setIsOpen, templateInfo,reload }) => {
   }
   return null;
 };
-TemplateEditModal.propTypes = {
+AnnouncementEditModal.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
 };
 
-export default TemplateEditModal;
+export default AnnouncementEditModal;

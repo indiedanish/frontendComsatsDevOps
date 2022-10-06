@@ -9,7 +9,10 @@ const ADMIN = {
 	STUDENTS: lazy(() => import('../App/screens/admin/Students')),
 	TEACHERS: lazy(() => import('../App/screens/admin/Teachers')),
 	TEMPLATES: lazy(() => import('../App/screens/admin/Templates')),
+	ANNOUNCEMENTS: lazy(() => import('../App/screens/admin/Announcements')),
 	RUBRICS_SUPERVISOR: lazy(() => import('../App/screens/admin/RubricsSupervisor')),
+	RUBRICS_COMMITTEE: lazy(() => import('../App/screens/admin/RubricsCommittee')),
+
 
 
 };
@@ -1492,8 +1495,21 @@ const admin = [
 	},
 
 	{
+		path: adminMenu.announcements.path,
+		element: <ADMIN.ANNOUNCEMENTS />,
+		exact: true,
+
+	},
+	
+	{
 		path: adminMenu.rubrics.subMenu.supervisor.path,
 		element: <ADMIN.RUBRICS_SUPERVISOR />,
+		exact: true,
+	},
+
+	{
+		path: adminMenu.rubrics.subMenu.committee.path,
+		element: <ADMIN.RUBRICS_COMMITTEE />,
 		exact: true,
 	},
 

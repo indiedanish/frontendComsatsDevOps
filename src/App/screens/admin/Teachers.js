@@ -94,7 +94,7 @@ const Teachers = () => {
             id='searchInput'
             type='search'
             className='border-0 shadow-none bg-transparent'
-            placeholder='Search...'
+            placeholder='Search Teachers...'
             onChange={formik.handleChange}
             value={formik.values.searchInput}
           />

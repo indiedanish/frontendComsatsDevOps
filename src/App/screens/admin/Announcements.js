@@ -7,7 +7,7 @@ import SubHeader, {
   SubheaderSeparator,
 } from "../../../layout/SubHeader/SubHeader";
 import Page from "../../../layout/Page/Page";
-import { adminMenu } from "../../../menu";
+import { demoPages } from "../../../menu";
 
 import { getFirstLetter, priceFormat } from "../../../helpers/helpers";
 
@@ -25,8 +25,8 @@ import Dropdown, {
 } from "../../../components/bootstrap/Dropdown";
 
 import useSortableData from "../../../hooks/useSortableData";
-import TemplateAddModal from "./TemplateAddModal";
-import TemplateEditModal from "./TemplateEditModal";
+import AnnouncementAddModal from "./AnnouncementAddModal";
+import AnnouncementEditModal from "./AnnouncementEditModal";
 import { getColorNameWithIndex } from "../../../common/data/enumColors";
 import useDarkMode from "../../../hooks/useDarkMode";
 import axios from "axios";
@@ -40,28 +40,28 @@ import Button from "../../../components/bootstrap/Button";
 
 /////////////////////////////
 
-const Templates = () => {
+const Announcements = () => {
   const { darkModeStatus } = useDarkMode();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(PER_COUNT["10"]);
 
-  const [allTemplates, setAllTemplates] = useState([]);
+  const [allAnnouncements, setAllAnnouncements] = useState([]);
 
   const reload = () => {
-    getAllTemplates();
+    getAllAnnouncements();
   };
 
-  const getAllTemplates = async () => {
-    const res = await axios.get("http://localhost:3500/admin/getAllTemplate", {
+  const getAllAnnouncements = async () => {
+    const res = await axios.get("http://localhost:3500/admin/getAllAnnouncement", {
       withCredentials: true,
     });
-    setAllTemplates(res.data);
-    console.log("WE ARE Templates", res.data);
+    setAllAnnouncements(res.data);
+    console.log("WE ARE Announcements", res.data);
   };
 
   useEffect(() => {
-    getAllTemplates();
+    getAllAnnouncements();
   }, []);
 
   const formik = useFormik({
@@ -74,7 +74,7 @@ const Templates = () => {
 
   const [refresh, setRefresh] = useState(false);
 
-  const filteredData = allTemplates.filter((f, key) =>
+  const filteredData = allAnnouncements.filter((f, key) =>
     f.Title.toLowerCase().includes(formik.values.searchInput.toLowerCase())
   );
 
@@ -84,17 +84,17 @@ const Templates = () => {
 
   const [editModalStatus, setEditModalStatus] = useState(false);
   const [addModalStatus, setAddModalStatus] = useState(false);
-  const [templateInfo, setTemplateInfo] = useState("");
+  const [announcementInfo, setAnnouncementInfo] = useState("");
 
   const Delete = async (Title) => {
-    await axios.delete(`http://localhost:3500/admin/template/${Title}`, {
+    await axios.delete(`http://localhost:3500/admin/announcement/${Title}`, {
       withCredentials: true,
     });
-    getAllTemplates();
+    getAllAnnouncements();
   };
 
   return (
-    <PageWrapper title={adminMenu.templates.text}>
+    <PageWrapper title={demoPages.crm.subMenu.customersList.text}>
       <SubHeader>
         <SubHeaderLeft>
           <label
@@ -107,7 +107,7 @@ const Templates = () => {
             id="searchInput"
             type="search"
             className="border-0 shadow-none bg-transparent"
-            placeholder="Search Templates..."
+            placeholder="Search Announcements..."
             onChange={formik.handleChange}
             value={formik.values.searchInput}
           />
@@ -121,7 +121,7 @@ const Templates = () => {
             isLight
             onClick={() => setAddModalStatus(true)}
           >
-            Add Template
+            Add Announcement
           </Button>
         </SubHeaderRight>
       </SubHeader>
@@ -137,7 +137,7 @@ const Templates = () => {
                         onClick={() => requestSort("Title")}
                         className="cursor-pointer text-decoration-underline"
                       >
-                        Templates{" "}
+                        Announcements{" "}
                         <Icon
                           size="lg"
                           className={getClassNamesFor("Title")}
@@ -155,6 +155,7 @@ const Templates = () => {
                           icon="FilterList"
                         />
                       </th>
+
                       <th
                         onClick={() => requestSort("DateModified")}
                         className="cursor-pointer text-decoration-underline"
@@ -166,18 +167,10 @@ const Templates = () => {
                           icon="FilterList"
                         />
                       </th>
-                      <th
-                        onClick={() => requestSort("Deadline")}
-                        className="cursor-pointer text-decoration-underline"
-                      >
-                        Deadline
-                        <Icon
-                          size="lg"
-                          className={getClassNamesFor("Deadline")}
-                          icon="FilterList"
-                        />
-                      </th>
-                      <th className="cursor-pointer">Actions </th>{" "}
+                      <th className="cursor-pointer">Actions </th>
+
+                    
+                
                       <td />
                     </tr>
                   </thead>
@@ -219,8 +212,7 @@ const Templates = () => {
                             <div>{i.DateModified}</div>
                           </td>
 
-                          <td>{i.Deadline}</td>
-
+                       
                           <td>
                             <Dropdown>
                               <DropdownToggle hasIcon={false}>
@@ -245,25 +237,13 @@ const Templates = () => {
                                   </Button>
                                 </DropdownItem>
 
-                                <DropdownItem>
-                                  <Button
-                                    icon="Download"
-                                    tag="a"
-                                    type="File"
-                                    download="Template.pdf"
-                                    href={i.File}
-                                   
-                                  >
-                                    Download
-                                  </Button>
-                                </DropdownItem>
-
+                                
                                 <DropdownItem>
                                   <Button
                                     icon="Edit"
                                     tag="a"
                                     onClick={() => {
-                                      setTemplateInfo(i);
+                                      setAnnouncementInfo(i);
                                       setEditModalStatus(true);
                                     }}
                                   >
@@ -281,7 +261,7 @@ const Templates = () => {
               </CardBody>
               <PaginationButtons
                 data={filteredData}
-                label="Templates"
+                label="Announcements"
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}
                 perPage={perPage}
@@ -291,15 +271,15 @@ const Templates = () => {
           </div>
         </div>
       </Page>
-      <TemplateEditModal
+      <AnnouncementEditModal
         setIsOpen={setEditModalStatus}
         isOpen={editModalStatus}
-        templateInfo={templateInfo}
+        announcementInfo={announcementInfo}
         id={0}
         reload={reload}
       />
 
-      <TemplateAddModal
+      <AnnouncementAddModal
         reload={reload}
         setIsOpen={setAddModalStatus}
         isOpen={addModalStatus}
@@ -309,4 +289,4 @@ const Templates = () => {
   );
 };
 
-export default Templates;
+export default Announcements;

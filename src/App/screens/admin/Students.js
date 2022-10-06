@@ -310,7 +310,7 @@ const Students = () => {
               </CardBody>
               <PaginationButtons
                 data={filteredData}
-                label="customers"
+                label="students"
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}
                 perPage={perPage}

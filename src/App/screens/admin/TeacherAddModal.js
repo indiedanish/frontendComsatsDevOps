@@ -24,6 +24,23 @@ import SweetAlert from "react-bootstrap-sweetalert";
 const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
   const [errorModal, setErrorModal] = useState(false);
 
+
+
+  const [getFileBase64String, setFileBase64String] = useState(false);
+
+
+  const encodeFileBase64 = (file) => {
+    var reader = new FileReader();
+    console.log("\nfile", file);
+
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      var Base64 = reader.result;
+      console.log("Base64", Base64);
+      setFileBase64String(Base64);
+    };}
+
+
   const addToDatabase = async (val) => {
     console.log("ADD Teacher!!!!", val);
 
@@ -35,6 +52,8 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
     const Designation = val.designation;
     const isSupervisor = true;
     const isCommittee = false;
+    const ProfilePicture = getFileBase64String;
+
 
     try {
       await axios.post(
@@ -48,6 +67,7 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
           Designation,
           isSupervisor,
           isCommittee,
+          ProfilePicture,
         },
         {
           withCredentials: true,
@@ -86,6 +106,7 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
       designation: "",
       isSupervisor: "",
       isCommittee: "",
+      ProfilePicture: ""
     },
     // eslint-disable-next-line no-unused-vars
 
@@ -209,14 +230,16 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
               />
             </FormGroup>
 
-            <FormGroup className="col-12" id="formFile" label="Profile picture">
-              <Input
-                required
-                type="file"
-                onChange={formik.handleChange}
-                value={formik.values.formFile}
-              />
-            </FormGroup>
+           
+            <FormGroup className="col-12" id="formFile" label="Profile Picture">
+                <Input
+                  required
+                  type="file"
+                  onChange={(e) => {
+                    encodeFileBase64(e.target.files[0]);
+                  }}
+                />
+              </FormGroup>
           </div>
         </ModalBody>
         <ModalFooter className="px-4 pb-4">
