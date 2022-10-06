@@ -254,7 +254,7 @@ const RubricsCommittee = () => {
                         onClick={() => requestSort("Name")}
                         className="cursor-pointer text-decoration-underline"
                       >
-                        Criteria{" "}
+                        {Name} Evaluation's Criteria{" "}
                         <Icon
                           size="lg"
                           className={getClassNamesFor("Name")}

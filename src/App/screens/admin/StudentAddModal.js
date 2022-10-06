@@ -49,7 +49,69 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
       var Base64 = reader.result;
       console.log("Base64", Base64);
       setFileBase64String(Base64);
-    };}
+    };
+  }
+
+  function isEmail(val) {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val);
+  }
+
+
+  const validate = (values) => {
+    const errors = {};
+    if (!values.regno) {
+      errors.regno = 'Required';
+    } else if (values.regno.length > 15) {
+      errors.regno = 'Must be 15 characters or less';
+    }
+
+    if (!isEmail(values.email)) {
+      errors.email = 'Email not valid';
+
+    }
+
+    // if (!values.validationLastName) {
+    //   errors.validationLastName = 'Required';
+    // } else if (values.validationLastName.length > 20) {
+    //   errors.validationLastName = 'Must be 20 characters or less';
+    // }
+
+    // if (!values.validationCustomUsername) {
+    //   errors.validationCustomUsername = 'Required';
+    // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.validationCustomUsername)) {
+    //   errors.validationCustomUsername = 'Invalid email address';
+    // }
+
+    // if (!values.validationCity) {
+    //   errors.validationCity = 'Please provide a valid city.';
+    // }
+
+    // if (!values.validationState) {
+    //   errors.validationState = 'Please select a valid state.';
+    // }
+
+    // if (!values.validationZip) {
+    //   errors.validationZip = 'Please provide a valid zip.';
+    // } else if (values.validationZip.length !== 5) {
+    //   errors.validationZip = 'Must be 5 characters';
+    // }
+
+    // if (!values.validationDesc) {
+    //   errors.validationDesc = 'Please provide a valid Desc.';
+    // } else if (values.validationDesc.length < 20) {
+    //   errors.validationDesc = `Must be 20 characters or more, but currently ${values.validationDesc.length} characters`;
+    // }
+
+    // if (!values.validationRadios) {
+    //   errors.validationRadios = 'You must choose one before posting.';
+    // }
+
+    // if (!values.validationCheck) {
+    //   errors.validationCheck = 'You must agree before submitting.';
+    // }
+
+    return errors;
+  };
 
 
 
@@ -122,9 +184,9 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 
     },
     // eslint-disable-next-line no-unused-vars
-
-    validateOnChange: false,
-    validateOnBlur: false,
+    validate,
+    // validateOnChange: false,
+    // validateOnBlur: false,
     onSubmit: (values) => {
       console.log("VALUES: ", values);
       addToDatabase(values);
@@ -163,6 +225,14 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 autoComplete="honorific-prefix"
                 onChange={formik.handleChange}
                 value={formik.values.regno}
+
+
+                isValid={formik.isValid}
+                isTouched={formik.touched.regno}
+                invalidFeedback={formik.errors.regno}
+                validFeedback='Looks good!'
+                onBlur={formik.handleBlur}
+
               />
             </FormGroup>
             <FormGroup className="col-lg-6" id="name" label="Name">
@@ -209,6 +279,15 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 autoComplete="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
+
+
+                isValid={formik.isValid}
+                isTouched={formik.touched.email}
+                invalidFeedback={formik.errors.email}
+                validFeedback='Looks good!'
+                onBlur={formik.handleBlur}
+
+
               // onBlur={(e)=>{
 
               //     const check = String(e.target.value)
@@ -242,14 +321,14 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
             </FormGroup>
 
             <FormGroup className="col-12" id="formFile" label="Profile Picture">
-                <Input
-                  required
-                  type="file"
-                  onChange={(e) => {
-                    encodeFileBase64(e.target.files[0]);
-                  }}
-                />
-              </FormGroup>
+              <Input
+                required
+                type="file"
+                onChange={(e) => {
+                  encodeFileBase64(e.target.files[0]);
+                }}
+              />
+            </FormGroup>
           </div>
         </ModalBody>
         <ModalFooter className="px-4 pb-4">

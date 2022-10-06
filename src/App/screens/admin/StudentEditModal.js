@@ -66,6 +66,8 @@ const StudentEditModal = ({ id, isOpen, setIsOpen, studentInfo, reload }) => {
     };}
 
 
+  
+
   const addToDatabase = async (val) => {
     console.log("ADD STUDENT!!!!", val);
 
