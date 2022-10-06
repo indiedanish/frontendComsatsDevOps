@@ -52,7 +52,7 @@ import Button from "../../../components/bootstrap/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Swal from "sweetalert2";
 
-const RubricsSupervisor = () => {
+const RubricsCommittee = () => {
   const { darkModeStatus } = useDarkMode();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,7 +64,7 @@ const RubricsSupervisor = () => {
 
   const getAllRubrics = async () => {
     const res = await axios.get(
-      "http://localhost:3500/admin/getSupervisorRubrics",
+      "http://localhost:3500/admin/getCommitteeRubrics",
       {
         withCredentials: true,
       }
@@ -122,7 +122,7 @@ const RubricsSupervisor = () => {
    
 
 
-    await axios.put(`http://localhost:3500/admin/supervisorAddQuestion`, 
+    await axios.put(`http://localhost:3500/admin/committeeAddQuestion`, 
     { Question_Object: { Criteria: Question, TotalMark: TotalMark }, Name: Name },
     {
       withCredentials: true,
@@ -136,7 +136,7 @@ const RubricsSupervisor = () => {
    
 
 
-    await axios.put(`http://localhost:3500/admin/supervisorDeleteQuestion`, 
+    await axios.put(`http://localhost:3500/admin/committeeDeleteQuestion`, 
     { Question_id: _id, Name: Name },
     {
       withCredentials: true,
@@ -388,5 +388,5 @@ const RubricsSupervisor = () => {
   );
 };
 
-export default RubricsSupervisor;
+export default RubricsCommittee;
 
