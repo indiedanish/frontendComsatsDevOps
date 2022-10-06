@@ -1493,13 +1493,15 @@ const admin = [
 	},
 
 	{
-<<<<<<< HEAD
 		path: adminMenu.announcements.path,
 		element: <ADMIN.ANNOUNCEMENTS />,
-=======
+		exact: true,
+
+	},
+	
+	{
 		path: adminMenu.rubrics.subMenu.supervisor.path,
 		element: <ADMIN.RUBRICS_SUPERVISOR />,
->>>>>>> 6e3b2f46d0d07209181caf391ec416d1df30f564
 		exact: true,
 	},
 

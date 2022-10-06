@@ -165,7 +165,7 @@ const RubricsSupervisor = () => {
             id="searchInput"
             type="search"
             className="border-0 shadow-none bg-transparent"
-            placeholder="Search Students..."
+            placeholder="Search Questions..."
             onChange={formik.handleChange}
             value={formik.values.searchInput}
           />
@@ -371,3 +371,4 @@ const RubricsSupervisor = () => {
 };
 
 export default RubricsSupervisor;
+
