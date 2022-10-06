@@ -7,7 +7,7 @@ import SubHeader, {
   SubheaderSeparator,
 } from "../../../layout/SubHeader/SubHeader";
 import Page from "../../../layout/Page/Page";
-import { demoPages } from "../../../menu";
+import { adminMenu } from "../../../menu";
 
 import { getFirstLetter, priceFormat } from "../../../helpers/helpers";
 
@@ -94,7 +94,7 @@ const Templates = () => {
   };
 
   return (
-    <PageWrapper title={demoPages.crm.subMenu.customersList.text}>
+    <PageWrapper title={adminMenu.templates.text}>
       <SubHeader>
         <SubHeaderLeft>
           <label

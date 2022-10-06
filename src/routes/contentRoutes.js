@@ -10,7 +10,7 @@ const ADMIN = {
 	TEACHERS: lazy(() => import('../App/screens/admin/Teachers')),
 	TEMPLATES: lazy(() => import('../App/screens/admin/Templates')),
 	ANNOUNCEMENTS: lazy(() => import('../App/screens/admin/Announcements')),
-
+	RUBRICS_SUPERVISOR: lazy(() => import('../App/screens/admin/RubricsSupervisor')),
 
 
 };
@@ -1464,6 +1464,8 @@ const teamLead = [
 
 
 const admin = [
+
+	
 	
 
 	{
@@ -1491,8 +1493,13 @@ const admin = [
 	},
 
 	{
+<<<<<<< HEAD
 		path: adminMenu.announcements.path,
 		element: <ADMIN.ANNOUNCEMENTS />,
+=======
+		path: adminMenu.rubrics.subMenu.supervisor.path,
+		element: <ADMIN.RUBRICS_SUPERVISOR />,
+>>>>>>> 6e3b2f46d0d07209181caf391ec416d1df30f564
 		exact: true,
 	},
 
