@@ -12,7 +12,7 @@ const ADMIN = {
 	ANNOUNCEMENTS: lazy(() => import('../App/screens/admin/Announcements')),
 	RUBRICS_SUPERVISOR: lazy(() => import('../App/screens/admin/RubricsSupervisor')),
 	RUBRICS_COMMITTEE: lazy(() => import('../App/screens/admin/RubricsCommittee')),
-
+	COMMITTEE: lazy(() => import('../App/screens/admin/Committee')),
 
 
 };
@@ -1510,6 +1510,12 @@ const admin = [
 	{
 		path: adminMenu.rubrics.subMenu.committee.path,
 		element: <ADMIN.RUBRICS_COMMITTEE />,
+		exact: true,
+	},
+
+	{
+		path: adminMenu.committee.path,
+		element: <ADMIN.COMMITTEE />,
 		exact: true,
 	},
 
