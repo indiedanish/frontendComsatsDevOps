@@ -92,11 +92,19 @@ export const teamLeadMenu = {
 		icon: 'PersonSearch',
 	},
 
-	dashboardBooking: {
-		id: 'sprints',
-		text: 'Sprints',
-		path: 'sprints',
+	sprint: {
+		id: 'sprint',
+		text: 'Sprint',
+		path: 'sprint',
 		icon: 'emoji_transportation',
+		subMenu: null,
+	},
+
+	deliverable: {
+		id: 'deliverable',
+		text: 'Deliverable',
+		path: 'deliverable',
+		icon: 'file',
 		subMenu: null,
 	},
 
@@ -131,11 +139,20 @@ export const teamLeadMenuSidebar = {
 		icon: 'PersonSearch',
 	},
 
-	dashboardBooking: {
-		id: 'sprints',
-		text: 'Sprints',
-		path: '/teamlead/sprints',
+
+	sprint: {
+		id: 'sprint',
+		text: 'Sprint',
+		path: '/teamlead/sprint',
 		icon: 'emoji_transportation',
+		subMenu: null,
+	},
+
+	deliverable: {
+		id: 'deliverable',
+		text: 'Deliverable',
+		path: '/teamlead/deliverable',
+		icon: 'file',
 		subMenu: null,
 	},
 
