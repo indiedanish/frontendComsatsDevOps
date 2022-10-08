@@ -3,10 +3,10 @@ import React, { useContext, useEffect, useState, useLayoutEffect, useRef } from 
 import TeamLeadSidebar from "../Aside/TeamLeadSidebar";
 const Layout = () => {
     return (
-      <>
+      <div className="w-full  h-screen ml-[85px] ">
             <TeamLeadSidebar/>
             <Outlet />
-      </>
+      </div>
        
        
     )

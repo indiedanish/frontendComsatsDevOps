@@ -13,7 +13,7 @@ const PageWrapper = forwardRef(({ title, description, className, children }, ref
 	});
 
 	return (
-		<div ref={ref} className={classNames('page-wrapper', 'container-fluid', className)}>
+		<div ref={ref} className={classNames('page-wrapper', 'container-fluid h-[800px]', className)}>
 			{children}
 		</div>
 	);

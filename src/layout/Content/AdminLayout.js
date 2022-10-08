@@ -3,11 +3,12 @@ import React, { useContext, useEffect, useState, useLayoutEffect, useRef } from 
 import AdminSidebar from "../Aside/adminSidebar";
 const Layout = () => {
     return (
-      <>
-            <AdminSidebar/>
-            <Outlet />
+      <div className="w-full  h-screen ml-[85px] ">
+           
+            <Outlet  />
+            <AdminSidebar  />
             
-      </>
+      </div>
        
        
     )

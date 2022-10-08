@@ -1062,20 +1062,23 @@ const teamLead = [
 
 	// Charts
 
+	
+
 	{
 		path: teamLeadMenu.dashboard.path,
 		element: <TEAMLEAD.DASHBOARD />,
 		exact: true,
-	},
+	
+		
+	}
+	
+	,
 
 	{
 		path: teamLeadMenu.team.path,
 		element: <TEAMLEAD.TEAMMEMBERS />,
 		exact: true,
 	},
-
-
-
 	
 	{
 		path: dashboardMenu.dashboardBooking.path,
