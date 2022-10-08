@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
-import moment from 'moment';
 import Modal, {
 	ModalBody,
 	ModalFooter,
@@ -12,12 +11,7 @@ import showNotification from '../../../components/extras/showNotification';
 import Icon from '../../../components/icon/Icon';
 import FormGroup from '../../../components/bootstrap/forms/FormGroup';
 import Input from '../../../components/bootstrap/forms/Input';
-import Card, {
-	CardBody,
-	CardHeader,
-	CardLabel,
-	CardTitle,
-} from '../../../components/bootstrap/Card';
+
 import Button from '../../../components/bootstrap/Button';
 import Label from '../../../components/bootstrap/forms/Label';
 import Checks, { ChecksGroup } from '../../../components/bootstrap/forms/Checks';
@@ -34,13 +28,11 @@ const TeamMembersEditModal = ({ id, isOpen, setIsOpen }) => {
 		console.log('AAGAYAHUM', val);
 
 		const Name = val.title;
-		const Meeting = val.meeting;
 		const Student = val.members;
 	
 
-		await axios.post('http://localhost:3500/team/add', {
+		await axios.put('http://localhost:3500/student/teamMember', {
 			Name,
-			Meeting,
 			Student,
 			
 		});
@@ -53,7 +45,7 @@ const TeamMembersEditModal = ({ id, isOpen, setIsOpen }) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const response = await axios.get('http://localhost:3500/student/getStudents');
+			const response = await axios.get('http://localhost:3500/student/getAllStudents');
 			console.log('ssss', response.data);
 			setuse(response.data);
 			setselectedMembersID([])
@@ -69,7 +61,6 @@ const TeamMembersEditModal = ({ id, isOpen, setIsOpen }) => {
 	const formik = useFormik({
 		initialValues: {
 			title: '',
-			meeting: '',
 			members: '',
 			
 		},
@@ -102,14 +93,7 @@ const TeamMembersEditModal = ({ id, isOpen, setIsOpen }) => {
 				</ModalHeader>
 				<ModalBody className='px-4'>
 					<div className='row g-4'>
-						<FormGroup id='title' label='Team' className='col-md-6'>
-							<Input required onChange={formik.handleChange} value={formik.values.title} />
-						</FormGroup>
-						<FormGroup id='meeting' label='Meeting' className='col-md-6'>
-							<Input onChange={formik.handleChange}  value={formik.values.meeting} />
-						</FormGroup>
-
-					
+						
 
 						<FormGroup id='members' label='Choose Team Members' className='col-md-6'>
 							<Select

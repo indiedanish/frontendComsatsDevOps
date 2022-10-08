@@ -85,18 +85,58 @@ export const teamLeadMenu = {
 		subMenu: null,
 	},
 
+	project: {
+		id: 'projectmanagement',
+		text: 'Project Management',
+		path: 'projectmanagement',
+		icon: 'Article',
+		subMenu: {
+			
+			project: {
+				id: 'project',
+				text: 'Project',
+				path: 'projectmanagement/project',
+				icon: 'Book',
+			},
+
+			joinproject: {
+				id: 'joinproject',
+				text: 'Join Project',
+				path: 'projectmanagement/joinproject',
+				icon: 'Add',
+			},
+
+			supervisor: {
+				id: 'supervisor',
+				text: 'Find Supervisor',
+				path: 'projectmanagement/supervisor',
+				icon: 'Person',
+			},
+			
+		},
+	},
+
+
 	team: {
 		id: 'team',
 		text: 'Team',
 		path: 'team',
-		icon: 'PersonSearch',
+		icon: 'Group',
 	},
 
 	sprint: {
 		id: 'sprint',
 		text: 'Sprint',
 		path: 'sprint',
-		icon: 'emoji_transportation',
+		icon: 'Calendar3',
+		subMenu: null,
+	},
+
+	requirements: {
+		id: 'requirements',
+		text: 'Requirements',
+		path: 'requirements',
+		icon: 'pen',
 		subMenu: null,
 	},
 
@@ -104,17 +144,51 @@ export const teamLeadMenu = {
 		id: 'deliverable',
 		text: 'Deliverable',
 		path: 'deliverable',
-		icon: 'file',
+		icon: 'upload',
 		subMenu: null,
 	},
 
+	
+	evaluation: {
+		id: 'evaluation',
+		text: 'Evaluation',
+		path: 'evaluation',
+		icon: 'Checklist',
+		subMenu: {
+			supervisor: {
+				id: 'supervisor',
+				text: 'Supervisor',
+				path: 'evaluation/supervisor',
+				icon: 'Person',
+			},
+			committee: {
+				id: 'committee',
+				text: 'Committee',
+				path: 'evaluation/committee',
+				icon: 'Group',
+			},
+		},
+	},
+
+	
+
 	summary: {
 		id: 'summary',
-		text: 'Video Chat',
+		text: 'Messenger',
 		path: 'chat',
-		icon: 'sticky_note_2',
+		icon: 'ChatSquareDots',
 		subMenu: null,
 	},
+
+
+	profile: {
+		id: 'profile',
+		text: 'Profile',
+		path: '/teamlead/profile',
+		icon: 'gear',
+		subMenu: null,
+	},
+
 };
 
 
@@ -132,6 +206,37 @@ export const teamLeadMenuSidebar = {
 		subMenu: null,
 	},
 
+	project: {
+		id: 'projectmanagement',
+		text: 'Project Management',
+		path: '/teamlead/projectmanagement',
+		icon: 'Article',
+		subMenu: {
+			
+			project: {
+				id: 'project',
+				text: ' My Project',
+				path: '/teamlead/projectmanagement/project',
+				icon: 'Book',
+			},
+
+			joinproject: {
+				id: 'joinproject',
+				text: 'Join Project',
+				path: '/teamlead/projectmanagement/joinproject',
+				icon: 'Book',
+			},
+
+			supervisor: {
+				id: 'supervisor',
+				text: 'Find Supervisor',
+				path: '/teamlead/projectmanagement/supervisor',
+				icon: 'Person',
+			},
+			
+		},
+	},
+
 	team: {
 		id: 'team',
 		text: 'Team',
@@ -144,7 +249,7 @@ export const teamLeadMenuSidebar = {
 		id: 'sprint',
 		text: 'Sprint',
 		path: '/teamlead/sprint',
-		icon: 'emoji_transportation',
+		icon: 'Calendar3',
 		subMenu: null,
 	},
 
@@ -152,17 +257,51 @@ export const teamLeadMenuSidebar = {
 		id: 'deliverable',
 		text: 'Deliverable',
 		path: '/teamlead/deliverable',
-		icon: 'file',
+		icon: 'upload',
 		subMenu: null,
 	},
 
+
+	evaluation: {
+		id: 'evaluation',
+		text: 'Evaluation',
+		path: '/teamlead/evaluation',
+		icon: 'Checklist',
+		subMenu: {
+			supervisor: {
+				id: 'supervisor',
+				text: 'Supervisor',
+				path: '/teamlead/evaluation/supervisor',
+				icon: 'Person',
+			},
+			committee: {
+				id: 'committee',
+				text: 'Committee',
+				path: '/teamlead/evaluation/committee',
+				icon: 'Group',
+			},
+		},
+	},
+
+
 	messenger: {
 		id: 'messenger',
-		text: 'Video Chat',
+		text: 'Messenger',
 		path: 'chat',
-		icon: 'sticky_note_2',
+		icon: 'ChatSquareDots',
 		subMenu: null,
 	},
+
+
+
+	profile: {
+		id: 'profile',
+		text: 'Profile',
+		path: '/teamlead/profile',
+		icon: 'gear',
+		subMenu: null,
+	},
+
 };
 
 	
@@ -207,7 +346,7 @@ export const adminMenuSideBar = {
 		id: 'announcements',
 		text: 'Announcements',
 		path: '/admin/announcements',
-		icon: 'EmojiPeople',
+		icon: 'megaphone',
 		subMenu: null,
 	},
 
@@ -348,7 +487,7 @@ export const adminMenu = {
 		id: 'announcements',
 		text: 'Announcements',
 		path: '/announcements',
-		icon: 'EmojiPeople',
+		icon: 'megaphone',
 		subMenu: null,
 	},
 
@@ -381,8 +520,8 @@ export const adminMenu = {
 		subMenu: null,
 	},
 
-	project: {
-		id: 'project',
+	assignproject: {
+		id: 'assignproject',
 		text: 'Assign Project',
 		path: '/project',
 		icon: 'Project',
