@@ -15,24 +15,7 @@ import useAuth from "../../../hooks/useAuth";
 import { replace } from "formik";
 import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
-// eslint-disable-next-line react/prop-types
-const LoginHeader = ({ isNewUser }) => {
-  // if (isNewUser) {
-  // 	return (
-  // 		<>
-  // 			<div className='text-center h1 fw-bold mt-5'>Create Account,</div>
-  // 			<div className='text-center h4 text-muted mb-5'>Sign up to get started!</div>
-  // 		</>
-  // 	);
-  // }
-  return (
-    <>
-      <div className="text-center h1 fw-bold mt-5">Welcome to</div>
-      <div className="text-center h1 fw-bold">Comsats DevOps</div>
-      <div className="text-center h4 text-muted mb-5">Sign in to continue!</div>
-    </>
-  );
-};
+
 
 const Login = (props) => {
   const { darkModeStatus } = useDarkMode();
@@ -48,7 +31,7 @@ const Login = (props) => {
   const location = useLocation();
   //const handleAdminLogin = useCallback(() => navigate('/'), [navigate]);
 
-  const [asStudent, setasStudent] = useState(false);
+  const [user, setuser] = useState("Student");
 
   const { auth, setAuth } = useAuth();
 
@@ -81,7 +64,53 @@ const Login = (props) => {
       setAuth(decoded);
       console.log("SVED AUTH", auth);
 
-    //  navigate("/sales/sales-list", { replace: true });
+      //  navigate("/sales/sales-list", { replace: true });
+    } catch (e) {
+      console.log("oh no" + e);
+      setErrorModal(true);
+    }
+
+    // setEmail("");
+    // setPassword("");
+  };
+
+  const handleTeacherLogin = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+
+      const response = await axios.post(
+        "http://localhost:3500/auth/teacher",
+        {
+          Email,
+          Password,
+        },
+        {
+          withCredentials: true, //correct
+        }
+      );
+
+      console.log("find it ", response.data);
+
+
+
+      var decoded = jwt_decode(response.data.refreshToken);
+
+      console.log("decodedNEW", decoded.Email, decoded.Role);
+
+      const userInfo = await axios.post(
+        "http://localhost:3500/teacher/getTeacher",
+        { Email: decoded.Email },
+        {
+          withCredentials: true, //correct
+        }
+      );
+
+      setAuth(userInfo.data);
+      window.location.reload()
+
     } catch (e) {
       console.log("oh no" + e);
       setErrorModal(true);
@@ -96,7 +125,7 @@ const Login = (props) => {
     e.preventDefault();
 
     try {
-      
+
       const RegNo = Email;
       const response = await axios.post(
         "http://localhost:3500/auth/student",
@@ -111,23 +140,23 @@ const Login = (props) => {
 
       console.log("find it ", response.data);
 
-    
+
 
       var decoded = jwt_decode(response.data.refreshToken);
-      
-      console.log("decodedNEW" , decoded.RegNo);
-      
-      const studentInfo = await axios.post(
+
+      console.log("decodedNEW", decoded.RegNo);
+
+      const userInfo = await axios.post(
         "http://localhost:3500/student/getStudent",
         { RegNo: decoded.RegNo },
         {
           withCredentials: true, //correct
         }
       );
-     console.log("GIVEEE",studentInfo)
-      setAuth(studentInfo.data);
+      console.log("GIVEEE", userInfo)
+      setAuth(userInfo.data);
 
-     // navigate("/sales/sales-list", { replace: true });
+      // navigate("/sales/sales-list", { replace: true });
     } catch (e) {
       console.log("oh no" + e);
       setErrorModal(true);
@@ -136,6 +165,8 @@ const Login = (props) => {
     // setEmail("");
     // setPassword("");
   };
+
+
 
   return (
     <PageWrapper title="Login" className={classNames("bg-warning")}>
@@ -156,6 +187,52 @@ const Login = (props) => {
           <div className="col-xl-4 col-lg-6 col-md-8 shadow-3d-container">
             <Card className="shadow-3d-dark" data-tour="login-page">
               <CardBody>
+
+                <div
+                  className='bg-slate-50 rounded-1'>
+                  <div className='row row-cols-3 g-3 pb-3 px-3 mt-0'>
+                    <div className='col'>
+                      <Button
+                        color={user == "Student" ? 'warning' : 'dark'}
+                        //isLight={!!isNewUser}
+                        className='rounded-1 w-100  '
+                        size='lg'
+                        onClick={() => {
+                          setuser("Student");
+                        }}>
+
+                        Student
+
+                      </Button>
+                    </div>
+                    <div className='col'>
+                      <Button
+                        color={user == "Teacher" ? 'warning' : 'dark'}
+                        //	isLight={!isNewUser}
+                        className='rounded-1 w-100'
+                        size='lg'
+                        onClick={() => {
+                          setuser("Teacher");
+
+                        }}>
+                        Teacher
+                      </Button>
+                    </div>
+                    <div className='col'>
+                      <Button
+                        color={user == "Admin" ? 'warning' : 'dark'}
+                        //	isLight={!isNewUser}
+                        className='rounded-1 w-100'
+                        size='lg'
+                        onClick={() => {
+                          setuser("Admin")
+
+                        }}>
+                        Admin
+                      </Button>
+                    </div>
+                  </div>
+                </div>
                 <div className="text-center my-5">
                   <Link
                     to="/"
@@ -181,7 +258,9 @@ const Login = (props) => {
                   })}
                 ></div>
 
-                <LoginHeader isNewUser="Dd" />
+                <div className="text-center h1 fw-bold mt-5">Welcome to</div>
+                <div className="text-center h1 fw-bold">Comsats DevOps</div>
+                <div className="text-center h4 text-muted mb-5">Sign in as to continue!</div>
 
                 <form className="row g-4">
                   <>
@@ -216,25 +295,26 @@ const Login = (props) => {
                       <Button
                         color="warning"
                         className="w-100 py-3"
-                        onClick={asStudent ? handleStudentLogin : handleAdminLogin   }
+                        onClick={user == "Student" ? handleStudentLogin : user == "Teacher" ? handleTeacherLogin : handleAdminLogin}
                       >
+
                         Login
                       </Button>
                     </div>
-                    {asStudent ? (
+                    {/* {user ? (
                       <div className="border-2 border-black w-full justify-center items-center text-center">
-                        <Button  onClick={() => setasStudent(!asStudent)} className="">Login as admin</Button>
+                        <Button  onClick={() => setuser(!user)} className="">Login as admin</Button>
                       </div>
                     ) : (
                       <div className="border-2 border-black w-full justify-center items-center text-center">
                         <Button
-                          onClick={() => setasStudent(!asStudent)}
+                          onClick={() => setuser(!user)}
                           className=""
                         >
                           Login as student
                         </Button>
                       </div>
-                    )}
+                    )} */}
                   </>
 
                   {/* BEGIN :: Social Login */}

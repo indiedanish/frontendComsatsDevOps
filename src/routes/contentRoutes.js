@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { componentsMenu, dashboardMenu, adminMenu, demoPages, layoutMenu, teamLeadMenu } from '../menu';
+import { componentsMenu, supervisorMenu, dashboardMenu, adminMenu, demoPages, layoutMenu, teamLeadMenu } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 
@@ -12,9 +12,15 @@ const ADMIN = {
 	ANNOUNCEMENTS: lazy(() => import('../App/screens/admin/Announcements')),
 	RUBRICS_SUPERVISOR: lazy(() => import('../App/screens/admin/RubricsSupervisor')),
 	RUBRICS_COMMITTEE: lazy(() => import('../App/screens/admin/RubricsCommittee')),
+	COMMITTEE: lazy(() => import('../App/screens/admin/Committee')),
 
 
+};
 
+const SUPERVISOR = {
+	
+	DASHBOARD: lazy(() => import('../App/screens/supervisor/Dashboard')),
+	
 };
 
 
@@ -1064,11 +1070,17 @@ const teamLead = [
 
 	// Charts
 
+	
+
 	{
 		path: teamLeadMenu.dashboard.path,
 		element: <TEAMLEAD.DASHBOARD />,
 		exact: true,
-	},
+	
+		
+	}
+	
+	,
 
 	{
 		path: teamLeadMenu.team.path,
@@ -1555,6 +1567,12 @@ const admin = [
 		exact: true,
 	},
 
+	{
+		path: adminMenu.committee.path,
+		element: <ADMIN.COMMITTEE />,
+		exact: true,
+	},
+
 	/**
  * Forms
  */
@@ -1613,6 +1631,22 @@ const admin = [
 
 
 
-const contents = { presentation, teamLead, documentation, admin, student };
+const supervisor = [
+
+	
+	
+
+	{
+		path: supervisorMenu.dashboard.path,
+		element: <SUPERVISOR.DASHBOARD />,
+		exact: true,
+	},
+
+	
+]
+
+
+
+const contents = {supervisor,  presentation, teamLead, documentation, admin, student };
 
 export default contents;

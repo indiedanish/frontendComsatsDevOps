@@ -1,4 +1,4 @@
-import React, { createContext, useLayoutEffect, useState, useMemo,useEffect } from 'react';
+import React, { createContext, useLayoutEffect, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useDeviceScreen from '../hooks/useDeviceScreen';
 import { Cookies } from "react-cookie";
@@ -7,7 +7,6 @@ import jwt_decode from "jwt-decode";
 const ThemeContext = createContext(null);
 
 export const ThemeContextProvider = ({ children }) => {
-	
 
 
 	const cookies = new Cookies();
@@ -15,24 +14,19 @@ export const ThemeContextProvider = ({ children }) => {
 	var decoded = null
 
 	
-try{
-	decoded = jwt_decode(token);
-}
-catch(e){
-	console.log(e);
-	
-}
+	try {
+		decoded = jwt_decode(token);
+		console.log("decoded themecinext", decoded)
+	}
+	catch (e) {
+		console.log(e);
 
-	const [auth, setAuth] = useState(decoded==null? {} : decoded);
-	
-	useLayoutEffect(() => {
-		localStorage.setItem('facit_darkModeStatus', darkModeStatus.toString());
-	}, [darkModeStatus]);
+	}
 
-
+	const [auth, setAuth] = useState(decoded == null ? {} : decoded);
 	const deviceScreen = useDeviceScreen();
 	const mobileDesign = deviceScreen?.width <= process.env.REACT_APP_MOBILE_BREAKPOINT_SIZE;
-	
+
 	const [darkModeStatus, setDarkModeStatus] = useState(
 		localStorage.getItem('facit_darkModeStatus')
 			? localStorage.getItem('facit_darkModeStatus') === 'true'
@@ -49,18 +43,18 @@ catch(e){
 	const [rightMenuStatus, setRightMenuStatus] = useState(false);
 	const [asideStatus, setAsideStatus] = useState(
 		localStorage.getItem('facit_asideStatus')
-			? localStorage.getItem('facit_asideStatus') === 'false'
+			? localStorage.getItem('facit_asideStatus') === 'true'
 			: deviceScreen?.width >= process.env.REACT_APP_ASIDE_MINIMIZE_BREAKPOINT_SIZE,
 	);
 	useLayoutEffect(() => {
-		localStorage.setItem('facit_asideStatus', 'false');
+		localStorage.setItem('facit_asideStatus', asideStatus?.toString());
 	}, [asideStatus]);
 
 	const [rightPanel, setRightPanel] = useState(false);
 
 	useLayoutEffect(() => {
 		if (deviceScreen?.width >= process.env.REACT_APP_ASIDE_MINIMIZE_BREAKPOINT_SIZE) {
-			if (localStorage.getItem('facit_asideStatus') === 'true') setAsideStatus(false);
+			if (localStorage.getItem('facit_asideStatus') === 'true') setAsideStatus(true);
 			setLeftMenuStatus(false);
 			setRightMenuStatus(false);
 		}
@@ -74,7 +68,7 @@ catch(e){
 			mobileDesign,
 			darkModeStatus,
 			setDarkModeStatus,
-			auth, 
+			auth,
 			setAuth,
 			fullScreenStatus,
 			setFullScreenStatus,

@@ -1,15 +1,19 @@
 import { Outlet } from "react-router-dom"
 import React, { useContext, useEffect, useState, useLayoutEffect, useRef } from 'react';
-import TeamLeadSidebar from "../Aside/TeamLeadSidebar";
+import AdminSidebar from "../../Aside/adminSidebar";
 const Layout = () => {
     return (
-      <>
-            <TeamLeadSidebar/>
-            <Outlet />
-      </>
+      <div className="w-full  h-screen ml-[85px] ">
+           
+            <Outlet  />
+            <AdminSidebar  />
+            
+      </div>
        
        
     )
 }
 
 export default Layout
+
+

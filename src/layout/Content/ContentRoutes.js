@@ -1,6 +1,6 @@
 import React, { lazy, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import contents from "../../routes/contentRoutes";
+
 
 const PAGE_404 = lazy(() => import("../../pages/presentation/auth/Page404"));
 
@@ -9,25 +9,26 @@ import Login from "../../pages/presentation/auth/Login";
 import RequireAuth from "./RequireAuth";
 
 import LoginAuth from "./LoginAuth";
-import AdminSidebar from "../Aside/adminSidebar";
-import AdminLayout from "./AdminLayout";
-import StudentLayout from "./TeamLeadLayout";
-import useAuth from "../../hooks/useAuth";
-import AdminRoutes from "./AdminRoutes";
 
+import useAuth from "../../hooks/useAuth";
+import AdminRoutes from "./AdminRoutes/AdminRoutes";
+import TeamLeadRoutes from "./TeamLeadRoutes/TeadLeadRoutes";
+import SupervisorRoutes from "./SupervisorRoutes/SupervisorRoutes";
 import Page404 from "../../pages/presentation/auth/Page404";
-import TeamLeadRoutes from "./TeadLeadRoutes";
+
 const ContentRoutes = () => {
   const { auth } = useAuth();
   // const auth = {Role: "Admin"}
 
   const location = useLocation();
 
+  console.log("IM AT CON ROUTES: ", auth.Role);
+
   return (
     <>
       <Routes path="/">
 
-      <Route element={<LoginAuth />}>
+        <Route element={<LoginAuth />}>
           <Route path="/" element={<Login />} />
         </Route>
 
@@ -36,12 +37,22 @@ const ContentRoutes = () => {
         </Route>
 
         <Route element={<RequireAuth role="Admin" />}>
-          <Route path="/admin/*" element={<AdminRoutes/>} />
+          <Route path="/admin/*" element={<AdminRoutes />} />
 
         </Route>
 
         <Route element={<RequireAuth role="TeamLead" />}>
-          <Route path="/teamlead/*" element={<TeamLeadRoutes/>} />
+          <Route path="/teamlead/*" element={<TeamLeadRoutes />} />
+
+        </Route>
+
+        <Route element={<RequireAuth role="Supervisor" />}>
+          <Route path="/supervisor/*" element={<SupervisorRoutes />} />
+
+        </Route>
+
+        <Route element={<RequireAuth role="Committee" />}>
+          <Route path="/committee/*" element={<TeamLeadRoutes />} />
 
         </Route>
 

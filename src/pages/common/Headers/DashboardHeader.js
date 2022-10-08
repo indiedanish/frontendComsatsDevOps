@@ -6,14 +6,16 @@ import CommonHeaderRight from './CommonHeaderRight';
 
 const DashboardHeader = () => {
 	return (
-		<Header>
-			<HeaderLeft>
+		<div className=" ml-[85px]" >
+		<Header >
+			<HeaderLeft >
 				<Search />
 			</HeaderLeft>
 			{/* FOR CHAT ICON AT HEADER */}
 			{/* <CommonHeaderRight afterChildren={<CommonHeaderChat />} />  */}
 						<CommonHeaderRight  />
 		</Header>
+		</div>
 	);
 };
 
