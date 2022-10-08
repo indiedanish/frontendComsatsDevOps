@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { componentsMenu, dashboardMenu, adminMenu, demoPages, layoutMenu } from '../menu';
+import { componentsMenu, dashboardMenu, adminMenu, demoPages, layoutMenu, teamLeadMenu } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 
@@ -18,8 +18,16 @@ const ADMIN = {
 };
 
 
+const TEAMLEAD = {
+	TEAMMEMBERS: lazy(() => import('../App/screens/teamlead/TeamMembers')),
+	DASHBOARD: lazy(() => import('../App/screens/teamlead/Dashboard')),
+	DASHBOARD_BOOKING: lazy(() => import('../App/screens/teamlead/DashboardBookingPage')),
+	SUMMARY: lazy(() => import('../pages/SummaryPage')),
+};
+
+
 const LANDING = {
-	TEAMMEMBERS: lazy(() => import('../pages/presentation/crm/CustomersList')),
+	TEAMMEMBERS: lazy(() => import('../App/screens/teamlead/TeamMembers')),
 	DASHBOARD: lazy(() => import('../pages/dashboard/DashboardPage')),
 	DASHBOARD_BOOKING: lazy(() => import('../pages/dashboard/DashboardBookingPage')),
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
@@ -1055,10 +1063,26 @@ const teamLead = [
 	// Charts
 
 	{
-		path: dashboardMenu.team.path,
-		element: <LANDING.TEAMMEMBERS />,
+		path: teamLeadMenu.dashboard.path,
+		element: <TEAMLEAD.DASHBOARD />,
 		exact: true,
 	},
+
+	{
+		path: teamLeadMenu.team.path,
+		element: <TEAMLEAD.TEAMMEMBERS />,
+		exact: true,
+	},
+
+
+
+	
+	{
+		path: dashboardMenu.dashboardBooking.path,
+		element: <TEAMLEAD.DASHBOARD_BOOKING />,
+		exact: true,
+	},
+
 
 	{
 		path: componentsMenu.charts.path,

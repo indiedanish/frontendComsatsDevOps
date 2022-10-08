@@ -43,7 +43,7 @@ export const dashboardMenu = {
 	dashboard: {
 		id: 'dashboard',
 		text: 'Dashboard',
-		path: '/dashboard',
+		path: 'dashboard',
 		icon: 'Dashboard',
 		subMenu: null,
 	},
@@ -51,7 +51,7 @@ export const dashboardMenu = {
 	team: {
 		id: 'team',
 		text: 'Team',
-		path: '/team',
+		path: 'team',
 		icon: 'PersonSearch',
 	},
 
@@ -77,6 +77,44 @@ export const teamLeadMenu = {
 
 
 
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: 'dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	team: {
+		id: 'team',
+		text: 'Team',
+		path: 'team',
+		icon: 'PersonSearch',
+	},
+
+	dashboardBooking: {
+		id: 'sprints',
+		text: 'Sprints',
+		path: 'sprints',
+		icon: 'emoji_transportation',
+		subMenu: null,
+	},
+
+	summary: {
+		id: 'summary',
+		text: 'Video Chat',
+		path: 'chat',
+		icon: 'sticky_note_2',
+		subMenu: null,
+	},
+};
+
+
+
+
+export const teamLeadMenuSidebar = {
+
+
 
 	dashboard: {
 		id: 'dashboard',
@@ -96,21 +134,24 @@ export const teamLeadMenu = {
 	dashboardBooking: {
 		id: 'sprints',
 		text: 'Sprints',
-		path: 'sprints',
+		path: '/teamlead/sprints',
 		icon: 'emoji_transportation',
 		subMenu: null,
 	},
 
-
-
-	summary: {
-		id: 'summary',
+	messenger: {
+		id: 'messenger',
 		text: 'Video Chat',
 		path: 'chat',
 		icon: 'sticky_note_2',
 		subMenu: null,
 	},
 };
+
+	
+
+
+
 
 export const adminMenuSideBar = {
 
