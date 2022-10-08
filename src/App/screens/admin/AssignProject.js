@@ -25,8 +25,7 @@ import Dropdown, {
 } from "../../../components/bootstrap/Dropdown";
 
 import useSortableData from "../../../hooks/useSortableData";
-import StudentAddModal from "./StudentAddModal";
-import StudentEditModal from "./StudentEditModal";
+
 import { getColorNameWithIndex } from "../../../common/data/enumColors";
 import useDarkMode from "../../../hooks/useDarkMode";
 import axios from "axios";
@@ -37,29 +36,20 @@ axios.defaults.withCredentials = true;
 //////////////////////
 
 import Card, {
-	CardActions,
 	CardBody,
-	CardCodeView,
-	CardFooter,
-	CardFooterLeft,
-	CardFooterRight,
-	CardHeader,
-	CardLabel,
-	CardSubTitle,
-	CardTitle,
+
 } from '../../../components/bootstrap/Card';
-import FormGroup from '../../../components/bootstrap/forms/FormGroup';
 import Input from '../../../components/bootstrap/forms/Input';
 ;
 import Button from '../../../components/bootstrap/Button';
-import CommitteeAddModal from './CommitteeAddModal'
+// import AssignProjectAddModal from './AssignProjectAddModal'
 import Swal from "sweetalert2";
 /////////////////////////////
 
 
 
 
-const Committee = () => {
+const AssignProject = () => {
 
 	const { darkModeStatus } = useDarkMode();
 
@@ -72,7 +62,7 @@ const Committee = () => {
 
 	const [groupMembers, setGroupMembers] = useState([]);
 
-	const getAllCommittee = async () => {
+	const getAllAssignProject = async () => {
 
 		const res = await axios.get("http://localhost:3500/admin/getAllCommittee",
 			{
@@ -88,7 +78,7 @@ const Committee = () => {
 
 
 	useEffect(() => {
-		getAllCommittee();
+		getAllAssignProject();
 	}, [editModalStatus]);
 
 
@@ -112,7 +102,7 @@ const Committee = () => {
 	};
 
 	useEffect(() => {
-		getAllCommittee()
+		getAllAssignProject()
 		getstudentSelf();
 	}, []);
 
@@ -130,31 +120,34 @@ const Committee = () => {
 		f.Name.toLowerCase().includes(formik.values.searchInput.toLowerCase())
 	);
 
+	
+
 	const { items, requestSort, getClassNamesFor } = useSortableData(
 		filteredData
 	);
 
+	
 	const [editModalStatus, setEditModalStatus] = useState(false);
 	const [addModalStatus, setAddModalStatus] = useState(false);
 	const [studentInfo, setStudentInfo] = useState("")
 
 	const Delete = async (Name) => {
 
-		try{
-		await axios.put(`http://localhost:3500/admin/deleteCommittee`, {Name: Name},
-			{ withCredentials: true });
+		try {
+			await axios.put(`http://localhost:3500/admin/deleteAssignProject`, { Name: Name },
+				{ withCredentials: true });
 
-			
 
-		}	catch (error) {
+
+		} catch (error) {
 			console.log(error);
 		}
 
-		getAllCommittee()
+		getAllAssignProject()
 	};
 
 	const reload = () => {
-		getAllCommittee()
+		getAllAssignProject()
 	}
 
 	return (
@@ -186,7 +179,7 @@ const Committee = () => {
 						isLight
 						onClick={() => setAddModalStatus(true)}
 					>
-						Add Committee
+						Assign Project
 					</Button>
 				</SubHeaderRight>
 			</SubHeader>
@@ -212,6 +205,8 @@ const Committee = () => {
 											<th>Teacher-1</th>
 											<th>Teacher-2</th>
 											<th>Teacher-3</th>
+											<th>Assigned project</th>
+
 
 											<td />
 										</tr>
@@ -220,88 +215,102 @@ const Committee = () => {
 										{dataPagination(items, currentPage, perPage).map(
 											(i, key) => (
 												<tr key={key}>
-													<td>
-														<div className="d-flex align-items-center">
-															<div className="flex-shrink-0">
-																<div
-																	className="ratio ratio-1x1 me-3"
-																	style={{ width: 48 }}
-																>
-																	<div
-																		className={`bg-l${darkModeStatus ? "o25" : "25"
-																			}-${getColorNameWithIndex(
-																				key
-																			)} text-${getColorNameWithIndex(
-																				key
-																			)} rounded-2 d-flex align-items-center justify-content-center`}
-																	>
-																		<span className="fw-bold">
-																			{getFirstLetter(i.Name)}
-																		</span>
+												
+
+
+																<td>
+																	<div className="d-flex align-items-center">
+																		<div className="flex-shrink-0">
+																			<div
+																				className="ratio ratio-1x1 me-3"
+																				style={{ width: 48 }}
+																			>
+																				<div
+																					className={`bg-l${darkModeStatus ? "o25" : "25"
+																						}-${getColorNameWithIndex(
+																							key
+																						)} text-${getColorNameWithIndex(
+																							key
+																						)} rounded-2 d-flex align-items-center justify-content-center`}
+																				>
+																					<span className="fw-bold">
+																						{getFirstLetter(i.Name)}
+																					</span>
+																				</div>
+																			</div>
+																		</div>
+																		<div className="flex-grow-1">
+																			<div className="fs-6 fw-bold">{i.Name}</div>
+
+																		</div>
 																	</div>
-																</div>
-															</div>
-															<div className="flex-grow-1">
-																<div className="fs-6 fw-bold">{i.Name}</div>
+																</td>
+																<td>
+																	{/* <div>{i.membershipDate.format('ll')}</div> */}
+																	<div>
 
-															</div>
-														</div>
-													</td>
-													<td>
-														{/* <div>{i.membershipDate.format('ll')}</div> */}
-														<div>
+																		{i.Teacher[0] == undefined ? "-" : i.Teacher[0].Name}
+																	</div>
+																</td>
+																<td>
+																	{/* <div>{i.membershipDate.format('ll')}</div> */}
+																	<div>
+																		{i.Teacher[1] == undefined ? "-" : i.Teacher[1].Name}
+																	</div>
+																</td>
 
-															{i.Teacher[0] == undefined ? "-" : i.Teacher[0].Name}
-														</div>
-													</td>
-													<td>
-														{/* <div>{i.membershipDate.format('ll')}</div> */}
-														<div>
-															{i.Teacher[1] == undefined ? "-" : i.Teacher[1].Name}
-														</div>
-													</td>
+																<td>
+																	{/* <div>{i.membershipDate.format('ll')}</div> */}
+																	<div>
+																		{i.Teacher[2] == undefined ? "-" : i.Teacher[2].Name}
+																	</div>
+																</td>
 
-													<td>
-														{/* <div>{i.membershipDate.format('ll')}</div> */}
-														<div>
-															{i.Teacher[2] == undefined ? "-" : i.Teacher[2].Name}
-														</div>
-													</td>
-													{/* <td>{priceFormat(i.RegNo)}</td> */}
-													<td>
+																<td>
+																	{/* <div>{i.membershipDate.format('ll')}</div> */}
+																	<div>
+																		{i.Projects[0] == undefined ? "-" : i.Projects[0].Name}
+																	</div>
+																</td>
+																<td>
 
-														<Button
-															icon="Delete"
-															color="dark"
-															isLight
-															shadow="sm"
-															onClick={() => {
 
-																Swal.fire({
-																	title: 'Are you sure?',
-																	text: "You won't be able to revert this!",
-																	icon: 'warning',
-																	showCancelButton: true,
-																	confirmButtonColor: '#3085d6',
-																	cancelButtonColor: '#d33',
-																	confirmButtonText: 'Yes, delete it!'
-																  }).then((result) => {
-																	if (result.isConfirmed) {
-																		Delete(i.Name);
-																	  Swal.fire(
-																		'Deleted!',
-																		'Your file has been deleted.',
-																		'success'
-																	  )
-																	}
-																  })
-																
-															}}
-														/>
 
-													</td>
-												</tr>
-											)
+																	<Button
+																		icon="Delete"
+																		color="dark"
+																		isLight
+																		shadow="sm"
+																		onClick={() => {
+
+																			Swal.fire({
+																				title: 'Are you sure?',
+																				text: "You won't be able to revert this!",
+																				icon: 'warning',
+																				showCancelButton: true,
+																				confirmButtonColor: '#3085d6',
+																				cancelButtonColor: '#d33',
+																				confirmButtonText: 'Yes, delete it!'
+																			}).then((result) => {
+																				if (result.isConfirmed) {
+																					Delete(i.Name);
+																					Swal.fire(
+																						'Deleted!',
+																						'Your file has been deleted.',
+																						'success'
+																					)
+																				}
+																			})
+
+																		}}
+																	/>
+
+																</td>
+															</tr>
+
+														)
+													
+											
 										)}
 									</tbody>
 								</table>
@@ -320,12 +329,12 @@ const Committee = () => {
 			</Page>
 
 
-			<CommitteeAddModal
+			{/* <AssignProjectAddModal
 				setIsOpen={setAddModalStatus}
 				isOpen={addModalStatus}
 				id={0}
 				reload={reload}
-			/>
+			/> */}
 
 
 
@@ -333,7 +342,7 @@ const Committee = () => {
 	);
 };
 
-export default Committee;
+export default AssignProject;
 
 
 

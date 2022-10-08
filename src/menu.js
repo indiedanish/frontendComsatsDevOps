@@ -346,7 +346,7 @@ export const adminMenuSideBar = {
 		id: 'announcements',
 		text: 'Announcements',
 		path: '/admin/announcements',
-		icon: 'EmojiPeople',
+		icon: 'megaphone',
 		subMenu: null,
 	},
 
@@ -487,7 +487,7 @@ export const adminMenu = {
 		id: 'announcements',
 		text: 'Announcements',
 		path: '/announcements',
-		icon: 'EmojiPeople',
+		icon: 'megaphone',
 		subMenu: null,
 	},
 
@@ -520,8 +520,8 @@ export const adminMenu = {
 		subMenu: null,
 	},
 
-	project: {
-		id: 'project',
+	assignproject: {
+		id: 'assignproject',
 		text: 'Assign Project',
 		path: '/project',
 		icon: 'Project',

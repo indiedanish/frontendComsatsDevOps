@@ -74,7 +74,7 @@ const RubricsCommittee = () => {
 
     setQuestions(res.data[0].Questions);
     console.log("ALL RUBRICS", res.data);
-    
+
   };
 
   useEffect(() => {
@@ -119,28 +119,28 @@ const RubricsCommittee = () => {
   };
 
   const addQuestionCall = async (Question, TotalMark) => {
-   
 
 
-    await axios.put(`http://localhost:3500/admin/committeeAddQuestion`, 
-    { Question_Object: { Criteria: Question, TotalMark: TotalMark }, Name: Name },
-    {
-      withCredentials: true,
-    });
+
+    await axios.put(`http://localhost:3500/admin/committeeAddQuestion`,
+      { Question_Object: { Criteria: Question, TotalMark: TotalMark }, Name: Name },
+      {
+        withCredentials: true,
+      });
 
     getAllRubrics();
   };
 
   const deleteQuestionCall = async (_id) => {
     console.log(_id)
-   
 
 
-    await axios.put(`http://localhost:3500/admin/committeeDeleteQuestion`, 
-    { Question_id: _id, Name: Name },
-    {
-      withCredentials: true,
-    });
+
+    await axios.put(`http://localhost:3500/admin/committeeDeleteQuestion`,
+      { Question_id: _id, Name: Name },
+      {
+        withCredentials: true,
+      });
 
     getAllRubrics();
   };
@@ -148,21 +148,55 @@ const RubricsCommittee = () => {
 
 
 
+  const [marksError, setMarksError] = useState(false);
+
+  function isNumeric(val) {
+    return /^-?\d+$/.test(val);
+  }
+
 
   const showQuestionModal = async () => {
+
+
+
+
     const { value: formValues } = await Swal.fire({
       title: "Question/Marks",
       html:
         '<input id="swal-input1" placeholder="Enter Question" class="swal2-input">' +
-        '<input id="swal-input2" placeholder="Enter Total Marks"  class="swal2-input">',
+        `<input id="swal-input2" placeholder="Enter Total Marks"  class="swal2-input"> `,
+
       focusConfirm: false,
       preConfirm: () => {
-        return [
-          addQuestionCall(
-            document.getElementById("swal-input1").value,
-            document.getElementById("swal-input2").value
-          ),
-        ];
+
+        //
+
+        if (document.getElementById("swal-input2").value < 0 ||
+          document.getElementById("swal-input2").value > 10 ||
+          !isNumeric(document.getElementById("swal-input2").value)) {
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please enter marks - Max Marks: 10',
+           
+          })
+          return false;
+
+
+        }
+
+        else
+          return [
+
+
+
+
+            addQuestionCall(
+              document.getElementById("swal-input1").value,
+              document.getElementById("swal-input2").value
+            ),
+          ];
       },
     });
 
@@ -186,6 +220,8 @@ const RubricsCommittee = () => {
             placeholder="Search Questions..."
             onChange={formik.handleChange}
             value={formik.values.searchInput}
+
+            
           />
         </SubHeaderLeft>
         <SubHeaderRight>
@@ -228,7 +264,7 @@ const RubricsCommittee = () => {
             Final
           </Button>
 
-        
+
 
           <SubheaderSeparator />
 
@@ -254,7 +290,10 @@ const RubricsCommittee = () => {
                         onClick={() => requestSort("Name")}
                         className="cursor-pointer text-decoration-underline"
                       >
-                        {Name} Evaluation's Criteria{" "}
+                        <span className="text-[#6A5CD0]">
+                          {Name} Evaluation's Criteria
+                        </span>
+
                         <Icon
                           size="lg"
                           className={getClassNamesFor("Name")}
@@ -315,43 +354,24 @@ const RubricsCommittee = () => {
 
                         {/* <td>{priceFormat(i.Name)}</td> */}
                         <td>
-                          <Dropdown>
-                            <DropdownToggle hasIcon={false}>
+                       
+                           
                               <Button
-                                icon="MoreHoriz"
+                                icon="Delete"
                                 color="dark"
                                 isLight
                                 shadow="sm"
-                              />
-                            </DropdownToggle>
-                            <DropdownMenu isAlignmentEnd>
-                              <DropdownItem>
-                                <Button
-                                  icon="Delete"
-                                  tag="a"
-                                  onClick={() => {
-                                    deleteQuestionCall(i._id);
-                                    setRefresh(!refresh);
-                                  }}
-                                >
-                                  Delete
-                                </Button>
-                              </DropdownItem>
 
-                              <DropdownItem>
-                                <Button
-                                  icon="Edit"
-                                  tag="a"
-                                  onClick={() => {
-                                    setStudentInfo(i);
-                                    setEditModalStatus(true);
-                                  }}
-                                >
-                                  Edit
-                                </Button>
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
+                                onClick={() => {
+                                  deleteQuestionCall(i._id);
+                                  setRefresh(!refresh);
+                                }}
+                              />
+                        
+                       
+                         
+
+                          
                         </td>
                       </tr>
                     ))}
