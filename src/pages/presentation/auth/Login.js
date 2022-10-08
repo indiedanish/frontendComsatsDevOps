@@ -166,7 +166,9 @@ const Login = (props) => {
     // setPassword("");
   };
 
-
+  function isEmail(val) {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val);
+  }
 
   return (
     <PageWrapper title="Login" className={classNames("bg-warning")}>
@@ -295,7 +297,15 @@ const Login = (props) => {
                       <Button
                         color="warning"
                         className="w-100 py-3"
-                        onClick={user == "Student" ? handleStudentLogin : user == "Teacher" ? handleTeacherLogin : handleAdminLogin}
+                        onClick={
+             
+                            user == "Student" ? handleStudentLogin : user == "Teacher" ? handleTeacherLogin : handleAdminLogin
+                       
+
+                         
+                          
+                        
+                        }
                       >
 
                         Login

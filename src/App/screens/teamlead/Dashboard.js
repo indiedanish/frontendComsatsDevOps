@@ -49,6 +49,8 @@ import Timeline, { TimelineItem } from "../../../components/extras/Timeline";
 import CommonTodo from "../../../pages/common/CommonTodo";
 import axios from "axios";
 import { getColorNameWithIndex } from "../../../common/data/enumColors";
+
+
 import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
 axios.defaults.withCredentials = true;
@@ -147,11 +149,11 @@ const DashboardPage = () => {
         </SubHeaderLeft>
         <SubHeaderRight>
           <CommonAvatarTeam>
-            <strong>Team</strong> Members
+            <strong>Team</strong> {studentSelf.Role == null ? "" : studentSelf.Role.substring(4)}
           </CommonAvatarTeam>
         </SubHeaderRight>
       </SubHeader>
-      <Page container="fluid">
+      <Page container="fluid ">
         <div
           style={{
             overflowX: "scroll",
@@ -293,8 +295,8 @@ const DashboardPage = () => {
           <div className="col-xxl-4">
             <CommonTodo />
           </div>
+          
 
-        
         </div>
       </Page>
     </PageWrapper>

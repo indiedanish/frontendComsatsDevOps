@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useFormik } from "formik";
 import PageWrapper from "../../../layout/PageWrapper/PageWrapper";
 import SubHeader, {
@@ -23,24 +23,109 @@ import Dropdown, {
   DropdownMenu,
   DropdownToggle,
 } from "../../../components/bootstrap/Dropdown";
-
+import Card, { CardBody } from "../../../components/bootstrap/Card";
+import Input from "../../../components/bootstrap/forms/Input";
+import Button from "../../../components/bootstrap/Button";
 import useSortableData from "../../../hooks/useSortableData";
 // import DeliverableAddModal from "./DeliverableAddModal";
 // import DeliverableEditModal from "./DeliverableEditModal";
 import { getColorNameWithIndex } from "../../../common/data/enumColors";
 import useDarkMode from "../../../hooks/useDarkMode";
+
+
 import axios from "axios";
 axios.defaults.withCredentials = true;
+import useAuth from "../../../hooks/useAuth";
 
-//////////////////////
+import { Cookies } from "react-cookie";
+import jwt_decode from "jwt-decode";
 
-import Card, { CardBody } from "../../../components/bootstrap/Card";
-import Input from "../../../components/bootstrap/forms/Input";
-import Button from "../../../components/bootstrap/Button";
 
-/////////////////////////////
 
 const Deliverable = () => {
+
+
+  const [getProjectDeliverables, setgetProjectDeliverables] = useState([]);
+  const [deliverablesStatuses, setDeliverablesStatuses] = useState([false, false, false, false]);
+
+  const getstudentSelf = async () => {
+    const cookies = new Cookies();
+    const token = cookies.get("jwt");
+
+    var decoded = jwt_decode(token);
+
+    const response = await axios.post(
+      "http://localhost:3500/student/getStudent",
+      { RegNo: decoded.RegNo },
+      {
+        withCredentials: true, //correct
+      }
+    );
+    console.log("response data: ", response.data);
+    const temp = response.data;
+
+
+
+    getprojectdeliverables(response)
+
+
+  };
+
+  const setStatuses = async (deliverables) => {
+
+    console.log("deliverables: ", deliverables.data);
+
+    const temp = deliverables.data.map((i) => { return i.Status.toString() })
+    //deliverablesStatuses
+    setDeliverablesStatuses(temp)
+
+
+
+
+
+
+
+
+
+  };
+
+
+  const getprojectdeliverables = async (res) => {
+
+    console.log("STUDENT himself: ", res);
+    try {
+      const response = await axios.put(
+        "http://localhost:3500/student/getAllDeliverable",
+        { ProjectName: res.data.Project.Name },
+        {
+          withCredentials: true, //correct
+        }
+      );
+
+      setStatuses(response)
+
+      console.log("IM PROJECT DELIVERAABLE", response.data)
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
+  useEffect(() => {
+
+    getstudentSelf();
+
+    getAllDeliverable();
+
+  }, []);
+
+
+
+
+
+
+
+
   const { darkModeStatus } = useDarkMode();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,16 +145,14 @@ const Deliverable = () => {
     console.log("WE ARE Templates", res.data);
   };
 
-  useEffect(() => {
-    getAllDeliverable();
-  }, []);
+
 
   const formik = useFormik({
     initialValues: {
       searchInput: "",
     },
     // eslint-disable-next-line no-unused-vars
-    onSubmit: (values) => {},
+    onSubmit: (values) => { },
   });
 
   const [refresh, setRefresh] = useState(false);
@@ -107,16 +190,9 @@ const Deliverable = () => {
           />
         </SubHeaderLeft>
         <SubHeaderRight>
-          <SubheaderSeparator />
+          {/* <SubheaderSeparator /> */}
 
-          <Button
-            icon="PersonAdd"
-            color="primary"
-            isLight
-            onClick={() => setAddModalStatus(true)}
-          >
-            Add Deliverable
-          </Button>
+
         </SubHeaderRight>
       </SubHeader>
       <Page>
@@ -149,17 +225,7 @@ const Deliverable = () => {
                           icon="FilterList"
                         />
                       </th>
-                      <th
-                        onClick={() => requestSort("DateModified")}
-                        className="cursor-pointer text-decoration-underline"
-                      >
-                        Status
-                        <Icon
-                          size="lg"
-                          className={getClassNamesFor("Status")}
-                          icon="FilterList"
-                        />
-                      </th>
+
                       <th
                         onClick={() => requestSort("Deadline")}
                         className="cursor-pointer text-decoration-underline"
@@ -168,6 +234,30 @@ const Deliverable = () => {
                         <Icon
                           size="lg"
                           className={getClassNamesFor("Deadline")}
+                          icon="FilterList"
+                        />
+                      </th>
+
+                      <th
+                        onClick={() => requestSort("DateModified")}
+                        className="cursor-pointer text-decoration-underline"
+                      >
+                        Date Modified
+                        <Icon
+                          size="lg"
+                          className={getClassNamesFor("Status")}
+                          icon="FilterList"
+                        />
+                      </th>
+
+                      <th
+                        onClick={() => requestSort("DateModified")}
+                        className="cursor-pointer text-decoration-underline"
+                      >
+                        Status
+                        <Icon
+                          size="lg"
+                          className={getClassNamesFor("Status")}
                           icon="FilterList"
                         />
                       </th>
@@ -187,13 +277,12 @@ const Deliverable = () => {
                                   style={{ width: 48 }}
                                 >
                                   <div
-                                    className={`bg-l${
-                                      darkModeStatus ? "o25" : "25"
-                                    }-${getColorNameWithIndex(
-                                      key
-                                    )} text-${getColorNameWithIndex(
-                                      key
-                                    )} rounded-2 d-flex align-items-center justify-content-center`}
+                                    className={`bg-l${darkModeStatus ? "o25" : "25"
+                                      }-${getColorNameWithIndex(
+                                        key
+                                      )} text-${getColorNameWithIndex(
+                                        key
+                                      )} rounded-2 d-flex align-items-center justify-content-center`}
                                   >
                                     <span className="fw-bold">
                                       {getFirstLetter(i.Title)}
@@ -209,11 +298,39 @@ const Deliverable = () => {
 
                           <td>{i.Description}</td>
 
+                          <td>{new Date(i.Deadline).toLocaleString(
+                            "en-US",
+
+                            { year: "numeric", month: "numeric", day: "numeric" }
+                            // {
+                            //  day: '2-digit',
+                            // 	 month: '2-digit',
+                            // 	// year: 'numeric',
+                            // 	// hour: '2-digit',
+                            // 	// minute: '2-digit',
+                            // 	// // second: '2-digit',
+                            // 	// hour12: true,
+                            // }
+                          )}
+                          </td>
                           <td>
-                            <div>{i.DateModified}</div>
+                            <div>{new Date(i.DateModified).toLocaleString(
+                              "en-US",
+
+                              { year: "numeric", month: "numeric", day: "numeric" }
+                              // {
+                              //  day: '2-digit',
+                              // 	 month: '2-digit',
+                              // 	// year: 'numeric',
+                              // 	// hour: '2-digit',
+                              // 	// minute: '2-digit',
+                              // 	// // second: '2-digit',
+                              // 	// hour12: true,
+                              // }
+                            )}</div>
                           </td>
 
-                          <td>{i.Deadline}</td>
+                          <td>{deliverablesStatuses[key] == undefined || deliverablesStatuses[key] == "false" ? "Not Submitted" : "Submitted"}</td>
 
                           <td>
                             <Dropdown>
@@ -226,18 +343,7 @@ const Deliverable = () => {
                                 />
                               </DropdownToggle>
                               <DropdownMenu isAlignmentEnd>
-                                <DropdownItem>
-                                  <Button
-                                    icon="Delete"
-                                    tag="a"
-                                    onClick={() => {
-                                      Delete(i.Title);
-                                      setRefresh(!refresh);
-                                    }}
-                                  >
-                                    Delete
-                                  </Button>
-                                </DropdownItem>
+
 
                                 <DropdownItem>
                                   <Button
@@ -246,7 +352,7 @@ const Deliverable = () => {
                                     type="File"
                                     download="Deliverable.pdf"
                                     href={i.File}
-                                   
+
                                   >
                                     Download
                                   </Button>
@@ -254,14 +360,14 @@ const Deliverable = () => {
 
                                 <DropdownItem>
                                   <Button
-                                    icon="Edit"
+                                    icon="Send"
                                     tag="a"
                                     onClick={() => {
                                       setDeliverableInfo(i);
                                       setEditModalStatus(true);
                                     }}
                                   >
-                                    Edit
+                                    Submit
                                   </Button>
                                 </DropdownItem>
                               </DropdownMenu>
