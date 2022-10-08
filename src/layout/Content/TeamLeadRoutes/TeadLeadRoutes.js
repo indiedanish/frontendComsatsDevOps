@@ -1,13 +1,13 @@
 import React from 'react'
-import AdminAuth from "./RequireAuth";
-import StudentLayout from "./TeamLeadLayout";
+
+import TeamLeadLayout from "./TeamLeadLayout";
 import { Route, Routes } from "react-router-dom";
-import contents from "../../routes/contentRoutes";
+import contents from "../../../routes/contentRoutes";
 const TeadLeadRoutes = () => {
   return (
     <Routes>
-      <Route element={<StudentLayout />}>
-            {contents.presentation.map((page) => (
+      <Route element={<TeamLeadLayout />}>
+            {contents.teamLead.map((page) => (
               <Route key={page.path} {...page} />
               ))}
           

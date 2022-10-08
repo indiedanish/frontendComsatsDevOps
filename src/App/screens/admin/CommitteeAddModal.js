@@ -30,7 +30,7 @@ import Swal from "sweetalert2";
 import SweetAlert from "react-bootstrap-sweetalert";
 
 
-const CommitteeAddModal = ({ id, isOpen, setIsOpen }) => {
+const CommitteeAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 	// const itemData = id ? data.filter((item) => item.id.toString() === id.toString()) : {};
 	// const item = id ? itemData[0] : {};
 
@@ -58,20 +58,22 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen }) => {
 		return errors;
 	};
 
+
 	const addToDatabase = async (val) => {
-		console.log('AAGAYAHUM', val);
+		console.log('AAGAYAHUM', val.selectedTeachers);
 
 		const Name = val.title;
-		const Teachers = val.selectedTeachers;
+		const Teacher = val.selectedTeachers;
 
 
 		try {
 
-			await axios.post('http://localhost:4000/team/add', {
+			await axios.post('http://localhost:3500/admin/committee', {
 				Name,
-				Teachers
+				Teacher
 
 			});
+			reload()
 			Swal.fire('Assigned!', '', 'success')
 			setIsOpen(false);
 			showNotification(
@@ -79,7 +81,7 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen }) => {
 					<Icon icon='Info' size='lg' className='me-1' />
 					<span>Committee Created Successfully</span>
 				</span>,
-				'Team Member has been assigned the task successfully',
+				'Committee has been created successfully',
 			);
 
 		}
@@ -103,7 +105,7 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen }) => {
 					withCredentials: true,
 				});
 
-			setallTeachers(response.data.filter((t)=>t.isCommittee==false));
+			setallTeachers(response.data.filter((t) => t.isCommittee == false));
 
 
 			setselectedTeachers([])

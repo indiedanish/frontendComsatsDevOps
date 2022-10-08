@@ -51,7 +51,7 @@ import Input from '../../../components/bootstrap/forms/Input';
 ;
 import Button from '../../../components/bootstrap/Button';
 import CommitteeAddModal from './CommitteeAddModal'
-
+import Swal from "sweetalert2";
 /////////////////////////////
 
 
@@ -82,6 +82,8 @@ const Committee = () => {
 
 
 	}
+
+
 
 	useEffect(() => {
 		getAllCommittee();
@@ -134,9 +136,18 @@ const Committee = () => {
 	const [addModalStatus, setAddModalStatus] = useState(false);
 	const [studentInfo, setStudentInfo] = useState("")
 
-	const Delete = async (RegNo) => {
-		await axios.delete(`http://localhost:3500/admin/student/${RegNo}`,
+	const Delete = async (Name) => {
+
+		try{
+		await axios.put(`http://localhost:3500/admin/deleteCommittee`, {Name: Name},
 			{ withCredentials: true });
+
+			
+
+		}	catch (error) {
+			console.log(error);
+		}
+
 		getAllCommittee()
 	};
 
@@ -262,6 +273,28 @@ const Committee = () => {
 															color="dark"
 															isLight
 															shadow="sm"
+															onClick={() => {
+
+																Swal.fire({
+																	title: 'Are you sure?',
+																	text: "You won't be able to revert this!",
+																	icon: 'warning',
+																	showCancelButton: true,
+																	confirmButtonColor: '#3085d6',
+																	cancelButtonColor: '#d33',
+																	confirmButtonText: 'Yes, delete it!'
+																  }).then((result) => {
+																	if (result.isConfirmed) {
+																		Delete(i.Name);
+																	  Swal.fire(
+																		'Deleted!',
+																		'Your file has been deleted.',
+																		'success'
+																	  )
+																	}
+																  })
+																
+															}}
 														/>
 
 													</td>
@@ -289,6 +322,7 @@ const Committee = () => {
 				setIsOpen={setAddModalStatus}
 				isOpen={addModalStatus}
 				id={0}
+				reload={reload}
 			/>
 
 

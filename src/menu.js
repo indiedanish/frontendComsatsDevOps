@@ -853,6 +853,41 @@ export const layoutMenu = {
 	},
 };
 
+export const supervisorMenu = {
+
+	
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+	
+
+
+}
+
+
+export const supervisorMenuSidebar = {
+
+	
+
+
+		dashboard: {
+			id: 'dashboard',
+			text: 'Dashboard',
+			path: '/supervisor/dashboard',
+			icon: 'Dashboard',
+			subMenu: null,
+		},
+		
+
+
+}
+
 export const componentsMenu = {
 	bootstrap: {
 		id: 'bootstrap',
