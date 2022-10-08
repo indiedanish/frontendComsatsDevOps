@@ -157,7 +157,7 @@ const TeamMembers = () => {
             isLight
             onClick={() => setEditModalStatus(true)}
           >
-            Assign Team
+            Add Member
           </Button>
         </SubHeaderRight>
       </SubHeader>
