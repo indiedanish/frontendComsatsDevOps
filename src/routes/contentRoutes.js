@@ -21,7 +21,9 @@ const ADMIN = {
 const TEAMLEAD = {
 	TEAMMEMBERS: lazy(() => import('../App/screens/teamlead/TeamMembers')),
 	DASHBOARD: lazy(() => import('../App/screens/teamlead/Dashboard')),
-	DASHBOARD_BOOKING: lazy(() => import('../App/screens/teamlead/DashboardBookingPage')),
+	SPRINT: lazy(() => import('../App/screens/teamlead/Sprint')),
+	DELIVERABLE: lazy(() => import('../App/screens/teamlead/Deliverable')),
+
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 };
 
@@ -1072,8 +1074,24 @@ const teamLead = [
 		path: teamLeadMenu.team.path,
 		element: <TEAMLEAD.TEAMMEMBERS />,
 		exact: true,
+
+		
 	},
 
+	
+	{
+		path: teamLeadMenu.sprint.path,
+		element: <TEAMLEAD.SPRINT />,
+		exact: true,
+
+	},
+
+	{
+		path: teamLeadMenu.deliverable.path,
+		element: <TEAMLEAD.DELIVERABLE />,
+		exact: true,
+
+	},
 
 
 	

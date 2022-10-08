@@ -131,9 +131,8 @@ const MyWeekEvent = (data) => {
 	);
 };
 
-const DashboardBookingPage = () => {
+const Sprint = () => {
 	const { darkModeStatus, themeStatus } = useDarkMode();
-	useMinimizeAside();
 
 	const [toggleRightPanel, setToggleRightPanel] = useState(true);
 
@@ -635,4 +634,4 @@ const DashboardBookingPage = () => {
 	);
 };
 
-export default DashboardBookingPage;
+export default Sprint;

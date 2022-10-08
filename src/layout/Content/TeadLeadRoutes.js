@@ -7,7 +7,7 @@ const TeadLeadRoutes = () => {
   return (
     <Routes>
       <Route element={<StudentLayout />}>
-            {contents.presentation.map((page) => (
+            {contents.teamLead.map((page) => (
               <Route key={page.path} {...page} />
               ))}
           
