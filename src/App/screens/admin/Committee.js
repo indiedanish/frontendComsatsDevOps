@@ -77,7 +77,7 @@ const Committee = () => {
 				withCredentials: true,
 			});
 		setAllStudents(res.data)
-		console.log("WE ARE STUDENTS", res.data)
+		console.log("WE ARE COMMIITTEES", res.data)
 
 
 
