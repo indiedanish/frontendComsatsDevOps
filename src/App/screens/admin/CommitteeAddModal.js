@@ -39,9 +39,24 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen }) => {
 	var [selectedTeachers, setselectedTeachers] = useState([]);
 	var [teachersTempArray, setteachersTempArray] = useState([]);
 	var [flipState, setflipState] = useState(false);
+
+
 	const [countClick, setcountClick] = useState(0);
 	const [hideAlert, sethideAlert] = useState(true)
 	const [errorMessage, seterrorMessage] = useState({})
+
+	const validate = (values) => {
+		const errors = {};
+		if (!values.title) {
+			errors.title = 'Required';
+		} else if (values.title.length > 15) {
+			errors.title = 'Must be 15 characters or less';
+		}
+
+
+
+		return errors;
+	};
 
 	const addToDatabase = async (val) => {
 		console.log('AAGAYAHUM', val);
@@ -88,7 +103,7 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen }) => {
 					withCredentials: true,
 				});
 
-			setallTeachers(response.data);
+			setallTeachers(response.data.filter((t)=>t.isCommittee==false));
 
 
 			setselectedTeachers([])
@@ -109,10 +124,10 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen }) => {
 			teachers: '',
 
 		},
-		// eslint-disable-next-line no-unused-vars
 
-		validateOnChange: false,
-		validateOnBlur: false,
+		validate,
+
+
 		onSubmit: (values) => {
 			console.log("VALUES on Submit: ", values);
 			if (values.title == "") { sethideAlert(false); seterrorMessage({ title: "Committee name empty", message: "You have'nt entered committee name" }) }
@@ -141,7 +156,15 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen }) => {
 				<ModalBody className='px-4'>
 					<div className='row g-4'>
 						<FormGroup id='title' label='Committee Name' className='col-md-6'>
-							<Input required onChange={formik.handleChange} value={formik.values.title} />
+							<Input required onChange={formik.handleChange}
+								value={formik.values.title}
+
+								isValid={formik.isValid}
+								isTouched={formik.touched.title}
+								invalidFeedback={formik.errors.title}
+								validFeedback='Looks good!'
+								onBlur={formik.handleBlur}
+							/>
 						</FormGroup>
 
 

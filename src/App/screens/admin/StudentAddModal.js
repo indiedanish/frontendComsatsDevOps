@@ -213,8 +213,7 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
     },
     // eslint-disable-next-line no-unused-vars
     validate,
-    // validateOnChange: false,
-    // validateOnBlur: false,
+
     onSubmit: (values) => {
       console.log("VALUES: ", values);
       addToDatabase(values);
