@@ -60,7 +60,7 @@ catch(e){
 
 	useLayoutEffect(() => {
 		if (deviceScreen?.width >= process.env.REACT_APP_ASIDE_MINIMIZE_BREAKPOINT_SIZE) {
-			if (localStorage.getItem('facit_asideStatus') === 'false') setAsideStatus(true);
+			if (localStorage.getItem('facit_asideStatus') === 'false') setAsideStatus(false);
 			setLeftMenuStatus(false);
 			setRightMenuStatus(false);
 		}

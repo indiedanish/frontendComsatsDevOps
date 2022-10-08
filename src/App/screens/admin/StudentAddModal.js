@@ -56,6 +56,19 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val);
   }
 
+  function isPhoneNumber(val) {
+    return /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/gm.test(val);
+  }
+
+  function isPassword(val) {
+    return /^.{4,15}$/.test(val);
+  }
+  
+  function isRegNo(val) {
+    return   /[A-Za-z0-9]+-[a-zA-Z]+([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?/i.test(val);
+  }
+
+ 
 
   const validate = (values) => {
     const errors = {};
@@ -67,6 +80,21 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 
     if (!isEmail(values.email)) {
       errors.email = 'Email not valid';
+
+    }
+
+    if (!isRegNo(values.regno)) {
+      errors.regno = 'RegNo not valid';
+
+    }
+
+    if (!isPhoneNumber(values.phonenumber)) {
+      errors.phonenumber = 'Phone Number not valid';
+
+    }
+
+    if (!isPassword(values.password)) {
+      errors.password = 'Password not valid. Must have 4-15 characters';
 
     }
 
@@ -251,6 +279,12 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 autoComplete="additional-name"
                 onChange={formik.handleChange}
                 value={formik.values.password}
+
+                isValid={formik.isValid}
+                isTouched={formik.touched.password}
+                invalidFeedback={formik.errors.password}
+                validFeedback='Looks good!'
+                onBlur={formik.handleBlur}
               />
             </FormGroup>
             <FormGroup
@@ -317,6 +351,12 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 autoComplete="tel"
                 onChange={formik.handleChange}
                 value={formik.values.phonenumber}
+
+                isValid={formik.isValid}
+                isTouched={formik.touched.phonenumber}
+                invalidFeedback={formik.errors.phonenumber}
+                validFeedback='Valid Format!'
+                onBlur={formik.handleBlur}
               />
             </FormGroup>
 
