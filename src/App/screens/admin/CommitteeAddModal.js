@@ -52,9 +52,6 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 		} else if (values.title.length > 15) {
 			errors.title = 'Must be 15 characters or less';
 		}
-
-
-
 		return errors;
 	};
 
@@ -73,8 +70,14 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 				Teacher
 
 			});
+
+
 			reload()
+
+			
 			Swal.fire('Assigned!', '', 'success')
+
+
 			setIsOpen(false);
 			showNotification(
 				<span className='d-flex align-items-center'>
@@ -88,7 +91,7 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 		catch (err) {
 			console.log(err)
 			sethideAlert(false)
-			seterrorMessage({ title: err.message, message: "Please try again laterr= after some time" })
+			seterrorMessage({ title: err.message, message: "Please try again later after some time" })
 		}
 
 
@@ -132,9 +135,8 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 
 		onSubmit: (values) => {
 			console.log("VALUES on Submit: ", values);
-			if (values.title == "") { sethideAlert(false); seterrorMessage({ title: "Committee name empty", message: "You have'nt entered committee name" }) }
-
-			else if (countClick <= 0) { sethideAlert(false); seterrorMessage({ title: "Teachers not selected", message: "You have'nt selected any teacher" }) }
+			
+			 if (countClick <= 0) { sethideAlert(false); seterrorMessage({ title: "Teachers not selected", message: "You have'nt selected any teacher" }) }
 
 			else {
 
@@ -260,15 +262,7 @@ const CommitteeAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 								</SweetAlert> : ""
 							}
 
-							{
-								hideAlert == false ? <SweetAlert
-									error
-									title={errorMessage.title}
-									onConfirm={() => sethideAlert(true)}
-								>
-									{errorMessage.message}
-								</SweetAlert> : ""
-							}
+						
 
 
 						</FormGroup>

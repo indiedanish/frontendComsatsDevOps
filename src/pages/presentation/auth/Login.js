@@ -195,7 +195,7 @@ const Login = (props) => {
                   <div className='row row-cols-3 g-3 pb-3 px-3 mt-0'>
                     <div className='col'>
                       <Button
-                        color={user == "Student" ? 'warning' : 'dark'}
+                        color={user == "Student" ? 'dark' : 'warning'}
                         //isLight={!!isNewUser}
                         className='rounded-1 w-100  '
                         size='lg'
@@ -209,7 +209,7 @@ const Login = (props) => {
                     </div>
                     <div className='col'>
                       <Button
-                        color={user == "Teacher" ? 'warning' : 'dark'}
+                        color={user == "Teacher" ? 'dark' : 'warning'}
                         //	isLight={!isNewUser}
                         className='rounded-1 w-100'
                         size='lg'
@@ -222,7 +222,7 @@ const Login = (props) => {
                     </div>
                     <div className='col'>
                       <Button
-                        color={user == "Admin" ? 'warning' : 'dark'}
+                        color={user == "Admin" ? 'dark' : 'warning'}
                         //	isLight={!isNewUser}
                         className='rounded-1 w-100'
                         size='lg'
@@ -298,13 +298,13 @@ const Login = (props) => {
                         color="warning"
                         className="w-100 py-3"
                         onClick={
-             
-                            user == "Student" ? handleStudentLogin : user == "Teacher" ? handleTeacherLogin : handleAdminLogin
-                       
 
-                         
-                          
-                        
+                          user == "Student" ? handleStudentLogin : user == "Teacher" ? handleTeacherLogin : handleAdminLogin
+
+
+
+
+
                         }
                       >
 
