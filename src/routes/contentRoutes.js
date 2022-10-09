@@ -17,6 +17,7 @@ const ADMIN = {
 
 
 
+
 };
 
 const SUPERVISOR = {
@@ -47,6 +48,8 @@ const TEAMLEAD = {
 	DASHBOARD: lazy(() => import('../App/screens/teamlead/Dashboard')),
 	SPRINT: lazy(() => import('../App/screens/teamlead/Sprint')),
 	DELIVERABLE: lazy(() => import('../App/screens/teamlead/Deliverable')),
+	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teamlead/AllProjectsList')),
+
 
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 };
@@ -1126,6 +1129,13 @@ const teamLead = [
 	{
 		path: teamLeadMenu.deliverable.path,
 		element: <TEAMLEAD.DELIVERABLE />,
+		exact: true,
+
+	},
+
+	{
+		path: teamLeadMenu.project.subMenu.joinproject.path,
+		element: <TEAMLEAD.ALL_PROJECTS_LIST />,
 		exact: true,
 
 	},
