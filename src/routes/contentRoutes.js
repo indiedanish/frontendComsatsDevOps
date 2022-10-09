@@ -45,6 +45,7 @@ const TEAMLEAD = {
 	DASHBOARD: lazy(() => import('../App/screens/teamlead/Dashboard')),
 	SPRINT: lazy(() => import('../App/screens/teamlead/Sprint')),
 	DELIVERABLE: lazy(() => import('../App/screens/teamlead/Deliverable')),
+	FINDSUPERVISOR: lazy(() => import('../App/screens/teamlead/FindSupervisor')),
 
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 };
@@ -1108,6 +1109,14 @@ const teamLead = [
 	{
 		path: teamLeadMenu.team.path,
 		element: <TEAMLEAD.TEAMMEMBERS />,
+		exact: true,
+
+
+	},
+
+	{
+		path: teamLeadMenu.project.subMenu.findsupervisor.path,
+		element: <TEAMLEAD.FINDSUPERVISOR />,
 		exact: true,
 
 

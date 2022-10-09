@@ -106,10 +106,10 @@ export const teamLeadMenu = {
 				icon: 'Add',
 			},
 
-			supervisor: {
-				id: 'supervisor',
+			findsupervisor: {
+				id: 'findsupervisor',
 				text: 'Find Supervisor',
-				path: 'projectmanagement/supervisor',
+				path: 'projectmanagement/findsupervisor',
 				icon: 'Person',
 			},
 			
@@ -227,10 +227,12 @@ export const teamLeadMenuSidebar = {
 				icon: 'Book',
 			},
 
-			supervisor: {
-				id: 'supervisor',
+		
+
+			findsupervisor: {
+				id: 'findsupervisor',
 				text: 'Find Supervisor',
-				path: '/teamlead/projectmanagement/supervisor',
+				path: '/teamlead/projectmanagement/findsupervisor',
 				icon: 'Person',
 			},
 			
