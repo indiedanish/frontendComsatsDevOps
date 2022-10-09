@@ -32,7 +32,6 @@ import useSortableData from "../../../hooks/useSortableData";
 import { getColorNameWithIndex } from "../../../common/data/enumColors";
 import useDarkMode from "../../../hooks/useDarkMode";
 
-
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import useAuth from "../../../hooks/useAuth";
@@ -40,13 +39,16 @@ import useAuth from "../../../hooks/useAuth";
 import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
 
-
-
 const Deliverable = () => {
+  // const [getProjectDeliverables, setgetProjectDeliverables] = useState([]);
+  const [deliverablesStatuses, setDeliverablesStatuses] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
 
-
-  const [getProjectDeliverables, setgetProjectDeliverables] = useState([]);
-  const [deliverablesStatuses, setDeliverablesStatuses] = useState([false, false, false, false]);
+  const [studentInfo, setStudentInfo] = useState([]);
 
   const getstudentSelf = async () => {
     const cookies = new Cookies();
@@ -63,35 +65,36 @@ const Deliverable = () => {
     );
     console.log("response data: ", response.data);
     const temp = response.data;
-
-
-
-    getprojectdeliverables(response)
-
-
+    setStudentInfo(response)
+    getprojectdeliverables(response);
   };
 
   const setStatuses = async (deliverables) => {
+    console.log("deliverables of projects: ",deliverablesStatuses, " DATA deliverables", deliverables.data );
 
-    console.log("deliverables: ", deliverables.data);
+  
+    const temp = deliverablesStatuses.map((i,k) => {
+  
+      console.log(k); 
+      if(deliverables.data[k]==undefined){ console.log("undefined"); return}
+      else if(deliverables.data[k].Title=="Scope")    {deliverablesStatuses[0]=true; console.log("0"); return}
+      else if(deliverables.data[k].Title=="SDS")   {deliverablesStatuses[1]=true; console.log("1");  return}
+      else if(deliverables.data[k].Title=="Testing")    {deliverablesStatuses[2]=true;console.log("2");  return}
+      else if(deliverables.data[k].Title=="Final")    {deliverablesStatuses[3]=true;console.log("3");  return}
+      else return false
+      
+    });
 
-    const temp = deliverables.data.map((i) => { return i.Status.toString() })
-    //deliverablesStatuses
-    setDeliverablesStatuses(temp)
+   var temp2 = deliverablesStatuses.map((i,k) =>  i)
+setDeliverablesStatuses(temp2)
 
-
-
-
-
-
-
-
-
+console.log("temp2: ",temp2);
+    
+return
+   
   };
 
-
   const getprojectdeliverables = async (res) => {
-
     console.log("STUDENT himself: ", res);
     try {
       const response = await axios.put(
@@ -102,29 +105,18 @@ const Deliverable = () => {
         }
       );
 
-      setStatuses(response)
+      setStatuses(response);
 
-      console.log("IM PROJECT DELIVERAABLE", response.data)
+      console.log("IM PROJECT DELIVERAABLE", response.data);
     } catch (err) {
       console.log(err);
     }
-
-  }
+  };
 
   useEffect(() => {
-
-    getstudentSelf();
-
+    getstudentSelf();;
     getAllDeliverable();
-
   }, []);
-
-
-
-
-
-
-
 
   const { darkModeStatus } = useDarkMode();
 
@@ -145,8 +137,6 @@ const Deliverable = () => {
     console.log("WE ARE Templates", res.data);
   };
 
-
-
   const formik = useFormik({
     initialValues: {
       searchInput: "",
@@ -165,9 +155,98 @@ const Deliverable = () => {
     filteredData
   );
 
-  const [editModalStatus, setEditModalStatus] = useState(false);
-  const [addModalStatus, setAddModalStatus] = useState(false);
-  const [templateInfo, setDeliverableInfo] = useState("");
+ const [files, setFiles] = useState(["","","",""])
+
+  const [getFileBase64String, setFileBase64String] = useState(["","","",""])
+  const encodeFileBase64 =   (file, title)  => {
+
+    console.log("YOU KNOWIM ITLE", title)
+    //push files to array 
+    if(title=="Scope") {
+      files[0]="Scope"
+    }
+    else if (title=="SDS"){
+      files[1]="SDS"
+    }
+    else if (title=="Testing"){
+      files[2]="Testing"
+    }
+    else if (title=="Final"){
+      files[3]="Final"
+    }
+
+    console.log("IM BASE 64 array: ",getFileBase64String, " IM FILE array: ",files)
+
+  
+    var reader = new FileReader();
+    console.log("\nfile", file);
+
+    reader.readAsDataURL(file);
+    
+    reader.onload =  () => {
+      var Base64 =  reader.result;
+      console.log("Base64", Base64);
+      if(title=="Scope") {
+        getFileBase64String[0]=Base64
+      }
+      else if (title=="SDS"){
+        getFileBase64String[1]=Base64
+      }
+      else if (title=="Testing"){
+        getFileBase64String[2]=Base64
+      }
+      else if (title=="Final"){
+        getFileBase64String[3]=Base64
+      }
+      
+    };
+
+
+  };
+
+ 
+  const addToDatabase = async (title) => {
+
+    console.log("ADD TO DATABASE")
+
+    var filetoBeSent= ""
+
+    if(title=="Scope") {
+      filetoBeSent=getFileBase64String[0]
+    }
+    else if (title=="SDS"){
+      filetoBeSent=getFileBase64String[1]
+    }
+    else if (title=="Testing"){
+      filetoBeSent=getFileBase64String[2]
+    }
+    else if (title=="Final"){
+      filetoBeSent=getFileBase64String[3]
+    }
+
+    try{
+    const res = await axios.post(
+      "http://localhost:3500/student/deliverable",
+      {
+        Title: title,
+        File: filetoBeSent,
+        ProjectName: studentInfo.data.Project.Name,
+        Status: true
+
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    console.log("AFTER SUBMITING: ", res)
+    }
+    catch(err){
+      console.log(err)
+    }
+
+  }
+
 
 
   return (
@@ -189,11 +268,7 @@ const Deliverable = () => {
             value={formik.values.searchInput}
           />
         </SubHeaderLeft>
-        <SubHeaderRight>
-          {/* <SubheaderSeparator /> */}
-
-
-        </SubHeaderRight>
+        <SubHeaderRight>{/* <SubheaderSeparator /> */}</SubHeaderRight>
       </SubHeader>
       <Page>
         <div className="row h-100">
@@ -225,7 +300,6 @@ const Deliverable = () => {
                           icon="FilterList"
                         />
                       </th>
-
                       <th
                         onClick={() => requestSort("Deadline")}
                         className="cursor-pointer text-decoration-underline"
@@ -237,7 +311,6 @@ const Deliverable = () => {
                           icon="FilterList"
                         />
                       </th>
-
                       <th
                         onClick={() => requestSort("DateModified")}
                         className="cursor-pointer text-decoration-underline"
@@ -249,7 +322,6 @@ const Deliverable = () => {
                           icon="FilterList"
                         />
                       </th>
-
                       <th
                         onClick={() => requestSort("DateModified")}
                         className="cursor-pointer text-decoration-underline"
@@ -261,8 +333,18 @@ const Deliverable = () => {
                           icon="FilterList"
                         />
                       </th>
-                      <th className="cursor-pointer">Actions </th>{" "}
-                      <td />
+                      <th
+                        onClick={() => requestSort("DateModified")}
+                        className="cursor-pointer text-decoration-underline"
+                      >
+                        Choose File
+                        <Icon
+                          size="lg"
+                          className={getClassNamesFor("Status")}
+                          icon="FilterList"
+                        />
+                      </th>
+                      <th className="cursor-pointer">Actions </th> <td />
                     </tr>
                   </thead>
                   <tbody>
@@ -298,26 +380,15 @@ const Deliverable = () => {
 
                           <td>{i.Description}</td>
 
-                          <td>{new Date(i.Deadline).toLocaleString(
-                            "en-US",
-
-                            { year: "numeric", month: "numeric", day: "numeric" }
-                            // {
-                            //  day: '2-digit',
-                            // 	 month: '2-digit',
-                            // 	// year: 'numeric',
-                            // 	// hour: '2-digit',
-                            // 	// minute: '2-digit',
-                            // 	// // second: '2-digit',
-                            // 	// hour12: true,
-                            // }
-                          )}
-                          </td>
                           <td>
-                            <div>{new Date(i.DateModified).toLocaleString(
+                            {new Date(i.Deadline).toLocaleString(
                               "en-US",
 
-                              { year: "numeric", month: "numeric", day: "numeric" }
+                              {
+                                year: "numeric",
+                                month: "numeric",
+                                day: "numeric",
+                              }
                               // {
                               //  day: '2-digit',
                               // 	 month: '2-digit',
@@ -327,10 +398,46 @@ const Deliverable = () => {
                               // 	// // second: '2-digit',
                               // 	// hour12: true,
                               // }
-                            )}</div>
+                            )}
+                          </td>
+                          <td>
+                            <div>
+                              {new Date(i.DateModified).toLocaleString(
+                                "en-US",
+
+                                {
+                                  year: "numeric",
+                                  month: "numeric",
+                                  day: "numeric",
+                                }
+                                // {
+                                //  day: '2-digit',
+                                // 	 month: '2-digit',
+                                // 	// year: 'numeric',
+                                // 	// hour: '2-digit',
+                                // 	// minute: '2-digit',
+                                // 	// // second: '2-digit',
+                                // 	// hour12: true,
+                                // }
+                              )}
+                            </div>
                           </td>
 
-                          <td>{deliverablesStatuses[key] == undefined || deliverablesStatuses[key] == "false" ? "Not Submitted" : "Submitted"}</td>
+                          <td>
+                            {
+                              deliverablesStatuses[key] == false? "Not Submitted" : "Submitted"
+                            }
+                          </td>
+
+                          <td>
+                          <Input
+                                    required
+                                    type="file"
+                                    onChange={(e) => {
+                                      encodeFileBase64(e.target.files[0], i.Title);
+                                    }}
+                                  />
+                          </td>
 
                           <td>
                             <Dropdown>
@@ -343,8 +450,6 @@ const Deliverable = () => {
                                 />
                               </DropdownToggle>
                               <DropdownMenu isAlignmentEnd>
-
-
                                 <DropdownItem>
                                   <Button
                                     icon="Download"
@@ -352,19 +457,18 @@ const Deliverable = () => {
                                     type="File"
                                     download="Deliverable.pdf"
                                     href={i.File}
-
                                   >
                                     Download
                                   </Button>
                                 </DropdownItem>
 
                                 <DropdownItem>
-                                  <Button
+                                <Button
                                     icon="Send"
                                     tag="a"
+                                  
                                     onClick={() => {
-                                      setDeliverableInfo(i);
-                                      setEditModalStatus(true);
+                                      addToDatabase(i.Title)
                                     }}
                                   >
                                     Submit

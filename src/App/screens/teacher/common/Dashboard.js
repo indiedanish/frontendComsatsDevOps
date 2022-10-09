@@ -5,9 +5,9 @@ const Dashboard = () => {
 
   const { auth, setAuth } = useAuth()
   return (
-    <div>
+    <h1>
       IM {auth.Role}
-    </div>
+    </h1>
   )
 }
 
