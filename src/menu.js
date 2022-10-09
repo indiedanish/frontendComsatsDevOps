@@ -1044,6 +1044,58 @@ export const supervisorMenuSidebar = {
 
 }
 
+export const committeeMenu = {
+
+	
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	evaluation: {
+		id: 'evaluation',
+		text: 'Evaluation',
+		path: '/evaluation',
+		icon: 'Article',
+		
+	},
+	
+
+
+}
+
+
+export const committeeMenuSidebar = {
+
+	
+
+
+		dashboard: {
+			id: 'dashboard',
+			text: 'Dashboard',
+			path: '/committee/dashboard',
+			icon: 'Dashboard',
+			subMenu: null,
+		},
+
+		evaluation: {
+			id: 'evaluation',
+			text: 'Evaluation',
+			path: '/committee/evaluation',
+			icon: 'Article',
+			
+		},
+
+		
+
+
+}
+
 export const componentsMenu = {
 	bootstrap: {
 		id: 'bootstrap',

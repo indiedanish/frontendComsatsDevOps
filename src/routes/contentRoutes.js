@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { componentsMenu, supervisorMenu, dashboardMenu, adminMenu, demoPages, layoutMenu, teamLeadMenu } from '../menu';
+import { componentsMenu, supervisorMenu, committeeMenu, dashboardMenu, adminMenu, demoPages, layoutMenu, teamLeadMenu } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 
@@ -21,7 +21,14 @@ const ADMIN = {
 
 const SUPERVISOR = {
 	
-	DASHBOARD: lazy(() => import('../App/screens/supervisor/Dashboard')),
+	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	
+};
+
+const COMMITTEE = {
+	
+	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	EVALUATION: lazy(() => import('../App/screens/teacher/committeeExtra/Evaluation')),
 	
 };
 
@@ -1654,8 +1661,30 @@ const supervisor = [
 	
 ]
 
+const committee = [
+
+	
+	
+
+	{
+		path: committeeMenu.dashboard.path,
+		element: <COMMITTEE.DASHBOARD />,
+		exact: true,
+	},
+
+	{
+		path: committeeMenu.evaluation.path,
+		element: <COMMITTEE.EVALUATION />,
+		exact: true,
+	},
 
 
-const contents = {supervisor,  presentation, teamLead, documentation, admin, student };
+
+	
+]
+
+
+
+const contents = {supervisor,  presentation, teamLead, documentation, committee, admin, student };
 
 export default contents;
