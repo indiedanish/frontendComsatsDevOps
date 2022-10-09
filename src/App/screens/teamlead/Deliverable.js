@@ -38,6 +38,7 @@ import useAuth from "../../../hooks/useAuth";
 
 import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
 
 const Deliverable = () => {
   // const [getProjectDeliverables, setgetProjectDeliverables] = useState([]);
@@ -47,6 +48,7 @@ const Deliverable = () => {
     false,
     false,
   ]);
+
 
   const [studentInfo, setStudentInfo] = useState([]);
 
@@ -67,31 +69,33 @@ const Deliverable = () => {
     const temp = response.data;
     setStudentInfo(response)
     getprojectdeliverables(response);
+
+
   };
 
   const setStatuses = async (deliverables) => {
-    console.log("deliverables of projects: ",deliverablesStatuses, " DATA deliverables", deliverables.data );
+    console.log("deliverables of projects: ", deliverablesStatuses, " DATA deliverables", deliverables.data);
 
-  
-    const temp = deliverablesStatuses.map((i,k) => {
-  
-      console.log(k); 
-      if(deliverables.data[k]==undefined){ console.log("undefined"); return}
-      else if(deliverables.data[k].Title=="Scope")    {deliverablesStatuses[0]=true; console.log("0"); return}
-      else if(deliverables.data[k].Title=="SDS")   {deliverablesStatuses[1]=true; console.log("1");  return}
-      else if(deliverables.data[k].Title=="Testing")    {deliverablesStatuses[2]=true;console.log("2");  return}
-      else if(deliverables.data[k].Title=="Final")    {deliverablesStatuses[3]=true;console.log("3");  return}
+
+    const temp = deliverablesStatuses.map((i, k) => {
+
+      console.log(k);
+      if (deliverables.data[k] == undefined) { console.log("undefined"); return }
+      else if (deliverables.data[k].Title == "Scope") { deliverablesStatuses[0] = true; console.log("0"); return }
+      else if (deliverables.data[k].Title == "SDS") { deliverablesStatuses[1] = true; console.log("1"); return }
+      else if (deliverables.data[k].Title == "Testing") { deliverablesStatuses[2] = true; console.log("2"); return }
+      else if (deliverables.data[k].Title == "Final") { deliverablesStatuses[3] = true; console.log("3"); return }
       else return false
-      
+
     });
 
-   var temp2 = deliverablesStatuses.map((i,k) =>  i)
-setDeliverablesStatuses(temp2)
+    var temp2 = deliverablesStatuses.map((i, k) => i)
+    setDeliverablesStatuses(temp2)
 
-console.log("temp2: ",temp2);
-    
-return
-   
+    console.log("temp2: ", temp2);
+
+    return
+
   };
 
   const getprojectdeliverables = async (res) => {
@@ -155,94 +159,97 @@ return
     filteredData
   );
 
- const [files, setFiles] = useState(["","","",""])
+  const [files, setFiles] = useState(["", "", "", ""])
 
-  const [getFileBase64String, setFileBase64String] = useState(["","","",""])
-  const encodeFileBase64 =   (file, title)  => {
+  const [getFileBase64String, setFileBase64String] = useState(["", "", "", ""])
+  const encodeFileBase64 = (file, title) => {
 
     console.log("YOU KNOWIM ITLE", title)
     //push files to array 
-    if(title=="Scope") {
-      files[0]="Scope"
+    if (title == "Scope") {
+      files[0] = "Scope"
     }
-    else if (title=="SDS"){
-      files[1]="SDS"
+    else if (title == "SDS") {
+      files[1] = "SDS"
     }
-    else if (title=="Testing"){
-      files[2]="Testing"
+    else if (title == "Testing") {
+      files[2] = "Testing"
     }
-    else if (title=="Final"){
-      files[3]="Final"
+    else if (title == "Final") {
+      files[3] = "Final"
     }
 
-    console.log("IM BASE 64 array: ",getFileBase64String, " IM FILE array: ",files)
+    console.log("IM BASE 64 array: ", getFileBase64String, " IM FILE array: ", files)
 
-  
+
     var reader = new FileReader();
     console.log("\nfile", file);
 
     reader.readAsDataURL(file);
-    
-    reader.onload =  () => {
-      var Base64 =  reader.result;
+
+    reader.onload = () => {
+      var Base64 = reader.result;
       console.log("Base64", Base64);
-      if(title=="Scope") {
-        getFileBase64String[0]=Base64
+      if (title == "Scope") {
+        getFileBase64String[0] = Base64
       }
-      else if (title=="SDS"){
-        getFileBase64String[1]=Base64
+      else if (title == "SDS") {
+        getFileBase64String[1] = Base64
       }
-      else if (title=="Testing"){
-        getFileBase64String[2]=Base64
+      else if (title == "Testing") {
+        getFileBase64String[2] = Base64
       }
-      else if (title=="Final"){
-        getFileBase64String[3]=Base64
+      else if (title == "Final") {
+        getFileBase64String[3] = Base64
       }
-      
+
     };
 
 
   };
 
- 
+
   const addToDatabase = async (title) => {
 
     console.log("ADD TO DATABASE")
 
-    var filetoBeSent= ""
+    var filetoBeSent = ""
 
-    if(title=="Scope") {
-      filetoBeSent=getFileBase64String[0]
+    if (title == "Scope") {
+      filetoBeSent = getFileBase64String[0]
     }
-    else if (title=="SDS"){
-      filetoBeSent=getFileBase64String[1]
+    else if (title == "SDS") {
+      filetoBeSent = getFileBase64String[1]
     }
-    else if (title=="Testing"){
-      filetoBeSent=getFileBase64String[2]
+    else if (title == "Testing") {
+      filetoBeSent = getFileBase64String[2]
     }
-    else if (title=="Final"){
-      filetoBeSent=getFileBase64String[3]
+    else if (title == "Final") {
+      filetoBeSent = getFileBase64String[3]
     }
 
-    try{
-    const res = await axios.post(
-      "http://localhost:3500/student/deliverable",
-      {
-        Title: title,
-        File: filetoBeSent,
-        ProjectName: studentInfo.data.Project.Name,
-        Status: true
+    try {
+      const res = await axios.post(
+        "http://localhost:3500/student/deliverable",
+        {
+          Title: title,
+          File: filetoBeSent,
+          ProjectName: studentInfo.data.Project.Name,
+          Status: true
 
-      },
-      {
-        withCredentials: true,
-      }
-    );
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
-    console.log("AFTER SUBMITING: ", res)
+      Swal.fire('Submitted!', '', 'success')
+
+      console.log("AFTER SUBMITING: ", res)
     }
-    catch(err){
+    catch (err) {
       console.log(err)
+      Swal.fire('PLease choose file', '', 'error')
     }
 
   }
@@ -424,19 +431,37 @@ return
                           </td>
 
                           <td>
+
                             {
-                              deliverablesStatuses[key] == false? "Not Submitted" : "Submitted"
+                              deliverablesStatuses[key] == false ? (
+                                <div className="flex justify-center text-center items-center">
+                                  <Icon
+                                    className='flex'
+                                    icon='Circle'
+                                    color="danger"
+                                  />
+                                  <div className="text-danger flex ml-3">Not Submitted </div>
+                                </div>) :
+
+                                (<div className="flex justify-center text-center items-center">
+                                  <Icon
+                                    className='flex'
+                                    icon='Circle'
+                                    color="success"
+                                  />
+                                  <div className="text-success flex ml-3">Submitted </div>
+                                </div>)
                             }
                           </td>
 
                           <td>
-                          <Input
-                                    required
-                                    type="file"
-                                    onChange={(e) => {
-                                      encodeFileBase64(e.target.files[0], i.Title);
-                                    }}
-                                  />
+                            <Input
+                              required
+                              type="file"
+                              onChange={(e) => {
+                                encodeFileBase64(e.target.files[0], i.Title);
+                              }}
+                            />
                           </td>
 
                           <td>
@@ -463,10 +488,10 @@ return
                                 </DropdownItem>
 
                                 <DropdownItem>
-                                <Button
+                                  <Button
                                     icon="Send"
                                     tag="a"
-                                  
+
                                     onClick={() => {
                                       addToDatabase(i.Title)
                                     }}
