@@ -32,6 +32,7 @@ import useSortableData from "../../../../hooks/useSortableData";
 // import StudentEditModal from "./StudentEditModal";
 import { getColorNameWithIndex } from "../../../../common/data/enumColors";
 import useDarkMode from "../../../../hooks/useDarkMode";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
@@ -54,6 +55,7 @@ import Input from "../../../../components/bootstrap/forms/Input";
 import Button from "../../../../components/bootstrap/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Swal from "sweetalert2";
+import useAuth from "../../../../hooks/useAuth";
 
 const EvaluateStudent = () => {
 
@@ -61,7 +63,7 @@ const EvaluateStudent = () => {
     const { projectname } = useParams();
     const { studentregno } = useParams();
     const { fypstatus } = useParams();
-
+    const { auth, setAuth } = useAuth();
 
     const { darkModeStatus } = useDarkMode();
 
@@ -71,9 +73,9 @@ const EvaluateStudent = () => {
     const [questions, setQuestions] = useState([]);
     const [rubrics, setRubrics] = useState([]);
     const [singleProject, setsingleProject] = useState(null);
-
+    const [obtainedMarks, setobtainedMarks] = useState([])
     const [studentSelf, setstudentSelf] = useState(null);
-
+    const navigate = useNavigate();
     const getProject = async () => {
         const response = await axios.post(
             "http://localhost:3500/teacher/getProject",
@@ -113,15 +115,39 @@ const EvaluateStudent = () => {
     }, [])
 
 
-    const makeQuesWithObtainedMarks = async () => {
 
-        
+    const makeQuesWithObtainedMarks = async (ques) => {
+        fypstatus == "Scope" ? setQuestions(ques.data[0].Questions) :
+            fypstatus == "SDS" ? setQuestions(ques.data[1].Questions) :
+                fypstatus == "Testing" ? setQuestions(ques.data[2].Questions) :
+                    fypstatus == "Final" ? setQuestions(ques.data[3].Questions) : ""
+
+
+
+        var temp = ques.data[0].Questions;
+
+        console.log("IM NEW OBEE", temp)
+
+        var temp2 = temp.map((item) => {
+
+            return { Criteria: item.Criteria, TotalMark: item.TotalMark, ObtainedMarks: "" }
+        })
+
+
+        console.log("TEMP@ ", temp2)
+
+        setobtainedMarks(temp2)
+
 
 
 
 
 
     }
+
+    useEffect(() => {
+        console.log("obtainedMarks", obtainedMarks)
+    }, [obtainedMarks])
 
     const getAllRubrics = async () => {
 
@@ -134,12 +160,11 @@ const EvaluateStudent = () => {
 
         setRubrics(res.data);
 
-        fypstatus == "Scope" ? setQuestions(res.data[0].Questions) :
-            fypstatus == "SDS" ? setQuestions(res.data[1].Questions) :
-                fypstatus == "Testing" ? setQuestions(res.data[3].Questions) :
-                    fypstatus == "Final" ? setQuestions(res.data[4].Questions) : ""
+
 
         console.log("ALL RUBRICS", res.data[0].Questions);
+
+        makeQuesWithObtainedMarks(res)
 
     };
 
@@ -171,7 +196,7 @@ const EvaluateStudent = () => {
     const [studentInfo, setStudentInfo] = useState("");
 
 
-        
+
     const reload = () => {
         getAllRubrics();
     };
@@ -180,6 +205,63 @@ const EvaluateStudent = () => {
 
     function isNumeric(val) {
         return /^-?\d+$/.test(val);
+    }
+
+    const addToDatabase = async (text) => {
+
+        console.log("ADDING TO DATABSE: ", projectname, auth.Email, studentregno, text, obtainedMarks)
+        
+try{
+        const response = await axios.post(
+            "http://localhost:3500/teacher/CommitteeEvaluation",
+            { Name: projectname,
+                Teacher: auth.Email,
+                Student: studentregno,
+                Remarks: text,
+                Questions: obtainedMarks
+
+            },
+            {
+              withCredentials: true,
+            }
+          );
+
+
+
+        Swal.fire(
+            'Submitted!',
+            'Sutdents marks have been added',
+            'success'
+        )
+        navigate(-1)
+       
+
+} catch (error) {
+    Swal.fire(
+        'Network Error!',
+        `${error.message}`,
+        'error'
+    )
+}
+
+    }
+
+    const popup = async () => {
+        const { value: text } = await Swal.fire({
+            input: 'textarea',
+            inputLabel: 'Message',
+            inputPlaceholder: 'Type your message here...',
+            inputAttributes: {
+                'aria-label': 'Type your message here'
+            },
+            showCancelButton: true
+        })
+
+        if (text) {
+
+            addToDatabase(text)
+
+        }
     }
 
 
@@ -248,7 +330,12 @@ const EvaluateStudent = () => {
                         icon="Send"
                         color="primary"
                         isLight
-                        onClick={() => { }}
+                        onClick={() => {
+
+                            popup()
+
+
+                        }}
                     >
                         Submit Evaluation
                     </Button>
@@ -279,11 +366,12 @@ const EvaluateStudent = () => {
                                             <th>Total Marks</th>
 
                                             <th >Obtained Marks </th>
+                                            <th >Enter marks </th>
                                             <td />
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {questions.map((i, key) => (
+                                        {obtainedMarks.map((i, key) => (
                                             <tr key={key}>
                                                 <td>
                                                     <div className="d-flex align-items-center">
@@ -328,11 +416,36 @@ const EvaluateStudent = () => {
                                                     </Button>
                                                 </td>
 
-                                                {/* <td>{priceFormat(i.Name)}</td> */}
+                                                <td>
+                                                    {i.ObtainedMarks}
+                                                </td>
+
+
                                                 <td>
 
 
                                                     <Input
+
+                                                        value={i.ObtainedMarks}
+
+                                                        onChange={(e) => {
+
+
+                                                            if (e.target.value > obtainedMarks[key].TotalMark || isNumeric(e.target.value) == false) {
+                                                                Swal.fire(
+                                                                    'Please enter marks less than total marks',
+                                                                    'Please try again',
+                                                                    'error'
+                                                                )
+
+                                                            } else {
+
+                                                                obtainedMarks[key].ObtainedMarks = e.target.value;
+                                                                var temp = obtainedMarks.map((i) => i);
+                                                                setobtainedMarks(temp);
+                                                            }
+
+                                                        }}
 
 
 
@@ -360,6 +473,7 @@ const EvaluateStudent = () => {
                     </div>
                 </div>
             </Page>
+
             {/* <StudentEditModal
         setIsOpen={setEditModalStatus}
         isOpen={editModalStatus}
@@ -374,6 +488,7 @@ const EvaluateStudent = () => {
         id={0}
         reload={reload}
       /> */}
+
         </PageWrapper>
     );
 };
