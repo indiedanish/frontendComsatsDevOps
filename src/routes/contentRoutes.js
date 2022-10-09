@@ -20,16 +20,23 @@ const ADMIN = {
 };
 
 const SUPERVISOR = {
-	
+
 	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
-	
+
 };
 
 const COMMITTEE = {
-	
+
 	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
-	EVALUATION: lazy(() => import('../App/screens/teacher/committeeExtra/Evaluation')),
-	
+	EVALUATION: {
+
+		ALLPROJECTS: lazy(() => import('../App/screens/teacher/committeeExtra/Evaluation')),
+
+		
+		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateSingleProject')),
+
+	}
+
 };
 
 
@@ -98,7 +105,14 @@ const APP = {
 	APPOINTMENT: {
 		CALENDAR: lazy(() => import('../pages/presentation/appointment/CalendarPage')),
 		EMPLOYEE_LIST: lazy(() => import('../pages/presentation/appointment/EmployeeList')),
+
+
+
+
 		EMPLOYEE_VIEW: lazy(() => import('../pages/presentation/appointment/EmployeePage')),
+
+
+
 		APPOINTMENT_LIST: lazy(() => import('../pages/presentation/appointment/AppointmentList')),
 	},
 	CRM: {
@@ -1079,16 +1093,16 @@ const teamLead = [
 
 	// Charts
 
-	
+
 
 	{
 		path: teamLeadMenu.dashboard.path,
 		element: <TEAMLEAD.DASHBOARD />,
 		exact: true,
-	
-		
+
+
 	}
-	
+
 	,
 
 	{
@@ -1096,10 +1110,10 @@ const teamLead = [
 		element: <TEAMLEAD.TEAMMEMBERS />,
 		exact: true,
 
-		
+
 	},
 
-	
+
 	{
 		path: teamLeadMenu.sprint.path,
 		element: <TEAMLEAD.SPRINT />,
@@ -1115,7 +1129,7 @@ const teamLead = [
 	},
 
 
-	
+
 	{
 		path: dashboardMenu.dashboardBooking.path,
 		element: <TEAMLEAD.DASHBOARD_BOOKING />,
@@ -1530,8 +1544,8 @@ const teamLead = [
 
 const admin = [
 
-	
-	
+
+
 
 	{
 		path: adminMenu.dashboard.path,
@@ -1563,7 +1577,7 @@ const admin = [
 		exact: true,
 
 	},
-	
+
 	{
 		path: adminMenu.rubrics.subMenu.supervisor.path,
 		element: <ADMIN.RUBRICS_SUPERVISOR />,
@@ -1585,7 +1599,7 @@ const admin = [
 
 	{
 		path: adminMenu.assignproject.path,
-		element: <ADMIN.ASSIGN_PROJECT/>,
+		element: <ADMIN.ASSIGN_PROJECT />,
 		exact: true,
 	},
 
@@ -1649,8 +1663,8 @@ const admin = [
 
 const supervisor = [
 
-	
-	
+
+
 
 	{
 		path: supervisorMenu.dashboard.path,
@@ -1658,13 +1672,13 @@ const supervisor = [
 		exact: true,
 	},
 
-	
+
 ]
 
 const committee = [
 
-	
-	
+
+
 
 	{
 		path: committeeMenu.dashboard.path,
@@ -1674,17 +1688,23 @@ const committee = [
 
 	{
 		path: committeeMenu.evaluation.path,
-		element: <COMMITTEE.EVALUATION />,
+		element: <COMMITTEE.EVALUATION.ALLPROJECTS />,
+		exact: true,
+	},
+
+	{
+		path: `${committeeMenu.evaluation.subMenu.singleProject.path}/:projectname`,
+		element: <COMMITTEE.EVALUATION.SINGLEPROJECT />,
 		exact: true,
 	},
 
 
 
-	
+
 ]
 
 
 
-const contents = {supervisor,  presentation, teamLead, documentation, committee, admin, student };
+const contents = { supervisor, presentation, teamLead, documentation, committee, admin, student };
 
 export default contents;

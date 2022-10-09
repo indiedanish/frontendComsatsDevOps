@@ -196,7 +196,7 @@ const DashboardPage = () => {
                   navigate(`../${demoPages.chat.subMenu.withListChat.path}`)
                 }
                 src={USERS.SAM.src}
-                srcSet={USERS.SAM.srcSet}
+                srcSet={i.ProfilePicture}
                 color={USERS.SAM.color}
               />
             </div>
@@ -295,7 +295,7 @@ const DashboardPage = () => {
           <div className="col-xxl-4">
             <CommonTodo />
           </div>
-          
+
 
         </div>
       </Page>

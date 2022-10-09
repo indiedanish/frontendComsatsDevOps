@@ -1062,8 +1062,22 @@ export const committeeMenu = {
 		text: 'Evaluation',
 		path: '/evaluation',
 		icon: 'Article',
+
+		subMenu: {
+			singleProject: {
+				id: 'projectID',
+				text: 'projectID',
+				path: '/evaluation/project',
+				hide: true,
+			},
+	
+	
+		}
 		
 	},
+
+
+	
 	
 
 

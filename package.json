@@ -94,6 +94,7 @@
 		"react-image-webp": "^0.8.0",
 		"react-input-mask": "^2.0.4",
 		"react-jss": "^10.9.1-alpha.2",
+		"react-loader-spinner": "^5.3.4",
 		"react-modal": "^3.15.1",
 		"react-modern-calendar-datepicker": "^3.1.6",
 		"react-notifications-component": "^4.0.0",
