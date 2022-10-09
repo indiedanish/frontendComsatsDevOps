@@ -1142,11 +1142,11 @@ const teamLead = [
 
 
 
-	{
-		path: dashboardMenu.dashboardBooking.path,
-		element: <TEAMLEAD.DASHBOARD_BOOKING />,
-		exact: true,
-	},
+	// {
+	// 	path: dashboardMenu.dashboardBooking.path,
+	// 	element: <TEAMLEAD.DASHBOARD_BOOKING />,
+	// 	exact: true,
+	// },
 
 
 	{
