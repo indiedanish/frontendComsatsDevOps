@@ -42,7 +42,7 @@ import Card, {
 import Input from '../../../components/bootstrap/forms/Input';
 ;
 import Button from '../../../components/bootstrap/Button';
-// import AssignProjectAddModal from './AssignProjectAddModal'
+import AssignProjectAddModal from './AssignProjectAddModal'
 import Swal from "sweetalert2";
 /////////////////////////////
 
@@ -56,7 +56,7 @@ const AssignProject = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [perPage, setPerPage] = useState(PER_COUNT["10"]);
 
-	const [allStudents, setAllStudents] = useState([])
+	const [AllAssigned, setAllAssigned] = useState([])
 
 	const [studentSelf, setstudentSelf] = useState([]);
 
@@ -64,11 +64,11 @@ const AssignProject = () => {
 
 	const getAllAssignProject = async () => {
 
-		const res = await axios.get("http://localhost:3500/admin/getAllCommittee",
+		const res = await axios.get("http://localhost:3500/admin/getAssignedProject",
 			{
 				withCredentials: true,
 			});
-		setAllStudents(res.data)
+		setAllAssigned(res.data)
 		console.log("WE ARE COMMIITTEES", res.data)
 
 
@@ -77,33 +77,11 @@ const AssignProject = () => {
 
 
 
-	useEffect(() => {
-		getAllAssignProject();
-	}, [editModalStatus]);
 
 
-	const getstudentSelf = async () => {
-		const cookies = new Cookies();
-		const token = cookies.get("jwt");
-
-		var decoded = jwt_decode(token);
-
-		const response = await axios.post(
-			"http://localhost:3500/student/getStudent",
-			{ RegNo: decoded.RegNo },
-			{
-				withCredentials: true, //correct
-			}
-		);
-
-		setstudentSelf(response.data);
-		console.log("STUDENT himself: ", response.data);
-
-	};
 
 	useEffect(() => {
 		getAllAssignProject()
-		getstudentSelf();
 	}, []);
 
 	const formik = useFormik({
@@ -116,8 +94,8 @@ const AssignProject = () => {
 
 	const [refresh, setRefresh] = useState(false);
 
-	const filteredData = allStudents.filter((f, key) =>
-		f.Name.toLowerCase().includes(formik.values.searchInput.toLowerCase())
+	const filteredData = AllAssigned.filter((f, key) =>
+		f.Committee.toLowerCase().includes(formik.values.searchInput.toLowerCase())
 	);
 
 	
@@ -131,10 +109,10 @@ const AssignProject = () => {
 	const [addModalStatus, setAddModalStatus] = useState(false);
 	const [studentInfo, setStudentInfo] = useState("")
 
-	const Delete = async (Name) => {
+	const Delete = async (Committee, Project) => {
 
 		try {
-			await axios.put(`http://localhost:3500/admin/deleteAssignProject`, { Name: Name },
+			await axios.put(`http://localhost:3500/admin/deleteProjectCommittee`, { CommitteeName: Committee, ProjectName: Project  },
 				{ withCredentials: true });
 
 
@@ -192,19 +170,17 @@ const AssignProject = () => {
 									<thead>
 										<tr>
 											<th
-												onClick={() => requestSort("Name")}
+												onClick={() => requestSort("Committee")}
 												className="cursor-pointer text-decoration-underline"
 											>
-												Students{" "}
+												Committee {" "}
 												<Icon
 													size="lg"
 													className={getClassNamesFor("Name")}
 													icon="FilterList"
 												/>
 											</th>
-											<th>Teacher-1</th>
-											<th>Teacher-2</th>
-											<th>Teacher-3</th>
+											
 											<th>Assigned project</th>
 
 
@@ -234,44 +210,26 @@ const AssignProject = () => {
 																						)} rounded-2 d-flex align-items-center justify-content-center`}
 																				>
 																					<span className="fw-bold">
-																						{getFirstLetter(i.Name)}
+																						{getFirstLetter(i.Committee)}
 																					</span>
 																				</div>
 																			</div>
 																		</div>
 																		<div className="flex-grow-1">
-																			<div className="fs-6 fw-bold">{i.Name}</div>
+																			<div className="fs-6 fw-bold">{i.Committee}</div>
 
 																		</div>
 																	</div>
 																</td>
 																<td>
 																	{/* <div>{i.membershipDate.format('ll')}</div> */}
-																	<div>
+																	<div className="flex-grow-1">
+																			<div className="fs-6 fw-bold">{i.Project}</div>
 
-																		{i.Teacher[0] == undefined ? "-" : i.Teacher[0].Name}
-																	</div>
+																		</div>
 																</td>
-																<td>
-																	{/* <div>{i.membershipDate.format('ll')}</div> */}
-																	<div>
-																		{i.Teacher[1] == undefined ? "-" : i.Teacher[1].Name}
-																	</div>
-																</td>
+															
 
-																<td>
-																	{/* <div>{i.membershipDate.format('ll')}</div> */}
-																	<div>
-																		{i.Teacher[2] == undefined ? "-" : i.Teacher[2].Name}
-																	</div>
-																</td>
-
-																<td>
-																	{/* <div>{i.membershipDate.format('ll')}</div> */}
-																	<div>
-																		{i.Projects[0] == undefined ? "-" : i.Projects[0].Name}
-																	</div>
-																</td>
 																<td>
 
 
@@ -293,7 +251,7 @@ const AssignProject = () => {
 																				confirmButtonText: 'Yes, delete it!'
 																			}).then((result) => {
 																				if (result.isConfirmed) {
-																					Delete(i.Name);
+																					Delete(i.Committee, i.Project);
 																					Swal.fire(
 																						'Deleted!',
 																						'Your file has been deleted.',
@@ -329,12 +287,12 @@ const AssignProject = () => {
 			</Page>
 
 
-			{/* <AssignProjectAddModal
+			<AssignProjectAddModal
 				setIsOpen={setAddModalStatus}
 				isOpen={addModalStatus}
 				id={0}
 				reload={reload}
-			/> */}
+			/>
 
 
 
