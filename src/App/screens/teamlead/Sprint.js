@@ -240,6 +240,8 @@ const Sprint = () => {
 	};
 	const addToDatabase = async (val) => {
 
+		
+
 
 		const title = val.title;
 		const Priority = val.Priority;
@@ -247,7 +249,7 @@ const Sprint = () => {
 		const start = val.start;
 		const end = val.end;
 		const type = val.type
-
+		console.log("val",title, Priority,Assign,start);
 		var res = await axios.post("http://localhost:3500/student/requirement", {
 			Title: title,
 			AssignedTo: Assign,

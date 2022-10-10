@@ -60,6 +60,13 @@ export const teamLeadMenu = {
 		subMenu: null,
 	},
 
+	testingpanel: {
+		id: 'testingpanel',
+		text: 'Testing Panel',
+		path: 'testingpanel',
+		icon: 'Person',
+	},
+
 	requirements: {
 		id: 'requirements',
 		text: 'Requirements',
@@ -76,7 +83,7 @@ export const teamLeadMenu = {
 		subMenu: null,
 	},
 
-	
+
 
 	
 	evaluation: {
@@ -183,6 +190,13 @@ export const teamLeadMenuSidebar = {
 		path: '/teamlead/sprint',
 		icon: 'Calendar3',
 		subMenu: null,
+	},
+
+	testingpanel: {
+		id: 'testingpanel',
+		text: 'Testing Panel',
+		path: '/teamlead/testingpanel',
+		icon: 'Person',
 	},
 
 	deliverable: {
