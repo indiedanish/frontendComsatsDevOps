@@ -1,64 +1,71 @@
-import React, { useEffect, useState } from 'react';
-import moment from 'moment';
-import classNames from 'classnames';
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
-import { useFormik } from 'formik';
-import { Calendar as DatePicker } from 'react-date-range';
-import SubHeader, { SubHeaderLeft, SubHeaderRight } from '../../../layout/SubHeader/SubHeader';
+import React, { useEffect, useState } from "react";
+import moment from "moment";
+import classNames from "classnames";
+import { Calendar, momentLocalizer, Views } from "react-big-calendar";
+import { useFormik } from "formik";
+import { Calendar as DatePicker } from "react-date-range";
+import SubHeader, {
+	SubHeaderLeft,
+	SubHeaderRight,
+} from "../../../layout/SubHeader/SubHeader";
 
-import Page from '../../../layout/Page/Page';
-import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
-import Icon from '../../../components/icon/Icon';
-import Button from '../../../components/bootstrap/Button';
+import Page from "../../../layout/Page/Page";
+import PageWrapper from "../../../layout/PageWrapper/PageWrapper";
+import Icon from "../../../components/icon/Icon";
+import Button from "../../../components/bootstrap/Button";
 import Card, {
 	CardActions,
 	CardBody,
 	CardHeader,
 	CardLabel,
 	CardTitle,
-} from '../../../components/bootstrap/Card';
-import eventList from '../../../common/data/events';
+} from "../../../components/bootstrap/Card";
+import eventList from "../../../common/data/events";
 import OffCanvas, {
 	OffCanvasBody,
 	OffCanvasHeader,
 	OffCanvasTitle,
-} from '../../../components/bootstrap/OffCanvas';
-import FormGroup from '../../../components/bootstrap/forms/FormGroup';
-import Input from '../../../components/bootstrap/forms/Input';
-import Select from '../../../components/bootstrap/forms/Select';
-import USERS, { getUserDataWithUsername } from '../../../common/data/userDummyData';
-import Avatar, { AvatarGroup } from '../../../components/Avatar';
-import useMinimizeAside from '../../../hooks/useMinimizeAside';
-import Popovers from '../../../components/bootstrap/Popovers';
+} from "../../../components/bootstrap/OffCanvas";
+import FormGroup from "../../../components/bootstrap/forms/FormGroup";
+import Input from "../../../components/bootstrap/forms/Input";
+import Select from "../../../components/bootstrap/forms/Select";
+import USERS, {
+	getUserDataWithUsername,
+} from "../../../common/data/userDummyData";
+import Avatar, { AvatarGroup } from "../../../components/Avatar";
+import useMinimizeAside from "../../../hooks/useMinimizeAside";
+import Popovers from "../../../components/bootstrap/Popovers";
 import {
 	CalendarTodayButton,
 	CalendarViewModeButtons,
 	getLabel,
 	getUnitType,
 	getViews,
-} from '../../../components/extras/calendarHelper';
-import { demoPages } from '../../../menu';
-import SERVICES, { getServiceDataWithServiceName } from '../../../common/data/serviceDummyData';
-import Option from '../../../components/bootstrap/Option';
+} from "../../../components/extras/calendarHelper";
+import { demoPages } from "../../../menu";
+import SERVICES, {
+	getServiceDataWithServiceName,
+} from "../../../common/data/serviceDummyData";
+import Option from "../../../components/bootstrap/Option";
 
-import useDarkMode from '../../../hooks/useDarkMode';
+import useDarkMode from "../../../hooks/useDarkMode";
 import useAuth from "../../../hooks/useAuth";
-import axios from 'axios';
-import { Grid } from 'react-loader-spinner'
+import axios from "axios";
+axios.defaults.withCredentials = true;
+import { Grid } from "react-loader-spinner";
 const localizer = momentLocalizer(moment);
 const now = new Date();
 
 const MyEvent = (data) => {
 	const { darkModeStatus } = useDarkMode();
-	console.log("VERY USEFUL", data);
+
 	const { event } = data;
 	return (
-		<div className='row g-2'>
-			<div className='col text-truncate'>
+		<div className="row g-2">
+			<div className="col text-truncate">
 				{/* {event?.icon && <Icon icon={event?.icon} size='lg' className='me-2' />} */}
 				{event?.Title}
-				{' - '}
-
+				{" - "}
 			</div>
 			{/* {event?.user?.src && (
 				<div className='col-auto'>
@@ -95,30 +102,31 @@ const MyWeekEvent = (data) => {
 	console.log("VERY USEFUL", data);
 	const { event } = data;
 	return (
-		<div className='row g-2'>
-			<div className='col-12 text-truncate'>
-				{event?.icon && <Icon icon={event?.icon} size='lg' className='me-2' />}
+		<div className="row g-2">
+			<div className="col-12 text-truncate">
+				{event?.icon && <Icon icon={event?.icon} size="lg" className="me-2" />}
 				{event?.name}
 			</div>
 			{event?.user && (
-				<div className='col-12'>
-					<div className='row g-1 align-items-baseline'>
-						<div className='col-auto'>
+				<div className="col-12">
+					<div className="row g-1 align-items-baseline">
+						<div className="col-auto">
 							{/* eslint-disable-next-line react/jsx-props-no-spreading */}
 							<Avatar {...event?.user} size={18} />
 						</div>
 						<small
-							className={classNames('col-auto text-truncate', {
-								'text-dark': !darkModeStatus,
-								'text-white': darkModeStatus,
-							})}>
+							className={classNames("col-auto text-truncate", {
+								"text-dark": !darkModeStatus,
+								"text-white": darkModeStatus,
+							})}
+						>
 							{event?.user?.name}
 						</small>
 					</div>
 				</div>
 			)}
 			{event?.users && (
-				<div className='col-12'>
+				<div className="col-12">
 					<AvatarGroup size={18}>
 						{event.users.map((user) => (
 							// eslint-disable-next-line react/jsx-props-no-spreading
@@ -204,16 +212,16 @@ const Sprint = () => {
 	const eventStyleGetter = (event, start, end, isSelected) => {
 		const getColorForStatus = (Priority) => {
 			switch (Priority) {
-				case 'Medium':
-					return 'success';
+				case "Medium":
+					return "success";
 
-				case 'High':
-					return 'danger';
-				case 'Low':
-					return 'warning';
+				case "High":
+					return "danger";
+				case "Low":
+					return "warning";
 
 				default:
-					return 'primary';
+					return "primary";
 				// code block
 			}
 		};
@@ -224,34 +232,43 @@ const Sprint = () => {
 
 		return {
 			className: classNames({
-				[`bg-l${darkModeStatus ? 'o25' : '10'}-${color} text-${color}`]: color,
-				'border border-success': isActiveEvent,
-				'opacity-50': isPastEvent,
+				[`bg-l${darkModeStatus ? "o25" : "10"}-${color} text-${color}`]: color,
+				"border border-success": isActiveEvent,
+				"opacity-50": isPastEvent,
 			}),
 		};
 	};
 	const addToDatabase = async (val) => {
-		console.log('AAGAYAHUM', val);
+
 
 		const title = val.title;
 		const Priority = val.Priority;
 		const Assign = val.teammember;
 		const start = val.start;
 		const end = val.end;
+		const type = val.type
 
-		await axios.post('http://localhost:3500/task/add', {
-			title,
-			Assign,
-			Priority,
-			start,
-			end,
-		});
+		var res = await axios.post("http://localhost:3500/student/requirement", {
+			Title: title,
+			AssignedTo: Assign,
+			ProjectName: projectInfo.Name,
+			Type: type,
+			Priority: Priority,
+			start: start,
+			end: end,
+		})
+
+		console.log("res",res)
+
+	
+
+
 	};
 
 	const formik = useFormik({
 		initialValues: {
-			title: '',
-			teammember: '',
+			title: "",
+			teammember: "",
 			start: Date.now(),
 			end: Date.now(),
 		},
@@ -278,23 +295,22 @@ const Sprint = () => {
 	});
 
 	const [tasks, setTasks] = useState([]);
-	const [teammember, setTeammember] = useState([]);
+	const [teammember, setTeammember] = useState([{ RegNo: "Loading..." }]);
+	const [projectInfo, setprojectInfo] = useState([]);
 
 	const [totalHighPriorityTask, setTotalHighPriorityTask] = useState(0);
 	const [totalMediumPriorityTask, setTotalMediumPriorityTask] = useState(0);
 	const [totalLowPriorityTask, setTotalLowPriorityTask] = useState(0);
 
-	const calculateTasksPriority = (
-
-	) => {
+	const calculateTasksPriority = () => {
 		tasks.map((i) => {
 			console.log(i.Priority);
-			if (i.Priority == 'High') {
+			if (i.Priority == "High") {
 				setTotalHighPriorityTask(6);
 				console.log("getting: ", i.Priority, totalHighPriorityTask);
-			} else if (i.Priority == 'Medium') {
+			} else if (i.Priority == "Medium") {
 				setTotalMediumPriorityTask(totalMediumPriorityTask + 1);
-			} else if (i.Priority == 'Low') {
+			} else if (i.Priority == "Low") {
 				setTotalLowPriorityTask(totalLowPriorityTask + 1);
 			}
 
@@ -302,33 +318,27 @@ const Sprint = () => {
 		});
 
 		console.log(
-			'CALCULATE',
+			"CALCULATE",
 			totalHighPriorityTask,
 			totalMediumPriorityTask,
-			totalLowPriorityTask,
+			totalLowPriorityTask
 		);
 	};
 
 	useEffect(() => {
-
-
 		var highcount = 0;
 		var midcount = 0;
 		var lowcount = 0;
 
 		tasks.map((i) => {
 			console.log(i.Priority);
-			if (i.Priority == 'High') {
-
-				highcount++
+			if (i.Priority == "High") {
+				highcount++;
 				console.log("TTT: ", highcount);
-
-			} else if (i.Priority == 'Medium') {
-				midcount++
-
-			} else if (i.Priority == 'Low') {
-				lowcount++
-
+			} else if (i.Priority == "Medium") {
+				midcount++;
+			} else if (i.Priority == "Low") {
+				lowcount++;
 			}
 
 			return;
@@ -336,18 +346,26 @@ const Sprint = () => {
 		setTotalHighPriorityTask(highcount);
 		setTotalMediumPriorityTask(midcount);
 		setTotalLowPriorityTask(lowcount);
+	}, [tasks]);
 
+	const getProject = async (res) => {
+		const response = await axios.post(
+			"http://localhost:3500/student/project",
+			{ Name: res.data.Project.Name },
+			{
+				withCredentials: true, //correct
+			}
+		);
+		// setsingleProject(response);
+		console.log("ProjectDetails: ", response.data);
 
+		setprojectInfo(response.data)
 
-	}, [tasks])
-
-
-
+		setTeammember(response.data.GroupMembers)
+	};
 
 	const getstudentSelf = async () => {
-
-		console.log("MY REGNO: ", auth.RegNo)
-
+		console.log("MY REGNO: ", auth.RegNo);
 
 		const response = await axios.post(
 			"http://localhost:3500/student/getStudent",
@@ -359,18 +377,18 @@ const Sprint = () => {
 
 		setstudentSelf(response);
 		console.log("res.data : ", response.data);
-		setTasks(response.data.Project.Requirements)
-		console.log("IMLATEE")
-			;
+		setTasks(response.data.Project.Requirements);
+		getProject(response);
+
+		console.log("IMLATEE");
 	};
 
-
-
-
 	const fetchData = async () => {
-		const response = await axios.get('http://localhost:4000/student/getStudents');
-		console.log('Team Members: ', response.data);
-		setTeammember(response.data);
+		const response = await axios.get(
+			"http://localhost:4000/student/getStudents"
+		);
+		console.log("Team Members: ", response.data);
+
 	};
 
 	useEffect(() => {
@@ -395,275 +413,310 @@ const Sprint = () => {
 
 	return (
 		<>
-
-			{tasks.length == 0 ? <div className="w- flex  h-[700px] justify-center items-center">
-				<Grid
-					height="150"
-					width="150"
-					color="#6C5DD3"
-					ariaLabel="grid-loading"
-					radius="12.5"
-					wrapperStyle={{}}
-					wrapperClass=""
-					visible={true}
-				/>
-			</div> : <PageWrapper title={demoPages.appointment.subMenu.dashboard.text}>
-				<SubHeader>
-					<SubHeaderLeft>
-
-
-						<Button color={'danger'} isLight>
-							High:{' '}{totalHighPriorityTask}
-						</Button>
-						<Button color={'success'} isLight >
-							Medium: {totalMediumPriorityTask}
-						</Button>
-						<Button color={'warning'} isLight>
-							Low: {totalLowPriorityTask}
-						</Button>
-
-					</SubHeaderLeft>
-					<SubHeaderRight>
-						{/* <Button
+			{tasks.length == 0 ? (
+				<div className="w- flex  h-[700px] justify-center items-center">
+					<Grid
+						height="150"
+						width="150"
+						color="#6C5DD3"
+						ariaLabel="grid-loading"
+						radius="12.5"
+						wrapperStyle={{}}
+						wrapperClass=""
+						visible={true}
+					/>
+				</div>
+			) : (
+				<PageWrapper title={demoPages.appointment.subMenu.dashboard.text}>
+					<SubHeader>
+						<SubHeaderLeft>
+							<Button color={"danger"} isLight>
+								High: {totalHighPriorityTask}
+							</Button>
+							<Button color={"success"} isLight>
+								Medium: {totalMediumPriorityTask}
+							</Button>
+							<Button color={"warning"} isLight>
+								Low: {totalLowPriorityTask}
+							</Button>
+						</SubHeaderLeft>
+						<SubHeaderRight>
+							{/* <Button
 						icon='Groups'
 						onClick={() => setToggleRightPanel(!toggleRightPanel)}
 						color={toggleRightPanel ? 'dark' : 'light'}
 						aria-label='Toggle right panel'
 					/> */}
-						<Button
-							icon='AreaChart'
-							onClick={() => setToggleCalendar(!toggleCalendar)}
-							color={toggleCalendar ? 'dark' : 'light'}
-							aria-label='Toggle calendar & charts'
-						/>
-						<Popovers
-							desc={
-								<DatePicker
-									onChange={(item) => setDate(item)}
-									date={date}
-									color={process.env.REACT_APP_PRIMARY_COLOR}
-								/>
-							}
-							placement='bottom-end'
-							className='mw-100'
-							trigger='click'>
-							<Button color={darkModeStatus ? 'light' : 'dark'} isLight>
-								{calendarDateLabel}
-							</Button>
-						</Popovers>
-					</SubHeaderRight>
-				</SubHeader>
-				<Page container='fluid'>
-					{toggleCalendar && (
-						<>
-							<div className='row h-100'>
-								<div
-									className={classNames({
-										'col-xxl-8': !toggleRightPanel,
-										'col-12': toggleRightPanel,
-									})}>
-									<Card stretch style={{ minHeight: 680 }}>
-										<CardHeader>
-											<CardActions>
-												<CalendarTodayButton
-													unitType={unitType}
+							<Button
+								icon="AreaChart"
+								onClick={() => setToggleCalendar(!toggleCalendar)}
+								color={toggleCalendar ? "dark" : "light"}
+								aria-label="Toggle calendar & charts"
+							/>
+							<Popovers
+								desc={
+									<DatePicker
+										onChange={(item) => setDate(item)}
+										date={date}
+										color={process.env.REACT_APP_PRIMARY_COLOR}
+									/>
+								}
+								placement="bottom-end"
+								className="mw-100"
+								trigger="click"
+							>
+								<Button color={darkModeStatus ? "light" : "dark"} isLight>
+									{calendarDateLabel}
+								</Button>
+							</Popovers>
+						</SubHeaderRight>
+					</SubHeader>
+					<Page container="fluid">
+						{toggleCalendar && (
+							<>
+								<div className="row h-100">
+									<div
+										className={classNames({
+											"col-xxl-8": !toggleRightPanel,
+											"col-12": toggleRightPanel,
+										})}
+									>
+										<Card stretch style={{ minHeight: 680 }}>
+											<CardHeader>
+												<CardActions>
+													<CalendarTodayButton
+														unitType={unitType}
+														date={date}
+														setDate={setDate}
+														viewMode={viewMode}
+													/>
+												</CardActions>
+												<CardActions>
+													<CalendarViewModeButtons
+														setViewMode={setViewMode}
+														viewMode={viewMode}
+													/>
+												</CardActions>
+											</CardHeader>
+											<CardBody isScrollable>
+												<Calendar
+													showAllEvents={true}
+													selectable
+													toolbar={false}
+													localizer={localizer}
+													// events={events.filter(
+													// (i) =>{
+
+													// 	return employeeList[i.user?.username]}
+													// )}
+
+													events={tasks}
+													defaultView={Views.WEEK}
+													views={views}
+													view={viewMode}
 													date={date}
-													setDate={setDate}
-													viewMode={viewMode}
+													onNavigate={(_date) => setDate(_date)}
+													scrollToTime={new Date(1970, 1, 1, 6)}
+													defaultDate={new Date()}
+													onSelectEvent={(event) => {
+														setInfoEvent();
+														setEventItem(event);
+													}}
+													onSelectSlot={handleSelect}
+													onView={handleViewMode}
+													onDrillDown={handleViewMode}
+													components={{
+														event: MyEvent, // used by each view (Month, Day, Week)
+														week: {
+															event: MyWeekEvent,
+														},
+														work_week: {
+															event: MyWeekEvent,
+														},
+													}}
+													eventPropGetter={eventStyleGetter}
 												/>
-											</CardActions>
-											<CardActions>
-												<CalendarViewModeButtons
-													setViewMode={setViewMode}
-													viewMode={viewMode}
-												/>
-											</CardActions>
-										</CardHeader>
-										<CardBody isScrollable>
-											<Calendar
-												showAllEvents={true}
-												selectable
-												toolbar={false}
-												localizer={localizer}
-												// events={events.filter(
-												// (i) =>{
-
-												// 	return employeeList[i.user?.username]}
-												// )}
-
-												events={tasks}
-												defaultView={Views.WEEK}
-												views={views}
-												view={viewMode}
-												date={date}
-												onNavigate={(_date) => setDate(_date)}
-												scrollToTime={new Date(1970, 1, 1, 6)}
-												defaultDate={new Date()}
-												onSelectEvent={(event) => {
-													setInfoEvent();
-													setEventItem(event);
-												}}
-												onSelectSlot={handleSelect}
-												onView={handleViewMode}
-												onDrillDown={handleViewMode}
-												components={{
-													event: MyEvent, // used by each view (Month, Day, Week)
-													week: {
-														event: MyWeekEvent,
+											</CardBody>
+										</Card>
+									</div>
+									<div
+										className={classNames({
+											"col-xxl-4": !toggleRightPanel,
+											"col-12": toggleRightPanel,
+										})}
+									>
+										<div className="row">
+											<div
+												className={classNames(
+													{
+														"col-xxl-12": !toggleRightPanel,
 													},
-													work_week: {
-														event: MyWeekEvent,
-													},
-												}}
-												eventPropGetter={eventStyleGetter}
-											/>
-										</CardBody>
-									</Card>
-								</div>
-								<div
-									className={classNames({
-										'col-xxl-4': !toggleRightPanel,
-										'col-12': toggleRightPanel,
-									})}>
-									<div className='row'>
-										<div
-											className={classNames(
-												{
-													'col-xxl-12': !toggleRightPanel,
-												},
-												'col-md-6',
-											)}>
-
+													"col-md-6"
+												)}
+											></div>
 										</div>
-
 									</div>
 								</div>
-							</div>
-						</>
-					)}
+							</>
+						)}
 
-
-					<OffCanvas
-						setOpen={(status) => {
-							setToggleInfoEventCanvas(status);
-							setEventAdding(status);
-						}}
-						isOpen={toggleInfoEventCanvas}
-						titleId='canvas-title'>
-						<OffCanvasHeader
+						<OffCanvas
 							setOpen={(status) => {
 								setToggleInfoEventCanvas(status);
 								setEventAdding(status);
 							}}
-							className='p-4'>
-							<OffCanvasTitle id='canvas-title'>Add Task</OffCanvasTitle>
-						</OffCanvasHeader>
-						<OffCanvasBody tag='form' onSubmit={formik.handleSubmit} className='p-4'>
-							<div className='row g-4'>
-								{/* Name */}
-								<div className='col-12'>
-									<FormGroup id='title' label='Task' className='col-md'>
-										<Input
-											onChange={formik.handleChange}
-											value={formik.values.task}
-										/>
-									</FormGroup>
-								</div>
-								<div className='col-12'>
-									<FormGroup id='Priority' label='Priority' className='col-md'>
-										<Select
-											placeholder='Select Priority...'
-											value={formik.values.priority}
-											onChange={formik.handleChange}
-											ariaLabel='Team member select'>
-											<Option value='Low'>Low</Option>
-											<Option value='Medium'>Medium</Option>
-											<Option value='High'>High</Option>
-										</Select>
-									</FormGroup>
-								</div>
+							isOpen={toggleInfoEventCanvas}
+							titleId="canvas-title"
+						>
+							<OffCanvasHeader
+								setOpen={(status) => {
+									setToggleInfoEventCanvas(status);
+									setEventAdding(status);
+								}}
+								className="p-4"
+							>
+								<OffCanvasTitle id="canvas-title">Add Task</OffCanvasTitle>
+							</OffCanvasHeader>
+							<OffCanvasBody
+								tag="form"
+								onSubmit={formik.handleSubmit}
+								className="p-4"
+							>
+								<div className="row g-4">
+									{/* Name */}
+									<div className="col-12">
+										<FormGroup id="title" label="Task" className="col-md">
+											<Input
+												onChange={formik.handleChange}
+												value={formik.values.task}
+											/>
+										</FormGroup>
+									</div>
 
-								{/* Date */}
-								<div className='col-12'>
-									<Card className='mb-0 bg-l10-info' shadow='sm'>
-										<CardHeader className='bg-l25-info'>
-											<CardLabel icon='DateRange' iconColor='info'>
-												<CardTitle className='text-info'>Select Date</CardTitle>
-											</CardLabel>
-										</CardHeader>
-										<CardBody>
-											<div className='row g-3'>
-												<div className='col-12'>
-													<FormGroup id='start' label='Start Date'>
-														<Input
-															type='datetime-local'
-															value={moment(formik.values.start).format(
-																moment.HTML5_FMT.DATETIME_LOCAL,
-															)}
-															onChange={formik.handleChange}
-														/>
-													</FormGroup>
+									<div className="col-12">
+										<FormGroup
+											id="type"
+											label="Type"
+											className="col-md"
+										>
+											<Select
+												placeholder="Select Type..."
+												value={formik.values.type}
+												onChange={formik.handleChange}
+												ariaLabel="Type select"
+											>
+												<Option value="Design">Design</Option>
+												<Option value="Development">Development</Option>
+												<Option value="Test">Test</Option>
+												<Option value="Debugging">Debugging</Option>
+
+											</Select>
+										</FormGroup>
+									</div>
+
+									<div className="col-12">
+										<FormGroup
+											id="Priority"
+											label="Priority"
+											className="col-md"
+										>
+											<Select
+												placeholder="Select Priority..."
+												value={formik.values.priority}
+												onChange={formik.handleChange}
+												ariaLabel="Team member select"
+											>
+												<Option value="Low">Low</Option>
+												<Option value="Medium">Medium</Option>
+												<Option value="High">High</Option>
+											</Select>
+										</FormGroup>
+									</div>
+
+									{/* Date */}
+									<div className="col-12">
+										<Card className="mb-0 bg-l10-info" shadow="sm">
+											<CardHeader className="bg-l25-info">
+												<CardLabel icon="DateRange" iconColor="info">
+													<CardTitle className="text-info">
+														Select Date
+													</CardTitle>
+												</CardLabel>
+											</CardHeader>
+											<CardBody>
+												<div className="row g-3">
+													<div className="col-12">
+														<FormGroup id="start" label="Start Date">
+															<Input
+																type="datetime-local"
+																value={moment(formik.values.start).format(
+																	moment.HTML5_FMT.DATETIME_LOCAL
+																)}
+																onChange={formik.handleChange}
+															/>
+														</FormGroup>
+													</div>
+
+													<div className="col-12">
+														<FormGroup id="end" label="End Date">
+															<Input
+																type="datetime-local"
+																value={moment(formik.values.end).format(
+																	moment.HTML5_FMT.DATETIME_LOCAL
+																)}
+																onChange={formik.handleChange}
+															/>
+														</FormGroup>
+													</div>
 												</div>
+											</CardBody>
+										</Card>
+									</div>
+									{/* Task */}
+									<div className="col-12">
+										<Card className="mb-0 bg-l10-dark" shadow="sm">
+											<CardHeader className="bg-l25-dark">
+												<CardLabel icon="Person Add" iconColor="dark">
+													<CardTitle>Select Team Member</CardTitle>
+												</CardLabel>
+											</CardHeader>
+											<CardBody>
+												<FormGroup
+													id="teammember"
+													label="Select Team Member"
+													className="col-md"
+												>
+													<Select
+														placeholder="Please select..."
+														value={formik.values.teammember}
+														onChange={formik.handleChange}
+														ariaLabel="Team member select"
+													>
+														{teammember.map((u, k) => (
+															<Option key={k} value={u._id}>
+																{`${u.RegNo}`}
+															</Option>
+														))}
+													</Select>
 
-												<div className='col-12'>
-													<FormGroup id='end' label='End Date'>
-														<Input
-															type='datetime-local'
-															value={moment(formik.values.end).format(
-																moment.HTML5_FMT.DATETIME_LOCAL,
-															)}
-															onChange={formik.handleChange}
-														/>
-													</FormGroup>
-												</div>
-											</div>
-										</CardBody>
-									</Card>
+
+												</FormGroup>
+											</CardBody>
+										</Card>
+									</div>
+									<div className="col" style={{ textAlign: "center" }}>
+										<Button color="info" type="submit">
+											Add Task
+										</Button>
+									</div>
 								</div>
-								{/* Task */}
-								<div className='col-12'>
-									<Card className='mb-0 bg-l10-dark' shadow='sm'>
-										<CardHeader className='bg-l25-dark'>
-											<CardLabel icon='Person Add' iconColor='dark'>
-												<CardTitle>Select Team Member</CardTitle>
-											</CardLabel>
-										</CardHeader>
-										<CardBody>
-											<FormGroup
-												id='teammember'
-												label='Select Team Member'
-												className='col-md'>
-												<Select
-													placeholder='Please select...'
-													value={formik.values.teammember}
-													onChange={formik.handleChange}
-													ariaLabel='Team member select'>
-													{teammember.map((u, k) => (
-														<Option key={k} value={u._id}>
-															{`${u.Name}`}
-														</Option>
-													))}
-												</Select>
-											</FormGroup>
-										</CardBody>
-									</Card>
-								</div>
-								<div className='col' style={{ textAlign: 'center' }}>
-									<Button color='info' type='submit'>
-										Add Task
-									</Button>
-								</div>
-							</div>
-						</OffCanvasBody>
-					</OffCanvas>
+							</OffCanvasBody>
+						</OffCanvas>
 
-					{/* <CommonRightPanel setOpen={setToggleRightPanel} isOpen={toggleRightPanel} /> */}
-				</Page>
-			</PageWrapper>
-
-
-			}
-
+						{/* <CommonRightPanel setOpen={setToggleRightPanel} isOpen={toggleRightPanel} /> */}
+					</Page>
+				</PageWrapper>
+			)}
 		</>
 	);
 };

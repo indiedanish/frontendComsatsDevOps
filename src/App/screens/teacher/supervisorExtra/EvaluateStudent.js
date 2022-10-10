@@ -136,7 +136,7 @@ const EvaluateStudent = () => {
 
   const getAllRubrics = async () => {
     const res = await axios.get(
-      "http://localhost:3500/admin/getCommitteeRubrics",
+      "http://localhost:3500/admin/getSupervisorRubrics",
       {
         withCredentials: true,
       }
@@ -194,7 +194,7 @@ const EvaluateStudent = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3500/teacher/CommitteeEvaluation",
+        "http://localhost:3500/teacher/SupervisorEvaluation",
         {
           Name: projectname,
           Teacher: auth.Email,

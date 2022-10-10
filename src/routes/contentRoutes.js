@@ -17,11 +17,25 @@ const ADMIN = {
 
 
 
+
 };
 
 const SUPERVISOR = {
 
 	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teacher/AllProjectsList')),
+
+	EVALUATION: {
+
+		ALLPROJECTS: lazy(() => import('../App/screens/teacher/supervisorExtra/Evaluation')),
+
+		
+		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateSingleProject')),
+
+		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateStudent')),
+
+	},
+
 
 };
 
@@ -37,7 +51,10 @@ const COMMITTEE = {
 
 		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateStudent')),
 
-	}
+	},
+
+	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teacher/AllProjectsList')),
+
 
 };
 
@@ -47,7 +64,11 @@ const TEAMLEAD = {
 	DASHBOARD: lazy(() => import('../App/screens/teamlead/Dashboard')),
 	SPRINT: lazy(() => import('../App/screens/teamlead/Sprint')),
 	DELIVERABLE: lazy(() => import('../App/screens/teamlead/Deliverable')),
+	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teamlead/AllProjectsList')),
+
 	FINDSUPERVISOR: lazy(() => import('../App/screens/teamlead/FindSupervisor')),
+	COMMITTEE_EVALUATION: lazy(() => import('../App/screens/teamlead/CommitteeEvaluation')),
+	SUPERVISOR_EVALUATION: lazy(() => import('../App/screens/teamlead/SupervisorEvaluation')),
 
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 };
@@ -1099,6 +1120,22 @@ const teamLead = [
 
 
 	{
+		path: teamLeadMenu.evaluation.subMenu.committee.path,
+		element: <TEAMLEAD.COMMITTEE_EVALUATION />,
+		exact: true,
+
+
+	},
+
+
+	{
+		path: teamLeadMenu.evaluation.subMenu.supervisor.path,
+		element: <TEAMLEAD.SUPERVISOR_EVALUATION />,
+		exact: true,
+
+
+	},
+	{
 		path: teamLeadMenu.dashboard.path,
 		element: <TEAMLEAD.DASHBOARD />,
 		exact: true,
@@ -1139,13 +1176,20 @@ const teamLead = [
 
 	},
 
-
-
 	{
-		path: dashboardMenu.dashboardBooking.path,
-		element: <TEAMLEAD.DASHBOARD_BOOKING />,
+		path: teamLeadMenu.project.subMenu.joinproject.path,
+		element: <TEAMLEAD.ALL_PROJECTS_LIST />,
 		exact: true,
+
 	},
+
+
+
+	// {
+	// 	path: dashboardMenu.dashboardBooking.path,
+	// 	element: <TEAMLEAD.DASHBOARD_BOOKING />,
+	// 	exact: true,
+	// },
 
 
 	{
@@ -1684,6 +1728,32 @@ const supervisor = [
 	},
 
 
+	{
+		path: supervisorMenu.projectmanagement.subMenu.project.path,
+		element: <SUPERVISOR.ALL_PROJECTS_LIST />,
+		exact: true,
+	},
+
+	
+	{
+		path: supervisorMenu.evaluation.path,
+		element: <SUPERVISOR.EVALUATION.ALLPROJECTS />,
+		exact: true,
+	},
+
+	{
+		path: `${supervisorMenu.evaluation.subMenu.singleProject.path}/:projectname`,
+		element: <SUPERVISOR.EVALUATION.SINGLEPROJECT />,
+		exact: true,
+	},
+
+	{
+		path: `${supervisorMenu.evaluation.subMenu.evaluateStudent.path}/:studentregno/:projectname/:fypstatus`,
+		element: <SUPERVISOR.EVALUATION.EVALUATE_STUDENT />,
+		exact: true,
+	},
+
+
 ]
 
 const committee = [
@@ -1715,6 +1785,7 @@ const committee = [
 		exact: true,
 	},
 
+	
 
 
 
