@@ -49,13 +49,14 @@ import Timeline, { TimelineItem } from "../../../components/extras/Timeline";
 import CommonTodo from "../../../pages/common/CommonTodo";
 import axios from "axios";
 import { getColorNameWithIndex } from "../../../common/data/enumColors";
-
-
 import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
 axios.defaults.withCredentials = true;
 import useAuth from "../../../hooks/useAuth";
-
+import { Grid } from "react-loader-spinner";
+import RadialBarMultiple from '../../../pages/documentation/charts/chart-radial-bar/RadialBarMultiple';
+import RadialBarCustom from '../../../pages/documentation/charts/chart-radial-bar/RadialBarCustom';
+import RadialBarGradient from '../../../pages/documentation/charts/chart-radial-bar/RadialBarGradient';
 
 const DashboardPage = () => {
   useEffect(() => {
@@ -153,7 +154,24 @@ const DashboardPage = () => {
           </CommonAvatarTeam>
         </SubHeaderRight>
       </SubHeader>
-  { projectInfo==null?"":   <Page container="fluid ">
+  { projectInfo==null?
+  
+  <div className="w- flex  h-[700px] justify-center items-center">
+  <Grid
+    height="150"
+    width="150"
+    color="#6C5DD3"
+    ariaLabel="grid-loading"
+    radius="12.5"
+    wrapperStyle={{}}
+    wrapperClass=""
+    visible={true}
+  />
+</div>
+  
+  
+  
+  :   <Page container="fluid ">
         <div
           style={{
             overflowX: "scroll",
@@ -202,60 +220,10 @@ const DashboardPage = () => {
             </div>
           ))}
 
-          {/* {groupMembers.map((i, key) => (
-            <div
-              className="col-xl-4"
-              style={{
-                display: "inline-block",
-                zoom: 1,
-                float: "none",
-                marginRight: 10,
-              }}
-            >
-              <Card stretch>
-                <CardHeader className="bg-transparent">
-                  <CardLabel>
-                    <CardTitle tag="h4" className="h5">
-                      {i.Name}
-                    </CardTitle>
-                    <CardSubTitle tag="h5" className="h6 text-muted">
-                      {i.Role}
-                    </CardSubTitle>
-                  </CardLabel>
-                  <CardActions>
-                    <Button
-                      icon="ArrowForwardIos"
-                      aria-label="Read More"
-                      hoverShadow="default"
-                      color={darkModeStatus ? "dark" : null}
-                      onClick={() => { }}
-                    />
-                    <Button
-                      icon="Delete"
-                      aria-label="Read More"
-                      hoverShadow="default"
-                      color={darkModeStatus ? "dark" : null}
-                      onClick={() => {
-                        deleteTeam(i._id);
-                      }}
-                    />
-                  </CardActions>
-                </CardHeader>
-                <CardBody>
-                  <h7>
-                    {i.Student == undefined
-                      ? "Currently, no member is added"
-                      : i.Student.length == 1
-                        ? `${i.Student.length} Member`
-                        : `${i.Student.length} Members`}
-                  </h7>
-                </CardBody>
-              </Card>
-            </div>
-          ))} */}
+     
         </div>
         <div className="row">
-          <div className="col-xxl-4">
+          <div className="col-4">
             <Card stretch>
               <CardHeader>
                 <CardLabel icon="NotificationsActive" iconColor="warning">
@@ -292,12 +260,21 @@ const DashboardPage = () => {
               </CardBody>
             </Card>
           </div>
-          <div className="col-xxl-4">
+          <div className="col-3">
             <CommonTodo />
+          </div>
+          <div className="col-5">
+          <RadialBarMultiple />
+
           </div>
 
 
+
+
         </div>
+{/* 
+        <RadialBarCustom />
+<RadialBarGradient /> */}
       </Page>}
     </PageWrapper>
   );
