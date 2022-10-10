@@ -239,26 +239,30 @@ const Sprint = () => {
 		};
 	};
 	const addToDatabase = async (val) => {
-		console.log("AAGAYAHUM", projectInfo.Name);
+
 
 		const title = val.title;
 		const Priority = val.Priority;
 		const Assign = val.teammember;
 		const start = val.start;
 		const end = val.end;
+		const type = val.type
 
 		var res = await axios.post("http://localhost:3500/student/requirement", {
 			Title: title,
 			AssignedTo: Assign,
 			ProjectName: projectInfo.Name,
+			Type: type,
 			Priority: Priority,
 			start: start,
 			end: end,
 		})
 
-		console.log("res", res);
-		
-		
+		console.log("res",res)
+
+	
+
+
 	};
 
 	const formik = useFormik({
@@ -588,6 +592,28 @@ const Sprint = () => {
 											/>
 										</FormGroup>
 									</div>
+
+									<div className="col-12">
+										<FormGroup
+											id="type"
+											label="Type"
+											className="col-md"
+										>
+											<Select
+												placeholder="Select Type..."
+												value={formik.values.type}
+												onChange={formik.handleChange}
+												ariaLabel="Type select"
+											>
+												<Option value="Design">Design</Option>
+												<Option value="Development">Development</Option>
+												<Option value="Test">Test</Option>
+												<Option value="Debugging">Debugging</Option>
+
+											</Select>
+										</FormGroup>
+									</div>
+
 									<div className="col-12">
 										<FormGroup
 											id="Priority"
@@ -672,6 +698,8 @@ const Sprint = () => {
 															</Option>
 														))}
 													</Select>
+
+
 												</FormGroup>
 											</CardBody>
 										</Card>
