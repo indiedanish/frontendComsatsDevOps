@@ -23,6 +23,19 @@ const ADMIN = {
 const SUPERVISOR = {
 
 	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teacher/AllProjectsList')),
+
+	EVALUATION: {
+
+		ALLPROJECTS: lazy(() => import('../App/screens/teacher/supervisorExtra/Evaluation')),
+
+		
+		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateSingleProject')),
+
+		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateStudent')),
+
+	},
+
 
 };
 
@@ -1704,6 +1717,32 @@ const supervisor = [
 	},
 
 
+	{
+		path: supervisorMenu.projectmanagement.subMenu.project.path,
+		element: <SUPERVISOR.ALL_PROJECTS_LIST />,
+		exact: true,
+	},
+
+	
+	{
+		path: supervisorMenu.evaluation.path,
+		element: <SUPERVISOR.EVALUATION.ALLPROJECTS />,
+		exact: true,
+	},
+
+	{
+		path: `${supervisorMenu.evaluation.subMenu.singleProject.path}/:projectname`,
+		element: <SUPERVISOR.EVALUATION.SINGLEPROJECT />,
+		exact: true,
+	},
+
+	{
+		path: `${supervisorMenu.evaluation.subMenu.evaluateStudent.path}/:studentregno/:projectname/:fypstatus`,
+		element: <SUPERVISOR.EVALUATION.EVALUATE_STUDENT />,
+		exact: true,
+	},
+
+
 ]
 
 const committee = [
@@ -1735,11 +1774,7 @@ const committee = [
 		exact: true,
 	},
 
-	{
-		path: committeeMenu.project.subMenu.project.path,
-		element: <COMMITTEE.ALL_PROJECTS_LIST />,
-		exact: true,
-	},
+	
 
 
 

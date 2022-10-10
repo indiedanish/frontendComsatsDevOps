@@ -1,77 +1,3 @@
-export const homeMenu = {
-	intro: { id: 'intro', text: 'Intro', path: '#intro', icon: 'Vrpano', subMenu: null },
-	bootstrap: {
-		id: 'bootstrap',
-		text: 'Bootstrap Components',
-		path: '#bootstrap',
-		icon: 'BootstrapFill',
-		subMenu: null,
-	},
-	storybook: {
-		id: 'storybook',
-		text: 'Storybook',
-		path: '#storybook',
-		icon: 'CustomStorybook',
-		subMenu: null,
-	},
-	formik: {
-		id: 'formik',
-		text: 'Formik',
-		path: '#formik',
-		icon: 'CheckBox',
-		subMenu: null,
-	},
-	apex: {
-		id: 'apex',
-		text: 'Apex Charts',
-		path: '#apex',
-		icon: 'AreaChart',
-		subMenu: null,
-	},
-};
-
-
-
-
-
-
-export const dashboardMenu = {
-
-
-
-
-	dashboard: {
-		id: 'dashboard',
-		text: 'Dashboard',
-		path: 'dashboard',
-		icon: 'Dashboard',
-		subMenu: null,
-	},
-
-	team: {
-		id: 'team',
-		text: 'Team',
-		path: 'team',
-		icon: 'PersonSearch',
-	},
-
-	dashboardBooking: {
-		id: 'sprints',
-		text: 'Sprints',
-		path: 'sprints',
-		icon: 'emoji_transportation',
-		subMenu: null,
-	},
-
-	summary: {
-		id: 'summary',
-		text: 'Video Chat',
-		path: 'chat',
-		icon: 'sticky_note_2',
-		subMenu: null,
-	},
-};
-
 
 export const teamLeadMenu = {
 
@@ -309,6 +235,237 @@ export const teamLeadMenuSidebar = {
 };
 
 	
+
+export const supervisorMenu = {
+
+	
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	projectmanagement: {
+		id: 'projectmanagement',
+		text: 'Project Management',
+		path: '/projectmanagement',
+		icon: 'Article',
+		subMenu: {
+			
+			project: {
+				id: 'project',
+				text: 'Project List',
+				path: '/project',
+				icon: 'Book',
+			},
+
+			myprojects: {
+				id: 'myproject',
+				text: 'My Project',
+				path: '/myprojects',
+				icon: 'Home',
+			},
+
+			
+			
+		},
+
+	},
+
+
+		evaluation: {
+			id: 'evaluation',
+			text: 'Evaluation',
+			path: 'evaluation',
+			icon: 'Article',
+	
+			subMenu: {
+				singleProject: {
+					id: 'projectID',
+					text: 'projectID',
+					path: '/evaluation/project',
+					hide: true,
+				},
+				evaluateStudent: {
+					id: 'projectID',
+					text: 'projectID',
+					path: '/evaluation/evaluatestudent',
+					hide: true,
+				},
+		
+		
+			}
+			
+		
+	},
+
+
+	
+
+
+}
+
+
+export const supervisorMenuSidebar = {
+
+	
+
+
+		dashboard: {
+			id: 'dashboard',
+			text: 'Dashboard',
+			path: '/supervisor/dashboard',
+			icon: 'Dashboard',
+			subMenu: null,
+		},
+		projectmanagement: {
+			id: 'projectmanagement',
+			text: 'Project Management',
+			path: '/supervisor/projectmanagement',
+			icon: 'Article',
+			subMenu: {
+				
+				project: {
+					id: 'project',
+					text: 'Project List',
+					path: '/supervisor/project',
+					icon: 'Book',
+				},
+	
+				myprojects: {
+					id: 'myproject',
+					text: 'My Project',
+					path: '/supervisor/myprojects',
+					icon: 'Home',
+				},
+	
+				
+				
+			},
+		},
+
+		evaluation: {
+			id: 'evaluation',
+			text: 'Evaluation',
+			path: '/supervisor/evaluation',
+			icon: 'Article',
+			
+		},
+	
+	
+		
+
+
+}
+
+export const committeeMenu = {
+
+	
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	evaluation: {
+		id: 'evaluation',
+		text: 'Evaluation',
+		path: '/evaluation',
+		icon: 'Article',
+
+		subMenu: {
+			singleProject: {
+				id: 'projectID',
+				text: 'projectID',
+				path: '/evaluation/project',
+				hide: true,
+			},
+			evaluateStudent: {
+				id: 'projectID',
+				text: 'projectID',
+				path: '/evaluation/evaluatestudent',
+				hide: true,
+			},
+	
+	
+		}
+		
+	},
+
+	
+	
+	
+
+
+}
+
+
+export const committeeMenuSidebar = {
+
+	
+
+
+		dashboard: {
+			id: 'dashboard',
+			text: 'Dashboard',
+			path: '/committee/dashboard',
+			icon: 'Dashboard',
+			subMenu: null,
+		},
+
+		evaluation: {
+			id: 'evaluation',
+			text: 'Evaluation',
+			path: '/committee/evaluation',
+			icon: 'Article',
+			
+		},
+
+
+		project: {
+			id: 'projectmanagement',
+			text: 'Project Management',
+			path: 'projectmanagement',
+			icon: 'Article',
+			subMenu: {
+				
+				project: {
+					id: 'project',
+					text: 'Project List',
+					path: '/committee/projectmanagement/project',
+					icon: 'Book',
+				},
+	
+				myprojects: {
+					id: 'myproject',
+					text: 'My Project',
+					path: '/committee/projectmanagement/myprojects',
+					icon: 'Home',
+				},
+	
+				
+				
+			},
+		},
+	
+	
+		
+
+	
+
+		
+
+
+}
+
 
 
 
@@ -593,6 +750,80 @@ export const adminMenu = {
 
 
 }
+
+export const homeMenu = {
+	intro: { id: 'intro', text: 'Intro', path: '#intro', icon: 'Vrpano', subMenu: null },
+	bootstrap: {
+		id: 'bootstrap',
+		text: 'Bootstrap Components',
+		path: '#bootstrap',
+		icon: 'BootstrapFill',
+		subMenu: null,
+	},
+	storybook: {
+		id: 'storybook',
+		text: 'Storybook',
+		path: '#storybook',
+		icon: 'CustomStorybook',
+		subMenu: null,
+	},
+	formik: {
+		id: 'formik',
+		text: 'Formik',
+		path: '#formik',
+		icon: 'CheckBox',
+		subMenu: null,
+	},
+	apex: {
+		id: 'apex',
+		text: 'Apex Charts',
+		path: '#apex',
+		icon: 'AreaChart',
+		subMenu: null,
+	},
+};
+
+
+
+
+
+
+export const dashboardMenu = {
+
+
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: 'dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	team: {
+		id: 'team',
+		text: 'Team',
+		path: 'team',
+		icon: 'PersonSearch',
+	},
+
+	dashboardBooking: {
+		id: 'sprints',
+		text: 'Sprints',
+		path: 'sprints',
+		icon: 'emoji_transportation',
+		subMenu: null,
+	},
+
+	summary: {
+		id: 'summary',
+		text: 'Video Chat',
+		path: 'chat',
+		icon: 'sticky_note_2',
+		subMenu: null,
+	},
+};
 
 
 
@@ -1012,171 +1243,6 @@ export const layoutMenu = {
 		},
 	},
 };
-
-export const supervisorMenu = {
-
-	
-
-
-	dashboard: {
-		id: 'dashboard',
-		text: 'Dashboard',
-		path: '/dashboard',
-		icon: 'Dashboard',
-		subMenu: null,
-	},
-	
-
-
-}
-
-
-export const supervisorMenuSidebar = {
-
-	
-
-
-		dashboard: {
-			id: 'dashboard',
-			text: 'Dashboard',
-			path: '/supervisor/dashboard',
-			icon: 'Dashboard',
-			subMenu: null,
-		},
-		
-
-
-}
-
-export const committeeMenu = {
-
-	
-
-
-	dashboard: {
-		id: 'dashboard',
-		text: 'Dashboard',
-		path: '/dashboard',
-		icon: 'Dashboard',
-		subMenu: null,
-	},
-
-	evaluation: {
-		id: 'evaluation',
-		text: 'Evaluation',
-		path: '/evaluation',
-		icon: 'Article',
-
-		subMenu: {
-			singleProject: {
-				id: 'projectID',
-				text: 'projectID',
-				path: '/evaluation/project',
-				hide: true,
-			},
-			evaluateStudent: {
-				id: 'projectID',
-				text: 'projectID',
-				path: '/evaluation/evaluatestudent',
-				hide: true,
-			},
-	
-	
-		}
-		
-	},
-
-	project: {
-		id: 'projectmanagement',
-		text: 'Project Management',
-		path: 'projectmanagement',
-		icon: 'Article',
-		subMenu: {
-			
-			project: {
-				id: 'project',
-				text: 'Project List',
-				path: 'projectmanagement/project',
-				icon: 'Book',
-			},
-
-			myprojects: {
-				id: 'myproject',
-				text: 'My Project',
-				path: 'projectmanagement/myprojects',
-				icon: 'Home',
-			},
-
-			
-			
-		},
-	},
-
-
-	
-	
-
-
-}
-
-
-export const committeeMenuSidebar = {
-
-	
-
-
-		dashboard: {
-			id: 'dashboard',
-			text: 'Dashboard',
-			path: '/committee/dashboard',
-			icon: 'Dashboard',
-			subMenu: null,
-		},
-
-		evaluation: {
-			id: 'evaluation',
-			text: 'Evaluation',
-			path: '/committee/evaluation',
-			icon: 'Article',
-			
-		},
-
-
-		project: {
-			id: 'projectmanagement',
-			text: 'Project Management',
-			path: 'projectmanagement',
-			icon: 'Article',
-			subMenu: {
-				
-				project: {
-					id: 'project',
-					text: 'Project List',
-					path: '/committee/projectmanagement/project',
-					icon: 'Book',
-				},
-	
-				myprojects: {
-					id: 'myproject',
-					text: 'My Project',
-					path: '/committee/projectmanagement/myprojects',
-					icon: 'Home',
-				},
-	
-				
-				
-			},
-		},
-	
-	
-		
-		
-	
-
-		
-
-
-}
 
 export const componentsMenu = {
 	bootstrap: {
