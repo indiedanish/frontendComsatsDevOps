@@ -251,30 +251,14 @@ const CommitteeEvaluation = () => {
                     />
                 </SubHeaderLeft>
                 <SubHeaderRight>
-                    <Button icon="PersonAdd" color="primary" isLight>
-                        {fypstatus}
-                    </Button>
-                    <SubheaderSeparator />
-                    <Button icon="PersonAdd" color="primary" isLight>
-                        {projectname}
-                    </Button>
-                    <SubheaderSeparator />
+
                     <Button icon="Person" color="primary" isLight>
                         {auth.RegNo}
                     </Button>
 
-                    <SubheaderSeparator />
 
-                    <Button
-                        icon="Send"
-                        color="primary"
-                        isLight
-                        onClick={() => {
-                            popup();
-                        }}
-                    >
-                        Submit Evaluation
-                    </Button>
+
+
                 </SubHeaderRight>
             </SubHeader>
             {studentSelf == null ? (
