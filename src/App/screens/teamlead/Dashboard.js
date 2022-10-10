@@ -57,7 +57,7 @@ import { Grid } from "react-loader-spinner";
 import RadialBarMultiple from '../../../pages/documentation/charts/chart-radial-bar/RadialBarMultiple';
 import RadialBarCustom from '../../../pages/documentation/charts/chart-radial-bar/RadialBarCustom';
 import RadialBarGradient from '../../../pages/documentation/charts/chart-radial-bar/RadialBarGradient';
-
+import Sprint from './Sprint'
 const DashboardPage = () => {
   useEffect(() => {
     getstudentSelf();
@@ -350,6 +350,8 @@ const DashboardPage = () => {
 
 
           </div>
+
+          <Sprint />
           {/* 
         <RadialBarCustom />
 <RadialBarGradient /> */}
