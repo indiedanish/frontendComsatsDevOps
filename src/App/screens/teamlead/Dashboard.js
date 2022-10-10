@@ -73,7 +73,7 @@ const DashboardPage = () => {
 
   const [studentSelf, setstudentSelf] = useState([]);
 
-  const [projectInfo, setProjectInfo] = useState([]);
+  const [projectInfo, setProjectInfo] = useState(null);
   const [groupMembers, setGroupMembers] = useState([]);
 
   // const getTasks = async (projectname, regno) => {
@@ -101,7 +101,7 @@ const DashboardPage = () => {
     console.log("Project Info: ", response.data);
     setProjectInfo(response.data);
     setGroupMembers(response.data.GroupMembers);
-    console.log("Group Members!!!: ", response.data.GroupMembers);
+    console.log("Requirements!!!: ", response.data.Requirements);
     setTasks(response.data.Requirements);
   };
 
@@ -153,7 +153,7 @@ const DashboardPage = () => {
           </CommonAvatarTeam>
         </SubHeaderRight>
       </SubHeader>
-      <Page container="fluid ">
+  { projectInfo==null?"":   <Page container="fluid ">
         <div
           style={{
             overflowX: "scroll",
@@ -298,7 +298,7 @@ const DashboardPage = () => {
 
 
         </div>
-      </Page>
+      </Page>}
     </PageWrapper>
   );
 };
