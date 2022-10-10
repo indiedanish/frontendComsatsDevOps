@@ -43,7 +43,7 @@ const RadialBarMultiple = () => {
 		},
 	});
 	return (
-		<div className='col-lg-6'>
+		<div className=''>
 			<Card stretch>
 				<CardHeader>
 					<CardLabel icon='DonutLarge'>

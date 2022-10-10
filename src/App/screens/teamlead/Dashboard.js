@@ -222,7 +222,7 @@ const DashboardPage = () => {
 
      
         </div>
-        <div className="row">
+        <div className="row bg-red-500">
           <div className="col-4">
             <Card stretch>
               <CardHeader>
@@ -260,10 +260,10 @@ const DashboardPage = () => {
               </CardBody>
             </Card>
           </div>
-          <div className="col-3">
+          <div className="col-4">
             <CommonTodo />
           </div>
-          <div className="col-5">
+          <div className="col-4">
           <RadialBarMultiple />
 
           </div>
