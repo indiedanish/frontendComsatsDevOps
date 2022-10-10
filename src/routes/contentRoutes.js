@@ -38,7 +38,10 @@ const COMMITTEE = {
 
 		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateStudent')),
 
-	}
+	},
+
+	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teacher/AllProjectsList')),
+
 
 };
 
@@ -1716,6 +1719,11 @@ const committee = [
 		exact: true,
 	},
 
+	{
+		path: committeeMenu.project.subMenu.project.path,
+		element: <COMMITTEE.ALL_PROJECTS_LIST />,
+		exact: true,
+	},
 
 
 

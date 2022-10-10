@@ -1082,6 +1082,32 @@ export const committeeMenu = {
 		
 	},
 
+	project: {
+		id: 'projectmanagement',
+		text: 'Project Management',
+		path: 'projectmanagement',
+		icon: 'Article',
+		subMenu: {
+			
+			project: {
+				id: 'project',
+				text: 'Project List',
+				path: 'projectmanagement/project',
+				icon: 'Book',
+			},
+
+			myprojects: {
+				id: 'myproject',
+				text: 'My Project',
+				path: 'projectmanagement/myprojects',
+				icon: 'Home',
+			},
+
+			
+			
+		},
+	},
+
 
 	
 	
@@ -1110,6 +1136,38 @@ export const committeeMenuSidebar = {
 			icon: 'Article',
 			
 		},
+
+
+		project: {
+			id: 'projectmanagement',
+			text: 'Project Management',
+			path: 'projectmanagement',
+			icon: 'Article',
+			subMenu: {
+				
+				project: {
+					id: 'project',
+					text: 'Project List',
+					path: '/committee/projectmanagement/project',
+					icon: 'Book',
+				},
+	
+				myprojects: {
+					id: 'myproject',
+					text: 'My Project',
+					path: '/committee/projectmanagement/myprojects',
+					icon: 'Home',
+				},
+	
+				
+				
+			},
+		},
+	
+	
+		
+		
+	
 
 		
 

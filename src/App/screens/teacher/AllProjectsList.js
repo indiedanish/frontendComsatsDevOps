@@ -25,6 +25,10 @@ import Progress from "../../../components/bootstrap/Progress";
 import CommonAvatarTeam from "../../../components/common/CommonAvatarTeam";
 import useDarkMode from "../../../hooks/useDarkMode";
 import useAuth from "../../../hooks/useAuth";
+import ProjectAddModal from "./ProjectAddModal";
+
+
+
 
 axios.defaults.withCredentials = true;
 import axios from "axios";
@@ -96,8 +100,22 @@ const Item = ({
   );
 };
 
+
+
+
 const AllProjectsList = () => {
   const navigate = useNavigate();
+
+  const [addModalStatus, setAddModalStatus] = useState(false);
+
+  const reload = () => {
+    getProjects()  
+  }
+
+  useEffect(() => {
+    getProjects();
+  }, [addModalStatus]);
+
 
   const { auth, setAuth } = useAuth();
   const [ProjectData, setProjectData] = useState(null);
@@ -106,7 +124,7 @@ const AllProjectsList = () => {
 
   const getProjects = async () => {
     const response = await axios.get(
-      "http://localhost:3500/student/allProject",
+      "http://localhost:3500/teacher/allProject",
       {
         withCredentials: true, //correct
       }
@@ -153,6 +171,26 @@ const AllProjectsList = () => {
             <div className="display-4 fw-bold py-3">Projects</div>
           </div>
 
+
+           <div className='col-md-4'>
+            <Card stretch>
+              <CardBody className='d-flex align-items-center justify-content-center'>
+                <Button
+                  color='info'
+                  size='lg'
+                  isLight
+                  className='w-100 h-100'
+                  onClick={() => setAddModalStatus(true)}
+                  icon='AddCircle'>
+                  Add New
+                </Button>
+
+              
+              </CardBody>
+            </Card>
+          </div> 
+
+
           {
           
           ProjectData == null
@@ -177,7 +215,9 @@ const AllProjectsList = () => {
                 groupMembers={project.GroupMembers}
                 taskCount={project.Description}
                 percent={
-                  project.Status == "Scope"
+                  project.Status == ""
+                  ? 0
+                  : project.Status == "Scope"
                     ? 25
                     : project.Status == "SDS"
                       ? 50
@@ -192,6 +232,14 @@ const AllProjectsList = () => {
             ))}
         </div>
       </Page>
+
+      <ProjectAddModal
+        setIsOpen={setAddModalStatus}
+        isOpen={addModalStatus}
+        id={0}
+        reload={reload}
+      />
+
     </PageWrapper>
   );
 };
