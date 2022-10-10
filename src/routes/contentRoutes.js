@@ -47,7 +47,7 @@ const TEAMLEAD = {
 	DASHBOARD: lazy(() => import('../App/screens/teamlead/Dashboard')),
 	SPRINT: lazy(() => import('../App/screens/teamlead/Sprint')),
 	DELIVERABLE: lazy(() => import('../App/screens/teamlead/Deliverable')),
-
+	COMMITTEE_EVALUATION: lazy(() => import('../App/screens/teamlead/CommitteeEvaluation')),
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 };
 
@@ -1097,6 +1097,13 @@ const teamLead = [
 
 
 
+	{
+		path: teamLeadMenu.evaluation.subMenu.committee.path,
+		element: <TEAMLEAD.COMMITTEE_EVALUATION />,
+		exact: true,
+
+
+	},
 	{
 		path: teamLeadMenu.dashboard.path,
 		element: <TEAMLEAD.DASHBOARD />,
