@@ -49,6 +49,7 @@ const TEAMLEAD = {
 	DELIVERABLE: lazy(() => import('../App/screens/teamlead/Deliverable')),
 	COMMITTEE_EVALUATION: lazy(() => import('../App/screens/teamlead/CommitteeEvaluation')),
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
+	TESTINGPANEL: lazy(() => import('../App/screens/teamlead/TestingPanel')),
 };
 
 
@@ -1094,7 +1095,11 @@ const presentation = [
 const teamLead = [
 
 	// Charts
-
+	{
+		path: teamLeadMenu.testingpanel.path,
+		element: <TEAMLEAD.TESTINGPANEL />,
+		exact: true,
+	},
 
 
 	{
