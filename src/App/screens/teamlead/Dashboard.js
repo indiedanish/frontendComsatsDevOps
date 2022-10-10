@@ -269,7 +269,7 @@ const DashboardPage = () => {
                 <Timeline>
                   {tasks.map((i, key) => (
                     <TimelineItem
-                      label={new Date(i.Deadline).toLocaleString(
+                      label={new Date(i.end).toLocaleString(
                         "en-US",
 
                         { year: "numeric", month: "numeric", day: "numeric" }
