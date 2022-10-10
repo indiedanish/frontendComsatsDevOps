@@ -68,6 +68,8 @@ const TEAMLEAD = {
 
 	FINDSUPERVISOR: lazy(() => import('../App/screens/teamlead/FindSupervisor')),
 	COMMITTEE_EVALUATION: lazy(() => import('../App/screens/teamlead/CommitteeEvaluation')),
+	SUPERVISOR_EVALUATION: lazy(() => import('../App/screens/teamlead/SupervisorEvaluation')),
+
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 };
 
@@ -1120,6 +1122,15 @@ const teamLead = [
 	{
 		path: teamLeadMenu.evaluation.subMenu.committee.path,
 		element: <TEAMLEAD.COMMITTEE_EVALUATION />,
+		exact: true,
+
+
+	},
+
+
+	{
+		path: teamLeadMenu.evaluation.subMenu.supervisor.path,
+		element: <TEAMLEAD.SUPERVISOR_EVALUATION />,
 		exact: true,
 
 
