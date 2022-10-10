@@ -35,6 +35,8 @@ const COMMITTEE = {
 		
 		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateSingleProject')),
 
+		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateStudent')),
+
 	}
 
 };
@@ -1704,6 +1706,12 @@ const committee = [
 	{
 		path: `${committeeMenu.evaluation.subMenu.singleProject.path}/:projectname`,
 		element: <COMMITTEE.EVALUATION.SINGLEPROJECT />,
+		exact: true,
+	},
+
+	{
+		path: `${committeeMenu.evaluation.subMenu.evaluateStudent.path}/:studentregno/:projectname/:fypstatus`,
+		element: <COMMITTEE.EVALUATION.EVALUATE_STUDENT />,
 		exact: true,
 	},
 

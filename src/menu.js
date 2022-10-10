@@ -1072,6 +1072,12 @@ export const committeeMenu = {
 				path: '/evaluation/project',
 				hide: true,
 			},
+			evaluateStudent: {
+				id: 'projectID',
+				text: 'projectID',
+				path: '/evaluation/evaluatestudent',
+				hide: true,
+			},
 	
 	
 		}
