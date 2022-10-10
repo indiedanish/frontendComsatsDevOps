@@ -38,6 +38,8 @@ export const teamLeadMenu = {
 				path: 'projectmanagement/findsupervisor',
 				icon: 'Person',
 			},
+
+
 			
 		},
 	},
