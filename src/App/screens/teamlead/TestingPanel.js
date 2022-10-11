@@ -189,6 +189,8 @@ const ListFluidPage = () => {
 
   const editToDatabase = async (values) => {
     const Accepted = values.type === "Accepted" ? true : false;
+
+    console.log("THSE ARE VALUES", values, " OLD: ",tempName,  " PROJECTNAME" ,projectInfo.data.Name  )
     try {
       const response = await axios.put(
         "http://localhost:3500/student/requirementLead",
