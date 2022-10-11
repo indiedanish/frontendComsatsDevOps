@@ -67,13 +67,27 @@ export const teamLeadMenu = {
 		icon: 'Person',
 	},
 
-	requirements: {
-		id: 'requirements',
-		text: 'Requirements',
-		path: 'requirements',
-		icon: 'pen',
-		subMenu: null,
+	developmentpanel: {
+		id: 'developmentpanel',
+		text: 'Development Panel',
+		path: 'developmentpanel',
+		icon: 'Person',
 	},
+
+	designpanel: {
+		id: 'designpanel',
+		text: 'Design Panel',
+		path: 'designpanel',
+		icon: 'Person',
+	},
+
+	debuggingpanel: {
+		id: 'debuggingpanel',
+		text: 'Debugging Panel',
+		path: 'debuggingpanel',
+		icon: 'Person',
+	},
+
 
 	deliverable: {
 		id: 'deliverable',
@@ -199,6 +213,8 @@ export const teamLeadMenuSidebar = {
 		icon: 'Person',
 	},
 
+
+
 	deliverable: {
 		id: 'deliverable',
 		text: 'Deliverable',
@@ -207,7 +223,33 @@ export const teamLeadMenuSidebar = {
 		subMenu: null,
 	},
 
+	testingpanel: {
+		id: 'testingpanel',
+		text: 'Testing Panel',
+		path: '/teamlead/testingpanel',
+		icon: 'Person',
+	},
 
+	developmentpanel: {
+		id: 'developmentpanel',
+		text: 'Development Panel',
+		path: '/teamlead/developmentpanel',
+		icon: 'Person',
+	},
+
+	designpanel: {
+		id: 'designpanel',
+		text: 'Design Panel',
+		path: '/teamlead/designpanel',
+		icon: 'Person',
+	},
+
+	debuggingpanel: {
+		id: 'debuggingpanel',
+		text: 'Debugging Panel',
+		path: '/teamlead/debuggingpanel',
+		icon: 'Person',
+	},
 	evaluation: {
 		id: 'evaluation',
 		text: 'Evaluation',
@@ -321,13 +363,27 @@ export const teamMemberMenu = {
 		icon: 'Person',
 	},
 
-	requirements: {
-		id: 'requirements',
-		text: 'Requirements',
-		path: 'requirements',
-		icon: 'pen',
-		subMenu: null,
+	developmentpanel: {
+		id: 'developmentpanel',
+		text: 'Development Panel',
+		path: 'developmentpanel',
+		icon: 'Person',
 	},
+
+	designpanel: {
+		id: 'designpanel',
+		text: 'Design Panel',
+		path: 'designpanel',
+		icon: 'Person',
+	},
+
+	debuggingpanel: {
+		id: 'debuggingpanel',
+		text: 'Debugging Panel',
+		path: 'debuggingpanel',
+		icon: 'Person',
+	},
+
 
 	deliverable: {
 		id: 'deliverable',
@@ -392,7 +448,7 @@ export const teamMemberMenuSidebar = {
 	dashboard: {
 		id: 'dashboard',
 		text: 'Dashboard',
-		path: '/teamlead/dashboard',
+		path: '/teammember/dashboard',
 		icon: 'Dashboard',
 		subMenu: null,
 	},
@@ -400,21 +456,21 @@ export const teamMemberMenuSidebar = {
 	project: {
 		id: 'projectmanagement',
 		text: 'Project Management',
-		path: '/teamlead/projectmanagement',
+		path: '/teammember/projectmanagement',
 		icon: 'Article',
 		subMenu: {
 			
 			project: {
 				id: 'project',
 				text: ' My Project',
-				path: '/teamlead/projectmanagement/project',
+				path: '/teammember/projectmanagement/project',
 				icon: 'Book',
 			},
 
 			joinproject: {
 				id: 'joinproject',
 				text: 'Join Project',
-				path: '/teamlead/projectmanagement/joinproject',
+				path: '/teammember/projectmanagement/joinproject',
 				icon: 'Book',
 			},
 
@@ -423,7 +479,7 @@ export const teamMemberMenuSidebar = {
 			findsupervisor: {
 				id: 'findsupervisor',
 				text: 'Find Supervisor',
-				path: '/teamlead/projectmanagement/findsupervisor',
+				path: '/teammember/projectmanagement/findsupervisor',
 				icon: 'Person',
 			},
 			
@@ -433,7 +489,7 @@ export const teamMemberMenuSidebar = {
 	team: {
 		id: 'team',
 		text: 'Team',
-		path: '/teamlead/team',
+		path: '/teammember/team',
 		icon: 'PersonSearch',
 	},
 
@@ -441,7 +497,7 @@ export const teamMemberMenuSidebar = {
 	sprint: {
 		id: 'sprint',
 		text: 'Sprint',
-		path: '/teamlead/sprint',
+		path: '/teammember/sprint',
 		icon: 'Calendar3',
 		subMenu: null,
 	},
@@ -449,14 +505,14 @@ export const teamMemberMenuSidebar = {
 	testingpanel: {
 		id: 'testingpanel',
 		text: 'Testing Panel',
-		path: '/teamlead/testingpanel',
+		path: '/teammember/testingpanel',
 		icon: 'Person',
 	},
 
 	deliverable: {
 		id: 'deliverable',
 		text: 'Deliverable',
-		path: '/teamlead/deliverable',
+		path: '/teammember/deliverable',
 		icon: 'upload',
 		subMenu: null,
 	},
@@ -465,19 +521,19 @@ export const teamMemberMenuSidebar = {
 	evaluation: {
 		id: 'evaluation',
 		text: 'Evaluation',
-		path: '/teamlead/evaluation',
+		path: '/teammember/evaluation',
 		icon: 'Checklist',
 		subMenu: {
 			supervisor: {
 				id: 'supervisor',
 				text: 'Supervisor',
-				path: '/teamlead/evaluation/supervisor',
+				path: '/teammember/evaluation/supervisor',
 				icon: 'Person',
 			},
 			committee: {
 				id: 'committee',
 				text: 'Committee',
-				path: '/teamlead/evaluation/committee',
+				path: '/teammember/evaluation/committee',
 				icon: 'Group',
 			},
 		},
@@ -497,7 +553,7 @@ export const teamMemberMenuSidebar = {
 	profile: {
 		id: 'profile',
 		text: 'Profile',
-		path: '/teamlead/profile',
+		path: '/teammember/profile',
 		icon: 'gear',
 		subMenu: null,
 	},
