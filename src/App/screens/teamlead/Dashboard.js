@@ -53,7 +53,7 @@ import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
 axios.defaults.withCredentials = true;
 import useAuth from "../../../hooks/useAuth";
-import { Grid } from "react-loader-spinner";
+import { Grid, Radio } from "react-loader-spinner";
 import RadialBarMultiple from '../../../pages/documentation/charts/chart-radial-bar/RadialBarMultiple';
 import RadialBarCustom from '../../../pages/documentation/charts/chart-radial-bar/RadialBarCustom';
 import RadialBarGradient from '../../../pages/documentation/charts/chart-radial-bar/RadialBarGradient';
@@ -100,7 +100,7 @@ const DashboardPage = () => {
     console.log("projectname", projectname);
     const response = await axios.post(
       "http://localhost:3500/student/project",
-      { Name: projectname.data.Project.Name },
+      { Name: projectname.data.Project?.Name },
       {
         withCredentials: true,
       }
@@ -138,6 +138,8 @@ const DashboardPage = () => {
     { text: "High", color: "danger" },
     { text: "Low", color: "success" },
     { text: "Medium", color: "info" },
+    { text: "Accepted", color: "success" },
+    { text: "Rejected", color: "danger" },
   ];
   const getTaskColor = (priority) => {
     return PRIORITY_BADGES.find((badge) => badge.text == priority).color;
@@ -220,8 +222,8 @@ const DashboardPage = () => {
       </SubHeader>
       {projectInfo == null ?
 
-        <div className="w- flex  h-[700px] justify-center items-center">
-          <Grid
+        <div className="w- flex flex-col  h-[700px] justify-center items-center">
+          <Radio
             height="150"
             width="150"
             color="#6C5DD3"
@@ -231,6 +233,10 @@ const DashboardPage = () => {
             wrapperClass=""
             visible={true}
           />
+
+<h4 className="mt-5">You not been added to any group</h4>
+
+          
         </div>
 
 

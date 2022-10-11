@@ -52,7 +52,7 @@ import useDarkMode from "../../../hooks/useDarkMode";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 axios.defaults.withCredentials = true;
-import { Grid } from "react-loader-spinner";
+import { Grid, Radio } from "react-loader-spinner";
 const localizer = momentLocalizer(moment);
 const now = new Date();
 
@@ -139,7 +139,7 @@ const MyWeekEvent = (data) => {
 	);
 };
 
-const Sprint = ({reload}) => {
+const Sprint = ({ reload }) => {
 	const { darkModeStatus, themeStatus } = useDarkMode();
 
 	const [toggleRightPanel, setToggleRightPanel] = useState(true);
@@ -261,7 +261,7 @@ const Sprint = ({reload}) => {
 		})
 
 		console.log("res", res)
-	
+
 		getstudentSelf()
 
 
@@ -416,9 +416,9 @@ const Sprint = ({reload}) => {
 
 	return (
 		<>
-			{tasks.length == 0 ? (
+			{!projectInfo?.Name ? (
 				<div className="w- flex flex-col  h-[700px] justify-center items-center">
-					<Grid
+					<Radio
 						height="150"
 						width="150"
 						color="#6C5DD3"
@@ -428,7 +428,7 @@ const Sprint = ({reload}) => {
 						wrapperClass=""
 						visible={true}
 					/>
-					<h4 className="mt-5">You might have no tasks currently</h4>
+					<h4 className="mt-5">You are not in any project currently</h4>
 
 
 				</div>
