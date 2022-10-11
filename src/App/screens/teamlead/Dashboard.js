@@ -171,6 +171,13 @@ const DashboardPage = () => {
 
   }
 
+
+
+
+
+
+
+
   const [state] = useState({
     series: [44, 55, 67],
     options: {
@@ -234,9 +241,9 @@ const DashboardPage = () => {
             visible={true}
           />
 
-<h4 className="mt-5">You not been added to any group</h4>
+          <h4 className="mt-5">Check if you are added to any group</h4>
 
-          
+
         </div>
 
 
@@ -249,7 +256,7 @@ const DashboardPage = () => {
               whiteSpace: "nowrap",
               WebkitOverflowScrolling: "touch",
               position: "relative",
-            }}
+            }} 
           >
             {/* <div className='col-12'>
 						<Alert

@@ -428,7 +428,7 @@ const Sprint = ({ reload }) => {
 						wrapperClass=""
 						visible={true}
 					/>
-					<h4 className="mt-5">You are not in any project currently</h4>
+					<h4 className="mt-5">Check if you are added to any group</h4>
 
 
 				</div>

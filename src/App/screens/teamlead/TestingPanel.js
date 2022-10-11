@@ -20,10 +20,16 @@ import { useFormik } from "formik";
 import Card, {
   CardActions,
   CardBody,
+  CardFooter,
+  CardFooterLeft,
   CardHeader,
   CardLabel,
+  CardSubTitle,
   CardTitle,
 } from "../../../components/bootstrap/Card";
+
+
+import Checks, { ChecksGroup } from '../../../components/bootstrap/forms/Checks';
 
 import { priceFormat } from "../../../helpers/helpers";
 import Dropdown, {
@@ -40,7 +46,7 @@ import OffCanvas, {
 import FormGroup from "../../../components/bootstrap/forms/FormGroup";
 import Input from "../../../components/bootstrap/forms/Input";
 import Textarea from "../../../components/bootstrap/forms/Textarea";
-import Checks from "../../../components/bootstrap/forms/Checks";
+
 
 import data from "../../../common/data/dummyEventsData";
 import USERS from "../../../common/data/userDummyData";
@@ -51,12 +57,17 @@ import PaginationButtons, {
   PER_COUNT,
 } from "../../../components/PaginationButtons";
 import useSortableData from "../../../hooks/useSortableData";
+
+import InputGroup from '../../../components/bootstrap/forms/InputGroup';
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 axios.defaults.withCredentials = true;
-import { Grid } from "react-loader-spinner";
+import { Grid, Radio } from "react-loader-spinner";
 import Select from "../../../components/bootstrap/forms/Select";
 import Option from "../../../components/bootstrap/Option";
+import Chat, { ChatGroup } from '../../../components//Chat';
+import CHATS from '../../../common/data/chatDummyData';
+
 import Swal from "sweetalert2";
 const ListFluidPage = () => {
   const { darkModeStatus, themeStatus } = useDarkMode();
@@ -158,6 +169,9 @@ const ListFluidPage = () => {
     },
   });
 
+
+
+
   const addToDatabase = async (values) => {
 
     console.log(values)
@@ -182,6 +196,9 @@ const ListFluidPage = () => {
       }
     );
 
+    setEditModalStatus(false)
+    Swal.fire("Task Assigned!", "Task has been assigned successfully", "success");
+    getstudentSelf();
     console.log(response)
 
 
@@ -190,7 +207,7 @@ const ListFluidPage = () => {
   const editToDatabase = async (values) => {
     const Accepted = values.type === "Accepted" ? true : false;
 
-    console.log("THSE ARE VALUES", values, " OLD: ",tempName,  " PROJECTNAME" ,projectInfo.data.Name  )
+    console.log("THSE ARE VALUES", values, " OLD: ", tempName, " PROJECTNAME", projectInfo.data.Name)
     try {
       const response = await axios.put(
         "http://localhost:3500/student/requirementLead",
@@ -199,7 +216,7 @@ const ListFluidPage = () => {
           Rename: values.title,
           ProjectName: projectInfo.data.Name,
           Description: values.description,
-          Priority: values.status,
+          Priority: values.priority,
           Accepted: Accepted,
           TeamMember: values.teammember,
           end: values.date,
@@ -212,6 +229,7 @@ const ListFluidPage = () => {
       );
 
       Swal.fire("Submitted!", "", "success");
+      getstudentSelf()
 
       console.log("After assigning: ", response);
     } catch (err) {
@@ -224,6 +242,8 @@ const ListFluidPage = () => {
   const [perPage, setPerPage] = useState(PER_COUNT["5"]);
   const { items, requestSort, getClassNamesFor } = useSortableData(data);
   const [selectedTask, setselectedTask] = useState(null);
+
+
 
   const [details, setDetails] = useState("");
 
@@ -319,9 +339,9 @@ const ListFluidPage = () => {
           withCredentials: true, //correct
         }
       );
-      getProject()
+      getstudentSelf()
 
-      Swal.fire("Submitted!", "", "success");
+      Swal.fire("Deleted!", "Task has been deleted successfully", "success");
 
       console.log("After assigning: ", response);
     } catch (err) {
@@ -335,28 +355,189 @@ const ListFluidPage = () => {
 
   const [editModalStatus, setEditModalStatus] = useState(false);
 
+  const [submitTaskModal, setsubmitTaskModal] = useState(false)
+  const card =
+  {
+    id: 'Card3',
+    title: 'Landing Page Update',
+    subtitle: 'Omtanke Team',
+    description: 'Will be redesigned',
+    label: '5 day left',
+    user: USERS.GRACE,
+    tags: ["DEVELPOEMNT", "TAGS.code"],
+    tasks: [
+      { id: 1, text: 'Draft drawings will be made', status: true },
+      { id: 2, text: 'Page will be updated', status: false },
+      { id: 3, text: 'Will be sent for review.', status: false },
+    ],
+    attachments: [{ id: 2, path: 'somefile.txt', file: 'WORD' }],
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const submitToDatabase = async (values) => {
+
+
+    console.log("THSE ARE VALUES", tempName, " PROJECTNAME", projectInfo.data.Name)
+    try {
+      const response = await axios.put(
+        "http://localhost:3500/student/requirementLead",
+        {
+          Title: tempName,
+          File: getFileBase64String,
+          Description: values.description,
+          ProjectName: projectInfo.data.Name,
+          Accepted: true
+
+
+        },
+
+        {
+          withCredentials: true, //correct
+        }
+      );
+
+      Swal.fire("Submitted!", "", "success");
+      getstudentSelf()
+      console.log("After assigning: ", response);
+    } catch (err) {
+      console.log(err);
+      Swal.fire("Server Error!", "", "error");
+    }
+  };
+
+
+
+
+
+
+
+
+  const formikSubmitTask = useFormik({
+    initialValues: {
+      title: "",
+      priority: "",
+      teammember: "",
+      status: "",
+
+      date: moment().add(1, "days").format("YYYY-MM-DD"),
+
+      description: "",
+    },
+
+
+
+    onSubmit: (values) => {
+
+
+      submitToDatabase(values);
+    },
+  });
+
+
+
+
+
+
+  const [getFileBase64String, setFileBase64String] = useState(null);
+
+
+  const [taskToBeSubmitted, settaskToBeSubmitted] = useState(null)
+
+
+  const encodeFileBase64 = (file) => {
+
+    console.log("encodeFileBase64 FUN", file)
+
+
+
+    var reader = new FileReader();
+
+
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      var Base64 = reader.result;
+      console.log("Base64", Base64);
+      setFileBase64String(Base64)
+
+    };
+
+
+
+
+  };
+
   return (
     <>
-      {projectInfo == null || selectedTask == null ? (
-        <div className="w- flex flex-col  h-[700px] justify-center items-center">
-          <Grid
-            height="150"
-            width="150"
-            color="#6C5DD3"
-            ariaLabel="grid-loading"
-            radius="12.5"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-          {selectedTask == null ? <h4 className="mt-5">You might have no tasks currently</h4> : ""}
+      {projectInfo == null ?
+
+        (
+          <div className="w- flex flex-col  h-[700px] justify-center items-center">
+            <Radio
+              height="150"
+              width="150"
+              color="#6C5DD3"
+              ariaLabel="grid-loading"
+              radius="12.5"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+            {selectedTask == null ? <h4 className="mt-5">Check if you are added to any group</h4> : ""}
 
 
-        </div>
-      ) : (
-        <PageWrapper title="Testing">
-          <SubHeader>
-            {/* <SubHeaderLeft>
+          </div>
+        )
+        :
+
+
+
+        selectedTask == null ? (
+          <div className="w- flex flex-col  h-[700px] justify-center items-center">
+            <Radio
+              height="150"
+              width="150"
+              color="#6C5DD3"
+              ariaLabel="grid-loading"
+              radius="12.5"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+            {selectedTask == null ? <h4 className="mt-5">No tasks assigned currently</h4> : ""}
+
+
+          </div>
+        ) : (
+          <PageWrapper title="Testing">
+            <SubHeader>
+              {/* <SubHeaderLeft>
               <Icon icon="Info" className="me-2" size="2x" />
               <span className="text-muted">
                 You have{" "}
@@ -376,86 +557,87 @@ const ListFluidPage = () => {
                 {getRejected()} pending tests.
               </span>
             </SubHeaderLeft> */}
-            <SubHeaderRight>
-              <Popovers
-                desc={
-                  <DatePicker
-                    onChange={(item) => setDate(item)}
-                    date={date}
-                    color={process.env.REACT_APP_PRIMARY_COLOR}
-                  />
-                }
-                placement="bottom-end"
-                className="mw-100"
-                trigger="click"
-              >
-                <Button color={themeStatus}>
-                  {`${moment(date)
-                    .startOf("weeks")
-                    .format("MMM Do")} - ${moment(date)
-                      .endOf("weeks")
-                      .format("MMM Do")}`}
-                </Button>
-              </Popovers>
-            </SubHeaderRight>
-          </SubHeader>
-          <Page container="fluid">
-            <>
-              <Card stretch={true}>
-                <CardHeader borderSize={1}>
-                  <CardLabel icon="Box" iconColor="info">
-                    <CardTitle className="pl-3"> Testing Panel</CardTitle>
-                  </CardLabel>
-                  <CardActions>
-                    <Button
-                      color="info"
-                      icon="add"
-                      isLight
-                      tag="a"
-                      onClick={() => {
-                        setEditModalStatus(true)
-                      }}
-                      target="_blank"
+              <SubHeaderRight>
+                <Popovers
+                  desc={
+                    <DatePicker
+                      onChange={(item) => setDate(item)}
+                      date={date}
+                      color={process.env.REACT_APP_PRIMARY_COLOR}
+                    />
+                  }
+                  placement="bottom-end"
+                  className="mw-100"
+                  trigger="click"
+                >
+                  <Button color={themeStatus}>
+                    {`${moment(date)
+                      .startOf("weeks")
+                      .format("MMM Do")} - ${moment(date)
+                        .endOf("weeks")
+                        .format("MMM Do")}`}
+                  </Button>
+                </Popovers>
+              </SubHeaderRight>
+            </SubHeader>
+            <Page container="fluid">
+              <>
+                <Card stretch={true}>
+                  <CardHeader borderSize={1}>
+                    <CardLabel icon="Box" iconColor="info">
+                      <CardTitle className="pl-3"> Testing Panel</CardTitle>
+                    </CardLabel>
+                    <CardActions>
+                      {auth.Role == "TeamMember" ? "" : <Button
+                        color="info"
+                        icon="add"
+                        isLight
+                        tag="a"
+                        onClick={() => {
+                          setEditModalStatus(true)
+                        }}
+                        target="_blank"
 
-                    >
-                      Add Test
-                    </Button>
-                  </CardActions>
-                </CardHeader>
-                <CardBody className="table-responsive" isScrollable={true}>
-                  <table className="table table-modern">
-                    <thead>
-                      <tr>
-                        <td style={{ width: 60 }} />
-                        <th
-                          onClick={() => requestSort("date")}
-                          className="cursor-pointer text-decoration-underline"
-                        >
-                          Deadline{" "}
-                          <Icon
-                            size="lg"
-                            className={getClassNamesFor("date")}
-                            icon="FilterList"
-                          />
-                        </th>
-                        <th>Role</th>
-                        <th>Assigned to</th>
-                        <th>Title</th>
+                      >
+                        Add Test
+                      </Button>}
+                    </CardActions>
+                  </CardHeader>
+                  <CardBody className="table-responsive" isScrollable={true}>
+                    <table className="table table-modern">
+                      <thead>
+                        <tr>
+                          <td style={{ width: 60 }} />
+                          <th
+                            onClick={() => requestSort("date")}
+                            className="cursor-pointer text-decoration-underline"
+                          >
+                            Deadline{" "}
+                            <Icon
+                              size="lg"
+                              className={getClassNamesFor("date")}
+                              icon="FilterList"
+                            />
+                          </th>
+                          <th>Role</th>
+                          <th>Assigned to</th>
+                          <th>Title</th>
 
-                        <th>Priority</th>
-                        <th>Status</th>
-                        <td />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {projectInfo.data.Requirements.map((item) => {
-                        if (item.Type == "Testing")
-                          return (
-                            <tr key={item.id}>
-                              <td></td>
-                              <td>
-                                <div className="d-flex align-items-center">
-                                  {/* <span
+                          <th>Priority</th>
+                          <th>Status</th>
+                          <th></th>
+                          <td />
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {projectInfo.data.Requirements.map((item) => {
+                          if (item.Type == "Testing")
+                            return (
+                              <tr key={item.id}>
+                                <td></td>
+                                <td>
+                                  <div className="d-flex align-items-center">
+                                    {/* <span
 												className={classNames(
 													'badge',
 													'border border-2',
@@ -469,51 +651,51 @@ const ListFluidPage = () => {
 													{item.status.name}
 												</span>
 											</span> */}
-                                  <span className="text-nowrap">
-                                    {moment(` ${item.end}`).format(
-                                      "MMM Do YYYY, h:mm a"
-                                    )}
-                                  </span>
-                                </div>
-                              </td>
-                              <td>
-                                <div>
-                                  <div>{item.AssignedTo.Role}</div>
-                                  <div className="small text-muted">
-                                    {item.AssignedTo.Email}
+                                    <span className="text-nowrap">
+                                      {moment(` ${item.end}`).format(
+                                        "MMM Do YYYY, h:mm a"
+                                      )}
+                                    </span>
                                   </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex">
-                                  <div className="flex-shrink-0">
-                                    <Avatar
-                                      src={item.AssignedTo.ProfilePicture}
-                                      srcSet={item.AssignedTo.ProfilePicture}
-                                      color={item.Title}
-                                      size={36}
-                                    />
+                                </td>
+                                <td>
+                                  <div>
+                                    <div>{item?.AssignedTo?.Role}</div>
+                                    <div className="small text-muted">
+                                      {item?.AssignedTo?.Email}
+                                    </div>
                                   </div>
-                                  <div className="flex-grow-1 ms-3 d-flex align-items-center text-nowrap">
-                                    {`${item.AssignedTo.Name}`}
+                                </td>
+                                <td>
+                                  <div className="d-flex">
+                                    <div className="flex-shrink-0">
+                                      <Avatar
+                                        src={item?.AssignedTo?.ProfilePicture}
+                                        srcSet={item?.AssignedTo?.ProfilePicture}
+                                        color={item?.Title}
+                                        size={36}
+                                      />
+                                    </div>
+                                    <div className="flex-grow-1 ms-3 d-flex align-items-center text-nowrap">
+                                      {`${item?.AssignedTo?.Name}`}
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td>{item.Title}</td>
+                                </td>
+                                <td>{item?.Title}</td>
 
-                              <td>{item.Priority}</td>
-                              {/* <td>{item.payment && priceFormat(item.payment)}</td> */}
-                              <td>
-                                <Button
-                                  isLink
-                                  color={item.Accepted ? "success" : "danger"}
-                                  icon="Circle"
-                                  className="text-nowrap"
-                                >
-                                  {item.Accepted ? "Accepted" : "Pending"}
-                                </Button>
+                                <td>{item?.Priority}</td>
+                                {/* <td>{item.payment && priceFormat(item.payment)}</td> */}
+                                <td>
+                                  <Button
+                                    isLink
+                                    color={item?.Accepted ? "success" : "danger"}
+                                    icon="Circle"
+                                    className="text-nowrap"
+                                  >
+                                    {item?.Accepted ? "Accepted" : "Pending"}
+                                  </Button>
 
-                                {/* <DropdownMenu>
+                                  {/* <DropdownMenu>
 												{Object.keys(EVENT_STATUS).map((key) => (
 													<DropdownItem key={key}>
 														<div>
@@ -526,280 +708,527 @@ const ListFluidPage = () => {
 													</DropdownItem>
 												))}
 											</DropdownMenu> */}
-                              </td>
-                              <td>
-                                <Button
-                                  isOutline={!darkModeStatus}
-                                  color="dark"
-                                  isLight={darkModeStatus}
-                                  className={classNames("text-nowrap", {
-                                    "border-light": !darkModeStatus,
-                                  })}
-                                  icon="Edit"
-                                  //setselectedTask
-                                  onClick={() => {
-                                    settempName(item.Title);
-                                    setselectedTask(item);
-                                    handleUpcomingEdit();
-                                  }}
-                                >
-                                  Edit
+                                </td>
+                                {auth.Role == "TeamMember" ? "" : <td>
+                                  <Button
+                                    isOutline={!darkModeStatus}
+                                    color="dark"
+                                    isLight={darkModeStatus}
+                                    className={classNames("text-nowrap", {
+                                      "border-light": !darkModeStatus,
+                                    })}
+                                    icon="Edit"
+                                    //setselectedTask
+                                    onClick={() => {
+                                      settempName(item.Title);
+                                      setselectedTask(item);
+                                      handleUpcomingEdit();
+                                    }}
+                                  >
+                                    Edit
+                                  </Button>
+                                </td>}
+
+                                <td>
+                                  <Button
+                                    isOutline={!darkModeStatus}
+                                    color="dark"
+                                    isLight={darkModeStatus}
+                                    className={classNames("text-nowrap", {
+                                      "border-light": !darkModeStatus,
+                                    })}
+                                    icon="send"
+                                    //setselectedTask
+                                    onClick={() => {
+
+
+
+                                      setsubmitTaskModal(true)
+                                      settaskToBeSubmitted(item)
+
+                                    }}
+                                  >
+                                    Submit
+                                  </Button>
+                                </td>
+                              </tr>
+                            );
+                          else return "";
+                        })}
+                      </tbody>
+                    </table>
+                  </CardBody>
+                  <PaginationButtons
+                    data={items}
+                    label="items"
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                    perPage={perPage}
+                    setPerPage={setPerPage}
+                  />
+                </Card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <Modal
+                  setIsOpen={setsubmitTaskModal}
+                  isOpen={submitTaskModal}
+                  size='lg'
+                  isScrollable
+                  data-tour='mail-app-modal'>
+                  <ModalHeader className='px-4' setIsOpen={setsubmitTaskModal}>
+
+                  </ModalHeader>
+                  <ModalBody className='px-4'>
+                    <div className='row'>
+                      <div className='col-md-8'>
+                        <Card shadow='sm'>
+                          <CardHeader>
+                            <CardLabel icon='Info' iconColor='success'>
+                              <CardTitle>Test Case Information</CardTitle>
+                            </CardLabel>
+                          </CardHeader>
+                          <CardBody>
+                            <div className='row g-4'>
+                              <FormGroup
+                                className='col-12'
+                                id='title'
+                                label='Task Name'>
+                                <Input
+
+                                  onChange={formikSubmitTask.handleChange}
+                                  value={taskToBeSubmitted?.Title ? taskToBeSubmitted.Title : "No Name"}
+                                />
+                              </FormGroup>
+                              <FormGroup
+                                className='col-12'
+                                id='description'
+                                label='Description'>
+                                <Textarea
+
+                                  onChange={formikSubmitTask.handleChange}
+                                  defaultValue={taskToBeSubmitted?.Description}
+                                />
+                              </FormGroup>
+                            </div>
+                          </CardBody>
+                        </Card>
+                        {card.attachments && (
+                          <Card shadow='sm'>
+                            <CardHeader>
+                              <CardLabel icon='AttachFile' iconColor='danger'>
+                                <CardTitle>Attachment</CardTitle>
+                                <CardSubTitle>
+                                  files
+                                </CardSubTitle>
+                              </CardLabel>
+                              <CardActions>
+                                <Button color='danger' isOutline>
+                                  Attach
                                 </Button>
-                              </td>
-                            </tr>
-                          );
-                        else return "";
-                      })}
-                    </tbody>
-                  </table>
-                </CardBody>
-                <PaginationButtons
-                  data={items}
-                  label="items"
-                  setCurrentPage={setCurrentPage}
-                  currentPage={currentPage}
-                  perPage={perPage}
-                  setPerPage={setPerPage}
-                />
-              </Card>
+                              </CardActions>
+                            </CardHeader>
+                            <CardBody>
+                              <div className='row g-3'>
 
-              <OffCanvas
-                setOpen={setUpcomingEventsEditOffcanvas}
-                isOpen={upcomingEventsEditOffcanvas}
-                titleId="upcomingEdit"
-                isBodyScroll
-                placement="end"
-              >
-                <OffCanvasHeader setOpen={setUpcomingEventsEditOffcanvas}>
-                  <OffCanvasTitle id="upcomingEdit">
-                    Edit Appointments
-                  </OffCanvasTitle>
-                </OffCanvasHeader>
-                <OffCanvasBody>
-                  <div className="row g-4">
-                    <div className="col-12">
-                      <FormGroup id="title" label="Title">
-                        <Input
-                          defaultValue={`${selectedTask.Title}`}
-                          onChange={formik.handleChange}
-                          isValid={formik.isValid}
-                          isTouched={formik.touched.title}
-                          invalidFeedback={formik.errors.title}
-                          validFeedback="Looks good!"
-                          onBlur={formik.handleBlur}
-                        />
-                      </FormGroup>
-                    </div>
+                                <div className='col-auto'>
+                                  <Input
+                                    required
+                                    type="file"
+                                    onChange={(e) => {
+                                      encodeFileBase64(e.target.files[0]);
+                                    }}
+                                  />
+                                </div>
 
-                    <div className="col-12">
-                      <FormGroup
-                        id="priority"
-                        label="Priority"
-                        className="col-md"
-                      >
-                        <Select
-                          placeholder="Select Priority..."
-                          onChange={formik.handleChange}
-                          ariaLabel="Team member select"
-                          defaultValue={`${selectedTask.Priority}`}
-                        >
-                          <Option value="Low">Low</Option>
-                          <Option value="Medium">Medium</Option>
-                          <Option value="High">High</Option>
-                        </Select>
-                      </FormGroup>
-                    </div>
+                              </div>
+                            </CardBody>
+                          </Card>
+                        )}
 
-                    <div className="col-12">
-                      <FormGroup
-                        id="teammember"
-                        label="Select Team Member"
-                        className="col-md"
-                      >
-                        <Select
-                          placeholder="Please select..."
-                          onChange={formik.handleChange}
-                          defaultValue={`${selectedTask.Priority}`}
-                          ariaLabel="Team member select"
-                        >
-                          {projectInfo.data.GroupMembers.map((u, k) => (
-                            <Option key={k} value={u._id}>
-                              {`${u.RegNo}`}
-                            </Option>
-                          ))}
-                        </Select>
-                      </FormGroup>
-                    </div>
+                        <Card shadow='sm'>
+                          <CardHeader>
+                            <CardLabel icon='QuestionAnswer' iconColor='info'>
+                              <CardTitle>Comments</CardTitle>
+                            </CardLabel>
+                          </CardHeader>
+                          <CardBody>
+                            <Chat>
+                              {CHATS.CHLOE_VS_JOHN.map((msg) => (
+                                <ChatGroup
+                                  key={msg.id}
+                                  messages={msg.messages}
+                                  user={msg.user}
+                                  isReply={msg.isReply}
+                                />
+                              ))}
+                            </Chat>
+                          </CardBody>
+                          <CardFooter className='d-block'>
+                            <InputGroup>
+                              <Textarea />
+                              <Button color='info' icon='Send'>
+                                SEND
+                              </Button>
+                            </InputGroup>
+                          </CardFooter>
+                        </Card>
+                      </div>
+                      <div className='col-md-4'>
+                        <div className='row g-4 sticky-top'>
+                          <FormGroup className='col-12' id='assignedTo' label='AssignedTo'>
+                            <Select
+                              disable
+                              ariaLabel='Board select'
+                              placeholder={`${taskToBeSubmitted?.AssignedTo == undefined ? "Not Assigned" : taskToBeSubmitted?.AssignedTo?.Name}`}
 
-                    <div className="col-12">
-                      <FormGroup id="status" label="Status" className="col-md">
-                        <Select
-                          placeholder="Select Status..."
-                          onChange={formik.handleChange}
-                          defaultValue={`${selectedTask.Accepted}`}
-                          ariaLabel="Status select"
-                        >
-                          <Option value="Accepted">Accepted</Option>
-                          <Option value="Pending">Pending</Option>
-                        </Select>
-                      </FormGroup>
-                    </div>
+                              defaultValue={taskToBeSubmitted?.AssignedTo?.Name}>
 
-                    <div className="col-12">
-                      <FormGroup id="date" label="Date">
-                        <Input
-                          onChange={formik.handleChange}
-                          defaultValue={`${selectedTask.end}`}
-                          type="datetime-local"
-                        />
-                      </FormGroup>
-                    </div>
-
-                    <div className="col-12">
-                      <Card
-                        isCompact
-                        borderSize={2}
-                        shadow="none"
-                        className="mb-0"
-                      >
-                        <CardHeader>
-                          <CardLabel>
-                            <CardTitle>Description</CardTitle>
-                          </CardLabel>
-                        </CardHeader>
-                        <CardBody>
-                          <FormGroup id="description" label="Enter here....">
-                            <Textarea
-                              onChange={formik.handleChange}
-                              defaultValue={`${selectedTask.Description}`}
-                            />
+                            </Select>
                           </FormGroup>
-                        </CardBody>
-                      </Card>
-                    </div>
-                  </div>
-                </OffCanvasBody>
-                <div className="row m-0">
-                  <div className="col-12 p-3 pb-0">
-                    <Button
-                      color="danger"
-                      className="w-100"
-                      onClick={() => deleteFromDatabase(selectedTask.Title)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-                <div className="row m-0">
-                  <div className="col-12 p-3">
-                    <Button
-                      color="info"
-                      className="w-100"
-                      onClick={formik.handleSubmit}
-                    //onClick={() => setUpcomingEventsEditOffcanvas(false)}
-                    >
-                      Assign
-                    </Button>
-                  </div>
-                </div>
-              </OffCanvas>
+                          <FormGroup className='col-12' id='priority' label='Priority'>
+                            <Select
+                              disable
+                              ariaLabel='Board select'
+                              placeholder={`${taskToBeSubmitted?.Priority}`}
 
-              <Modal setIsOpen={setEditModalStatus} isOpen={editModalStatus} size='lg' isScrollable>
-                <ModalHeader className='px-4' setIsOpen={setEditModalStatus}>
+                              defaultValue={taskToBeSubmitted?.Priority}>
 
-                </ModalHeader>
-                <ModalBody className='px-4'>
-                  <div className='row'>
-                    <div className='col-md-8'>
-                      <Card shadow='sm'>
-                        <CardHeader>
-                          <CardLabel icon='Info' iconColor='success'>
-                            <CardTitle>Test Case</CardTitle>
-                          </CardLabel>
-                        </CardHeader>
-                        <CardBody>
-                          <div className='row g-4'>
-                            <FormGroup
-                              className='col-12'
-                              id='title'
-                              label='Test Name'>
-                              <Input
-                                onChange={formikAddTask.handleChange}
-                                value={formikAddTask.values.title}
-                              />
-                            </FormGroup>
-                            <FormGroup
-                              className='col-12'
-                              id='description'
-                              label='Description'>
-                              <Textarea
-                                onChange={formikAddTask.handleChange}
-                                value={formikAddTask.values.description}
-                              />
-                            </FormGroup>
-                          </div>
-                        </CardBody>
-                      </Card>
+                            </Select>
+                          </FormGroup>
+
+                          <FormGroup className='col-12' id='accepted' label='Accepted'>
+                            <Select
+
+                              ariaLabel='Board select'
+                              placeholder={`${taskToBeSubmitted?.Accepted == true ? "Accepted" : "Pending"}`}
+
+                              defaultValue={taskToBeSubmitted?.Accepted}>
+
+
+                              <Option value="Accepted">Accepted</Option>
+                              <Option value="Pending">Pending</Option>
+
+                            </Select>
+
+                          </FormGroup>
+
+                        </div>
+                      </div>
                     </div>
-                    <div className='col-md-4'>
-                      <div className='row g-4 sticky-top'>
-                        <FormGroup className='col-12' id='status' label='Status'>
+                  </ModalBody>
+                  <ModalFooter className='px-4 pb-4'>
+                    <Button
+                      color='primary'
+                      className='w-100'
+                      type='submit'
+                      onClick={() => {
+
+
+
+                        settempName(taskToBeSubmitted.Title)
+                        formikSubmitTask.handleSubmit()
+                      }
+
+                      }
+
+                    >
+                      Submit
+                    </Button>
+                  </ModalFooter>
+                </Modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <OffCanvas
+                  setOpen={setUpcomingEventsEditOffcanvas}
+                  isOpen={upcomingEventsEditOffcanvas}
+                  titleId="upcomingEdit"
+                  isBodyScroll
+                  placement="end"
+                >
+                  <OffCanvasHeader setOpen={setUpcomingEventsEditOffcanvas}>
+                    <OffCanvasTitle id="upcomingEdit">
+                      Edit Test Case
+                    </OffCanvasTitle>
+                  </OffCanvasHeader>
+                  <OffCanvasBody>
+                    <div className="row g-4">
+                      <div className="col-12">
+                        <FormGroup id="title" label="Title">
+                          <Input
+                            defaultValue={`${selectedTask.Title}`}
+                            onChange={formik.handleChange}
+                            isValid={formik.isValid}
+                            isTouched={formik.touched.title}
+                            invalidFeedback={formik.errors.title}
+                            validFeedback="Looks good!"
+                            onBlur={formik.handleBlur}
+                          />
+                        </FormGroup>
+                      </div>
+
+                      <div className="col-12">
+                        <FormGroup
+                          id="priority"
+                          label="Priority"
+                          className="col-md"
+                        >
                           <Select
-                            ariaLabel='status select'
-                            placeholder='Select status'
-                            onChange={formikAddTask.handleChange}
-                            value={formikAddTask.values.status}>
-
-                            <Option value="High">High</Option>
-                            <Option value="Medium">Medium</Option>
+                            placeholder="Select Priority..."
+                            onChange={formik.handleChange}
+                            ariaLabel="Team member select"
+                            defaultValue={`${selectedTask.Priority}`}
+                          >
                             <Option value="Low">Low</Option>
-
+                            <Option value="Medium">Medium</Option>
+                            <Option value="High">High</Option>
                           </Select>
                         </FormGroup>
-                        <FormGroup className='col-12' id='teammember' label='Group Members'>
+                      </div>
+
+                      <div className="col-12">
+                        <FormGroup
+                          id="teammember"
+                          label="Select Team Member"
+                          className="col-md"
+                        >
                           <Select
-                            ariaLabel='Board select'
-                            placeholder='Select group'
-                            onChange={formikAddTask.handleChange}
-                            value={formikAddTask.values.teammember}>
-                            {projectInfo.data.GroupMembers.map((u) => (
-                              <Option key={u.RegNo} value={u._id}>
+                            placeholder="Please select..."
+                            onChange={formik.handleChange}
+                            defaultValue={`${selectedTask.Priority}`}
+                            ariaLabel="Team member select"
+                          >
+                            {projectInfo.data.GroupMembers.map((u, k) => (
+                              <Option key={k} value={u._id}>
                                 {`${u.RegNo}`}
                               </Option>
                             ))}
                           </Select>
                         </FormGroup>
+                      </div>
 
+                      <div className="col-12">
+                        <FormGroup id="status" label="Status" className="col-md">
+                          <Select
+                            placeholder="Select Status..."
+                            onChange={formik.handleChange}
+                            defaultValue={`${selectedTask.Accepted}`}
+                            ariaLabel="Status select"
+                          >
+                            <Option value="Accepted">Accepted</Option>
+                            <Option value="Pending">Pending</Option>
+                          </Select>
+                        </FormGroup>
+                      </div>
 
-                        <FormGroup id="end" label="Deadline">
+                      <div className="col-12">
+                        <FormGroup id="date" label="Date">
                           <Input
+                            onChange={formik.handleChange}
+                            defaultValue={`${selectedTask.end}`}
                             type="datetime-local"
-                            value={moment(formikAddTask.values.end).format(
-                              moment.HTML5_FMT.DATETIME_LOCAL
-                            )}
-                            onChange={formikAddTask.handleChange}
                           />
                         </FormGroup>
+                      </div>
 
-
+                      <div className="col-12">
+                        <Card
+                          isCompact
+                          borderSize={2}
+                          shadow="none"
+                          className="mb-0"
+                        >
+                          <CardHeader>
+                            <CardLabel>
+                              <CardTitle>Description</CardTitle>
+                            </CardLabel>
+                          </CardHeader>
+                          <CardBody>
+                            <FormGroup id="description" label="Enter here....">
+                              <Textarea
+                                onChange={formik.handleChange}
+                                defaultValue={`${selectedTask.Description}`}
+                              />
+                            </FormGroup>
+                          </CardBody>
+                        </Card>
                       </div>
                     </div>
+                  </OffCanvasBody>
+                  <div className="row m-0">
+                    <div className="col-12 p-3 pb-0">
+                      <Button
+                        color="danger"
+                        className="w-100"
+                        onClick={() => deleteFromDatabase(selectedTask.Title)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </div>
-                </ModalBody>
-                <ModalFooter className='px-4 pb-4'>
-                  <Button
-                    color='primary'
-                    className='w-100'
-                    type='submit'
-                    onClick={formikAddTask.handleSubmit}>
-                    Save
-                  </Button>
-                </ModalFooter>
-              </Modal>
-            </>
-          </Page>
-        </PageWrapper>
-      )}
+                  <div className="row m-0">
+                    <div className="col-12 p-3">
+                      <Button
+                        color="info"
+                        className="w-100"
+                        onClick={formik.handleSubmit}
+                      //onClick={() => setUpcomingEventsEditOffcanvas(false)}
+                      >
+                        Assign
+                      </Button>
+                    </div>
+                  </div>
+                </OffCanvas>
+
+                <Modal setIsOpen={setEditModalStatus} isOpen={editModalStatus} size='lg' isScrollable>
+                  <ModalHeader className='px-4' setIsOpen={setEditModalStatus}>
+
+                  </ModalHeader>
+                  <ModalBody className='px-4'>
+                    <div className='row'>
+                      <div className='col-md-8'>
+                        <Card shadow='sm'>
+                          <CardHeader>
+                            <CardLabel icon='Info' iconColor='success'>
+                              <CardTitle>Test Case</CardTitle>
+                            </CardLabel>
+                          </CardHeader>
+                          <CardBody>
+                            <div className='row g-4'>
+                              <FormGroup
+                                className='col-12'
+                                id='title'
+                                label='Test Name'>
+                                <Input
+                                  onChange={formikAddTask.handleChange}
+                                  value={formikAddTask.values.title}
+                                />
+                              </FormGroup>
+                              <FormGroup
+                                className='col-12'
+                                id='description'
+                                label='Description'>
+                                <Textarea
+                                  onChange={formikAddTask.handleChange}
+                                  value={formikAddTask.values.description}
+                                />
+                              </FormGroup>
+                            </div>
+                          </CardBody>
+                        </Card>
+                      </div>
+                      <div className='col-md-4'>
+                        <div className='row g-4 sticky-top'>
+                          <FormGroup className='col-12' id='status' label='Status'>
+                            <Select
+                              ariaLabel='status select'
+                              placeholder='Select status'
+                              onChange={formikAddTask.handleChange}
+                              value={formikAddTask.values.status}>
+
+                              <Option value="High">High</Option>
+                              <Option value="Medium">Medium</Option>
+                              <Option value="Low">Low</Option>
+
+                            </Select>
+                          </FormGroup>
+                          <FormGroup className='col-12' id='teammember' label='Group Members'>
+                            <Select
+                              ariaLabel='Board select'
+                              placeholder='Select group'
+                              onChange={formikAddTask.handleChange}
+                              value={formikAddTask.values.teammember}>
+                              {projectInfo.data.GroupMembers.map((u) => (
+                                <Option key={u.RegNo} value={u._id}>
+                                  {`${u.RegNo}`}
+                                </Option>
+                              ))}
+                            </Select>
+                          </FormGroup>
+
+
+                          <FormGroup id="end" label="Deadline">
+                            <Input
+                              type="datetime-local"
+                              value={moment(formikAddTask.values.end).format(
+                                moment.HTML5_FMT.DATETIME_LOCAL
+                              )}
+                              onChange={formikAddTask.handleChange}
+                            />
+                          </FormGroup>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </ModalBody>
+                  <ModalFooter className='px-4 pb-4'>
+                    <Button
+                      color='primary'
+                      className='w-100'
+                      type='submit'
+                      onClick={formikAddTask.handleSubmit}>
+                      Save
+                    </Button>
+                  </ModalFooter>
+                </Modal>
+              </>
+            </Page>
+          </PageWrapper>
+        )}
     </>
   );
 };

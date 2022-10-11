@@ -19,15 +19,16 @@ import PAYMENTS from '../../../common/data/enumPaymentMethod';
 import Select from '../../../components/bootstrap/forms/Select';
 import Option from '../../../components/bootstrap/Option';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
-const TeamMembersEditModal = ({ id, isOpen, setIsOpen }) => {
+const TeamMembersEditModal = ({ id, isOpen, setIsOpen ,projectInfo,reload}) => {
 	// const itemData = id ? data.filter((item) => item.id.toString() === id.toString()) : {};
 	// const item = id ? itemData[0] : {};
 
 	const addToDatabase = async (val) => {
-		console.log('AAGAYAHUM', val);
+		console.log('AAGAYAHUM', val,projectInfo.Name);
 
-		const Name = val.title;
+		const Name =projectInfo.Name;
 		const Student = val.members;
 	
 
@@ -36,6 +37,16 @@ const TeamMembersEditModal = ({ id, isOpen, setIsOpen }) => {
 			Student,
 			
 		});
+
+		
+		Swal.fire({
+            icon: 'success',
+            title: 'Team Member Added',
+            text: 'Team Member has been added successfully',
+           
+          })
+
+		reload()
 	};
 
 	var [ use, setuse ] = useState([]);
