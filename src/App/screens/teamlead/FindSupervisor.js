@@ -102,15 +102,7 @@ const FindSupervisor = () => {
         <SubHeaderRight>
 
         <CommonFilterTag title='Total Teachers' text={allTeachers.length} />
-         
-          <Button
-            icon='Add'
-            color='info'
-            isLight
-            tag='a'
-            onClick={() => setAddModalStatus(true)}>
-            Add Teacher
-          </Button>
+        
         </SubHeaderRight>
       </SubHeader>
       <Page container='fluid'>

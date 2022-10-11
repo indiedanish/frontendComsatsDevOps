@@ -55,7 +55,7 @@ import Badge from "../../../components/bootstrap/Badge";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
-import { Grid } from "react-loader-spinner";
+import { Grid, Radio } from "react-loader-spinner";
 const SupervisorEvaluation = () => {
     const { projectname } = useParams();
 
@@ -275,120 +275,138 @@ const SupervisorEvaluation = () => {
                     />
                 </div>
             ) : (
-                studentSelf.data.SupervisorEvaluation.map((item, index) => {
-                    return (
-                        <Page>
-                            <div className="row h-100 ">
-                                <div className="col-12">
-                                    <h5 >
+                studentSelf.data.SupervisorEvaluation.length == 0 ?
 
-                                        <Badge
-                                            className="text-xl "
-                                            color="danger" // 'primary' || 'secondary'  || 'success' || 'info' || 'warning' || 'danger' || 'light' || 'dark'
-                                            shadow="xl" // null || 'none' || 'sm' || 'default' || 'lg'
-                                            rounded="3" // 'default' ||  0 || 1 || 2 || 3 || 'bottom' || 'top' || 'circle' || 'end' ||  'start' || 'pill'
-                                        >
-                                            By {item.Teacher.Name}
-                                        </Badge>
-                                    </h5>
+                    <div className="w- flex flex-col  h-[700px] justify-center items-center">
+                        < Radio 
+                            height="150"
+                            width="150"
+                            color="#6C5DD3"
+                            ariaLabel="grid-loading"
+                            radius="12.5"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                        />
+                        <h4 className="mt-5">Supervisor might not have evaluated you yet</h4>
 
-                                    <Card stretch>
-                                        <CardBody isScrollable className="table-responsive">
-                                            <table className="table table-modern table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th
-                                                            onClick={() => requestSort("Name")}
-                                                            className="cursor-pointer text-decoration-underline"
-                                                        >
-                                                            <span className="text-[#6A5CD0]">
-                                                                Evaluation Questions
-                                                            </span>
 
-                                                            <Icon
-                                                                size="lg"
-                                                                className={getClassNamesFor("Name")}
-                                                                icon="FilterList"
-                                                            />
-                                                        </th>
-                                                        <th>Total Marks</th>
+                    </div>
+                    :
+                    studentSelf.data.SupervisorEvaluation.map((item, index) => {
+                        return (
+                            <Page>
+                                <div className="row h-100 ">
+                                    <div className="col-12">
+                                        <h5 >
 
-                                                        <th>Obtained Marks </th>
+                                            <Badge
+                                                className="text-xl "
+                                                color="danger" // 'primary' || 'secondary'  || 'success' || 'info' || 'warning' || 'danger' || 'light' || 'dark'
+                                                shadow="xl" // null || 'none' || 'sm' || 'default' || 'lg'
+                                                rounded="3" // 'default' ||  0 || 1 || 2 || 3 || 'bottom' || 'top' || 'circle' || 'end' ||  'start' || 'pill'
+                                            >
+                                                By {item.Teacher.Name}
+                                            </Badge>
+                                        </h5>
 
-                                                        <td />
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {item.Questions.map((i, key) => (
-                                                        <tr key={key}>
-                                                            <td>
-                                                                <div className="d-flex align-items-center">
-                                                                    <div className="flex-shrink-0">
-                                                                        <div
-                                                                            className="ratio ratio-1x1 me-3"
-                                                                            style={{ width: 48 }}
-                                                                        >
+                                        <Card stretch>
+                                            <CardBody isScrollable className="table-responsive">
+                                                <table className="table table-modern table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th
+                                                                onClick={() => requestSort("Name")}
+                                                                className="cursor-pointer text-decoration-underline"
+                                                            >
+                                                                <span className="text-[#6A5CD0]">
+                                                                    Evaluation Questions
+                                                                </span>
+
+                                                                <Icon
+                                                                    size="lg"
+                                                                    className={getClassNamesFor("Name")}
+                                                                    icon="FilterList"
+                                                                />
+                                                            </th>
+                                                            <th>Total Marks</th>
+
+                                                            <th>Obtained Marks </th>
+
+                                                            <td />
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {item.Questions.map((i, key) => (
+                                                            <tr key={key}>
+                                                                <td>
+                                                                    <div className="d-flex align-items-center">
+                                                                        <div className="flex-shrink-0">
                                                                             <div
-                                                                                className={`bg-l${darkModeStatus ? "o25" : "25"
-                                                                                    }-${getColorNameWithIndex(
-                                                                                        key
-                                                                                    )} text-${getColorNameWithIndex(
-                                                                                        key
-                                                                                    )} rounded-2 d-flex align-items-center justify-content-center`}
+                                                                                className="ratio ratio-1x1 me-3"
+                                                                                style={{ width: 48 }}
                                                                             >
-                                                                                {key + 1}
-                                                                                {/* <span className="fw-bold">
+                                                                                <div
+                                                                                    className={`bg-l${darkModeStatus ? "o25" : "25"
+                                                                                        }-${getColorNameWithIndex(
+                                                                                            key
+                                                                                        )} text-${getColorNameWithIndex(
+                                                                                            key
+                                                                                        )} rounded-2 d-flex align-items-center justify-content-center`}
+                                                                                >
+                                                                                    {key + 1}
+                                                                                    {/* <span className="fw-bold">
                                     {getFirstLetter(i.Criteria)}
                                   </span> */}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="flex-grow-1">
+                                                                            <div className="fs-6 fw-bold">
+                                                                                {i.Criteria}
+                                                                            </div>
+                                                                            <div className="text-muted">
+                                                                                <Icon icon="Label" />{" "}
+                                                                                <small>{Math.round((i.ObtainedMarks / i.TotalMark) * 100)}%</small>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="flex-grow-1">
-                                                                        <div className="fs-6 fw-bold">
-                                                                            {i.Criteria}
-                                                                        </div>
-                                                                        <div className="text-muted">
-                                                                            <Icon icon="Label" />{" "}
-                                                                            <small>{Math.round((i.ObtainedMarks / i.TotalMark) * 100)}%</small>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <Button
-                                                                    isLink
-                                                                    color="light"
-                                                                    icon="Total Marks"
-                                                                    className="text-lowercase"
-                                                                    tag="a"
-                                                                    href={`mailto:${i.TotalMark}`}
-                                                                >
-                                                                    {i.TotalMark}
-                                                                </Button>
-                                                            </td>
+                                                                </td>
+                                                                <td>
+                                                                    <Button
+                                                                        isLink
+                                                                        color="light"
+                                                                        icon="Total Marks"
+                                                                        className="text-lowercase"
+                                                                        tag="a"
+                                                                        href={`mailto:${i.TotalMark}`}
+                                                                    >
+                                                                        {i.TotalMark}
+                                                                    </Button>
+                                                                </td>
 
-                                                            <td>{i.ObtainedMarks}</td>
+                                                                <td>{i.ObtainedMarks}</td>
 
 
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </CardBody>
-                                        <PaginationButtons
-                                            data={filteredData}
-                                            label="Rubrics"
-                                            setCurrentPage={setCurrentPage}
-                                            currentPage={currentPage}
-                                            perPage={perPage}
-                                            setPerPage={setPerPage}
-                                        />
-                                    </Card>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </CardBody>
+                                            <PaginationButtons
+                                                data={filteredData}
+                                                label="Rubrics"
+                                                setCurrentPage={setCurrentPage}
+                                                currentPage={currentPage}
+                                                perPage={perPage}
+                                                setPerPage={setPerPage}
+                                            />
+                                        </Card>
+                                    </div>
                                 </div>
-                            </div>
-                        </Page>
-                    );
-                })
+                            </Page>
+                        );
+                    })
             )}
 
             {/* <StudentEditModal
