@@ -8,13 +8,16 @@ import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
 import Card, { CardBody } from '../../../components/bootstrap/Card';
 import USERS from '../../../common/data/userDummyData';
 import CommonFilterTag from '../../../pages/common/CommonFilterTag';
-
+import Badge from '../../../components/bootstrap/Badge';
 import Button from '../../../components/bootstrap/Button';
-
+import Breadcrumb from '../../../components/bootstrap/Breadcrumb';
+import FormGroup from '../../../components/bootstrap/forms/FormGroup';
+import Label from '../../../components/bootstrap/forms/Label';
 import Input from '../../../components/bootstrap/forms/Input';
-
+import Checks, { ChecksGroup } from '../../../components/bootstrap/forms/Checks';
+import SERVICES from '../../../common/data/serviceDummyData';
 import { adminMenu, demoPages } from '../../../menu';
-
+import useTourStep from '../../../hooks/useTourStep';
 import axios from 'axios'
 import Dropdown, {
   DropdownItem,
@@ -25,7 +28,8 @@ import Dropdown, {
 const FindSupervisor = () => {
 
 
-
+  const [editModalStatus, setEditModalStatus] = useState(false);
+  const [addModalStatus, setAddModalStatus] = useState(false);
 
   const [teacherInfo, setTeacherInfo] = useState("")
   const [allTeachers, setAllTeachers] = useState([])
@@ -36,17 +40,22 @@ const FindSupervisor = () => {
 
   const getAllTeachers = async () => {
 
-    const res = await axios.get("http://localhost:3500/student/getAllTeachers",
+    const res = await axios.get("http://localhost:3500/admin/getAllTeachers",
       {
         withCredentials: true,
       });
     setAllTeachers(res.data)
-    console.log("WE ARE TEACHERS", res.data)
+    console.log("WE ARE STUDENTS", res.data)
 
 
 
   }
 
+  const Delete = async (Email) => {
+    await axios.delete(`http://localhost:3500/admin/teacher/${Email}`,
+      { withCredentials: true });
+    getAllTeachers()
+  };
 
   useEffect(() => {
     getAllTeachers();
@@ -93,7 +102,14 @@ const FindSupervisor = () => {
 
         <CommonFilterTag title='Total Teachers' text={allTeachers.length} />
          
-       
+          <Button
+            icon='Add'
+            color='info'
+            isLight
+            tag='a'
+            onClick={() => setAddModalStatus(true)}>
+            Add Teacher
+          </Button>
         </SubHeaderRight>
       </SubHeader>
       <Page container='fluid'>
@@ -151,14 +167,48 @@ const FindSupervisor = () => {
                               </div>
 
                               <div className='text-muted'>
-                               @{user.Email}
-                               
+                                @{user.Email}
                               </div>
                             </div>
                             <div className='col-auto'>
 
-                             
-                                
+                              <Dropdown>
+                                <DropdownToggle hasIcon={false}>
+                                  <Button
+                                    icon="MoreHoriz"
+                                    color="dark"
+                                    isLight
+                                    shadow="sm"
+                                  />
+                                </DropdownToggle>
+                                <DropdownMenu isAlignmentEnd>
+                                  <DropdownItem>
+                                    <Button
+                                      icon="Delete"
+                                      tag="a"
+                                      onClick={() => {
+                                        Delete(user.Email);
+                                        setRefresh(!refresh);
+                                      }}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </DropdownItem>
+
+                                  <DropdownItem>
+                                    <Button
+                                      icon="Edit"
+                                      tag="a"
+                                      onClick={() => {
+                                        setTeacherInfo(user);
+                                        setEditModalStatus(true)
+                                      }}
+                                    >
+                                      Edit
+                                    </Button>
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              </Dropdown>
 
                             </div>
                           </div>
@@ -174,7 +224,7 @@ const FindSupervisor = () => {
         </div>
       </Page>
 
-     
+
     </PageWrapper>
   );
 };
