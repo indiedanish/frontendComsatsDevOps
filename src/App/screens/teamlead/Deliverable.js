@@ -228,6 +228,11 @@ const Deliverable = () => {
       filetoBeSent = getFileBase64String[3]
     }
 
+    if (filetoBeSent=="") {
+      Swal.fire('Please choose file', '', 'error')
+        return
+    }
+
     try {
       const res = await axios.post(
         "http://localhost:3500/student/deliverable",
@@ -249,7 +254,7 @@ const Deliverable = () => {
     }
     catch (err) {
       console.log(err)
-      Swal.fire('PLease choose file', '', 'error')
+      Swal.fire('Network Error', '', 'error')
     }
 
   }
