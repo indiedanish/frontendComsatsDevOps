@@ -185,7 +185,11 @@ const ListFluidPage = () => {
   const [tasks, setTasks] = useState([]);
 
   const getProject = async (res) => {
+
+
+
     const response = await axios.post(
+
       "http://localhost:3500/student/project",
       { Name: res.data.Project.Name },
       {
@@ -273,8 +277,8 @@ const ListFluidPage = () => {
 
   return (
     <>
-      {projectInfo == null ? (
-        <div className="w- flex  h-[700px] justify-center items-center">
+      {projectInfo == null || selectedTask == null ? (
+        <div className="w- flex flex-col  h-[700px] justify-center items-center">
           <Grid
             height="150"
             width="150"
@@ -285,6 +289,9 @@ const ListFluidPage = () => {
             wrapperClass=""
             visible={true}
           />
+          {selectedTask == null ? <h4 className="mt-5">You might have no tasks currently</h4> : ""}
+
+
         </div>
       ) : (
         <PageWrapper title="Testing">
@@ -326,8 +333,8 @@ const ListFluidPage = () => {
                   {`${moment(date)
                     .startOf("weeks")
                     .format("MMM Do")} - ${moment(date)
-                    .endOf("weeks")
-                    .format("MMM Do")}`}
+                      .endOf("weeks")
+                      .format("MMM Do")}`}
                 </Button>
               </Popovers>
             </SubHeaderRight>
@@ -345,9 +352,9 @@ const ListFluidPage = () => {
                       icon="CloudDownload"
                       isLight
                       tag="a"
-                     
+
                       target="_blank"
-                    
+
                     >
                       Add Test
                     </Button>
@@ -627,7 +634,7 @@ const ListFluidPage = () => {
                       color="info"
                       className="w-100"
                       onClick={formik.handleSubmit}
-                      //onClick={() => setUpcomingEventsEditOffcanvas(false)}
+                    //onClick={() => setUpcomingEventsEditOffcanvas(false)}
                     >
                       Assign
                     </Button>
