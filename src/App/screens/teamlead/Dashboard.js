@@ -209,11 +209,12 @@ const DashboardPage = () => {
         <SubHeaderLeft>
           <span className="h4 mb-0 fw-bold">Dashboard </span>
           <SubheaderSeparator />
-          <span className="h4 mb-0 fw-bold">Welcome! Lets work togather</span>
+          <span className="h4 mb-0 fw-bold">Welcome! Lets work togather </span>
         </SubHeaderLeft>
         <SubHeaderRight>
           <CommonAvatarTeam>
-            <strong>Team</strong> {studentSelf.Role == null ? "" : studentSelf.Role.substring(4)}
+            {projectInfo!=null?projectInfo.Name:""}
+            <strong> | Team</strong> {studentSelf.Role == null ? "" : studentSelf.Role.substring(4)}
           </CommonAvatarTeam>
         </SubHeaderRight>
       </SubHeader>

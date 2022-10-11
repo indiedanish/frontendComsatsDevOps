@@ -38,8 +38,7 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
       var Base64 = reader.result;
       console.log("Base64", Base64);
       setFileBase64String(Base64);
-    };
-  }
+    };}
 
 
   const addToDatabase = async (val) => {
@@ -94,67 +93,6 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
     reload();
   };
 
-  function isEmail(val) {
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val);
-  }
-
-  function isPhoneNumber(val) {
-    return /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/gm.test(val);
-  }
-
-  function isPassword(val) {
-    return /^.{4,15}$/.test(val);
-  }
-
-  function isRegNo(val) {
-    return /[A-Za-z0-9]+-[a-zA-Z]+([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?/i.test(val);
-  }
-
-
-
-  const validate = (values) => {
-    const errors = {};
-
-    if (!values.name) {
-      errors.name = 'Required';
-    }
-    if (!values.designation) {
-      errors.designation = 'Required';
-    } else if (values.designation.length > 10) {
-      errors.designation = 'Must be 10 characters or less';
-    }
-
-    if (!isEmail(values.email)) {
-      errors.email = 'Email not valid';
-
-    }
-
-    if (!isRegNo(values.regno)) {
-      errors.regno = 'RegNo not valid';
-
-    }
-
-    if (!isPhoneNumber(values.phonenumber)) {
-      errors.phonenumber = 'Phone Number not valid';
-
-    }
-
-    if (!isPassword(values.password)) {
-      errors.password = 'Password not valid. Must have 4-15 characters';
-
-    }
-
-    if (values.gender) {
-      errors.gender = 'Gender must be selected';
-
-    }
-
-
-    return errors;
-  };
-
-
-
 
 
 
@@ -171,8 +109,9 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
       ProfilePicture: ""
     },
     // eslint-disable-next-line no-unused-vars
-    validate,
 
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: (values) => {
       console.log("VALUES: ", values);
       addToDatabase(values);
@@ -213,14 +152,6 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 autoComplete="honorific-prefix"
                 onChange={formik.handleChange}
                 value={formik.values.designation}
-
-
-                isValid={formik.isValid}
-                isTouched={formik.touched.designation}
-                invalidFeedback={formik.errors.designation}
-                validFeedback='Looks good!'
-                onBlur={formik.handleBlur}
-
               />
             </FormGroup>
             <FormGroup className="col-lg-6" id="name" label="Name">
@@ -230,30 +161,15 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 autoComplete="given-name"
                 onChange={formik.handleChange}
                 value={formik.values.name}
-
-
-                isValid={formik.isValid}
-                isTouched={formik.touched.name}
-                invalidFeedback={formik.errors.name}
-                validFeedback='Looks good!'
-                onBlur={formik.handleBlur}
               />
             </FormGroup>
             <FormGroup className="col-lg-6" id="password" label="Password">
               <Input
                 required
-                placeholder="******"
+                placeholder="**"
                 autoComplete="additional-name"
                 onChange={formik.handleChange}
                 value={formik.values.password}
-
-
-
-                isValid={formik.isValid}
-                isTouched={formik.touched.password}
-                invalidFeedback={formik.errors.password}
-                validFeedback='Looks good!'
-                onBlur={formik.handleBlur}
               />
             </FormGroup>
             <FormGroup
@@ -271,14 +187,6 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                   { value: false, text: "Male" },
                   { value: true, text: "Female" },
                 ]}
-
-
-
-                isValid={formik.isValid}
-                isTouched={formik.touched.gender}
-                invalidFeedback={formik.errors.gender}
-                validFeedback='Looks good!'
-                onBlur={formik.handleBlur}
               />
             </FormGroup>
 
@@ -290,14 +198,6 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 autoComplete="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
-
-
-
-                isValid={formik.isValid}
-                isTouched={formik.touched.email}
-                invalidFeedback={formik.errors.email}
-                validFeedback='Looks good!'
-                onBlur={formik.handleBlur}
               // onBlur={(e)=>{
 
               //     const check = String(e.target.value)
@@ -327,27 +227,19 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 autoComplete="tel"
                 onChange={formik.handleChange}
                 value={formik.values.phonenumber}
-
-
-
-                isValid={formik.isValid}
-                isTouched={formik.touched.phonenumber}
-                invalidFeedback={formik.errors.phonenumber}
-                validFeedback='Looks good!'
-                onBlur={formik.handleBlur}
               />
             </FormGroup>
 
-
+           
             <FormGroup className="col-12" id="formFile" label="Profile Picture">
-              <Input
-                required
-                type="file"
-                onChange={(e) => {
-                  encodeFileBase64(e.target.files[0]);
-                }}
-              />
-            </FormGroup>
+                <Input
+                  required
+                  type="file"
+                  onChange={(e) => {
+                    encodeFileBase64(e.target.files[0]);
+                  }}
+                />
+              </FormGroup>
           </div>
         </ModalBody>
         <ModalFooter className="px-4 pb-4">

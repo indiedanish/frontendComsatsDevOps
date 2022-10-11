@@ -15,7 +15,7 @@ import { demoPages } from "../../../menu";
 import useDarkMode from "../../../hooks/useDarkMode";
 
 import classNames from "classnames";
-
+import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../../../components/bootstrap/Modal';
 import { useFormik } from "formik";
 import Card, {
   CardActions,
@@ -134,6 +134,58 @@ const ListFluidPage = () => {
       editToDatabase(values);
     },
   });
+
+  const formikAddTask = useFormik({
+    initialValues: {
+      title: "",
+      description:"",
+      teammember: "",
+      
+      status: "",
+      end:""
+
+      // date: moment().add(1, "days").format("YYYY-MM-DD"),
+
+ 
+    },
+
+    // validate,
+
+    onSubmit: (values) => {
+      setUpcomingEventsEditOffcanvas(false);
+
+      addToDatabase(values);
+    },
+  });
+
+  const addToDatabase = async (values) =>{
+    
+    console.log(values)
+
+    //requirement POST
+
+    const response = await axios.post(
+      "http://localhost:3500/student/requirement",
+      {
+        Title: values.title,
+        Description: values.description,
+        Priority: projectInfo.data.status,
+        AssignedTo: values.teammember,
+        Type: "Testing",
+        ProjectName: projectInfo.data.Name,
+    
+        end: values.end,
+      },
+
+      {
+        withCredentials: true, //correct
+      }
+    );
+
+    console.log(response)
+
+
+  }
 
   const editToDatabase = async (values) => {
     const Accepted = values.type === "Accepted" ? true : false;
@@ -275,6 +327,9 @@ const ListFluidPage = () => {
     setUpcomingEventsEditOffcanvas(false);
   };
 
+  
+  const [editModalStatus, setEditModalStatus] = useState(false);
+
   return (
     <>
       {projectInfo == null || selectedTask == null ? (
@@ -349,10 +404,12 @@ const ListFluidPage = () => {
                   <CardActions>
                     <Button
                       color="info"
-                      icon="CloudDownload"
+                      icon="add"
                       isLight
                       tag="a"
-
+                      onClick={()=>{
+                      setEditModalStatus(true)
+                      }}
                       target="_blank"
 
                     >
@@ -387,7 +444,7 @@ const ListFluidPage = () => {
                     </thead>
                     <tbody>
                       {projectInfo.data.Requirements.map((item) => {
-                        if (item.Type == "Design")
+                        if (item.Type == "Testing")
                           return (
                             <tr key={item.id}>
                               <td></td>
@@ -641,6 +698,99 @@ const ListFluidPage = () => {
                   </div>
                 </div>
               </OffCanvas>
+
+              <Modal setIsOpen={setEditModalStatus} isOpen={editModalStatus} size='lg' isScrollable>
+				<ModalHeader className='px-4' setIsOpen={setEditModalStatus}>
+	
+				</ModalHeader>
+				<ModalBody className='px-4'>
+					<div className='row'>
+						<div className='col-md-8'>
+							<Card shadow='sm'>
+								<CardHeader>
+									<CardLabel icon='Info' iconColor='success'>
+										<CardTitle>Test Case</CardTitle>
+									</CardLabel>
+								</CardHeader>
+								<CardBody>
+									<div className='row g-4'>
+										<FormGroup
+											className='col-12'
+											id='title'
+											label='Test Name'>
+											<Input
+												onChange={formikAddTask.handleChange}
+												value={formikAddTask.values.title}
+											/>
+										</FormGroup>
+										<FormGroup
+											className='col-12'
+											id='description'
+											label='Description'>
+											<Textarea
+												onChange={formikAddTask.handleChange}
+												value={formikAddTask.values.description}
+											/>
+										</FormGroup>
+									</div>
+								</CardBody>
+							</Card>
+						</div>
+						<div className='col-md-4'>
+							<div className='row g-4 sticky-top'>
+								<FormGroup className='col-12' id='status' label='Status'>
+									<Select
+										ariaLabel='status select'
+										placeholder='Select status'
+										onChange={formikAddTask.handleChange}
+										value={formikAddTask.values.status}>
+									
+											<Option  value="High">High</Option>
+                      <Option  value="Medium">Medium</Option>
+                      <Option  value="Low">Low</Option>
+								
+									</Select>
+								</FormGroup>
+								<FormGroup className='col-12' id='teammember' label='Group Members'>
+									<Select
+										ariaLabel='Board select'
+										placeholder='Select group'
+										onChange={formikAddTask.handleChange}
+										value={formikAddTask.values.teammember}>
+										{projectInfo.data.GroupMembers.map((u) => (
+											<Option key={u.RegNo} value={u.RegNo}>
+												{`${u.RegNo}`}
+											</Option>
+										))}
+									</Select>
+								</FormGroup>
+
+               
+														<FormGroup id="end" label="Deadline">
+															<Input
+																type="datetime-local"
+																value={moment(formikAddTask.values.end).format(
+																	moment.HTML5_FMT.DATETIME_LOCAL
+																)}
+																onChange={formikAddTask.handleChange}
+															/>
+														</FormGroup>
+										
+					
+							</div>
+						</div>
+					</div>
+				</ModalBody>
+				<ModalFooter className='px-4 pb-4'>
+					<Button
+						color='primary'
+						className='w-100'
+						type='submit'
+						onClick={formikAddTask.handleSubmit}>
+						Save
+					</Button>
+				</ModalFooter>
+			</Modal>
             </>
           </Page>
         </PageWrapper>
