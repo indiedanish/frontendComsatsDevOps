@@ -139,7 +139,7 @@ const MyWeekEvent = (data) => {
 	);
 };
 
-const Sprint = () => {
+const Sprint = ({reload}) => {
 	const { darkModeStatus, themeStatus } = useDarkMode();
 
 	const [toggleRightPanel, setToggleRightPanel] = useState(true);
@@ -261,7 +261,8 @@ const Sprint = () => {
 		})
 
 		console.log("res", res)
-
+	
+		getstudentSelf()
 
 
 

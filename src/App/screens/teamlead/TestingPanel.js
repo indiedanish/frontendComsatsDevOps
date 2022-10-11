@@ -387,7 +387,7 @@ const ListFluidPage = () => {
                     </thead>
                     <tbody>
                       {projectInfo.data.Requirements.map((item) => {
-                        if (item.Type == "Testing")
+                        if (item.Type == "Design")
                           return (
                             <tr key={item.id}>
                               <td></td>

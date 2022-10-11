@@ -64,6 +64,10 @@ const DashboardPage = () => {
 
 
   }, []);
+
+  const reload = () => {
+    getstudentSelf()  
+  }
   const { auth, setAuth } = useAuth();
 
   console.log("AUTHHHHDAN", auth);
@@ -351,7 +355,7 @@ const DashboardPage = () => {
 
           </div>
 
-          <Sprint />
+          <Sprint reload={reload} />
           {/* 
         <RadialBarCustom />
 <RadialBarGradient /> */}
