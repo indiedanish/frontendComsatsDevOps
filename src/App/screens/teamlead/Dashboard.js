@@ -93,10 +93,10 @@ const DashboardPage = () => {
   // };
 
   const getProject = async (projectname) => {
-    console.log("projectname", projectname);
+    console.log("projectname",projectname );
     const response = await axios.post(
       "http://localhost:3500/student/project",
-      { Name: projectname },
+      { Name: projectname.data.Project.Name},
       {
         withCredentials: true,
       }
@@ -126,7 +126,7 @@ const DashboardPage = () => {
     setstudentSelf(response.data);
     console.log("STUDENT himself: ", response.data);
 
-    getProject(response.data.Project.Name);
+    getProject(response);
   };
 
 
@@ -350,8 +350,8 @@ const DashboardPage = () => {
 
 
           </div>
-
-          <Sprint />
+{/* 
+          <Sprint /> */}
           {/* 
         <RadialBarCustom />
 <RadialBarGradient /> */}
