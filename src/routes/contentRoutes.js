@@ -89,6 +89,9 @@ const TEAMLEAD = {
 
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 	TESTINGPANEL: lazy(() => import('../App/screens/teamlead/TestingPanel')),
+	DEVELOPMENTPANEL: lazy(() => import('../App/screens/teamlead/DevelopmentPanel')),
+	DESIGNPANEL: lazy(() => import('../App/screens/teamlead/DesignPanel')),
+	DEBUGGINGPANEL: lazy(() => import('../App/screens/teamlead/DebuggingPanel')),
 };
 
 
@@ -1135,6 +1138,24 @@ const presentation = [
 const teammember = [
 
 	// Charts
+
+	{
+		path: teamLeadMenu.developmentpanel.path,
+		element: <TEAMLEAD.DEVELOPMENTPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.designpanel.path,
+		element: <TEAMLEAD.DESIGNPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.debuggingpanel.path,
+		element: <TEAMLEAD.DEBUGGINGPANEL />,
+		exact: true,
+	},
 	{
 		path: teamLeadMenu.testingpanel.path,
 		element: <TEAMLEAD.TESTINGPANEL />,
@@ -1620,6 +1641,24 @@ const teammember = [
 
 
 const teamLead = [
+
+	{
+		path: teamLeadMenu.developmentpanel.path,
+		element: <TEAMLEAD.DEVELOPMENTPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.designpanel.path,
+		element: <TEAMLEAD.DESIGNPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.debuggingpanel.path,
+		element: <TEAMLEAD.DEBUGGINGPANEL />,
+		exact: true,
+	},
 
 	// Charts
 	{
