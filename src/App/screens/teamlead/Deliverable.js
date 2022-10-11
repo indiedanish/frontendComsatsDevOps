@@ -129,6 +129,9 @@ const Deliverable = () => {
 
   const [allDeliverable, setAllDeliverable] = useState([]);
 
+
+  const [status, setStatus] = useState(false)
+
   const reload = () => {
     getAllDeliverable();
   };
@@ -233,7 +236,7 @@ const Deliverable = () => {
         return
     }
 
-    try {
+    try { if (status == false){
       const res = await axios.post(
         "http://localhost:3500/student/deliverable",
         {
@@ -247,6 +250,24 @@ const Deliverable = () => {
           withCredentials: true,
         }
       );
+    }
+    else{
+
+      const res = await axios.put(
+      "http://localhost:3500/student/deliverable",
+      {
+        Title: title,
+        File: filetoBeSent,
+        ProjectName: studentInfo.data.Project.Name,
+        Status: true
+
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    }
 
       Swal.fire('Submitted!', '', 'success')
 
@@ -438,7 +459,7 @@ const Deliverable = () => {
                           <td>
 
                             {
-                              deliverablesStatuses[key] == false ? (
+                              deliverablesStatuses[key] == false ? ( 
                                 <div className="flex justify-center text-center items-center">
                                   <Icon
                                     className='flex'
@@ -464,6 +485,7 @@ const Deliverable = () => {
                               required
                               type="file"
                               onChange={(e) => {
+                                deliverablesStatuses[key] == false ? (setStatus(false)) : (setStatus(true))
                                 encodeFileBase64(e.target.files[0], i.Title);
                               }}
                             />
