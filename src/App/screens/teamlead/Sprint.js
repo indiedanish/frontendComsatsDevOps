@@ -240,7 +240,7 @@ const Sprint = () => {
 	};
 	const addToDatabase = async (val) => {
 
-		
+
 
 
 		const title = val.title;
@@ -249,7 +249,7 @@ const Sprint = () => {
 		const start = val.start;
 		const end = val.end;
 		const type = val.type
-		console.log("val",title, Priority,Assign,start);
+		console.log("val", title, Priority, Assign, start);
 		var res = await axios.post("http://localhost:3500/student/requirement", {
 			Title: title,
 			AssignedTo: Assign,
@@ -260,9 +260,9 @@ const Sprint = () => {
 			end: end,
 		})
 
-		console.log("res",res)
+		console.log("res", res)
 
-	
+
 
 
 	};
@@ -416,7 +416,7 @@ const Sprint = () => {
 	return (
 		<>
 			{tasks.length == 0 ? (
-				<div className="w- flex  h-[700px] justify-center items-center">
+				<div className="w- flex flex-col  h-[700px] justify-center items-center">
 					<Grid
 						height="150"
 						width="150"
@@ -427,6 +427,9 @@ const Sprint = () => {
 						wrapperClass=""
 						visible={true}
 					/>
+					<h4 className="mt-5">You might have no tasks currently</h4>
+
+
 				</div>
 			) : (
 				<PageWrapper title={demoPages.appointment.subMenu.dashboard.text}>

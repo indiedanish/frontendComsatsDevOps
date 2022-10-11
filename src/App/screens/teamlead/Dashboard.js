@@ -350,8 +350,8 @@ const DashboardPage = () => {
 
 
           </div>
-{/* 
-          <Sprint /> */}
+
+          <Sprint />
           {/* 
         <RadialBarCustom />
 <RadialBarGradient /> */}
