@@ -50,8 +50,8 @@ const Wrapper = () => {
 
 				<Content />
 
-
-				<FooterRoutes /> 
+{/* 
+				<FooterRoutes />  */}
 
 
 

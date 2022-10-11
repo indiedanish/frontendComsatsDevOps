@@ -25,7 +25,7 @@ import Progress from "../../../components/bootstrap/Progress";
 import CommonAvatarTeam from "../../../components/common/CommonAvatarTeam";
 import useDarkMode from "../../../hooks/useDarkMode";
 import useAuth from "../../../hooks/useAuth";
-
+import Swal from "sweetalert2";
 axios.defaults.withCredentials = true;
 import axios from "axios";
 import {Grid} from 'react-loader-spinner'
@@ -50,7 +50,7 @@ const Item = ({
     <div className="col-md-4" {...props}>
       <Card
         stretch
-        onClick={()=>navigate(`/committee/evaluation/project/${name}`)[navigate]}
+       
         className="cursor-pointer"
       >
         <CardHeader>
@@ -60,9 +60,24 @@ const Item = ({
           </CardLabel>
           <CardActions>
             <small className="border border-success border-2 text-success fw-bold px-2 py-1 rounded-1">
-              {dueDate}
+            {dueDate}
             </small>
+            <Button
+
+            onClick={()=>{
+
+              Swal.fire(
+                'Email Sent!',
+                'Invitation link has been sent',
+                'success'
+              )
+            }}
+            color="success"
+          icon="send"
+          />
           </CardActions>
+
+          
         </CardHeader>
         <CardBody>
           <div className="row g-2 mb-3">

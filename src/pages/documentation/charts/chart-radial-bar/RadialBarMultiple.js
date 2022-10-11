@@ -8,9 +8,17 @@ import Card, {
 } from '../../../../components/bootstrap/Card';
 import Chart from '../../../../components/extras/Chart';
 
-const RadialBarMultiple = () => {
+const RadialBarMultiple = (props) => {
+
+	alert(props.data)
+
+	
+
+
+
+
 	const [state] = useState({
-		series: [44, 55, 67, 83],
+		series: [44, 55, 67],
 		options: {
 			chart: {
 				height: 350,
@@ -36,26 +44,26 @@ const RadialBarMultiple = () => {
 					},
 				},
 			},
-			labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
+			labels: [ 'Design', 'Development','Testing'],
 			stroke: {
 				lineCap: 'round',
 			},
 		},
 	});
 	return (
-		<div className='col-lg-6'>
+		<div className=''>
 			<Card stretch>
 				<CardHeader>
 					<CardLabel icon='DonutLarge'>
 						<CardTitle>
-							type <small>radialBar</small>
+							Requirement Stats <small>Total</small>
 						</CardTitle>
-						<CardSubTitle>Chart</CardSubTitle>
+						<CardSubTitle>Widget</CardSubTitle>
 					</CardLabel>
 				</CardHeader>
 				<CardBody>
 					<Chart
-						series={state.series}
+						series={props.data}
 						options={state.options}
 						type={state.options.chart.type}
 						height={state.options.chart.height}
