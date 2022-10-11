@@ -24,6 +24,7 @@ import Dropdown, {
   DropdownMenu,
   DropdownToggle,
 } from "../../../components/bootstrap/Dropdown";
+import Swal from 'sweetalert2';
 
 const FindSupervisor = () => {
 
@@ -187,26 +188,18 @@ const FindSupervisor = () => {
                                       icon="Delete"
                                       tag="a"
                                       onClick={() => {
-                                        Delete(user.Email);
-                                        setRefresh(!refresh);
+                                        Swal.fire(
+                                          'Email Sent!',
+                                          'Invitation link has been sent',
+                                          'success'
+                                        )
                                       }}
                                     >
-                                      Delete
+                                      Send Email
                                     </Button>
                                   </DropdownItem>
 
-                                  <DropdownItem>
-                                    <Button
-                                      icon="Edit"
-                                      tag="a"
-                                      onClick={() => {
-                                        setTeacherInfo(user);
-                                        setEditModalStatus(true)
-                                      }}
-                                    >
-                                      Edit
-                                    </Button>
-                                  </DropdownItem>
+                                 
                                 </DropdownMenu>
                               </Dropdown>
 
