@@ -66,7 +66,7 @@ const DashboardPage = () => {
   }, []);
 
   const reload = () => {
-    getstudentSelf()  
+    getstudentSelf()
   }
   const { auth, setAuth } = useAuth();
 
@@ -97,10 +97,10 @@ const DashboardPage = () => {
   // };
 
   const getProject = async (projectname) => {
-    console.log("projectname",projectname );
+    console.log("projectname", projectname);
     const response = await axios.post(
       "http://localhost:3500/student/project",
-      { Name: projectname.data.Project.Name},
+      { Name: projectname.data.Project.Name },
       {
         withCredentials: true,
       }
@@ -213,7 +213,7 @@ const DashboardPage = () => {
         </SubHeaderLeft>
         <SubHeaderRight>
           <CommonAvatarTeam>
-            {projectInfo!=null?projectInfo.Name:""}
+            {projectInfo != null ? projectInfo.Name : ""}
             <strong> | Team</strong> {studentSelf.Role == null ? "" : studentSelf.Role.substring(4)}
           </CommonAvatarTeam>
         </SubHeaderRight>
@@ -286,7 +286,7 @@ const DashboardPage = () => {
 
 
           </div>
-          <div className="row ">
+          {tasks.length == 0 ? "" : <div className="row ">
             <div className="col-4">
               <Card stretch>
                 <CardHeader>
@@ -301,23 +301,26 @@ const DashboardPage = () => {
                   <Timeline>
                     {tasks.map((i, key) => (
                       <TimelineItem
-                        label={new Date(i.end).toLocaleString(
-                          "en-US",
+                        label={
+                          new Date(i.end).toLocaleString(
+                            "en-US",
 
-                          { year: "numeric", month: "numeric", day: "numeric" }
-                          // {
-                          //  day: '2-digit',
-                          // 	 month: '2-digit',
-                          // 	// year: 'numeric',
-                          // 	// hour: '2-digit',
-                          // 	// minute: '2-digit',
-                          // 	// // second: '2-digit',
-                          // 	// hour12: true,
-                          // }
-                        )}
+                            { year: "numeric", month: "numeric", day: "numeric" }
+                            // {
+                            //  day: '2-digit',
+                            // 	 month: '2-digit',
+                            // 	// year: 'numeric',
+                            // 	// hour: '2-digit',
+                            // 	// minute: '2-digit',
+                            // 	// // second: '2-digit',
+                            // 	// hour12: true,
+                            // }
+                          )
+
+                        }
                         color={getTaskColor(i.Priority)}
                       >
-                        {i.Title} - {i.Priority} - {i.AssignedTo.Name}
+                        {i.Title} - {i.Priority} - {i.AssignedTo?.Name ? i.AssignedTo.Name : "Not Assigned"}
                       </TimelineItem>
                     ))}
                   </Timeline>
@@ -354,7 +357,7 @@ const DashboardPage = () => {
 
 
 
-          </div>
+          </div>}
 
           <Sprint reload={reload} />
           {/* 

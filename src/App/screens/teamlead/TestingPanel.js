@@ -356,7 +356,7 @@ const ListFluidPage = () => {
       ) : (
         <PageWrapper title="Testing">
           <SubHeader>
-            <SubHeaderLeft>
+            {/* <SubHeaderLeft>
               <Icon icon="Info" className="me-2" size="2x" />
               <span className="text-muted">
                 You have{" "}
@@ -375,7 +375,7 @@ const ListFluidPage = () => {
                 />{" "}
                 {getRejected()} pending tests.
               </span>
-            </SubHeaderLeft>
+            </SubHeaderLeft> */}
             <SubHeaderRight>
               <Popovers
                 desc={
