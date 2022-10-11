@@ -250,8 +250,265 @@ export const teamLeadMenuSidebar = {
 
 };
 
+//////////////////////////	
+
+
+export const teamMemberMenu = {
+
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: 'dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	project: {
+		id: 'projectmanagement',
+		text: 'Project Management',
+		path: 'projectmanagement',
+		icon: 'Article',
+		subMenu: {
+			
+			project: {
+				id: 'project',
+				text: 'Project',
+				path: 'projectmanagement/project',
+				icon: 'Book',
+			},
+
+			joinproject: {
+				id: 'joinproject',
+				text: 'Join Project',
+				path: 'projectmanagement/joinproject',
+				icon: 'Add',
+			},
+
+			findsupervisor: {
+				id: 'findsupervisor',
+				text: 'Find Supervisor',
+				path: 'projectmanagement/findsupervisor',
+				icon: 'Person',
+			},
+
+
+			
+		},
+	},
+
+
+	team: {
+		id: 'team',
+		text: 'Team',
+		path: 'team',
+		icon: 'Group',
+	},
+
+	sprint: {
+		id: 'sprint',
+		text: 'Sprint',
+		path: 'sprint',
+		icon: 'Calendar3',
+		subMenu: null,
+	},
+
+	testingpanel: {
+		id: 'testingpanel',
+		text: 'Testing Panel',
+		path: 'testingpanel',
+		icon: 'Person',
+	},
+
+	requirements: {
+		id: 'requirements',
+		text: 'Requirements',
+		path: 'requirements',
+		icon: 'pen',
+		subMenu: null,
+	},
+
+	deliverable: {
+		id: 'deliverable',
+		text: 'Deliverable',
+		path: 'deliverable',
+		icon: 'upload',
+		subMenu: null,
+	},
+
+
+
+	
+	evaluation: {
+		id: 'evaluation',
+		text: 'Evaluation',
+		path: 'evaluation',
+		icon: 'Checklist',
+		subMenu: {
+			supervisor: {
+				id: 'supervisor',
+				text: 'Supervisor',
+				path: 'evaluation/supervisor',
+				icon: 'Person',
+			},
+			committee: {
+				id: 'committee',
+				text: 'Committee',
+				path: 'evaluation/committee',
+				icon: 'Group',
+			},
+		},
+	},
+
 	
 
+	summary: {
+		id: 'summary',
+		text: 'Messenger',
+		path: 'chat',
+		icon: 'ChatSquareDots',
+		subMenu: null,
+	},
+
+
+	profile: {
+		id: 'profile',
+		text: 'Profile',
+		path: '/teamlead/profile',
+		icon: 'gear',
+		subMenu: null,
+	},
+
+};
+
+
+
+
+export const teamMemberMenuSidebar = {
+
+
+
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: '/teamlead/dashboard',
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+
+	project: {
+		id: 'projectmanagement',
+		text: 'Project Management',
+		path: '/teamlead/projectmanagement',
+		icon: 'Article',
+		subMenu: {
+			
+			project: {
+				id: 'project',
+				text: ' My Project',
+				path: '/teamlead/projectmanagement/project',
+				icon: 'Book',
+			},
+
+			joinproject: {
+				id: 'joinproject',
+				text: 'Join Project',
+				path: '/teamlead/projectmanagement/joinproject',
+				icon: 'Book',
+			},
+
+		
+
+			findsupervisor: {
+				id: 'findsupervisor',
+				text: 'Find Supervisor',
+				path: '/teamlead/projectmanagement/findsupervisor',
+				icon: 'Person',
+			},
+			
+		},
+	},
+
+	team: {
+		id: 'team',
+		text: 'Team',
+		path: '/teamlead/team',
+		icon: 'PersonSearch',
+	},
+
+
+	sprint: {
+		id: 'sprint',
+		text: 'Sprint',
+		path: '/teamlead/sprint',
+		icon: 'Calendar3',
+		subMenu: null,
+	},
+
+	testingpanel: {
+		id: 'testingpanel',
+		text: 'Testing Panel',
+		path: '/teamlead/testingpanel',
+		icon: 'Person',
+	},
+
+	deliverable: {
+		id: 'deliverable',
+		text: 'Deliverable',
+		path: '/teamlead/deliverable',
+		icon: 'upload',
+		subMenu: null,
+	},
+
+
+	evaluation: {
+		id: 'evaluation',
+		text: 'Evaluation',
+		path: '/teamlead/evaluation',
+		icon: 'Checklist',
+		subMenu: {
+			supervisor: {
+				id: 'supervisor',
+				text: 'Supervisor',
+				path: '/teamlead/evaluation/supervisor',
+				icon: 'Person',
+			},
+			committee: {
+				id: 'committee',
+				text: 'Committee',
+				path: '/teamlead/evaluation/committee',
+				icon: 'Group',
+			},
+		},
+	},
+
+
+	messenger: {
+		id: 'messenger',
+		text: 'Messenger',
+		path: 'chat',
+		icon: 'ChatSquareDots',
+		subMenu: null,
+	},
+
+
+
+	profile: {
+		id: 'profile',
+		text: 'Profile',
+		path: '/teamlead/profile',
+		icon: 'gear',
+		subMenu: null,
+	},
+
+};
+
+
+
+
+
+///////////////////////////
 export const supervisorMenu = {
 
 	
