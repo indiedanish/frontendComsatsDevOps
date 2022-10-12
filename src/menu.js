@@ -13,12 +13,12 @@ export const teamLeadMenu = {
     path: "projectmanagement",
     icon: "Article",
     subMenu: {
-      project: {
-        id: "project",
-        text: "Project",
-        path: "projectmanagement/project",
-        icon: "Book",
-      },
+      // project: {
+      //   id: "project",
+      //   text: "Project",
+      //   path: "projectmanagement/project",
+      //   icon: "Book",
+      // },
 
       joinproject: {
         id: "joinproject",
@@ -55,7 +55,7 @@ export const teamLeadMenu = {
     id: "testingpanel",
     text: "Testing Panel",
     path: "testingpanel",
-    icon: "Person",
+    icon: "Box",
   },
 
   developmentpanel: {
@@ -69,14 +69,14 @@ export const teamLeadMenu = {
     id: "designpanel",
     text: "Design Panel",
     path: "designpanel",
-    icon: "Person",
+    icon: "Pen",
   },
 
   debuggingpanel: {
     id: "debuggingpanel",
     text: "Debugging Panel",
     path: "debuggingpanel",
-    icon: "Person",
+    icon: "Report",
   },
 
   deliverable: {
@@ -140,12 +140,12 @@ export const teamLeadMenuSidebar = {
     path: "/teamlead/projectmanagement",
     icon: "Article",
     subMenu: {
-      project: {
-        id: "project",
-        text: " My Project",
-        path: "/teamlead/projectmanagement/project",
-        icon: "Book",
-      },
+      // project: {
+      //   id: "project",
+      //   text: " My Project",
+      //   path: "/teamlead/projectmanagement/project",
+      //   icon: "Book",
+      // },
 
       joinproject: {
         id: "joinproject",
@@ -211,7 +211,7 @@ export const teamLeadMenuSidebar = {
     id: "designpanel",
     text: "Design Panel",
     path: "/teamlead/designpanel",
-    icon: "Person",
+    icon: "Pen",
   },
 
   debuggingpanel: {
@@ -275,12 +275,12 @@ export const teamMemberMenu = {
     path: "projectmanagement",
     icon: "Article",
     subMenu: {
-      project: {
-        id: "project",
-        text: "Project",
-        path: "projectmanagement/project",
-        icon: "Book",
-      },
+      // project: {
+      //   id: "project",
+      //   text: "Project",
+      //   path: "projectmanagement/project",
+      //   icon: "Book",
+      // },
 
       joinproject: {
         id: "joinproject",
@@ -328,7 +328,7 @@ export const teamMemberMenu = {
   },
 
   designpanel: {
-    id: "designpanel",
+    id: "pen",
     text: "Design Panel",
     path: "designpanel",
     icon: "Person",
@@ -402,12 +402,12 @@ export const teamMemberMenuSidebar = {
     path: "/teammember/projectmanagement",
     icon: "Article",
     subMenu: {
-      project: {
-        id: "project",
-        text: " My Project",
-        path: "/teammember/projectmanagement/project",
-        icon: "Book",
-      },
+      // project: {
+      //   id: "project",
+      //   text: " My Project",
+      //   path: "/teammember/projectmanagement/project",
+      //   icon: "Book",
+      // },
 
       joinproject: {
         id: "joinproject",
@@ -662,27 +662,27 @@ export const committeeMenuSidebar = {
     icon: "Article",
   },
 
-  project: {
-    id: "projectmanagement",
-    text: "Project Management",
-    path: "projectmanagement",
-    icon: "Article",
-    subMenu: {
-      project: {
-        id: "project",
-        text: "Project List",
-        path: "/committee/projectmanagement/project",
-        icon: "Book",
-      },
+  // project: {
+  //   id: "projectmanagement",
+  //   text: "Project Management",
+  //   path: "projectmanagement",
+  //   icon: "Article",
+  //   subMenu: {
+  //     project: {
+  //       id: "project",
+  //       text: "Project List",
+  //       path: "/committee/projectmanagement/project",
+  //       icon: "Book",
+  //     },
 
-      myprojects: {
-        id: "myproject",
-        text: "My Project",
-        path: "/committee/projectmanagement/myprojects",
-        icon: "Home",
-      },
-    },
-  },
+  //     myprojects: {
+  //       id: "myproject",
+  //       text: "My Project",
+  //       path: "/committee/projectmanagement/myprojects",
+  //       icon: "Home",
+  //     },
+  //   },
+  // },
 };
 
 export const adminMenuSideBar = {

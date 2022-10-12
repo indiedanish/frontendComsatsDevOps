@@ -98,45 +98,6 @@ const StudentAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 
     }
 
-    // if (!values.validationLastName) {
-    //   errors.validationLastName = 'Required';
-    // } else if (values.validationLastName.length > 20) {
-    //   errors.validationLastName = 'Must be 20 characters or less';
-    // }
-
-    // if (!values.validationCustomUsername) {
-    //   errors.validationCustomUsername = 'Required';
-    // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.validationCustomUsername)) {
-    //   errors.validationCustomUsername = 'Invalid email address';
-    // }
-
-    // if (!values.validationCity) {
-    //   errors.validationCity = 'Please provide a valid city.';
-    // }
-
-    // if (!values.validationState) {
-    //   errors.validationState = 'Please select a valid state.';
-    // }
-
-    // if (!values.validationZip) {
-    //   errors.validationZip = 'Please provide a valid zip.';
-    // } else if (values.validationZip.length !== 5) {
-    //   errors.validationZip = 'Must be 5 characters';
-    // }
-
-    // if (!values.validationDesc) {
-    //   errors.validationDesc = 'Please provide a valid Desc.';
-    // } else if (values.validationDesc.length < 20) {
-    //   errors.validationDesc = `Must be 20 characters or more, but currently ${values.validationDesc.length} characters`;
-    // }
-
-    // if (!values.validationRadios) {
-    //   errors.validationRadios = 'You must choose one before posting.';
-    // }
-
-    // if (!values.validationCheck) {
-    //   errors.validationCheck = 'You must agree before submitting.';
-    // }
 
     return errors;
   };

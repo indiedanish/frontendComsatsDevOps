@@ -37,11 +37,6 @@ import { useNavigate } from "react-router-dom";
 
 
 
-
-
-
-
-
 const EvaluateSingleProject = () => {
   const navigate = useNavigate();
 

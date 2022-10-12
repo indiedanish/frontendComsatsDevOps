@@ -52,6 +52,7 @@ import Button from "../../../components/bootstrap/Button";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Swal from "sweetalert2";
 
+
 const RubricsCommittee = () => {
   const { darkModeStatus } = useDarkMode();
 
@@ -132,18 +133,29 @@ const RubricsCommittee = () => {
   };
 
   const deleteQuestionCall = async (_id) => {
-    console.log(_id)
+    console.log("WHAT IS IT", _id)
 
 
+    try {
 
-    await axios.put(`http://localhost:3500/admin/committeeDeleteQuestion`,
-      { Question_id: _id, Name: Name },
-      {
-        withCredentials: true,
-      });
+      await axios.put(`http://localhost:3500/admin/committeeDeleteQuestion`,
+        { Question_id: _id, Name: Name },
+        {
+          withCredentials: true,
+        });
 
-    getAllRubrics();
+      getAllRubrics();
+
+      Swal.fire('Deleted Successfully!', '', 'success')
+
+    } catch (err) {
+      Swal.fire('Network Error', '', 'success')
+    }
+
   };
+
+
+
 
 
 
@@ -179,7 +191,7 @@ const RubricsCommittee = () => {
             icon: 'error',
             title: 'Oops...',
             text: 'Please enter marks - Max Marks: 10',
-           
+
           })
           return false;
 
@@ -221,13 +233,15 @@ const RubricsCommittee = () => {
             onChange={formik.handleChange}
             value={formik.values.searchInput}
 
-            
+
           />
         </SubHeaderLeft>
         <SubHeaderRight>
           <Button
             icon="PersonAdd"
             color="primary"
+
+
             isLight
             onClick={() => {
               setName("Scope")
@@ -354,24 +368,24 @@ const RubricsCommittee = () => {
 
                         {/* <td>{priceFormat(i.Name)}</td> */}
                         <td>
-                       
-                           
-                              <Button
-                                icon="Delete"
-                                color="dark"
-                                isLight
-                                shadow="sm"
 
-                                onClick={() => {
-                                  deleteQuestionCall(i._id);
-                                  setRefresh(!refresh);
-                                }}
-                              />
-                        
-                       
-                         
 
-                          
+                          <Button
+                            icon="Delete"
+                            color="dark"
+                            isLight
+                            shadow="sm"
+
+                            onClick={() => {
+                              deleteQuestionCall(i._id);
+                              setRefresh(!refresh);
+                            }}
+                          />
+
+
+
+
+
                         </td>
                       </tr>
                     ))}

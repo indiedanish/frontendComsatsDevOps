@@ -26,7 +26,7 @@ import Dropdown, {
 } from "../../../components/bootstrap/Dropdown";
 import TeacherAddModal from "./TeacherAddModal";
 import TeacherEditModal from "./TeacherEditModal";
-
+import Swal from "sweetalert2";
 import { Grid, Radio } from "react-loader-spinner";
 
 
@@ -57,9 +57,21 @@ const Teachers = () => {
   }
 
   const Delete = async (Email) => {
-    await axios.delete(`http://localhost:3500/admin/teacher/${Email}`,
-      { withCredentials: true });
-    getAllTeachers()
+
+    try {
+
+      await axios.delete(`http://localhost:3500/admin/teacher/${Email}`,
+        { withCredentials: true });
+
+      Swal.fire("Successfully Deleted", "", "success");
+      getAllTeachers()
+
+    } catch (e) {
+      Swal.fire("Network Error!", "", "error");
+    }
+
+
+
   };
 
   useEffect(() => {
@@ -211,7 +223,7 @@ const Teachers = () => {
                                         tag="a"
                                         onClick={() => {
                                           Delete(user.Email);
-                                          setRefresh(!refresh);
+                                          // setRefresh(!refresh);
                                         }}
                                       >
                                         Delete

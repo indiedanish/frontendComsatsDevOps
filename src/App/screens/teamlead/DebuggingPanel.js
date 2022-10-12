@@ -328,8 +328,7 @@ const ListFluidPage = () => {
   };
 
   const deleteFromDatabase = async (title) => {
-    alert(title + " " + projectInfo.data.Name);
-
+    
     try {
       const response = await axios.put(
         "http://localhost:3500/student/requirement",

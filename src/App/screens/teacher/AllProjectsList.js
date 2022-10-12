@@ -26,6 +26,7 @@ import CommonAvatarTeam from "../../../components/common/CommonAvatarTeam";
 import useDarkMode from "../../../hooks/useDarkMode";
 import useAuth from "../../../hooks/useAuth";
 import ProjectAddModal from "./ProjectAddModal";
+import Swal from "sweetalert2";
 
 
 
@@ -42,6 +43,7 @@ const Item = ({
   taskCount,
   percent,
   dueDate,
+  reload,
   ...props
 }) => {
   const { darkModeStatus } = useDarkMode();
@@ -49,12 +51,33 @@ const Item = ({
   // const handleOnClickToProjectPage = useCallback(
   //   () => navigate("/committee/evaluation/project")[navigate]
   // );
+
+
+  const deleteProject =  async (name) =>{
+    const response = await axios.post(
+      "http://localhost:3500/teacher/deleteProject",
+      {
+        Name: name,
+      },
+      {
+        withCredentials: true, //correct
+      }
+    );
+
+    reload();
+    Swal.fire('Deleted!', '', 'error')
+    console.log("deleteProject:  ", response.data);
+
+  } 
+
+
+
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <div className="col-md-4" {...props}>
       <Card
         stretch
-        onClick={()=>navigate(`/committee/evaluation/project/${name}`)[navigate]}
+
         className="cursor-pointer"
       >
         <CardHeader>
@@ -66,6 +89,14 @@ const Item = ({
             <small className="border border-success border-2 text-success fw-bold px-2 py-1 rounded-1">
               {dueDate}
             </small>
+
+            <Button className="text-white"
+              color="success"
+              icon="delete"
+              onClick={()=>{deleteProject(name)}}
+            >
+
+            </Button>
           </CardActions>
         </CardHeader>
         <CardBody>
@@ -104,12 +135,32 @@ const Item = ({
 
 
 const AllProjectsList = () => {
+
+
+  const [allStudents, setAllStudents] = useState([])
+
+  const getAllStudents = async () => {
+
+    const res = await axios.get("http://localhost:3500/admin/getAllStudents",
+      {
+        withCredentials: true,
+      });
+    setAllStudents(res)
+    console.log("WE ARE STUDENTS", res.data)
+
+
+
+  }
+
+
+
   const navigate = useNavigate();
 
   const [addModalStatus, setAddModalStatus] = useState(false);
 
   const reload = () => {
     getProjects()  
+    getAllStudents()
   }
 
   useEffect(() => {
@@ -139,6 +190,7 @@ const AllProjectsList = () => {
     console.log("ProjectData", ProjectData);
 
     getProjects();
+    getAllStudents();
   }, []);
 
   return (
@@ -209,6 +261,7 @@ const AllProjectsList = () => {
           </div>
             : ProjectData.map((project, key) => (
               <Item
+              reload={reload}
                 name={project.Name}
                 teamName="Supervisor"
                 dueDate={project.Status}
@@ -233,12 +286,13 @@ const AllProjectsList = () => {
         </div>
       </Page>
 
-      <ProjectAddModal
+     { allStudents.length==0?"":<ProjectAddModal
+      allStudents={allStudents.data}
         setIsOpen={setAddModalStatus}
         isOpen={addModalStatus}
         id={0}
         reload={reload}
-      />
+      />}
 
     </PageWrapper>
   );

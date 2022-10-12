@@ -613,7 +613,7 @@ const Sprint = ({ reload }) => {
 											>
 												<Option value="Design">Design</Option>
 												<Option value="Development">Development</Option>
-												<Option value="Test">Test</Option>
+												<Option value="Testing">Testing</Option>
 												<Option value="Debugging">Debugging</Option>
 
 											</Select>
