@@ -106,12 +106,12 @@ const EvaluateStudent = () => {
     fypstatus == "Scope"
       ? setQuestions(ques.data[0].Questions)
       : fypstatus == "SDS"
-      ? setQuestions(ques.data[1].Questions)
-      : fypstatus == "Testing"
-      ? setQuestions(ques.data[2].Questions)
-      : fypstatus == "Final"
-      ? setQuestions(ques.data[3].Questions)
-      : "";
+        ? setQuestions(ques.data[1].Questions)
+        : fypstatus == "Testing"
+          ? setQuestions(ques.data[2].Questions)
+          : fypstatus == "Final"
+            ? setQuestions(ques.data[3].Questions)
+            : "";
 
     var temp = ques.data[0].Questions;
 
@@ -158,7 +158,7 @@ const EvaluateStudent = () => {
       searchInput: "",
     },
     // eslint-disable-next-line no-unused-vars
-    onSubmit: (values) => {},
+    onSubmit: (values) => { },
   });
 
   const [refresh, setRefresh] = useState(false);
@@ -316,13 +316,12 @@ const EvaluateStudent = () => {
                                 style={{ width: 48 }}
                               >
                                 <div
-                                  className={`bg-l${
-                                    darkModeStatus ? "o25" : "25"
-                                  }-${getColorNameWithIndex(
-                                    key
-                                  )} text-${getColorNameWithIndex(
-                                    key
-                                  )} rounded-2 d-flex align-items-center justify-content-center`}
+                                  className={`bg-l${darkModeStatus ? "o25" : "25"
+                                    }-${getColorNameWithIndex(
+                                      key
+                                    )} text-${getColorNameWithIndex(
+                                      key
+                                    )} rounded-2 d-flex align-items-center justify-content-center`}
                                 >
                                   {/* <span className="fw-bold">
                                     {getFirstLetter(i.Criteria)}

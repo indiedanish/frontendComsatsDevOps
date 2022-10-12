@@ -55,7 +55,7 @@ import Badge from "../../../components/bootstrap/Badge";
 import SweetAlert from "react-bootstrap-sweetalert";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
-import { Grid } from "react-loader-spinner";
+import { Grid,Radio } from "react-loader-spinner";
 const CommitteeEvaluation = () => {
     const { projectname } = useParams();
 
@@ -275,6 +275,27 @@ const CommitteeEvaluation = () => {
                     />
                 </div>
             ) : (
+
+                studentSelf.data.CommitteeEvaluation.length == 0 ?
+
+                <div className="w- flex flex-col  h-[700px] justify-center items-center">
+                    <Radio
+                        height="150"
+                        width="150"
+                        color="#6C5DD3"
+                        ariaLabel="grid-loading"
+                        radius="12.5"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                    />
+                    <h4 className="mt-5">Committee might not have evaluated you yet</h4>
+
+
+                </div>
+                :
+
+
                 studentSelf.data.CommitteeEvaluation.map((item, index) => {
                     return (
                         <Page>

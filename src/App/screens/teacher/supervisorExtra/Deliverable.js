@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PageWrapper from "../../../layout/PageWrapper/PageWrapper";
-import { demoPages } from "../../../menu";
+import PageWrapper from "../../../../layout/PageWrapper/PageWrapper";
+import { demoPages } from "../../../../menu";
 import SubHeader, {
   SubHeaderLeft,
   SubHeaderRight,
   SubheaderSeparator,
-} from "../../../layout/SubHeader/SubHeader";
-import Page from "../../../layout/Page/Page";
-import Badge from "../../../components/bootstrap/Badge";
+} from "../../../../layout/SubHeader/SubHeader";
+import Page from "../../../../layout/Page/Page";
+import Badge from "../../../../components/bootstrap/Badge";
 import Card, {
   CardActions,
   CardBody,
@@ -16,16 +16,20 @@ import Card, {
   CardLabel,
   CardSubTitle,
   CardTitle,
-} from "../../../components/bootstrap/Card";
-import Button from "../../../components/bootstrap/Button";
-import Avatar, { AvatarGroup } from "../../../components/Avatar";
-import USERS from "../../../common/data/userDummyData";
-import Icon from "../../../components/icon/Icon";
-import Progress from "../../../components/bootstrap/Progress";
-import CommonAvatarTeam from "../../../components/common/CommonAvatarTeam";
-import useDarkMode from "../../../hooks/useDarkMode";
-import useAuth from "../../../hooks/useAuth";
-import Swal from "sweetalert2";
+} from "../../../../components/bootstrap/Card";
+import Button from "../../../../components/bootstrap/Button";
+import Avatar, { AvatarGroup } from "../../../../components/Avatar";
+import USERS from "../../../../common/data/userDummyData";
+import Icon from "../../../../components/icon/Icon";
+import Progress from "../../../../components/bootstrap/Progress";
+import CommonAvatarTeam from "../../../../components/common/CommonAvatarTeam";
+import useDarkMode from "../../../../hooks/useDarkMode";
+import useTourStep from "../../../../hooks/useTourStep";
+import useAuth from "../../../../hooks/useAuth";
+import { Cookies } from "react-cookie";
+import jwt_decode from "jwt-decode";
+import SvgLayoutSidebarInset from "../../../../components/icon/bootstrap/LayoutSidebarInset";
+import AreaChart from "../../../../pages/documentation/charts/chart-area/AreaIrregular.js";
 axios.defaults.withCredentials = true;
 import axios from "axios";
 import {Grid} from 'react-loader-spinner'
@@ -50,7 +54,7 @@ const Item = ({
     <div className="col-md-4" {...props}>
       <Card
         stretch
-       
+        onClick={()=>navigate(`/supervisor/deliverable/project/${name}`)[navigate]}
         className="cursor-pointer"
       >
         <CardHeader>
@@ -60,24 +64,9 @@ const Item = ({
           </CardLabel>
           <CardActions>
             <small className="border border-success border-2 text-success fw-bold px-2 py-1 rounded-1">
-            {dueDate}
+              {dueDate}
             </small>
-            <Button
-
-            onClick={()=>{
-
-              Swal.fire(
-                'Email Sent!',
-                'Invitation link has been sent',
-                'success'
-              )
-            }}
-            color="success"
-          icon="send"
-          />
           </CardActions>
-
-          
         </CardHeader>
         <CardBody>
           <div className="row g-2 mb-3">
@@ -111,17 +100,18 @@ const Item = ({
   );
 };
 
-const AllProjectsList = () => {
+const Deliverable = () => {
   const navigate = useNavigate();
 
   const { auth, setAuth } = useAuth();
-  const [ProjectData, setProjectData] = useState(null);
+  const [teacherSelf, setteacherSelf] = useState(null);
 
   console.log(auth);
 
-  const getProjects = async () => {
-    const response = await axios.get(
-      "http://localhost:3500/student/allProject",
+  const getteacherSelf = async () => {
+    const response = await axios.post(
+      "http://localhost:3500/teacher/getTeacherForMyProjects",
+      { Email: auth.Email },
       {
         withCredentials: true, //correct
       }
@@ -129,31 +119,32 @@ const AllProjectsList = () => {
     console.log("ffff ", response.data);
 
     const temp = response.data;
-    setProjectData(response.data);
+    setteacherSelf(response);
   };
 
   useEffect(() => {
-    console.log("ProjectData", ProjectData);
+    console.log("teacherSelf", teacherSelf);
 
-    getProjects();
+    getteacherSelf();
   }, []);
 
   return (
-    <PageWrapper title="All Project | DEV">
+    <PageWrapper title="Deliverable | DEV">
       <SubHeader>
         <SubHeaderLeft>
-          <strong className="fs-5">FYP Projects</strong>
+          <strong className="fs-5">FYP Deliverable</strong>
           <SubheaderSeparator />
           <span>
             There are{" "}
             <Badge color="success" isLight>
 
 
-              {ProjectData == null
+              {teacherSelf == null
                 ? ""
-                : ProjectData.length}{" "}
-              Projects
+                : teacherSelf.data.MyProjects.length}{" "}
+              projects
             </Badge>
+            under your supervision .
           </span>
         </SubHeaderLeft>
         <SubHeaderRight>
@@ -170,7 +161,7 @@ const AllProjectsList = () => {
 
           {
           
-          ProjectData == null
+          teacherSelf == null
             ?
             <div className="w- flex  h-[400px] justify-center items-center">
             <Grid 
@@ -184,7 +175,8 @@ const AllProjectsList = () => {
             visible={true}
           />
           </div>
-            : ProjectData.map((project, key) => (
+          
+            : teacherSelf.data.MyProjects.map((project, key) => (
               <Item
                 name={project.Name}
                 teamName="Supervisor"
@@ -211,7 +203,7 @@ const AllProjectsList = () => {
   );
 };
 
-export default AllProjectsList;
+export default Deliverable;
 
 // ADD PROJECT VALA COMMENT KIYA YEH
 {

@@ -13,6 +13,7 @@ import LoginAuth from "./LoginAuth";
 import useAuth from "../../hooks/useAuth";
 import AdminRoutes from "./AdminRoutes/AdminRoutes";
 import TeamLeadRoutes from "./TeamLeadRoutes/TeadLeadRoutes";
+import TeamMemberRoutes from "./TeamMemberRoutes/TeamMemberRoutes";
 import SupervisorRoutes from "./SupervisorRoutes/SupervisorRoutes";
 import CommitteeRoutes from './CommitteeRoutes/CommitteeRoutes'
 import Page404 from "../../pages/presentation/auth/Page404";
@@ -47,6 +48,11 @@ const ContentRoutes = () => {
 
         </Route>
 
+            <Route element={<RequireAuth role="TeamMember" />}>
+          <Route path="/teammember/*" element={<TeamMemberRoutes />} />
+
+        </Route>
+
         <Route element={<RequireAuth role="Committee" />}>
           <Route path="/committee/*" element={<CommitteeRoutes />} />
 
@@ -58,7 +64,7 @@ const ContentRoutes = () => {
         </Route>
 
        
-
+        {/* teammember */}
 
         <Route path="*" element={<Page404 />} />
       </Routes>

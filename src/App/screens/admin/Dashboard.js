@@ -141,7 +141,7 @@ const Dashboard = () => {
         </SubHeaderLeft>
         <SubHeaderRight>
           <CommonAvatarTeam>
-            <strong>Team</strong> Members
+            <strong>Admin</strong> Panel
           </CommonAvatarTeam>
         </SubHeaderRight>
       </SubHeader>

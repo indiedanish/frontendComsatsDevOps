@@ -32,7 +32,7 @@ import SvgLayoutSidebarInset from "../../../../components/icon/bootstrap/LayoutS
 import AreaChart from "../../../../pages/documentation/charts/chart-area/AreaIrregular.js";
 axios.defaults.withCredentials = true;
 import axios from "axios";
-import {Grid} from 'react-loader-spinner'
+import {Grid,Radio} from 'react-loader-spinner'
 
 // eslint-disable-next-line react/prop-types
 const Item = ({
@@ -141,7 +141,7 @@ const Evaluation = () => {
 
               {teacherSelf == null
                 ? ""
-                : teacherSelf.data.Committee.Projects.length}{" "}
+                : teacherSelf?.data?.Committee?.Projects?.length}{" "}
               projects
             </Badge>
             in your committee .
@@ -161,21 +161,24 @@ const Evaluation = () => {
 
           {
           
-          teacherSelf == null
+          teacherSelf == null || !teacherSelf?.data?.Committee?.Projects
             ?
-            <div className="w- flex  h-[400px] justify-center items-center">
-            <Grid 
-            height="150"
-            width="150"
-            color="#6C5DD3"
-            ariaLabel="grid-loading"
-            radius="12.5"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
+            <div className="w- flex flex-col  h-[700px] justify-center items-center">
+            <Radio
+              height="150"
+              width="150"
+              color="#6C5DD3"
+              ariaLabel="grid-loading"
+              radius="12.5"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+           <h4 className="mt-5">You might not have any projects</h4> 
+
+
           </div>
-            : teacherSelf.data.Committee.Projects.map((project, key) => (
+            : teacherSelf?.data?.Committee?.Projects.map((project, key) => (
               <Item
                 name={project.Name}
                 teamName="Supervisor"

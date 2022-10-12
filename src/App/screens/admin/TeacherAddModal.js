@@ -166,7 +166,7 @@ const TeacherAddModal = ({ id, isOpen, setIsOpen, reload }) => {
             <FormGroup className="col-lg-6" id="password" label="Password">
               <Input
                 required
-                placeholder="******"
+                placeholder="**"
                 autoComplete="additional-name"
                 onChange={formik.handleChange}
                 value={formik.values.password}

@@ -74,6 +74,10 @@ const TeamMembers = () => {
     setTasks(response.data.Requirements);
   };
 
+  const reload = () =>{
+    getstudentSelf()
+  }
+
   const getstudentSelf = async () => {
     const cookies = new Cookies();
     const token = cookies.get("jwt");
@@ -295,8 +299,10 @@ const TeamMembers = () => {
         </div>
       </Page>
       <TeamMembersEditModal
+      projectInfo={projectInfo}
         setIsOpen={setEditModalStatus}
         isOpen={editModalStatus}
+        reload={reload}
         id={0}
       />
     </PageWrapper>

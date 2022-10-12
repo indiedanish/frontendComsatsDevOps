@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { componentsMenu, supervisorMenu, committeeMenu, dashboardMenu, adminMenu, demoPages, layoutMenu, teamLeadMenu } from '../menu';
+import { componentsMenu, supervisorMenu, committeeMenu, dashboardMenu, adminMenu, demoPages, layoutMenu, teamMemberMenu, teamLeadMenu } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 
@@ -22,17 +22,27 @@ const ADMIN = {
 
 const SUPERVISOR = {
 
-	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	DASHBOARD: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 
 	EVALUATION: {
 
 		ALLPROJECTS: lazy(() => import('../App/screens/teacher/supervisorExtra/Evaluation')),
 
-		
-		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateSingleProject')),
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateSingleProject')),
 
 		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateStudent')),
+
+	},
+
+	DELIVERABLE: {
+
+		ALLPROJECTS: lazy(() => import('../App/screens/teacher/supervisorExtra/Deliverable')),
+
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/supervisorExtra/DeliverableSingleProject')),
+
 
 	},
 
@@ -41,13 +51,13 @@ const SUPERVISOR = {
 
 const COMMITTEE = {
 
-	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	DASHBOARD: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 	EVALUATION: {
 
 		ALLPROJECTS: lazy(() => import('../App/screens/teacher/committeeExtra/Evaluation')),
 
-		
-		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateSingleProject')),
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateSingleProject')),
 
 		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateStudent')),
 
@@ -57,6 +67,23 @@ const COMMITTEE = {
 
 
 };
+
+const TEAMMEMBER = {
+	TEAMMEMBERS: lazy(() => import('../App/screens/teamlead/TeamMembers')),
+	DASHBOARD: lazy(() => import('../App/screens/teamlead/Dashboard')),
+	SPRINT: lazy(() => import('../App/screens/teamlead/Sprint')),
+	DELIVERABLE: lazy(() => import('../App/screens/teamlead/Deliverable')),
+	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teamlead/AllProjectsList')),
+
+	FINDSUPERVISOR: lazy(() => import('../App/screens/teamlead/FindSupervisor')),
+	COMMITTEE_EVALUATION: lazy(() => import('../App/screens/teamlead/CommitteeEvaluation')),
+	SUPERVISOR_EVALUATION: lazy(() => import('../App/screens/teamlead/SupervisorEvaluation')),
+
+	SUMMARY: lazy(() => import('../pages/SummaryPage')),
+	TESTINGPANEL: lazy(() => import('../App/screens/teamlead/TestingPanel')),
+};
+
+
 
 
 const TEAMLEAD = {
@@ -71,6 +98,10 @@ const TEAMLEAD = {
 	SUPERVISOR_EVALUATION: lazy(() => import('../App/screens/teamlead/SupervisorEvaluation')),
 
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
+	TESTINGPANEL: lazy(() => import('../App/screens/teamlead/TestingPanel')),
+	DEVELOPMENTPANEL: lazy(() => import('../App/screens/teamlead/DevelopmentPanel')),
+	DESIGNPANEL: lazy(() => import('../App/screens/teamlead/DesignPanel')),
+	DEBUGGINGPANEL: lazy(() => import('../App/screens/teamlead/DebuggingPanel')),
 };
 
 
@@ -274,6 +305,8 @@ const student = [
 	},
 
 ]
+
+
 
 const documentation = [
 	/**
@@ -1112,11 +1145,537 @@ const presentation = [
 ];
 
 
-
-const teamLead = [
+const teammember = [
 
 	// Charts
 
+	{
+		path: teamLeadMenu.developmentpanel.path,
+		element: <TEAMLEAD.DEVELOPMENTPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.designpanel.path,
+		element: <TEAMLEAD.DESIGNPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.debuggingpanel.path,
+		element: <TEAMLEAD.DEBUGGINGPANEL />,
+		exact: true,
+	},
+	{
+		path: teamLeadMenu.testingpanel.path,
+		element: <TEAMLEAD.TESTINGPANEL />,
+		exact: true,
+	},
+
+
+	{
+		path: teamLeadMenu.evaluation.subMenu.committee.path,
+		element: <TEAMLEAD.COMMITTEE_EVALUATION />,
+		exact: true,
+
+
+	},
+
+
+	{
+		path: teamLeadMenu.evaluation.subMenu.supervisor.path,
+		element: <TEAMLEAD.SUPERVISOR_EVALUATION />,
+		exact: true,
+
+
+	},
+	{
+		path: teamLeadMenu.dashboard.path,
+		element: <TEAMLEAD.DASHBOARD />,
+		exact: true,
+
+
+	}
+
+	,
+
+	{
+		path: teamLeadMenu.team.path,
+		element: <TEAMLEAD.TEAMMEMBERS />,
+		exact: true,
+
+
+	},
+
+	{
+		path: teamLeadMenu.project.subMenu.findsupervisor.path,
+		element: <TEAMLEAD.FINDSUPERVISOR />,
+		exact: true,
+
+
+	},
+
+
+	{
+		path: teamLeadMenu.sprint.path,
+		element: <TEAMLEAD.SPRINT />,
+		exact: true,
+
+	},
+
+	{
+		path: teamLeadMenu.deliverable.path,
+		element: <TEAMLEAD.DELIVERABLE />,
+		exact: true,
+
+	},
+
+	{
+		path: teamLeadMenu.project.subMenu.joinproject.path,
+		element: <TEAMLEAD.ALL_PROJECTS_LIST />,
+		exact: true,
+
+	},
+
+
+
+	// {
+	// 	path: dashboardMenu.dashboardBooking.path,
+	// 	element: <TEAMLEAD.DASHBOARD_BOOKING />,
+	// 	exact: true,
+	// },
+
+
+	{
+		path: componentsMenu.charts.path,
+		element: <CHARTS_PAGE.CHART_LIST />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsUsage.path,
+		element: <CHARTS_PAGE.GENERAL_USAGE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsSparkline.path,
+		element: <CHARTS_PAGE.SPARKLINE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsLine.path,
+		element: <CHARTS_PAGE.LINE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsArea.path,
+		element: <CHARTS_PAGE.AREA />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsColumn.path,
+		element: <CHARTS_PAGE.COLUMN />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsBar.path,
+		element: <CHARTS_PAGE.BAR />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsMixed.path,
+		element: <CHARTS_PAGE.MIXED />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsTimeline.path,
+		element: <CHARTS_PAGE.TIMELINE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsCandleStick.path,
+		element: <CHARTS_PAGE.CANDLESTICK />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsBoxWhisker.path,
+		element: <CHARTS_PAGE.BOX_WHISKER />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsPieDonut.path,
+		element: <CHARTS_PAGE.PIE_DONUT />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsRadar.path,
+		element: <CHARTS_PAGE.RADAR />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsPolar.path,
+		element: <CHARTS_PAGE.POLAR />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsRadialBar.path,
+		element: <CHARTS_PAGE.RADIAL_BAR />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsBubble.path,
+		element: <CHARTS_PAGE.BUBBLE />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsScatter.path,
+		element: <CHARTS_PAGE.SCATTER />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsHeatMap.path,
+		element: <CHARTS_PAGE.HEAT_MAP />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.charts.subMenu.chartsTreeMap.path,
+		element: <CHARTS_PAGE.TREE_MAP />,
+		exact: true,
+	},
+
+	{
+		path: componentsMenu.notification.path,
+		element: <EXTRA.NOTIFICATION />,
+		exact: true,
+	},
+	{
+		path: componentsMenu.hooks.path,
+		element: <EXTRA.HOOKS />,
+		exact: true,
+	},
+
+	/**
+	 * Landing
+	 */
+	{
+		path: dashboardMenu.dashboard.path,
+		element: <LANDING.DASHBOARD />,
+		exact: true,
+	},
+	{
+		path: dashboardMenu.dashboardBooking.path,
+		element: <LANDING.DASHBOARD_BOOKING />,
+		exact: true,
+	},
+	{
+		path: dashboardMenu.summary.path,
+		element: <LANDING.SUMMARY />,
+		exact: true,
+	},
+
+	{
+		path: dashboardMenu.team.path,
+		element: <LANDING.TEAMMEMBERS />,
+		exact: true,
+	},
+
+	/** ************************************************** */
+
+	/**
+	 * Pages
+	 */
+
+	/**
+	 * Single Pages
+	 */
+	{
+		path: demoPages.singlePages.subMenu.boxedSingle.path,
+		element: <SINGLE.BOXED />,
+		exact: true,
+	},
+	{
+		path: demoPages.singlePages.subMenu.fluidSingle.path,
+		element: <SINGLE.FLUID />,
+		exact: true,
+	},
+
+	/**
+	 * List
+	 */
+	// {
+	// 	path: demoPages.listPages.subMenu.listBoxed.path,
+	// 	element: <LIST.BOXED />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.listPages.subMenu.listFluid.path,
+	// 	element: <LIST.FLUID />,
+	// 	exact: true,
+	// },
+
+	/**
+	 * Grid
+	 */
+	// {
+	// 	path: demoPages.gridPages.subMenu.gridBoxed.path,
+	// 	element: <GRID.BOXED />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.gridPages.subMenu.gridFluid.path,
+	// 	element: <GRID.FLUID />,
+	// 	exact: true,
+	// },
+
+	/**
+	 * Edit
+	 */
+	// {
+	// 	path: demoPages.editPages.subMenu.editModern.path,
+	// 	element: <EDIT.MODERN />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editBoxed.path,
+	// 	element: <EDIT.BOXED />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editFluid.path,
+	// 	element: <EDIT.FLUID />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editWizard.path,
+	// 	element: <EDIT.WIZARD />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editInCanvas.path,
+	// 	element: <EDIT.IN_CANVAS />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.editPages.subMenu.editInModal.path,
+	// 	element: <EDIT.IN_MODAL />,
+	// 	exact: true,
+	// },
+
+	// {
+	// 	path: demoPages.pricingTable.path,
+	// 	element: <PRICING.PRICING_TABLE />,
+	// 	exact: true,
+	// },
+
+	/**
+	 * END - Pages
+	 */
+
+	/**
+	 * Auth Page
+	 */
+	{
+		path: demoPages.page404.path,
+		element: <AUTH.PAGE_404 />,
+		exact: true,
+	},
+	// {
+	// 	path: demoPages.login.path,
+	// 	element: <Login />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: demoPages.signUp.path,
+	// 	element: <Login isSignUp />,
+	// 	exact: true,
+	// },
+
+	/**
+	 * App
+	 */
+
+	/**
+	 * App > Project Management
+	 */
+	{
+		path: demoPages.projectManagement.subMenu.list.path,
+		element: <APP.PROJECT_MANAGEMENT.PROJECTS_LIST />,
+		exact: true,
+	},
+	{
+		path: `${demoPages.projectManagement.subMenu.itemID.path}/:id`,
+		element: <APP.PROJECT_MANAGEMENT.PROJECT />,
+		exact: true,
+	},
+
+	/**
+	 * App > Knowledge
+	 */
+	{
+		path: demoPages.knowledge.subMenu.grid.path,
+		element: <APP.KNOWLEDGE.GRID />,
+		exact: true,
+	},
+	{
+		path: `${demoPages.knowledge.subMenu.itemID.path}/:id`,
+		element: <APP.KNOWLEDGE.VIEW />,
+		exact: true,
+	},
+
+	/**
+	 * App > Sales
+	 */
+	{
+		path: demoPages.sales.subMenu.transactions.path,
+		element: <APP.SALES.TRANSACTIONS />,
+		exact: true,
+	},
+	{
+		path: demoPages.sales.subMenu.salesList.path,
+		element: <APP.SALES.PRODUCTS />,
+		exact: true,
+	},
+	{
+		path: demoPages.sales.subMenu.productsGrid.path,
+		element: <APP.SALES.PRODUCTS_GRID />,
+		exact: true,
+	},
+	{
+		path: `${demoPages.sales.subMenu.productID.path}/:id`,
+		element: <APP.SALES.PRODUCTS_VIEW />,
+		exact: true,
+	},
+
+	/**
+	 * App > Appointment
+	 */
+	{
+		path: demoPages.appointment.subMenu.calendar.path,
+		element: <APP.APPOINTMENT.CALENDAR />,
+		exact: true,
+	},
+	{
+		path: demoPages.appointment.subMenu.employeeList.path,
+		element: <APP.APPOINTMENT.EMPLOYEE_LIST />,
+		exact: true,
+	},
+	{
+		path: `${demoPages.appointment.subMenu.employeeID.path}/:id`,
+		element: <APP.APPOINTMENT.EMPLOYEE_VIEW />,
+		exact: true,
+	},
+	{
+		path: demoPages.appointment.subMenu.appointmentList.path,
+		element: <APP.APPOINTMENT.APPOINTMENT_LIST />,
+		exact: true,
+	},
+
+	/**
+	 * App > CRM
+	 */
+	{
+		path: demoPages.crm.subMenu.dashboard.path,
+		element: <APP.CRM.CRM_DASHBOARD />,
+		exact: true,
+	},
+	{
+		path: demoPages.crm.subMenu.customersList.path,
+		element: <APP.CRM.CUSTOMERS />,
+		exact: true,
+	},
+	{
+		path: `${demoPages.crm.subMenu.customerID.path}/:id`,
+		element: <APP.CRM.CUSTOMER />,
+		exact: true,
+	},
+
+	/**
+	 * App > Chat
+	 */
+	{
+		path: demoPages.chat.subMenu.withListChat.path,
+		element: <APP.CHAT.WITH_LIST />,
+		exact: true,
+	},
+	{
+		path: demoPages.chat.subMenu.onlyListChat.path,
+		element: <APP.CHAT.ONLY_LIST />,
+		exact: true,
+	},
+
+	/**
+	 * END - App
+	 */
+
+	/** ************************************************** */
+
+	/**
+	 * Page Layout Types
+	 */
+	// {
+	// 	path: layoutMenu.blank.path,
+	// 	element: <PAGE_LAYOUTS.BLANK />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.pageLayout.subMenu.headerAndSubheader.path,
+	// 	element: <PAGE_LAYOUTS.HEADER_SUBHEADER />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.pageLayout.subMenu.onlyHeader.path,
+	// 	element: <PAGE_LAYOUTS.HEADER />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.pageLayout.subMenu.onlySubheader.path,
+	// 	element: <PAGE_LAYOUTS.SUBHEADER />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.pageLayout.subMenu.onlyContent.path,
+	// 	element: <PAGE_LAYOUTS.CONTENT />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.asideTypes.subMenu.defaultAside.path,
+	// 	element: <PAGE_LAYOUTS.ASIDE />,
+	// 	exact: true,
+	// },
+	// {
+	// 	path: layoutMenu.asideTypes.subMenu.minimizeAside.path,
+	// 	element: <PAGE_LAYOUTS.MINIMIZE_ASIDE />,
+	// 	exact: true,
+	// },
+];
+
+
+
+const teamLead = [
+
+	{
+		path: teamLeadMenu.developmentpanel.path,
+		element: <TEAMLEAD.DEVELOPMENTPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.designpanel.path,
+		element: <TEAMLEAD.DESIGNPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.debuggingpanel.path,
+		element: <TEAMLEAD.DEBUGGINGPANEL />,
+		exact: true,
+	},
+
+	// Charts
+	{
+		path: teamLeadMenu.testingpanel.path,
+		element: <TEAMLEAD.TESTINGPANEL />,
+		exact: true,
+	},
 
 
 	{
@@ -1604,7 +2163,7 @@ const admin = [
 
 	{
 		path: adminMenu.dashboard.path,
-		element: <ADMIN.DASHBOARD />,
+		element: <ADMIN.ANNOUNCEMENTS />,
 		exact: true,
 	},
 
@@ -1718,7 +2277,17 @@ const admin = [
 
 const supervisor = [
 
+	{
+		path: supervisorMenu.deliverable.path,
+		element: <SUPERVISOR.DELIVERABLE.ALLPROJECTS />,
+		exact: true,
+	},
 
+	{
+		path: `${supervisorMenu.deliverable.subMenu.singleProject.path}/:projectname`,
+		element: <SUPERVISOR.DELIVERABLE.SINGLEPROJECT />,
+		exact: true,
+	},
 
 
 	{
@@ -1734,7 +2303,7 @@ const supervisor = [
 		exact: true,
 	},
 
-	
+
 	{
 		path: supervisorMenu.evaluation.path,
 		element: <SUPERVISOR.EVALUATION.ALLPROJECTS />,
@@ -1785,7 +2354,7 @@ const committee = [
 		exact: true,
 	},
 
-	
+
 
 
 
@@ -1793,6 +2362,6 @@ const committee = [
 
 
 
-const contents = { supervisor, presentation, teamLead, documentation, committee, admin, student };
+const contents = { supervisor, presentation, teamLead, documentation, committee, teammember, admin, student };
 
 export default contents;

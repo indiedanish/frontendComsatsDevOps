@@ -52,7 +52,7 @@ import useDarkMode from "../../../hooks/useDarkMode";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 axios.defaults.withCredentials = true;
-import { Grid } from "react-loader-spinner";
+import { Grid, Radio } from "react-loader-spinner";
 const localizer = momentLocalizer(moment);
 const now = new Date();
 
@@ -139,7 +139,7 @@ const MyWeekEvent = (data) => {
 	);
 };
 
-const Sprint = () => {
+const Sprint = ({ reload }) => {
 	const { darkModeStatus, themeStatus } = useDarkMode();
 
 	const [toggleRightPanel, setToggleRightPanel] = useState(true);
@@ -241,13 +241,15 @@ const Sprint = () => {
 	const addToDatabase = async (val) => {
 
 
+
+
 		const title = val.title;
 		const Priority = val.Priority;
 		const Assign = val.teammember;
 		const start = val.start;
 		const end = val.end;
 		const type = val.type
-
+		console.log("val", title, Priority, Assign, start);
 		var res = await axios.post("http://localhost:3500/student/requirement", {
 			Title: title,
 			AssignedTo: Assign,
@@ -258,9 +260,10 @@ const Sprint = () => {
 			end: end,
 		})
 
-		console.log("res",res)
+		console.log("res", res)
 
-	
+		getstudentSelf()
+
 
 
 	};
@@ -413,9 +416,9 @@ const Sprint = () => {
 
 	return (
 		<>
-			{tasks.length == 0 ? (
-				<div className="w- flex  h-[700px] justify-center items-center">
-					<Grid
+			{!projectInfo?.Name ? (
+				<div className="w- flex flex-col  h-[700px] justify-center items-center">
+					<Radio
 						height="150"
 						width="150"
 						color="#6C5DD3"
@@ -425,6 +428,9 @@ const Sprint = () => {
 						wrapperClass=""
 						visible={true}
 					/>
+					<h4 className="mt-5">Check if you are added to any group</h4>
+
+
 				</div>
 			) : (
 				<PageWrapper title={demoPages.appointment.subMenu.dashboard.text}>

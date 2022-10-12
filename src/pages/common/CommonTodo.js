@@ -154,7 +154,8 @@ const CommonTodo = () => {
 
 	var [use, setuse] = useState([]);
 	var [teammembers, setTeamMember] = useState([])
- 
+	const [studentSelf, setstudentSelf] = useState(null);
+	const [projectInfo, setprojectInfo] = useState(null);
 	useEffect(() => {
 		const fetchData = async () => {
 			const response = await axios.get('http://localhost:4000/test/view');
@@ -211,7 +212,7 @@ const CommonTodo = () => {
 						<Progress
 							height={8}
 							max={listLength}
-							value={use}
+							value={projectInfo}
 							color={completeTaskLength === listLength ? 'success' : 'primary'}
 						/>
 					</CardSubTitle>
@@ -326,7 +327,7 @@ const CommonTodo = () => {
 				</CardActions>
 			</CardHeader>
 			<CardBody isScrollable>
-				<Todo list={use} setList={setuse} />
+				<Todo list={projectInfo.Requirements} setList={setuse} />
 			</CardBody>
 		</Card>
 	);
