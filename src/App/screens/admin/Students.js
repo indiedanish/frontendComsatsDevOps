@@ -50,7 +50,7 @@ import FormGroup from '../../../components/bootstrap/forms/FormGroup';
 import Input from '../../../components/bootstrap/forms/Input';
 ;
 import Button from '../../../components/bootstrap/Button';
-
+import { Grid, Radio } from "react-loader-spinner";
 /////////////////////////////
 
 
@@ -134,13 +134,13 @@ const Students = () => {
   const [studentInfo, setStudentInfo] = useState("")
 
   const Delete = async (RegNo) => {
-    await axios.delete(`http://localhost:3500/admin/student/${RegNo}` ,
-     { withCredentials: true });
-     getAllStudents()
+    await axios.delete(`http://localhost:3500/admin/student/${RegNo}`,
+      { withCredentials: true });
+    getAllStudents()
   };
 
   const reload = () => {
-    getAllStudents()  
+    getAllStudents()
   }
 
   return (
@@ -176,158 +176,181 @@ const Students = () => {
           </Button>
         </SubHeaderRight>
       </SubHeader>
-      <Page>
-        <div className="row h-100">
-          <div className="col-12">
-            <Card stretch>
-              <CardBody isScrollable className="table-responsive">
-                <table className="table table-modern table-hover">
-                  <thead>
-                    <tr>
-                      <th
-                        onClick={() => requestSort("Name")}
-                        className="cursor-pointer text-decoration-underline"
-                      >
-                        Students{" "}
-                        <Icon
-                          size="lg"
-                          className={getClassNamesFor("Name")}
-                          icon="FilterList"
-                        />
-                      </th>
-                      <th>Email</th>
-                      <th>Phone Number</th>
-                      <th
-                        onClick={() => requestSort("RegNo")}
-                        className="cursor-pointer text-decoration-underline"
-                      >
-                        Registeration #
-                        <Icon
-                          size="lg"
-                          className={getClassNamesFor("balance")}
-                          icon="FilterList"
-                        />
-                      </th>
-                      <th className="cursor-pointer">Actions </th>
-                      <td />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataPagination(items, currentPage, perPage).map(
-                      (i, key) => (
-                        <tr key={key}>
-                          <td>
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0">
-                                <div
-                                  className="ratio ratio-1x1 me-3"
-                                  style={{ width: 48 }}
-                                >
+
+
+
+
+      {allStudents.length == 0 ? (
+        <div className="w- flex flex-col  h-[700px] justify-center items-center">
+          <Radio
+            height="150"
+            width="150"
+            color="#6C5DD3"
+            ariaLabel="grid-loading"
+            radius="12.5"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+          <h4 className="mt-5">Finding Students...</h4>
+
+
+        </div>
+      ) :
+
+        <Page>
+          <div className="row h-100">
+            <div className="col-12">
+              <Card stretch>
+                <CardBody isScrollable className="table-responsive">
+                  <table className="table table-modern table-hover">
+                    <thead>
+                      <tr>
+                        <th
+                          onClick={() => requestSort("Name")}
+                          className="cursor-pointer text-decoration-underline"
+                        >
+                          Students{" "}
+                          <Icon
+                            size="lg"
+                            className={getClassNamesFor("Name")}
+                            icon="FilterList"
+                          />
+                        </th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th
+                          onClick={() => requestSort("RegNo")}
+                          className="cursor-pointer text-decoration-underline"
+                        >
+                          Registeration #
+                          <Icon
+                            size="lg"
+                            className={getClassNamesFor("balance")}
+                            icon="FilterList"
+                          />
+                        </th>
+                        <th className="cursor-pointer">Actions </th>
+                        <td />
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dataPagination(items, currentPage, perPage).map(
+                        (i, key) => (
+                          <tr key={key}>
+                            <td>
+                              <div className="d-flex align-items-center">
+                                <div className="flex-shrink-0">
                                   <div
-                                    className={`bg-l${darkModeStatus ? "o25" : "25"
-                                      }-${getColorNameWithIndex(
-                                        key
-                                      )} text-${getColorNameWithIndex(
-                                        key
-                                      )} rounded-2 d-flex align-items-center justify-content-center`}
+                                    className="ratio ratio-1x1 me-3"
+                                    style={{ width: 48 }}
                                   >
-                                    <span className="fw-bold">
-                                      {getFirstLetter(i.Name)}
-                                    </span>
+                                    <div
+                                      className={`bg-l${darkModeStatus ? "o25" : "25"
+                                        }-${getColorNameWithIndex(
+                                          key
+                                        )} text-${getColorNameWithIndex(
+                                          key
+                                        )} rounded-2 d-flex align-items-center justify-content-center`}
+                                    >
+                                      <span className="fw-bold">
+                                        {getFirstLetter(i.Name)}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex-grow-1">
+                                  <div className="fs-6 fw-bold">{i.Name}</div>
+                                  <div className="text-muted">
+                                    <Icon icon="Label" /> <small>{i.Email}</small>
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex-grow-1">
-                                <div className="fs-6 fw-bold">{i.Name}</div>
-                                <div className="text-muted">
-                                  <Icon icon="Label" /> <small>{i.Email}</small>
-                                </div>
+                            </td>
+                            <td>
+                              <Button
+                                isLink
+                                color="light"
+                                icon="Email"
+                                className="text-lowercase"
+                                tag="a"
+                                href={`mailto:${i.Email}`}
+                              >
+                                {i.Email}
+                              </Button>
+                            </td>
+                            <td>
+                              {/* <div>{i.membershipDate.format('ll')}</div> */}
+                              <div>
+                                +{i.PhoneNumber}
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                            <Button
-                              isLink
-                              color="light"
-                              icon="Email"
-                              className="text-lowercase"
-                              tag="a"
-                              href={`mailto:${i.Email}`}
-                            >
-                              {i.Email}
-                            </Button>
-                          </td>
-                          <td>
-                            {/* <div>{i.membershipDate.format('ll')}</div> */}
-                            <div>
-                              +{i.PhoneNumber}
-                            </div>
-                          </td>
-                          <td>{priceFormat(i.RegNo)}</td>
-                          <td>
-                            <Dropdown>
-                              <DropdownToggle hasIcon={false}>
-                                <Button
-                                  icon="MoreHoriz"
-                                  color="dark"
-                                  isLight
-                                  shadow="sm"
-                                />
-                              </DropdownToggle>
-                              <DropdownMenu isAlignmentEnd>
-                                <DropdownItem>
+                            </td>
+                            <td>{priceFormat(i.RegNo)}</td>
+                            <td>
+                              <Dropdown>
+                                <DropdownToggle hasIcon={false}>
                                   <Button
-                                    icon="Delete"
-                                    tag="a"
-                                    onClick={() => {
-                                      Delete(i.RegNo);
-                                      setRefresh(!refresh);
-                                    }}
-                                  >
-                                    Delete
-                                  </Button>
-                                </DropdownItem>
+                                    icon="MoreHoriz"
+                                    color="dark"
+                                    isLight
+                                    shadow="sm"
+                                  />
+                                </DropdownToggle>
+                                <DropdownMenu isAlignmentEnd>
+                                  <DropdownItem>
+                                    <Button
+                                      icon="Delete"
+                                      tag="a"
+                                      onClick={() => {
+                                        Delete(i.RegNo);
+                                        setRefresh(!refresh);
+                                      }}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </DropdownItem>
 
-                                <DropdownItem>
-                                  <Button
-                                    icon="Edit"
-                                    tag="a"
-                                    onClick={() => {
-                                      setStudentInfo(i);
-                                      setEditModalStatus(true)}}
-                                  >
-                                    Edit
-                                  </Button>
-                                </DropdownItem>
-                              </DropdownMenu>
-                            </Dropdown>
-                          </td>
-                        </tr>
-                      )
-                    )}
-                  </tbody>
-                </table>
-              </CardBody>
-              <PaginationButtons
-                data={filteredData}
-                label="students"
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                perPage={perPage}
-                setPerPage={setPerPage}
-              />
-            </Card>
+                                  <DropdownItem>
+                                    <Button
+                                      icon="Edit"
+                                      tag="a"
+                                      onClick={() => {
+                                        setStudentInfo(i);
+                                        setEditModalStatus(true)
+                                      }}
+                                    >
+                                      Edit
+                                    </Button>
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              </Dropdown>
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </CardBody>
+                <PaginationButtons
+                  data={filteredData}
+                  label="students"
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
+                  perPage={perPage}
+                  setPerPage={setPerPage}
+                />
+              </Card>
+            </div>
           </div>
-        </div>
-      </Page>
+        </Page>}
       <StudentEditModal
         setIsOpen={setEditModalStatus}
         isOpen={editModalStatus}
-        studentInfo = {studentInfo}
+        studentInfo={studentInfo}
         id={0}
         reload={reload}
       />
-      
+
       <StudentAddModal
         setIsOpen={setAddModalStatus}
         isOpen={addModalStatus}
