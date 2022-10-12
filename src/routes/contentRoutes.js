@@ -22,17 +22,27 @@ const ADMIN = {
 
 const SUPERVISOR = {
 
-	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	DASHBOARD: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 
 	EVALUATION: {
 
 		ALLPROJECTS: lazy(() => import('../App/screens/teacher/supervisorExtra/Evaluation')),
 
-		
-		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateSingleProject')),
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateSingleProject')),
 
 		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateStudent')),
+
+	},
+
+	DELIVERABLE: {
+
+		ALLPROJECTS: lazy(() => import('../App/screens/teacher/supervisorExtra/Deliverable')),
+
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/supervisorExtra/DeliverableSingleProject')),
+
 
 	},
 
@@ -46,8 +56,8 @@ const COMMITTEE = {
 
 		ALLPROJECTS: lazy(() => import('../App/screens/teacher/committeeExtra/Evaluation')),
 
-		
-		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateSingleProject')),
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateSingleProject')),
 
 		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateStudent')),
 
@@ -2267,7 +2277,17 @@ const admin = [
 
 const supervisor = [
 
+	{
+		path: supervisorMenu.deliverable.path,
+		element: <SUPERVISOR.DELIVERABLE.ALLPROJECTS />,
+		exact: true,
+	},
 
+	{
+		path: `${supervisorMenu.deliverable.subMenu.singleProject.path}/:projectname`,
+		element: <SUPERVISOR.DELIVERABLE.SINGLEPROJECT />,
+		exact: true,
+	},
 
 
 	{
@@ -2283,7 +2303,7 @@ const supervisor = [
 		exact: true,
 	},
 
-	
+
 	{
 		path: supervisorMenu.evaluation.path,
 		element: <SUPERVISOR.EVALUATION.ALLPROJECTS />,
@@ -2334,7 +2354,7 @@ const committee = [
 		exact: true,
 	},
 
-	
+
 
 
 
@@ -2342,6 +2362,6 @@ const committee = [
 
 
 
-const contents = { supervisor, presentation, teamLead, documentation, committee,teammember, admin, student };
+const contents = { supervisor, presentation, teamLead, documentation, committee, teammember, admin, student };
 
 export default contents;
