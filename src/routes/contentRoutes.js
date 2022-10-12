@@ -2153,7 +2153,7 @@ const admin = [
 
 	{
 		path: adminMenu.dashboard.path,
-		element: <ADMIN.DASHBOARD />,
+		element: <ADMIN.ANNOUNCEMENTS />,
 		exact: true,
 	},
 

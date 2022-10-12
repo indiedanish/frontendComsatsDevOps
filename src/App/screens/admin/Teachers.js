@@ -26,6 +26,10 @@ import Dropdown, {
 } from "../../../components/bootstrap/Dropdown";
 import TeacherAddModal from "./TeacherAddModal";
 import TeacherEditModal from "./TeacherEditModal";
+
+import { Grid, Radio } from "react-loader-spinner";
+
+
 const Teachers = () => {
 
 
@@ -84,7 +88,7 @@ const Teachers = () => {
     <PageWrapper title={adminMenu.teachers.text}>
       <SubHeader>
         <SubHeaderLeft>
-       
+
           <label
             className='border-0 bg-transparent cursor-pointer me-0'
             htmlFor='searchInput'>
@@ -101,8 +105,8 @@ const Teachers = () => {
         </SubHeaderLeft>
         <SubHeaderRight>
 
-        <CommonFilterTag title='Total Teachers' text={allTeachers.length} />
-         
+          <CommonFilterTag title='Total Teachers' text={allTeachers.length} />
+
           <Button
             icon='Add'
             color='info'
@@ -113,117 +117,135 @@ const Teachers = () => {
           </Button>
         </SubHeaderRight>
       </SubHeader>
-      <Page container='fluid'>
-     
-        <div className='row row-cols-xxl-3 row-cols-lg-3 row-cols-md-2'>
-          {searchUsers.map((user) => (
-            <div key={user.RegNo} className='col'>
-              <Card>
-                <CardBody>
-                  <div className='row g-3'>
-                    <div className='col d-flex'>
-                      <div className='flex-shrink-0'>
-                        <div className='position-relative'>
-                          <div
-                            className='ratio ratio-1x1'
-                            style={{ width: 100 }}>
+
+      {allTeachers.length == 0 ? (
+        <div className="w- flex flex-col  h-[700px] justify-center items-center">
+          <Radio
+            height="150"
+            width="150"
+            color="#6C5DD3"
+            ariaLabel="grid-loading"
+            radius="12.5"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+          <h4 className="mt-5">Finding Teachers...</h4>
+
+
+        </div>
+      ) : (
+        <Page container='fluid'>
+
+          <div className='row row-cols-xxl-3 row-cols-lg-3 row-cols-md-2'>
+            {searchUsers.map((user) => (
+              <div key={user.RegNo} className='col'>
+                <Card>
+                  <CardBody>
+                    <div className='row g-3'>
+                      <div className='col d-flex'>
+                        <div className='flex-shrink-0'>
+                          <div className='position-relative'>
                             <div
-                              className={classNames(
-                                `bg-l25-${user.Name}`,
-                                'rounded-2',
-                                'd-flex align-items-center justify-content-center',
-                                'overflow-hidden',
-                                'shadow',
-                              )}>
-                              <img
-                                src={user.ProfilePicture}
-                                alt={user.Name}
-                                width={100}
-                              />
+                              className='ratio ratio-1x1'
+                              style={{ width: 100 }}>
+                              <div
+                                className={classNames(
+                                  `bg-l25-${user.Name}`,
+                                  'rounded-2',
+                                  'd-flex align-items-center justify-content-center',
+                                  'overflow-hidden',
+                                  'shadow',
+                                )}>
+                                <img
+                                  src={user.ProfilePicture}
+                                  alt={user.Name}
+                                  width={100}
+                                />
+                              </div>
                             </div>
-                          </div>
-                          {/* {user.isOnline && (
+                            {/* {user.isOnline && (
 														<span className='position-absolute top-100 start-85 translate-middle badge border border-2 border-light rounded-circle bg-success p-2'>
 															<span className='visually-hidden'>
 																Online user
 															</span>
 														</span>
 													)} */}
-                        </div>
-                      </div>
-                      <div className='flex-grow-1 ms-3 d-flex justify-content-between'>
-                        <div className='w-100'>
-                          <div className='row'>
-                            <div className='col'>
-                              <div className='d-flex align-items-center'>
-                                <div className='fw-bold fs-5 me-2'>
-                                  {` ${user.Name}`}
-                                </div>
-                                <small className='border border-success border-2 text-success fw-bold px-2 py-1 rounded-1'>
-                                  {user.Designation}
-                                </small>
-                                <small className='border ml-3 border-danger border-2 text-danger fw-bold px-2 py-1 rounded-1'>
-                                  {user.isCommittee?user.isSupervisor?"Both":"Committee":"Supervisor" }
-                                </small>
-                              </div>
-
-                              <div className='text-muted'>
-                                @{user.Email}
-                              </div>
-                            </div>
-                            <div className='col-auto'>
-
-                              <Dropdown>
-                                <DropdownToggle hasIcon={false}>
-                                  <Button
-                                    icon="MoreHoriz"
-                                    color="dark"
-                                    isLight
-                                    shadow="sm"
-                                  />
-                                </DropdownToggle>
-                                <DropdownMenu isAlignmentEnd>
-                                  <DropdownItem>
-                                    <Button
-                                      icon="Delete"
-                                      tag="a"
-                                      onClick={() => {
-                                        Delete(user.Email);
-                                        setRefresh(!refresh);
-                                      }}
-                                    >
-                                      Delete
-                                    </Button>
-                                  </DropdownItem>
-
-                                  <DropdownItem>
-                                    <Button
-                                      icon="Edit"
-                                      tag="a"
-                                      onClick={() => {
-                                        setTeacherInfo(user);
-                                        setEditModalStatus(true)
-                                      }}
-                                    >
-                                      Edit
-                                    </Button>
-                                  </DropdownItem>
-                                </DropdownMenu>
-                              </Dropdown>
-
-                            </div>
                           </div>
+                        </div>
+                        <div className='flex-grow-1 ms-3 d-flex justify-content-between'>
+                          <div className='w-100'>
+                            <div className='row'>
+                              <div className='col'>
+                                <div className='d-flex align-items-center'>
+                                  <div className='fw-bold fs-5 me-2'>
+                                    {` ${user.Name}`}
+                                  </div>
+                                  <small className='border border-success border-2 text-success fw-bold px-2 py-1 rounded-1'>
+                                    {user.Designation}
+                                  </small>
+                                  <small className='border ml-3 border-danger border-2 text-danger fw-bold px-2 py-1 rounded-1'>
+                                    {user.isCommittee ? user.isSupervisor ? "Both" : "Committee" : "Supervisor"}
+                                  </small>
+                                </div>
 
+                                <div className='text-muted'>
+                                  @{user.Email}
+                                </div>
+                              </div>
+                              <div className='col-auto'>
+
+                                <Dropdown>
+                                  <DropdownToggle hasIcon={false}>
+                                    <Button
+                                      icon="MoreHoriz"
+                                      color="dark"
+                                      isLight
+                                      shadow="sm"
+                                    />
+                                  </DropdownToggle>
+                                  <DropdownMenu isAlignmentEnd>
+                                    <DropdownItem>
+                                      <Button
+                                        icon="Delete"
+                                        tag="a"
+                                        onClick={() => {
+                                          Delete(user.Email);
+                                          setRefresh(!refresh);
+                                        }}
+                                      >
+                                        Delete
+                                      </Button>
+                                    </DropdownItem>
+
+                                    <DropdownItem>
+                                      <Button
+                                        icon="Edit"
+                                        tag="a"
+                                        onClick={() => {
+                                          setTeacherInfo(user);
+                                          setEditModalStatus(true)
+                                        }}
+                                      >
+                                        Edit
+                                      </Button>
+                                    </DropdownItem>
+                                  </DropdownMenu>
+                                </Dropdown>
+
+                              </div>
+                            </div>
+
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </CardBody>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </Page>
+                  </CardBody>
+                </Card>
+              </div>
+            ))}
+          </div>
+        </Page>)}
 
       <TeacherEditModal
         setIsOpen={setEditModalStatus}
