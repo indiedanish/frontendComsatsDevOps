@@ -51,7 +51,7 @@ const SUPERVISOR = {
 
 const COMMITTEE = {
 
-	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	DASHBOARD: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 	EVALUATION: {
 
 		ALLPROJECTS: lazy(() => import('../App/screens/teacher/committeeExtra/Evaluation')),
