@@ -22,17 +22,27 @@ const ADMIN = {
 
 const SUPERVISOR = {
 
-	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	DASHBOARD: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 	ALL_PROJECTS_LIST: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 
 	EVALUATION: {
 
 		ALLPROJECTS: lazy(() => import('../App/screens/teacher/supervisorExtra/Evaluation')),
 
-		
-		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateSingleProject')),
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateSingleProject')),
 
 		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/supervisorExtra/EvaluateStudent')),
+
+	},
+
+	DELIVERABLE: {
+
+		ALLPROJECTS: lazy(() => import('../App/screens/teacher/supervisorExtra/Deliverable')),
+
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/supervisorExtra/DeliverableSingleProject')),
+
 
 	},
 
@@ -41,13 +51,13 @@ const SUPERVISOR = {
 
 const COMMITTEE = {
 
-	DASHBOARD: lazy(() => import('../App/screens/teacher/common/Dashboard')),
+	DASHBOARD: lazy(() => import('../App/screens/teacher/AllProjectsList')),
 	EVALUATION: {
 
 		ALLPROJECTS: lazy(() => import('../App/screens/teacher/committeeExtra/Evaluation')),
 
-		
-		SINGLEPROJECT : lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateSingleProject')),
+
+		SINGLEPROJECT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateSingleProject')),
 
 		EVALUATE_STUDENT: lazy(() => import('../App/screens/teacher/committeeExtra/EvaluateStudent')),
 
@@ -89,6 +99,9 @@ const TEAMLEAD = {
 
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 	TESTINGPANEL: lazy(() => import('../App/screens/teamlead/TestingPanel')),
+	DEVELOPMENTPANEL: lazy(() => import('../App/screens/teamlead/DevelopmentPanel')),
+	DESIGNPANEL: lazy(() => import('../App/screens/teamlead/DesignPanel')),
+	DEBUGGINGPANEL: lazy(() => import('../App/screens/teamlead/DebuggingPanel')),
 };
 
 
@@ -1135,6 +1148,24 @@ const presentation = [
 const teammember = [
 
 	// Charts
+
+	{
+		path: teamLeadMenu.developmentpanel.path,
+		element: <TEAMLEAD.DEVELOPMENTPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.designpanel.path,
+		element: <TEAMLEAD.DESIGNPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.debuggingpanel.path,
+		element: <TEAMLEAD.DEBUGGINGPANEL />,
+		exact: true,
+	},
 	{
 		path: teamLeadMenu.testingpanel.path,
 		element: <TEAMLEAD.TESTINGPANEL />,
@@ -1620,6 +1651,24 @@ const teammember = [
 
 
 const teamLead = [
+
+	{
+		path: teamLeadMenu.developmentpanel.path,
+		element: <TEAMLEAD.DEVELOPMENTPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.designpanel.path,
+		element: <TEAMLEAD.DESIGNPANEL />,
+		exact: true,
+	},
+
+	{
+		path: teamLeadMenu.debuggingpanel.path,
+		element: <TEAMLEAD.DEBUGGINGPANEL />,
+		exact: true,
+	},
 
 	// Charts
 	{
@@ -2114,7 +2163,7 @@ const admin = [
 
 	{
 		path: adminMenu.dashboard.path,
-		element: <ADMIN.DASHBOARD />,
+		element: <ADMIN.ANNOUNCEMENTS />,
 		exact: true,
 	},
 
@@ -2228,7 +2277,17 @@ const admin = [
 
 const supervisor = [
 
+	{
+		path: supervisorMenu.deliverable.path,
+		element: <SUPERVISOR.DELIVERABLE.ALLPROJECTS />,
+		exact: true,
+	},
 
+	{
+		path: `${supervisorMenu.deliverable.subMenu.singleProject.path}/:projectname`,
+		element: <SUPERVISOR.DELIVERABLE.SINGLEPROJECT />,
+		exact: true,
+	},
 
 
 	{
@@ -2244,7 +2303,7 @@ const supervisor = [
 		exact: true,
 	},
 
-	
+
 	{
 		path: supervisorMenu.evaluation.path,
 		element: <SUPERVISOR.EVALUATION.ALLPROJECTS />,
@@ -2295,7 +2354,7 @@ const committee = [
 		exact: true,
 	},
 
-	
+
 
 
 
@@ -2303,6 +2362,6 @@ const committee = [
 
 
 
-const contents = { supervisor, presentation, teamLead, documentation, committee,teammember, admin, student };
+const contents = { supervisor, presentation, teamLead, documentation, committee, teammember, admin, student };
 
 export default contents;

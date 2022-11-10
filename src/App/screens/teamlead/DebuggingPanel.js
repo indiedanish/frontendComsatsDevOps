@@ -65,7 +65,7 @@ axios.defaults.withCredentials = true;
 import { Grid, Radio } from "react-loader-spinner";
 import Select from "../../../components/bootstrap/forms/Select";
 import Option from "../../../components/bootstrap/Option";
-import Chat, { ChatGroup } from '../../../components//Chat';
+import Chat, { ChatGroup } from '../../../components/Chat';
 import CHATS from '../../../common/data/chatDummyData';
 
 import Swal from "sweetalert2";
@@ -185,7 +185,7 @@ const ListFluidPage = () => {
         Description: values.description,
         Priority: values.status,
         AssignedTo: values.teammember,
-        Type: "Testing",
+        Type: "Debugging",
         ProjectName: projectInfo.data.Name,
 
         end: values.end,
@@ -305,7 +305,7 @@ const ListFluidPage = () => {
     var accepted = 0;
     console.log(projectInfo);
     projectInfo.data.Requirements.map((item) => {
-      if (item.Accepted && item.Type == "Testing") {
+      if (item.Accepted && item.Type == "Debugging") {
         accepted++;
         return item;
       }
@@ -318,7 +318,7 @@ const ListFluidPage = () => {
     var rejected = 0;
     console.log(projectInfo);
     projectInfo.data.Requirements.map((item) => {
-      if (!item.Accepted && item.Type == "Testing") {
+      if (!item.Accepted && item.Type == "Debugging") {
         rejected++;
         return item;
       }
@@ -328,8 +328,7 @@ const ListFluidPage = () => {
   };
 
   const deleteFromDatabase = async (title) => {
-
-
+    
     try {
       const response = await axios.put(
         "http://localhost:3500/student/requirement",
@@ -535,7 +534,7 @@ const ListFluidPage = () => {
 
           </div>
         ) : (
-          <PageWrapper title="Testing">
+          <PageWrapper title="Debugging">
             <SubHeader>
               {/* <SubHeaderLeft>
               <Icon icon="Info" className="me-2" size="2x" />
@@ -585,7 +584,7 @@ const ListFluidPage = () => {
                 <Card stretch={true}>
                   <CardHeader borderSize={1}>
                     <CardLabel icon="Box" iconColor="info">
-                      <CardTitle className="pl-3"> Testing Panel</CardTitle>
+                      <CardTitle className="pl-3"> Debugging Panel</CardTitle>
                     </CardLabel>
                     <CardActions>
                       {auth.Role == "TeamMember" ? "" : <Button
@@ -599,7 +598,7 @@ const ListFluidPage = () => {
                         target="_blank"
 
                       >
-                        Add Test
+                        Add Debugging Work
                       </Button>}
                     </CardActions>
                   </CardHeader>
@@ -631,7 +630,7 @@ const ListFluidPage = () => {
                       </thead>
                       <tbody>
                         {projectInfo.data.Requirements.map((item) => {
-                          if (item.Type == "Testing")
+                          if (item.Type == "Debugging")
                             return (
                               <tr key={item.id}>
                                 <td></td>
@@ -805,7 +804,7 @@ const ListFluidPage = () => {
                         <Card shadow='sm'>
                           <CardHeader>
                             <CardLabel icon='Info' iconColor='success'>
-                              <CardTitle>Test Case Information</CardTitle>
+                              <CardTitle>Debugging Work Information</CardTitle>
                             </CardLabel>
                           </CardHeader>
                           <CardBody>
@@ -1001,7 +1000,7 @@ const ListFluidPage = () => {
                 >
                   <OffCanvasHeader setOpen={setUpcomingEventsEditOffcanvas}>
                     <OffCanvasTitle id="upcomingEdit">
-                      Edit Test Case
+                      Edit Debugging Work
                     </OffCanvasTitle>
                   </OffCanvasHeader>
                   <OffCanvasBody>
@@ -1143,7 +1142,7 @@ const ListFluidPage = () => {
                         <Card shadow='sm'>
                           <CardHeader>
                             <CardLabel icon='Info' iconColor='success'>
-                              <CardTitle>Test Case</CardTitle>
+                              <CardTitle>Debugging work</CardTitle>
                             </CardLabel>
                           </CardHeader>
                           <CardBody>
@@ -1151,7 +1150,7 @@ const ListFluidPage = () => {
                               <FormGroup
                                 className='col-12'
                                 id='title'
-                                label='Test Name'>
+                                label='Debugging work title'>
                                 <Input
                                   onChange={formikAddTask.handleChange}
                                   value={formikAddTask.values.title}

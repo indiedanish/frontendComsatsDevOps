@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PageWrapper from "../../../layout/PageWrapper/PageWrapper";
-import { demoPages } from "../../../menu";
+import PageWrapper from "../../../../layout/PageWrapper/PageWrapper";
+import { demoPages } from "../../../../menu";
 import SubHeader, {
   SubHeaderLeft,
   SubHeaderRight,
   SubheaderSeparator,
-} from "../../../layout/SubHeader/SubHeader";
-import Page from "../../../layout/Page/Page";
-import Badge from "../../../components/bootstrap/Badge";
+} from "../../../../layout/SubHeader/SubHeader";
+import Page from "../../../../layout/Page/Page";
+import Badge from "../../../../components/bootstrap/Badge";
 import Card, {
   CardActions,
   CardBody,
@@ -16,21 +16,20 @@ import Card, {
   CardLabel,
   CardSubTitle,
   CardTitle,
-} from "../../../components/bootstrap/Card";
-import Button from "../../../components/bootstrap/Button";
-import Avatar, { AvatarGroup } from "../../../components/Avatar";
-import USERS from "../../../common/data/userDummyData";
-import Icon from "../../../components/icon/Icon";
-import Progress from "../../../components/bootstrap/Progress";
-import CommonAvatarTeam from "../../../components/common/CommonAvatarTeam";
-import useDarkMode from "../../../hooks/useDarkMode";
-import useAuth from "../../../hooks/useAuth";
-import ProjectAddModal from "./ProjectAddModal";
-import Swal from "sweetalert2";
-
-
-
-
+} from "../../../../components/bootstrap/Card";
+import Button from "../../../../components/bootstrap/Button";
+import Avatar, { AvatarGroup } from "../../../../components/Avatar";
+import USERS from "../../../../common/data/userDummyData";
+import Icon from "../../../../components/icon/Icon";
+import Progress from "../../../../components/bootstrap/Progress";
+import CommonAvatarTeam from "../../../../components/common/CommonAvatarTeam";
+import useDarkMode from "../../../../hooks/useDarkMode";
+import useTourStep from "../../../../hooks/useTourStep";
+import useAuth from "../../../../hooks/useAuth";
+import { Cookies } from "react-cookie";
+import jwt_decode from "jwt-decode";
+import SvgLayoutSidebarInset from "../../../../components/icon/bootstrap/LayoutSidebarInset";
+import AreaChart from "../../../../pages/documentation/charts/chart-area/AreaIrregular.js";
 axios.defaults.withCredentials = true;
 import axios from "axios";
 import {Grid} from 'react-loader-spinner'
@@ -43,7 +42,6 @@ const Item = ({
   taskCount,
   percent,
   dueDate,
-  reload,
   ...props
 }) => {
   const { darkModeStatus } = useDarkMode();
@@ -51,33 +49,12 @@ const Item = ({
   // const handleOnClickToProjectPage = useCallback(
   //   () => navigate("/committee/evaluation/project")[navigate]
   // );
-
-
-  const deleteProject =  async (name) =>{
-    const response = await axios.post(
-      "http://localhost:3500/teacher/deleteProject",
-      {
-        Name: name,
-      },
-      {
-        withCredentials: true, //correct
-      }
-    );
-
-    reload();
-    Swal.fire('Deleted!', '', 'error')
-    console.log("deleteProject:  ", response.data);
-
-  } 
-
-
-
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <div className="col-md-4" {...props}>
       <Card
         stretch
-
+        onClick={()=>navigate(`/supervisor/deliverable/project/${name}`)[navigate]}
         className="cursor-pointer"
       >
         <CardHeader>
@@ -89,14 +66,6 @@ const Item = ({
             <small className="border border-success border-2 text-success fw-bold px-2 py-1 rounded-1">
               {dueDate}
             </small>
-
-            <Button className="text-white"
-              color="success"
-              icon="delete"
-              onClick={()=>{deleteProject(name)}}
-            >
-
-            </Button>
           </CardActions>
         </CardHeader>
         <CardBody>
@@ -131,51 +100,18 @@ const Item = ({
   );
 };
 
-
-
-
-const AllProjectsList = () => {
-
-
-  const [allStudents, setAllStudents] = useState([])
-
-  const getAllStudents = async () => {
-
-    const res = await axios.get("http://localhost:3500/admin/getAllStudents",
-      {
-        withCredentials: true,
-      });
-    setAllStudents(res)
-    console.log("WE ARE STUDENTS", res.data)
-
-
-
-  }
-
-
-
+const Deliverable = () => {
   const navigate = useNavigate();
 
-  const [addModalStatus, setAddModalStatus] = useState(false);
-
-  const reload = () => {
-    getProjects()  
-    getAllStudents()
-  }
-
-  useEffect(() => {
-    getProjects();
-  }, [addModalStatus]);
-
-
   const { auth, setAuth } = useAuth();
-  const [ProjectData, setProjectData] = useState(null);
+  const [teacherSelf, setteacherSelf] = useState(null);
 
   console.log(auth);
 
-  const getProjects = async () => {
-    const response = await axios.get(
-      "http://localhost:3500/teacher/allProject",
+  const getteacherSelf = async () => {
+    const response = await axios.post(
+      "http://localhost:3500/teacher/getTeacherForMyProjects",
+      { Email: auth.Email },
       {
         withCredentials: true, //correct
       }
@@ -183,32 +119,32 @@ const AllProjectsList = () => {
     console.log("ffff ", response.data);
 
     const temp = response.data;
-    setProjectData(response.data);
+    setteacherSelf(response);
   };
 
   useEffect(() => {
-    console.log("ProjectData", ProjectData);
+    console.log("teacherSelf", teacherSelf);
 
-    getProjects();
-    getAllStudents();
+    getteacherSelf();
   }, []);
 
   return (
-    <PageWrapper title="All Project | DEV">
+    <PageWrapper title="Deliverable | DEV">
       <SubHeader>
         <SubHeaderLeft>
-          <strong className="fs-5">FYP Projects</strong>
+          <strong className="fs-5">FYP Deliverable</strong>
           <SubheaderSeparator />
           <span>
             There are{" "}
             <Badge color="success" isLight>
 
 
-              {ProjectData == null
+              {teacherSelf == null
                 ? ""
-                : ProjectData.length}{" "}
-              Projects
+                : teacherSelf.data.MyProjects.length}{" "}
+              projects
             </Badge>
+            under your supervision .
           </span>
         </SubHeaderLeft>
         <SubHeaderRight>
@@ -223,29 +159,9 @@ const AllProjectsList = () => {
             <div className="display-4 fw-bold py-3">Projects</div>
           </div>
 
-
-           <div className='col-md-4'>
-            <Card stretch>
-              <CardBody className='d-flex align-items-center justify-content-center'>
-                <Button
-                  color='info'
-                  size='lg'
-                  isLight
-                  className='w-100 h-100'
-                  onClick={() => setAddModalStatus(true)}
-                  icon='AddCircle'>
-                  Add New
-                </Button>
-
-              
-              </CardBody>
-            </Card>
-          </div> 
-
-
           {
           
-          ProjectData == null
+          teacherSelf == null
             ?
             <div className="w- flex  h-[400px] justify-center items-center">
             <Grid 
@@ -259,18 +175,16 @@ const AllProjectsList = () => {
             visible={true}
           />
           </div>
-            : ProjectData.map((project, key) => (
+          
+            : teacherSelf.data.MyProjects.map((project, key) => (
               <Item
-              reload={reload}
                 name={project.Name}
                 teamName="Supervisor"
                 dueDate={project.Status}
                 groupMembers={project.GroupMembers}
                 taskCount={project.Description}
                 percent={
-                  project.Status == ""
-                  ? 0
-                  : project.Status == "Scope"
+                  project.Status == "Scope"
                     ? 25
                     : project.Status == "SDS"
                       ? 50
@@ -285,20 +199,11 @@ const AllProjectsList = () => {
             ))}
         </div>
       </Page>
-
-     { allStudents.length==0?"":<ProjectAddModal
-      allStudents={allStudents.data}
-        setIsOpen={setAddModalStatus}
-        isOpen={addModalStatus}
-        id={0}
-        reload={reload}
-      />}
-
     </PageWrapper>
   );
 };
 
-export default AllProjectsList;
+export default Deliverable;
 
 // ADD PROJECT VALA COMMENT KIYA YEH
 {

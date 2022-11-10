@@ -30,10 +30,11 @@ import { Description } from "@material-ui/icons";
 
 axios.defaults.withCredentials = true;
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 
 
-const ProjectAddModal = ({ id, isOpen, setIsOpen, reload }) => {
+const ProjectAddModal = ({ id, isOpen, setIsOpen, reload, allStudents }) => {
 
 
 
@@ -58,7 +59,7 @@ const ProjectAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 
 
 
-  
+
 
 
     // if (!values.validationLastName) {
@@ -106,7 +107,7 @@ const ProjectAddModal = ({ id, isOpen, setIsOpen, reload }) => {
 
   const { auth, setAuth } = useAuth();
 
-  console.log(auth);
+  console.log("ASDASDASD", allStudents);
 
 
   const addToDatabase = async (val) => {
@@ -133,6 +134,7 @@ const ProjectAddModal = ({ id, isOpen, setIsOpen, reload }) => {
           withCredentials: true,
         }
       );
+      Swal.fire('Successfully Added!', '', 'success')
 
       setIsOpen(false);
       showNotification(
@@ -199,7 +201,7 @@ const ProjectAddModal = ({ id, isOpen, setIsOpen, reload }) => {
         </ModalHeader>
         <ModalBody className="px-4">
           <div className="row g-4">
-          
+
             <FormGroup className="col-lg-6" id="name" label="Project Name">
               <Input
                 required
@@ -211,7 +213,7 @@ const ProjectAddModal = ({ id, isOpen, setIsOpen, reload }) => {
             </FormGroup>
 
             <FormGroup className="col-lg-6" id="TeamLeader" label="Team Lead Reg#">
-              <Input
+              {/* <Input
                 required
                 placeholder="Reg No"
                 autoComplete="honorific-prefix"
@@ -225,7 +227,22 @@ const ProjectAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 validFeedback='Looks good!'
                 onBlur={formik.handleBlur}
 
-              />
+              /> */}
+
+
+              <Select
+                required
+                ariaLabel="Team Lead"
+                placeholder="Select Team Lead"
+                onChange={formik.handleChange}
+                value={formik.values.TeamLeader}
+
+
+              >
+                {allStudents.map((student) => (<Option value={student.RegNo}>{`${student.Name}`}</Option>))}
+
+
+              </Select>
             </FormGroup>
 
             <FormGroup className="col-lg-12" id="description" label="Project Description">
@@ -237,7 +254,7 @@ const ProjectAddModal = ({ id, isOpen, setIsOpen, reload }) => {
                 value={formik.values.description}
               />
             </FormGroup>
-        
+
           </div>
         </ModalBody>
         <ModalFooter className="px-4 pb-4">

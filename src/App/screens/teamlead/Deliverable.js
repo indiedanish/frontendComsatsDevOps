@@ -259,7 +259,6 @@ const Deliverable = () => {
         Title: title,
         File: filetoBeSent,
         ProjectName: studentInfo.data.Project.Name,
-        Status: true
 
       },
       {
@@ -271,7 +270,6 @@ const Deliverable = () => {
 
       Swal.fire('Submitted!', '', 'success')
 
-      console.log("AFTER SUBMITING: ", res)
     }
     catch (err) {
       console.log(err)

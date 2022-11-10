@@ -171,6 +171,13 @@ const DashboardPage = () => {
 
   }
 
+
+
+
+
+
+
+
   const [state] = useState({
     series: [44, 55, 67],
     options: {
@@ -234,9 +241,9 @@ const DashboardPage = () => {
             visible={true}
           />
 
-<h4 className="mt-5">You not been added to any group</h4>
+          <h4 className="mt-5">Check if you are added to any group</h4>
 
-          
+
         </div>
 
 
@@ -249,7 +256,7 @@ const DashboardPage = () => {
               whiteSpace: "nowrap",
               WebkitOverflowScrolling: "touch",
               position: "relative",
-            }}
+            }} 
           >
             {/* <div className='col-12'>
 						<Alert
@@ -334,7 +341,44 @@ const DashboardPage = () => {
               </Card>
             </div>
             <div className="col-4">
-              <CommonTodo />
+              <Card stretch>
+                <CardHeader>
+                  <CardLabel icon="box" iconColor="danger">
+                    <CardTitle tag="h4" className="h5">
+                      Test Cases 
+                    </CardTitle>
+                    <CardSubTitle>last 2 weeks</CardSubTitle>
+                  </CardLabel>
+                </CardHeader>
+                <CardBody>
+                  <Timeline>
+                    {tasks.map((i, key) => (
+                     i.Type=="Testing"? <TimelineItem
+                        label={
+                          new Date(i.end).toLocaleString(
+                            "en-US",
+
+                            { year: "numeric", month: "numeric", day: "numeric" }
+                            // {
+                            //  day: '2-digit',
+                            // 	 month: '2-digit',
+                            // 	// year: 'numeric',
+                            // 	// hour: '2-digit',
+                            // 	// minute: '2-digit',
+                            // 	// // second: '2-digit',
+                            // 	// hour12: true,
+                            // }
+                          )
+
+                        }
+                        color={getTaskColor(i.Priority)}
+                      >
+                        {i.Title} - {i.Priority} - {i.AssignedTo?.Name ? i.AssignedTo.Name : "Not Assigned"}
+                      </TimelineItem> : ""
+                    ))}
+                  </Timeline>
+                </CardBody>
+              </Card>
             </div>
             <div className="col-4">
               <div className=''>
@@ -363,7 +407,8 @@ const DashboardPage = () => {
 
 
 
-          </div>}
+          </div>
+          }
 
           <Sprint reload={reload} />
           {/* 
