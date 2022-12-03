@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { useContext, useLayoutEffect, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
@@ -25,8 +25,28 @@ import Popovers from '../../../components/bootstrap/Popovers';
 import Spinner from '../../../components/bootstrap/Spinner';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios'
+
+//------------------------------------------------------------------------
+import { Cookies } from "react-cookie";
+import jwt_decode from "jwt-decode";
+axios.defaults.withCredentials = true;
+import useAuth from "../../../hooks/useAuth";
+import { io } from "socket.io-client";
+import { is } from 'date-fns/locale';
+
+
+//-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 // eslint-disable-next-line react/prop-types
 const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
+	
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -76,6 +96,125 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 
 		window.location.reload(false);
 	}
+
+
+
+
+
+
+	//============================================================================================
+
+	//Notifications
+
+
+	const [studentSelf, setstudentSelf] = useState([]);
+
+
+	const [notifications, setNotifications] = useState([]);
+
+	const [arrivalMessage, setArrivalMessage] = useState(null);
+
+
+	const socket = useRef();
+	const scrollRef = useRef();
+
+
+
+
+
+	useEffect(() => {
+		socket.current = io("ws://localhost:8900");
+		socket.current.on("getNotification", (data) => {
+		  setArrivalMessage({
+			title: data.title,
+			sender: data.senderId,
+			content: data.content,
+			createdAt: Date.now(),
+			
+		  });
+		});
+	  }, []);
+
+	  useEffect(() => {
+		arrivalMessage &&
+		studentSelf?.equals(arrivalMessage.sender) &&
+		  setNotifications((prev) => [...prev, arrivalMessage]);
+		  console.log("HIsasas")
+	  }, [arrivalMessage, studentSelf, notifications]);
+	
+	  useEffect(() => {
+		socket.current.emit("addUser", studentSelf._id);
+		socket.current.on("getUsers", (users) => {
+			console.log("users")
+	
+			console.log(users)
+			getstudentSelf()
+
+		 
+		});
+	  }, [arrivalMessage]);
+
+
+
+	useEffect(() => {
+		getstudentSelf();
+
+
+	}, []);
+
+
+
+	const reload = () => {
+		getstudentSelf()
+	}
+	const { auth, setAuth } = useAuth();
+
+	console.log("AUTHHHHDAN", auth);
+
+
+
+
+
+
+
+
+
+	const getstudentSelf = async () => {
+		const cookies = new Cookies();
+		const token = cookies.get("jwt");
+
+		var decoded = jwt_decode(token);
+
+		const response = await axios.post(
+			"http://localhost:3500/student/getStudent",
+			{ RegNo: decoded.RegNo },
+			{
+				withCredentials: true, //correct
+			}
+		);
+
+		setstudentSelf(response.data)
+		setNotifications(response.data.Notifications)
+		;
+		console.log("STUDENT himself: ", response.data);
+
+	};
+
+
+
+
+
+
+
+
+
+
+	//============================================================================================
+
+
+
+
+
 
 
 	return (
@@ -196,7 +335,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 						// eslint-disable-next-line react/jsx-props-no-spreading
 						{...styledBtn}
 						icon='Notifications'
-						onClick={() => setOffcanvasStatus(true)}
+						onClick={() => { setOffcanvasStatus(true)}}
 						aria-label='Notifications'
 					/>
 				</div>
@@ -228,7 +367,40 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 				<OffCanvasHeader setOpen={setOffcanvasStatus}>
 					<OffCanvasTitle id='offcanvasExampleLabel'>Notifications</OffCanvasTitle>
 				</OffCanvasHeader>
+
 				<OffCanvasBody>
+
+					{notifications.map((msg) => (
+
+
+						msg.title == "Message" ? (
+
+
+							<Alert icon='chat' isDark color='success' className='flex-nowrap' isDismissible>
+								From:  {`${msg.sender}`}  - {`${msg.content}`}
+
+						
+
+							</Alert>
+
+
+
+						) :
+							<Alert icon='ViewInAr' isLight color='primary' className='flex-nowrap'>
+								4 new components added.
+							</Alert>
+					))}
+
+
+					<Alert icon='ViewInAr' isLight color='info' className='flex-nowrap'>
+						4 new components added.
+					</Alert>
+					<Alert icon='ViewInAr' isLight color='info' className='flex-nowrap'>
+						4 new components added.
+					</Alert>
+					<Alert icon='ViewInAr' isLight color='info' className='flex-nowrap'>
+						4 new components added.
+					</Alert>
 					<Alert icon='ViewInAr' isLight color='info' className='flex-nowrap'>
 						4 new components added.
 					</Alert>

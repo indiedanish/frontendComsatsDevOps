@@ -145,9 +145,21 @@ useEffect(() => {
 	  isReply: true
     };
 
+
+
 	const receiverId = currentChat.members.find(
 		(member) => member._id !== studentSelf._id
 	  );
+
+	  const notification = {
+		title: "Message",
+		content: newMessage,
+		sender: studentSelf.Name,
+		senderImg: studentSelf.ProfilePicture,
+		receiverId : receiverId
+
+	}
+
   
 	  socket.current.emit("sendMessage", {
 		senderId: studentSelf,
@@ -155,11 +167,28 @@ useEffect(() => {
 		text: newMessage,
 	  });
 
+	  socket.current.emit("sendNotification", {
+		senderId: studentSelf,
+		receiverId,
+		title: "Message",
+		content: newMessage,
+	  });
+
 	try {
 		const res = await axios.post("http://localhost:3500/chat/messages", message);
 		setMessages([...messages, res.data]);
 		setNewMessage("");
 		getMessages(res);
+
+
+	  } catch (err) {
+		console.log(err);
+	  }
+
+	  try {
+		const res = await axios.post("http://localhost:3500/notification", notification);
+		console.log(res)
+	
 
 
 	  } catch (err) {
