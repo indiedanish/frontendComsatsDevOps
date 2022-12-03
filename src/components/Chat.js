@@ -113,7 +113,7 @@ export const ChatMessages = ({ messages, isReply, ...props }) => {
 				<div
 					key={i.id}
 					className={classNames('chat-message', { 'chat-message-reply': isReply })}>
-					{i.message}
+					{i}
 				</div>
 			))}
 		</div>
@@ -186,10 +186,10 @@ ChatAvatar.defaultProps = {
 export const ChatGroup = ({ isReply, messages, isOnline, color, user, ...props }) => {
 	const _Avatar = (
 		<ChatAvatar
-			src={user.src}
-			srcSet={user.srcSet}
-			username={user.username}
-			name={user.name}
+			src={user.ProfilePicture}
+			srcSet={user.ProfilePicture}
+			username={user.Name}
+			name={user.Name}
 			surname={user.surname}
 			isOnline={user.isOnline}
 			color={user.color}

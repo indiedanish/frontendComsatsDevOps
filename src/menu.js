@@ -108,9 +108,17 @@ export const teamLeadMenu = {
     },
   },
 
+  messenger: {
+    id: "messenger",
+    text: "Messenger",
+    path: "messenger",
+    icon: "ChatSquareDots",
+    subMenu: null,
+  },
+
   summary: {
     id: "summary",
-    text: "Messenger",
+    text: "Video",
     path: "chat",
     icon: "ChatSquareDots",
     subMenu: null,
@@ -241,9 +249,18 @@ export const teamLeadMenuSidebar = {
     },
   },
 
+  
   messenger: {
     id: "messenger",
     text: "Messenger",
+    path: "messenger",
+    icon: "ChatSquareDots",
+    subMenu: null,
+  },
+
+  video: {
+    id: "video",
+    text: "Video",
     path: "chat",
     icon: "ChatSquareDots",
     subMenu: null,
