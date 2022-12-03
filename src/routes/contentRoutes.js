@@ -1240,6 +1240,13 @@ const teammember = [
 
 	},
 
+	{
+		path: teamLeadMenu.messenger.path,
+		element: <TEAMLEAD.MESSENGER />,
+		exact: true,
+
+	},
+
 
 
 	// {

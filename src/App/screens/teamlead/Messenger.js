@@ -76,6 +76,7 @@ useEffect(() => {
     arrivalMessage &&
       currentChat?.members.includes(arrivalMessage.sender) &&
       setMessages((prev) => [...prev, arrivalMessage]);
+	  console.log("HIsasas")
   }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
@@ -131,7 +132,7 @@ useEffect(() => {
     
     getMessages();
 
-  }, [currentChat, newMessage]);
+  }, [currentChat, newMessage, arrivalMessage]);
 
 
 
