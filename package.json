@@ -59,6 +59,7 @@
 		"@testing-library/react": "^13.2.0",
 		"@testing-library/user-event": "^14.1.1",
 		"add": "^2.0.6",
+		"agora-react-uikit": "^1.1.0",
 		"apexcharts": "^3.35.2",
 		"axios": "^0.27.2",
 		"classnames": "^2.3.1",
