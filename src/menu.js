@@ -116,18 +116,12 @@ export const teamLeadMenu = {
     subMenu: null,
   },
 
-  summary: {
-    id: "summary",
-    text: "Video",
-    path: "chat",
-    icon: "ChatSquareDots",
-    subMenu: null,
-  },
+
 
   profile: {
     id: "profile",
     text: "Profile",
-    path: "/teamlead/profile",
+    path: "profile",
     icon: "gear",
     subMenu: null,
   },
@@ -258,13 +252,6 @@ export const teamLeadMenuSidebar = {
     subMenu: null,
   },
 
-  video: {
-    id: "video",
-    text: "Video",
-    path: "chat",
-    icon: "ChatSquareDots",
-    subMenu: null,
-  },
 
   profile: {
     id: "profile",

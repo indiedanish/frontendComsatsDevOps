@@ -31,6 +31,8 @@ import jwt_decode from "jwt-decode";
 axios.defaults.withCredentials = true;
 import useAuth from "../../../hooks/useAuth";
 import { io } from "socket.io-client";
+import AgoraUIKit, { PropsInterface } from 'agora-react-uikit'
+
 
 import EmojiPicker from 'emoji-picker-react';
 import { Theme } from 'emoji-picker-react';
@@ -40,215 +42,244 @@ import { auto } from "@popperjs/core";
 
 
 
+
+
 const Messenger = () => {
 
-// My code
-
-const [studentSelf, setstudentSelf] = useState([]);
-const [Friend, setFriend] = useState([]);
-
-const [NumberofStudents, setNumberofStudents] = useState([]);
-
-
-
-const [conversations, setConversations] = useState([]);
-const [currentChat, setCurrentChat] = useState(null);
-const [messages, setMessages] = useState([]);
-const [newMessage, setNewMessage] = useState("");
-const [arrivalMessage, setArrivalMessage] = useState(null);
-const [onlineUsers, setOnlineUsers] = useState([]);
-const socket = useRef();
-const scrollRef = useRef();
-
-
-useEffect(() => {
-    socket.current = io("ws://localhost:8900");
-    socket.current.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(),
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
-	  console.log("HIsasas")
-  }, [arrivalMessage, currentChat]);
-
-  useEffect(() => {
-    socket.current.emit("addUser", studentSelf._id);
-    socket.current.on("getUsers", (users) => {
-		console.log("users")
-
-		console.log(users)
-     
-    });
-  }, [studentSelf]);
+	/// Video Call
 
 
 
 
 
-  useEffect(() => {
-    const getConversations = async () => {
-      try {
-        const res = await axios.get("http://localhost:3500/chat/conversations/" + studentSelf._id);
-        setConversations(res.data);
-		setNumberofStudents(res.data.length)
-        console.log("Hi")
-        console.log(res.data)
-        console.log("Bye")
-
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getConversations();
-  }, [studentSelf._id]);
 
 
 
-  useEffect(() => {
-	console.log("NEWWW")
-	const getMessages = async () => {
 
-	
-      try {
-        const res =  await axios.get("http://localhost:3500/chat/messages/" + currentChat?._id);
+	//--------------------
 
-        setMessages(res.data);
-		console.log("Texting Start")
-        console.log(res.data)
-        console.log("Texting End")
+	const [videoCall, setVideoCall] = useState(true);
+	const rtcProps = {
+		appId: '7a35401ec8d54433b64a8438e9fcaabc',
+		channel: 'Test', // your agora channel
+		token: '007eJxTYJi7NUXK0mvug+xf1orn3x8rDpEM2v/QKnH7uU0H2SeL9J5VYDBPNDY1MTBMTbZIMTUxMTZOMjNJtDAxtki1TEtOTExK5knpSW4IZGQQ9jnAxMgAgSA+C0NIanEJAwMAdGYffQ==',  // use null or skip if using app in testing mode
+	};
+	const callbacks = {
+		EndCall: () => setVideoCall(false),
+	};
 
-      } catch (err) {
-        console.log(err);
-      }
+
+
+
+
+
+	// My code
+
+	const [studentSelf, setstudentSelf] = useState([]);
+	const [Friend, setFriend] = useState([]);
+
+	const [NumberofStudents, setNumberofStudents] = useState([]);
+
+
+
+	const [conversations, setConversations] = useState([]);
+	const [currentChat, setCurrentChat] = useState(null);
+	const [messages, setMessages] = useState([]);
+	const [newMessage, setNewMessage] = useState("");
+	const [arrivalMessage, setArrivalMessage] = useState(null);
+	const [onlineUsers, setOnlineUsers] = useState([]);
+	const socket = useRef();
+	const scrollRef = useRef();
+
+
+	useEffect(() => {
+		socket.current = io("ws://localhost:8900");
+		socket.current.on("getMessage", (data) => {
+			setArrivalMessage({
+				sender: data.senderId,
+				text: data.text,
+				createdAt: Date.now(),
+			});
+		});
+	}, []);
+
+	useEffect(() => {
+		arrivalMessage &&
+			currentChat?.members.includes(arrivalMessage.sender) &&
+			setMessages((prev) => [...prev, arrivalMessage]);
+		console.log("HIsasas")
+	}, [arrivalMessage, currentChat]);
+
+	useEffect(() => {
+		socket.current.emit("addUser", studentSelf._id);
+		socket.current.on("getUsers", (users) => {
+			console.log("users")
+
+			console.log(users)
+
+		});
+	}, [studentSelf]);
+
+
+
+
+
+	useEffect(() => {
+		const getConversations = async () => {
+			try {
+				const res = await axios.get("http://localhost:3500/chat/conversations/" + studentSelf._id);
+				setConversations(res.data);
+				setNumberofStudents(res.data.length)
+				console.log("Hi")
+				console.log(res.data)
+				console.log("Bye")
+
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		getConversations();
+	}, [studentSelf._id]);
+
+
+
+	useEffect(() => {
+		console.log("NEWWW")
+		const getMessages = async () => {
+
+
+			try {
+				const res = await axios.get("http://localhost:3500/chat/messages/" + currentChat?._id);
+
+				setMessages(res.data);
+				console.log("Texting Start")
+				console.log(res.data)
+				console.log("Texting End")
+
+			} catch (err) {
+				console.log(err);
+			}
+		}
+
+		getMessages();
+
+	}, [currentChat, newMessage, arrivalMessage]);
+
+
+
+	const sendMessage = async (e) => {
+		e.preventDefault();
+		const message = {
+			sender: studentSelf,
+			text: newMessage,
+			conversationId: currentChat,
+			isReply: true
+		};
+
+
+
+		const receiverId = currentChat.members.find(
+			(member) => member._id !== studentSelf._id
+		);
+
+		const notification = {
+			title: "Message",
+			content: newMessage,
+			sender: studentSelf.Name,
+			senderImg: studentSelf.ProfilePicture,
+			receiverId: receiverId
+
+		}
+
+
+		socket.current.emit("sendMessage", {
+			senderId: studentSelf,
+			receiverId,
+			text: newMessage,
+		});
+
+		socket.current.emit("sendNotification", {
+			senderId: studentSelf,
+			receiverId,
+			title: "Message",
+			content: newMessage,
+		});
+
+		try {
+			const res = await axios.post("http://localhost:3500/chat/messages", message);
+			setMessages([...messages, res.data]);
+			setNewMessage("");
+			getMessages(res);
+
+
+		} catch (err) {
+			console.log(err);
+		}
+
+		try {
+			const res = await axios.post("http://localhost:3500/notification", notification);
+			console.log(res)
+
+
+
+		} catch (err) {
+			console.log(err);
+		}
+
+
 	}
-    
-    getMessages();
-
-  }, [currentChat, newMessage, arrivalMessage]);
 
 
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    const message = {
-      sender: studentSelf,
-      text: newMessage,
-      conversationId: currentChat,
-	  isReply: true
-    };
 
 
 
-	const receiverId = currentChat.members.find(
-		(member) => member._id !== studentSelf._id
-	  );
+	useEffect(() => {
+		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+	}, [messages]);
 
-	  const notification = {
-		title: "Message",
-		content: newMessage,
-		sender: studentSelf.Name,
-		senderImg: studentSelf.ProfilePicture,
-		receiverId : receiverId
 
+
+	//---------------------------------------
+
+	useEffect(() => {
+		getstudentSelf();
+
+
+	}, []);
+
+
+
+	const reload = () => {
+		getstudentSelf()
 	}
+	const { auth, setAuth } = useAuth();
 
-  
-	  socket.current.emit("sendMessage", {
-		senderId: studentSelf,
-		receiverId,
-		text: newMessage,
-	  });
+	console.log("AUTHHHHDAN", auth);
 
-	  socket.current.emit("sendNotification", {
-		senderId: studentSelf,
-		receiverId,
-		title: "Message",
-		content: newMessage,
-	  });
+	const getstudentSelf = async () => {
+		const cookies = new Cookies();
+		const token = cookies.get("jwt");
 
-	try {
-		const res = await axios.post("http://localhost:3500/chat/messages", message);
-		setMessages([...messages, res.data]);
-		setNewMessage("");
-		getMessages(res);
+		var decoded = jwt_decode(token);
 
+		const response = await axios.post(
+			"http://localhost:3500/student/getStudent",
+			{ RegNo: decoded.RegNo },
+			{
+				withCredentials: true, //correct
+			}
+		);
 
-	  } catch (err) {
-		console.log(err);
-	  }
+		setstudentSelf(response.data);
+		console.log("STUDENT himself: ", response.data);
 
-	  try {
-		const res = await axios.post("http://localhost:3500/notification", notification);
-		console.log(res)
-	
-
-
-	  } catch (err) {
-		console.log(err);
-	  }
-
-
-}
-
-
-
- 
-  
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-
-
-//---------------------------------------
-
-useEffect(() => {
-    getstudentSelf();
-
-
-  }, []);
-
-
-
-  const reload = () => {
-    getstudentSelf()
-  }
-  const { auth, setAuth } = useAuth();
-
-  console.log("AUTHHHHDAN", auth);
-
-const getstudentSelf = async () => {
-    const cookies = new Cookies();
-    const token = cookies.get("jwt");
-
-    var decoded = jwt_decode(token);
-
-    const response = await axios.post(
-      "http://localhost:3500/student/getStudent",
-      { RegNo: decoded.RegNo },
-      {
-        withCredentials: true, //correct
-      }
-    );
-
-    setstudentSelf(response.data);
-    console.log("STUDENT himself: ", response.data);
-
-  };
+	};
 
 
 
 
-//--------------------------------------------------------------------------
+	//--------------------------------------------------------------------------
 
 	const navigate = useNavigate();
 
@@ -263,8 +294,8 @@ const getstudentSelf = async () => {
 	const [activeTab, setActiveTab] = useState(TABS.CHLOE);
 
 	function getMessages(ACTIVE_TAB) {
-			return messages ? messages : CHATS.CHLOE_VS_JOHN;
-	
+		return messages ? messages : CHATS.CHLOE_VS_JOHN;
+
 	}
 
 	const { mobileDesign } = useContext(ThemeContext);
@@ -315,63 +346,63 @@ const getstudentSelf = async () => {
 											<CardLabel icon='AccountCircle' iconColor='success'>
 												<CardTitle>Students</CardTitle>
 												<CardSubTitle>
-													{`${NumberofStudents}`+ " Users"}
+													{`${NumberofStudents}` + " Users"}
 												</CardSubTitle>
 											</CardLabel>
 										</CardHeader>
 										<CardBody className='border-bottom border-light'>
 											<div className='row'>
 
-                                                {conversations.map((c)=>(
-                                                    //findFriend(c)
+												{conversations.map((c) => (
+													//findFriend(c)
 
-													
 
-													 c.members[0]._id == studentSelf._id ? (
 
-                                                    <ChatListItem
-													onClick={() => {setCurrentChat(c), setFriend( c.members[1])}}
-													isActive={activeTab === TABS.CHLOE}
-													src={c.members[1].ProfilePicture}
-													srcSet={c.members[1].ProfilePicture}
-													name={c.members[1].Name}
-													surname={""}
+													c.members[0]._id == studentSelf._id ? (
 
-													isOnline={USERS.CHLOE.isOnline}
-													color={USERS.CHLOE.color}
-													lastSeenTime={moment()
-														.add(-1, 'hour')
-														.fromNow()}
+														<ChatListItem
+															onClick={() => { setCurrentChat(c), setFriend(c.members[1]) }}
+															isActive={activeTab === TABS.CHLOE}
+															src={c.members[1].ProfilePicture}
+															srcSet={c.members[1].ProfilePicture}
+															name={c.members[1].Name}
+															surname={""}
 
-													latestMessage={
-														c.members[1].Email
-													}
-												/>):
-												<ChatListItem
-												onClick={() => {setCurrentChat(c), setFriend( c.members[0])}}
-												isActive={activeTab === TABS.CHLOE}
-												src={c.members[0].ProfilePicture}
-												srcSet={c.members[0].ProfilePicture}
-												name={c.members[0].Name}
-												surname={""}
-												isOnline={USERS.CHLOE.isOnline}
-												color={USERS.CHLOE.color}
-												lastSeenTime={moment()
-													.add(-8, 'hour')
-													.fromNow()}
-												latestMessage={
-													c.members[0].Email
+															isOnline={USERS.CHLOE.isOnline}
+															color={USERS.CHLOE.color}
+															lastSeenTime={moment()
+																.add(-1, 'hour')
+																.fromNow()}
+
+															latestMessage={
+																c.members[1].Email
+															}
+														/>) :
+														<ChatListItem
+															onClick={() => { setCurrentChat(c), setFriend(c.members[0]) }}
+															isActive={activeTab === TABS.CHLOE}
+															src={c.members[0].ProfilePicture}
+															srcSet={c.members[0].ProfilePicture}
+															name={c.members[0].Name}
+															surname={""}
+															isOnline={USERS.CHLOE.isOnline}
+															color={USERS.CHLOE.color}
+															lastSeenTime={moment()
+																.add(-8, 'hour')
+																.fromNow()}
+															latestMessage={
+																c.members[0].Email
+															}
+														/>
+
+
+
+
+												)
+												)
 												}
-											/>
-												
-									
-                                                    
-                                                    
-                                                    )
-													)
-												}
 
-                              
+
 											</div>
 										</CardBody>
 									</Card>
@@ -436,6 +467,9 @@ const getstudentSelf = async () => {
 											onClick={() => navigate(`../${demoPages.login.path}`)}>
 											Logout
 										</Button>
+
+
+
 									</CardFooterLeft>
 								</CardFooter>
 							</Card>
@@ -444,7 +478,7 @@ const getstudentSelf = async () => {
 					{(!listShow || !mobileDesign) && (
 						<div className='col-lg-8 col-md-6'>
 							<Card stretch>
-								
+
 								<CardHeader>
 									<CardActions>
 										<div className='d-flex align-items-center'>
@@ -460,52 +494,77 @@ const getstudentSelf = async () => {
 											<div className='fw-bold'>
 												{`${Friend.Name}`}
 											</div>
-											
+
 
 										</div>
 									</CardActions>
 								</CardHeader>
 								<CardBody isScrollable>
-									
+
 									<Chat>
 										{getMessages(activeTab).map((msg) => (
-											
+
 
 											msg.sender._id == studentSelf._id ? (
 
 
-											<ChatGroup
-												messages={msg.text}
-												user={msg.sender}
-												
-												isReply={true}
-											/>
-										):
-										<ChatGroup
-										messages={msg.text}
-										user={msg.sender}
-										
-										isReply={false}
-									/>
+												<ChatGroup
+													messages={msg.text}
+													user={msg.sender}
+
+													isReply={true}
+												/>
+											) :
+												<ChatGroup
+													messages={msg.text}
+													user={msg.sender}
+
+													isReply={false}
+												/>
 										))}
 									</Chat>
+
+
+
+
 								</CardBody>
 								<CardFooter className='d-block'>
 									<InputGroup>
-									{/* <EmojiPicker height={300} width={400} Theme={auto} searchDisabled={true} skinTonesDisabled={true} 
+										{/* <EmojiPicker height={300} width={400} Theme={auto} searchDisabled={true} skinTonesDisabled={true} 
 									 disableAutoFocus={true} native/> */}
-										<Textarea 
-										onChange={(e)=>setNewMessage(e.target.value)}
-										value={newMessage}
+										<Textarea
+											onChange={(e) => setNewMessage(e.target.value)}
+											value={newMessage}
 										/>
 										<Button color='info' icon='Send'
-										onClick={sendMessage}>
+											onClick={sendMessage}>
 											SEND
 										</Button>
+										
 									</InputGroup>
+
+
 								</CardFooter>
+
+
+
+								<div style={{ display: 'flex', width: '60vw', height: '60vh' }}>
+									{videoCall ? (
+										<AgoraUIKit
+											rtcProps={rtcProps}
+											callbacks={callbacks} />
+									) : 
+										<Button color='info' icon='Meeting'
+										onClick={setVideoCall(!videoCall)}>
+										SEND
+									</Button>
+									}
+								</div>
+
 							</Card>
 						</div>
+
+
 					)}
 				</div>
 			</Page>

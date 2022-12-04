@@ -104,6 +104,8 @@ const TEAMLEAD = {
 	DEBUGGINGPANEL: lazy(() => import('../App/screens/teamlead/DebuggingPanel')),
 
 	MESSENGER: lazy(() => import('../App/screens/teamlead/Messenger')),
+	PROFILE: lazy(() => import('../App/screens/teamlead/Profile')),
+
 
 };
 
@@ -1717,6 +1719,14 @@ const teamLead = [
 	{
 		path: teamLeadMenu.team.path,
 		element: <TEAMLEAD.TEAMMEMBERS />,
+		exact: true,
+
+
+	},
+
+	{
+		path: teamLeadMenu.profile.path,
+		element: <TEAMLEAD.PROFILE/>,
 		exact: true,
 
 

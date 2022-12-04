@@ -196,6 +196,22 @@ const ListFluidPage = () => {
       }
     );
 
+    const notification = {
+      title: "Requirement",
+      content: values.title,
+      sender: studentSelf.data.Name,
+      senderImg: studentSelf.data.ProfilePicture,
+      receiverId: values.teammember
+    }
+
+    try {
+      const res = await axios.post("http://localhost:3500/notification", notification);
+      console.log(res)
+
+    } catch (err) {
+      console.log(err);
+    }
+
     setEditModalStatus(false)
     Swal.fire("Task Assigned!", "Task has been assigned successfully", "success");
     getstudentSelf();
@@ -252,6 +268,14 @@ const ListFluidPage = () => {
   useEffect(() => {
     getstudentSelf();
   }, []);
+
+  useEffect(() => {
+    getstudentSelf();
+
+    getProject();
+  }, [newComment]);
+
+
 
   const { auth, setAuth } = useAuth();
   const [studentSelf, setstudentSelf] = useState(null);
@@ -364,6 +388,7 @@ const ListFluidPage = () => {
 
   const sendComment = async (e) => {
 
+
     console.log("AAAAA")
 
     e.preventDefault();
@@ -376,17 +401,17 @@ const ListFluidPage = () => {
     };
 
     try {
-      const res = await axios.post("http://localhost:3500/student/addRequirementComments", 
-      {
-        Sender: studentSelf,
-        Content: newComment,
-        Title: taskToBeSubmitted.Title
+      const res = await axios.post("http://localhost:3500/student/addRequirementComments",
+        {
+          Sender: studentSelf,
+          Content: newComment,
+          Title: taskToBeSubmitted.Title
 
 
-      },
-      {
-        withCredentials: true, //correct
-      })
+        },
+        {
+          withCredentials: true, //correct
+        })
       setComments([...comments, res.data]);
       setNewComment("");
 
@@ -395,7 +420,28 @@ const ListFluidPage = () => {
       console.log(err);
     }
 
+    if (taskToBeSubmitted.AssignedTo != studentSelf.data._id) {
 
+
+      const notification = {
+        title: "Comment",
+        content: taskToBeSubmitted.Title,
+        sender: studentSelf.data.Name,
+        senderImg: studentSelf.data.ProfilePicture,
+        //receiverId: values.teammember
+        receiverId: taskToBeSubmitted.AssignedTo
+      }
+
+
+      try {
+        const response = await axios.post("http://localhost:3500/notification", notification);
+        console.log(response)
+
+      } catch (err) {
+        console.log(err);
+      }
+
+    }
 
   }
 
@@ -916,6 +962,8 @@ const ListFluidPage = () => {
                           </Card>
                         )}
 
+
+
                         <Card shadow='sm'>
                           <CardHeader>
                             <CardLabel icon='QuestionAnswer' iconColor='info'>
@@ -925,23 +973,14 @@ const ListFluidPage = () => {
                           <CardBody>
                             <Chat>
                               {taskToBeSubmitted?.Comments.map((msg) => (
-                                msg.Sender._id != studentSelf._id ? (
+
+                                <ChatGroup
+                                  messages={msg.Content}
+                                  user={msg.Sender}
 
 
-                                  <ChatGroup
-                                    messages={msg.Content}
-                                    user={msg.Sender}
-
-                                    isReply={true}
-                                  />
-                                ) :
-                                  <ChatGroup
-                                    messages={msg.Content}
-                                    user={msg.Sender}
-                                    
-
-                                    isReply={false}
-                                  />
+                                  isReply={false}
+                                />
                               ))}
                             </Chat>
                           </CardBody>
