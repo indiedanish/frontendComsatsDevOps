@@ -183,11 +183,11 @@ ChatAvatar.defaultProps = {
 	size: 45,
 };
 
-export const ChatGroup = ({ isReply, messages, isOnline, color,   user,img, ...props }) => {
+export const ChatGroup = ({ isReply, messages, isOnline, color, user, ...props }) => {
 	const _Avatar = (
 		<ChatAvatar
-			src={user.ProfilePicture || img  || null}
-			srcSet={img || null }
+			src={user.ProfilePicture}
+			srcSet={user.ProfilePicture}
 			username={user.Name}
 			name={user.Name}
 			surname={user.surname}

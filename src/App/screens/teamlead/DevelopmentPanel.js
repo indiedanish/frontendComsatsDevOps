@@ -925,7 +925,7 @@ const ListFluidPage = () => {
                           <CardBody>
                             <Chat>
                               {taskToBeSubmitted?.Comments.map((msg) => (
-                                msg.Sender._id == studentSelf._id ? (
+                                msg.Sender._id != studentSelf._id ? (
 
 
                                   <ChatGroup
