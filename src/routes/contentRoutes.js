@@ -102,6 +102,9 @@ const TEAMLEAD = {
 	DEVELOPMENTPANEL: lazy(() => import('../App/screens/teamlead/DevelopmentPanel')),
 	DESIGNPANEL: lazy(() => import('../App/screens/teamlead/DesignPanel')),
 	DEBUGGINGPANEL: lazy(() => import('../App/screens/teamlead/DebuggingPanel')),
+
+	MESSENGER: lazy(() => import('../App/screens/teamlead/Messenger')),
+
 };
 
 
@@ -1237,6 +1240,13 @@ const teammember = [
 
 	},
 
+	{
+		path: teamLeadMenu.messenger.path,
+		element: <TEAMLEAD.MESSENGER />,
+		exact: true,
+
+	},
+
 
 
 	// {
@@ -1741,6 +1751,15 @@ const teamLead = [
 		exact: true,
 
 	},
+
+	{
+		path: teamLeadMenu.messenger.path,
+		element: <TEAMLEAD.MESSENGER />,
+		exact: true,
+
+	},
+
+	
 
 
 

@@ -93,6 +93,7 @@ const Alert = ({
 				{icon ? (
 					<>
 						<div className='alert-icon'>
+							
 							<Icon icon={icon} />
 						</div>
 						<div className='alert-text'>{children}</div>

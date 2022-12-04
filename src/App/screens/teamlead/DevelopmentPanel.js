@@ -356,6 +356,54 @@ const ListFluidPage = () => {
   const [editModalStatus, setEditModalStatus] = useState(false);
 
   const [submitTaskModal, setsubmitTaskModal] = useState(false)
+
+
+
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+  const sendComment = async (e) => {
+
+    console.log("AAAAA")
+
+    e.preventDefault();
+
+    console.log(studentSelf)
+    const comment = {
+      Sender: studentSelf,
+      Content: newComment,
+      Title: taskToBeSubmitted.Title
+    };
+
+    try {
+      const res = await axios.post("http://localhost:3500/student/addRequirementComments", 
+      {
+        Sender: studentSelf,
+        Content: newComment,
+        Title: taskToBeSubmitted.Title
+
+
+      },
+      {
+        withCredentials: true, //correct
+      })
+      setComments([...comments, res.data]);
+      setNewComment("");
+
+
+    } catch (err) {
+      console.log(err);
+    }
+
+
+
+  }
+
+
+
+
+
+
   const card =
   {
     id: 'Card3',
@@ -631,6 +679,7 @@ const ListFluidPage = () => {
                       </thead>
                       <tbody>
                         {projectInfo.data.Requirements.map((item) => {
+
                           if (item.Type == "Development")
                             return (
                               <tr key={item.id}>
@@ -744,6 +793,7 @@ const ListFluidPage = () => {
 
 
                                       setsubmitTaskModal(true)
+                                      setComments(item.Comments)
                                       settaskToBeSubmitted(item)
 
                                     }}
@@ -874,20 +924,35 @@ const ListFluidPage = () => {
                           </CardHeader>
                           <CardBody>
                             <Chat>
-                              {CHATS.CHLOE_VS_JOHN.map((msg) => (
-                                <ChatGroup
-                                  key={msg.id}
-                                  messages={msg.messages}
-                                  user={msg.user}
-                                  isReply={msg.isReply}
-                                />
+                              {taskToBeSubmitted?.Comments.map((msg) => (
+                                msg.Sender._id != studentSelf._id ? (
+
+
+                                  <ChatGroup
+                                    messages={msg.Content}
+                                    user={msg.Sender}
+
+                                    isReply={true}
+                                  />
+                                ) :
+                                  <ChatGroup
+                                    messages={msg.Content}
+                                    user={msg.Sender}
+                                    
+
+                                    isReply={false}
+                                  />
                               ))}
                             </Chat>
                           </CardBody>
                           <CardFooter className='d-block'>
                             <InputGroup>
-                              <Textarea />
-                              <Button color='info' icon='Send'>
+                              <Textarea
+                                onChange={(e) => setNewComment(e.target.value)}
+                                value={newComment} />
+                              <Button color='info' icon='Send'
+                                onClick={sendComment}>
+
                                 SEND
                               </Button>
                             </InputGroup>
