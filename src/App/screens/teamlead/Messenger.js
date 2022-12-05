@@ -55,6 +55,8 @@ const Messenger = () => {
 	// My code
 
 	const [studentSelf, setstudentSelf] = useState([]);
+	const [user, setUser] = useState([]);
+
 	const [Friend, setFriend] = useState([]);
 
 	const [NumberofStudents, setNumberofStudents] = useState([]);
@@ -241,6 +243,7 @@ const Messenger = () => {
 		const token = cookies.get("jwt");
 
 		var decoded = jwt_decode(token);
+		setUser(decoded)
 
 		const response = await axios.post(
 			"http://localhost:3500/student/getStudent",
@@ -259,7 +262,21 @@ const Messenger = () => {
 
 	const ChatRoom = () => {
 
+
+		if(user.Role == "TeamLead"){
+
+
+
 		navigate(`/teamlead/messengercall`);
+
+		}
+		else if (user.Role == "TeamMember"){
+
+
+			navigate(`/teammember/messengercall`);
+
+
+		}
 
 
 	}

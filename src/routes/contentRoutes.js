@@ -1259,9 +1259,15 @@ const teammember = [
 
 	{
 		path: teamLeadMenu.messenger.path,
-		element: <TEAMLEAD.MESSENGER />,
+		element: <TEAMLEAD.CHAT.MESSENGER />,
 		exact: true,
 
+	},
+
+	{
+		path: teamMemberMenu.messengercall.path,
+		element: <TEAMLEAD.CHAT.MESSENGERCALL />,
+		exact: true,
 	},
 
 

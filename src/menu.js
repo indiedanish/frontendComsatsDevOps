@@ -381,18 +381,18 @@ export const teamMemberMenu = {
     },
   },
 
-  summary: {
-    id: "summary",
-    text: "Messenger",
-    path: "chat",
-    icon: "ChatSquareDots",
-    subMenu: null,
-  },
+  messengercall: {
+    id: "messengercall",
+    text: "Messenger Call",
+    path: "messengercall",
+    hide: true,
+},
+
 
   profile: {
     id: "profile",
     text: "Profile",
-    path: "/teamlead/profile",
+    path: "profile",
     icon: "gear",
     subMenu: null,
   },
