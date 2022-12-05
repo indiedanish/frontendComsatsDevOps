@@ -412,7 +412,7 @@ const ListFluidPage = () => {
         {
           withCredentials: true, //correct
         })
-      setComments([...comments, res.data]);
+      setComments([...comments, comment]);
       setNewComment("");
 
 
@@ -564,6 +564,7 @@ const ListFluidPage = () => {
   const [taskToBeSubmitted, settaskToBeSubmitted] = useState(null)
 
 
+
   const encodeFileBase64 = (file) => {
 
     console.log("encodeFileBase64 FUN", file)
@@ -651,8 +652,8 @@ const ListFluidPage = () => {
                 {getRejected()} pending tests.
               </span>
             </SubHeaderLeft> */}
-              <SubHeaderRight>
-                <Popovers
+              <SubHeaderRight className="flex justify-between bg-red w-full">
+                <Popovers 
                   desc={
                     <DatePicker
                       onChange={(item) => setDate(item)}
@@ -661,17 +662,25 @@ const ListFluidPage = () => {
                     />
                   }
                   placement="bottom-end"
-                  className="mw-100"
+                  className="mw-100 flex"
                   trigger="click"
                 >
-                  <Button color={themeStatus}>
+                  <Button  color={themeStatus}>
                     {`${moment(date)
                       .startOf("weeks")
                       .format("MMM Do")} - ${moment(date)
                         .endOf("weeks")
                         .format("MMM Do")}`}
                   </Button>
+
+                  
                 </Popovers>
+
+                <Button  className="flex " color={themeStatus}
+                onClick={()=>{window.open("http://localhost:8080/")}}>
+                  DevOps
+                  
+                  </Button>
               </SubHeaderRight>
             </SubHeader>
             <Page container="fluid">
@@ -961,8 +970,6 @@ const ListFluidPage = () => {
                             </CardBody>
                           </Card>
                         )}
-
-
 
                         <Card shadow='sm'>
                           <CardHeader>
