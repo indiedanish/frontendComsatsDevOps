@@ -115,6 +115,13 @@ export const teamLeadMenu = {
     icon: "ChatSquareDots",
     subMenu: null,
   },
+      messengercall: {
+        id: "messengercall",
+        text: "Messenger Call",
+        path: "messengercall",
+        hide: true,
+    },
+  
 
 
 

@@ -31,7 +31,6 @@ import jwt_decode from "jwt-decode";
 axios.defaults.withCredentials = true;
 import useAuth from "../../../hooks/useAuth";
 import { io } from "socket.io-client";
-import AgoraUIKit, { PropsInterface } from 'agora-react-uikit'
 
 
 import EmojiPicker from 'emoji-picker-react';
@@ -47,26 +46,6 @@ import { auto } from "@popperjs/core";
 const Messenger = () => {
 
 	/// Video Call
-
-
-
-
-
-
-
-
-
-	//--------------------
-
-	const [videoCall, setVideoCall] = useState(true);
-	const rtcProps = {
-		appId: '7a35401ec8d54433b64a8438e9fcaabc',
-		channel: 'Test', // your agora channel
-		token: '007eJxTYJi7NUXK0mvug+xf1orn3x8rDpEM2v/QKnH7uU0H2SeL9J5VYDBPNDY1MTBMTbZIMTUxMTZOMjNJtDAxtki1TEtOTExK5knpSW4IZGQQ9jnAxMgAgSA+C0NIanEJAwMAdGYffQ==',  // use null or skip if using app in testing mode
-	};
-	const callbacks = {
-		EndCall: () => setVideoCall(false),
-	};
 
 
 
@@ -278,6 +257,13 @@ const Messenger = () => {
 
 
 
+	const ChatRoom = () => {
+
+		navigate(`/teamlead/messengercall`);
+
+
+	}
+
 
 	//--------------------------------------------------------------------------
 
@@ -321,8 +307,11 @@ const Messenger = () => {
 					</span>
 				</SubHeaderLeft>
 				<SubHeaderRight>
-					<CommonChatStatus />
-					{!listShow && (
+				<Button className='text-muted bg-yellow-100 hover:bg-yellow-300'
+				onClick={ChatRoom}>
+							 <Icon icon='Call' color='success' className='mx-1' size='lg' />{' '}
+							 Join Room
+						</Button>					{!listShow && (
 						<Button
 							color='info'
 							isLight
@@ -546,20 +535,6 @@ const Messenger = () => {
 
 								</CardFooter>
 
-
-
-								<div style={{ display: 'flex', width: '60vw', height: '60vh' }}>
-									{videoCall ? (
-										<AgoraUIKit
-											rtcProps={rtcProps}
-											callbacks={callbacks} />
-									) : 
-										<Button color='info' icon='Meeting'
-										onClick={setVideoCall(!videoCall)}>
-										SEND
-									</Button>
-									}
-								</div>
 
 							</Card>
 						</div>
