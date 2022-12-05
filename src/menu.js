@@ -108,18 +108,27 @@ export const teamLeadMenu = {
     },
   },
 
-  summary: {
-    id: "summary",
+  messenger: {
+    id: "messenger",
     text: "Messenger",
-    path: "chat",
+    path: "messenger",
     icon: "ChatSquareDots",
     subMenu: null,
   },
+      messengercall: {
+        id: "messengercall",
+        text: "Messenger Call",
+        path: "messengercall",
+        hide: true,
+    },
+  
+
+
 
   profile: {
     id: "profile",
     text: "Profile",
-    path: "/teamlead/profile",
+    path: "profile",
     icon: "gear",
     subMenu: null,
   },
@@ -241,13 +250,15 @@ export const teamLeadMenuSidebar = {
     },
   },
 
+  
   messenger: {
     id: "messenger",
     text: "Messenger",
-    path: "chat",
+    path: "messenger",
     icon: "ChatSquareDots",
     subMenu: null,
   },
+
 
   profile: {
     id: "profile",
@@ -370,18 +381,18 @@ export const teamMemberMenu = {
     },
   },
 
-  summary: {
-    id: "summary",
-    text: "Messenger",
-    path: "chat",
-    icon: "ChatSquareDots",
-    subMenu: null,
-  },
+  messengercall: {
+    id: "messengercall",
+    text: "Messenger Call",
+    path: "messengercall",
+    hide: true,
+},
+
 
   profile: {
     id: "profile",
     text: "Profile",
-    path: "/teamlead/profile",
+    path: "profile",
     icon: "gear",
     subMenu: null,
   },

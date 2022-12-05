@@ -81,6 +81,15 @@ const TEAMMEMBER = {
 
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
 	TESTINGPANEL: lazy(() => import('../App/screens/teamlead/TestingPanel')),
+
+	PROFILE: lazy(() => import('../App/screens/teamlead/Profile')),
+
+
+	Chat: {
+		MESSENGER: lazy(() => import('../App/screens/teamlead/Messenger')),
+		MESSENGERCall: lazy(() => import('../App/screens/teamlead/MessengerCall')),
+
+	},
 };
 
 
@@ -102,6 +111,17 @@ const TEAMLEAD = {
 	DEVELOPMENTPANEL: lazy(() => import('../App/screens/teamlead/DevelopmentPanel')),
 	DESIGNPANEL: lazy(() => import('../App/screens/teamlead/DesignPanel')),
 	DEBUGGINGPANEL: lazy(() => import('../App/screens/teamlead/DebuggingPanel')),
+	PROFILE: lazy(() => import('../App/screens/teamlead/Profile')),
+
+
+	CHAT: {
+		MESSENGER: lazy(() => import('../App/screens/teamlead/Messenger')),
+		MESSENGERCALL: lazy(() => import('../App/screens/teamlead/MessengerCall')),
+
+	},
+
+
+
 };
 
 
@@ -1237,6 +1257,19 @@ const teammember = [
 
 	},
 
+	{
+		path: teamLeadMenu.messenger.path,
+		element: <TEAMLEAD.CHAT.MESSENGER />,
+		exact: true,
+
+	},
+
+	{
+		path: teamMemberMenu.messengercall.path,
+		element: <TEAMLEAD.CHAT.MESSENGERCALL />,
+		exact: true,
+	},
+
 
 
 	// {
@@ -1713,6 +1746,14 @@ const teamLead = [
 	},
 
 	{
+		path: teamLeadMenu.profile.path,
+		element: <TEAMLEAD.PROFILE/>,
+		exact: true,
+
+
+	},
+
+	{
 		path: teamLeadMenu.project.subMenu.findsupervisor.path,
 		element: <TEAMLEAD.FINDSUPERVISOR />,
 		exact: true,
@@ -1741,6 +1782,21 @@ const teamLead = [
 		exact: true,
 
 	},
+
+	{
+		path: teamLeadMenu.messenger.path,
+		element: <TEAMLEAD.CHAT.MESSENGER />,
+		exact: true,
+
+	},
+
+	{
+		path: teamLeadMenu.messengercall.path,
+		element: <TEAMLEAD.CHAT.MESSENGERCALL />,
+		exact: true,
+	},
+
+	
 
 
 

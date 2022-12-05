@@ -93,7 +93,9 @@ const Alert = ({
 				{icon ? (
 					<>
 						<div className='alert-icon'>
-							<Icon icon={icon} />
+							<img src={icon} className='h-14 w-14 rounded-2xl' />
+							
+							
 						</div>
 						<div className='alert-text'>{children}</div>
 					</>

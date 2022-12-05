@@ -260,7 +260,29 @@ const Sprint = ({ reload }) => {
 			end: end,
 		})
 
+		
+
 		console.log("res", res)
+
+
+	
+
+	
+		const notification = {
+			title: "Requirement",
+			content: title,
+			sender: studentSelf.data.Name,
+			senderImg: studentSelf.data.ProfilePicture,
+			receiverId: Assign
+		}
+
+		try {
+			const response = await axios.post("http://localhost:3500/notification", notification);
+			console.log(response)
+			
+		} catch (err) {
+			console.log(err);
+		}
 
 		getstudentSelf()
 
