@@ -89,7 +89,7 @@ const Profile = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: 'John',
+      firstName: `${studentSelf.Name}` ,
       lastName: 'Doe',
       displayName: 'johndoe',
       emailAddress: 'johndoe@site.com',
@@ -102,6 +102,7 @@ const Profile = () => {
       checkThree: true,
     },
     validate,
+    enableReinitialize: true,
     onSubmit: () => {
       setIsLoading(true);
       setTimeout(handleSave, 2000);
