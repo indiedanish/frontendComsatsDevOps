@@ -395,56 +395,7 @@ const Messenger = () => {
 											</div>
 										</CardBody>
 									</Card>
-									<Card shadow='none' className='mb-0'>
-										<CardHeader className='sticky-top'>
-											<CardLabel icon='AccountCircle' iconColor='danger'>
-												<CardTitle>Teachers</CardTitle>
-												<CardSubTitle>3 users</CardSubTitle>
-											</CardLabel>
-										</CardHeader>
-										<CardBody>
-											<div className='row'>
-												<ChatListItem
-													onClick={() => getListShow(TABS.RYAN)}
-													isActive={activeTab === TABS.RYAN}
-													src={USERS.RYAN.src}
-													srcSet={USERS.RYAN.srcSet}
-													name={USERS.RYAN.name}
-													surname={USERS.RYAN.surname}
-													isOnline={USERS.RYAN.isOnline}
-													color={USERS.RYAN.color}
-													lastSeenTime={moment().add(-3, 'day').fromNow()}
-													latestMessage='Vivamus fermentum dui sit amet orci interdum pulvinar.'
-												/>
-												<ChatListItem
-													onClick={() => getListShow(TABS.ELLA)}
-													isActive={activeTab === TABS.ELLA}
-													src={USERS.ELLA.src}
-													srcSet={USERS.ELLA.srcSet}
-													name={USERS.ELLA.name}
-													surname={USERS.ELLA.surname}
-													isOnline={USERS.ELLA.isOnline}
-													color={USERS.ELLA.color}
-													lastSeenTime={moment().fromNow()}
-													latestMessage='Eleifend sagittis!'
-												/>
-												<ChatListItem
-													onClick={() => getListShow(TABS.SAM)}
-													isActive={activeTab === TABS.SAM}
-													src={USERS.SAM.src}
-													srcSet={USERS.SAM.srcSet}
-													name={USERS.SAM.name}
-													surname={USERS.SAM.surname}
-													isOnline={USERS.SAM.isOnline}
-													color={USERS.SAM.color}
-													lastSeenTime={moment()
-														.add(-5, 'week')
-														.fromNow()}
-													latestMessage='Pellentesque a massa at magna laoreet luctus sed dignissim erat.'
-												/>
-											</div>
-										</CardBody>
-									</Card>
+								
 								</CardBody>
 								<CardFooter>
 									<CardFooterLeft className='w-100'>
@@ -468,6 +419,7 @@ const Messenger = () => {
 						<div className='col-lg-8 col-md-6'>
 							<Card stretch>
 
+
 								<CardHeader>
 									<CardActions>
 										<div className='d-flex align-items-center'>
@@ -480,14 +432,16 @@ const Messenger = () => {
 												className='me-3'
 											/>
 
+
 											<div className='fw-bold'>
-												{`${Friend.Name}`}
+												{`${Friend.Name}`} 
 											</div>
 
 
 										</div>
 									</CardActions>
 								</CardHeader>
+
 								<CardBody isScrollable>
 
 									<Chat>
