@@ -117,7 +117,7 @@ const Profile = () => {
     const PhoneNumber = val.phone;
     const ProfilePicture = getFileBase64String;
 
-
+  console.log(Name)
     await axios.put(
       "http://localhost:3500/student/student",
       {
