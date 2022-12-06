@@ -183,11 +183,13 @@ const EvaluateStudent = () => {
   }
 
   const addToDatabase = async (text) => {
+
+    console.log("obtainedMarks: YAY", marksObj);
     console.log(
       "ADDING TO DATABSE: ",
       projectname,
       auth.Email,
-      studentregno,
+      singleProject.data.GroupMembers[0].RegNo,
       text,
       obtainedMarks
     );
@@ -198,7 +200,36 @@ const EvaluateStudent = () => {
         {
           Name: projectname,
           Teacher: auth.Email,
-          Student: studentregno,
+          Student:  singleProject.data.GroupMembers[0].RegNo,
+          Remarks: text,
+          Questions: obtainedMarks,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      const response2 = await axios.post(
+        "http://localhost:3500/teacher/CommitteeEvaluation",
+        {
+          Name: projectname,
+          Teacher: auth.Email,
+          Student:  singleProject.data.GroupMembers[1].RegNo,
+          Remarks: text,
+          Questions: obtainedMarks,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+
+      const response3 = await axios.post(
+        "http://localhost:3500/teacher/CommitteeEvaluation",
+        {
+          Name: projectname,
+          Teacher: auth.Email,
+          Student:  singleProject.data.GroupMembers[2].RegNo,
           Remarks: text,
           Questions: obtainedMarks,
         },
@@ -229,6 +260,8 @@ const EvaluateStudent = () => {
       addToDatabase(text);
     }
   };
+
+  const [marksObj, setMarksObj] = useState([])
 
   return (
     <PageWrapper title={adminMenu.rubrics.text}>
@@ -300,8 +333,13 @@ const EvaluateStudent = () => {
                       </th>
                       <th>Total Marks</th>
 
-                      <th>Obtained Marks </th>
-                      <th>Enter marks </th>
+                      {singleProject?.data?.GroupMembers.map((i) => <>
+
+                        <th>{i.Name} </th>
+                      </>)
+                      }
+
+
                       <td />
                     </tr>
                   </thead>
@@ -351,31 +389,42 @@ const EvaluateStudent = () => {
                           </Button>
                         </td>
 
-                        <td>{i.ObtainedMarks}</td>
 
-                        <td>
-                          <Input
-                            value={i.ObtainedMarks}
-                            onChange={(e) => {
-                              if (
-                                e.target.value > obtainedMarks[key].TotalMark ||
-                                isNumeric(e.target.value) == false || e.target.value < 0
-                              ) {
-                                Swal.fire(
-                                  "Please enter marks less than total marks",
-                                  "Please try again",
-                                  "error"
-                                );
-                              } else {
-                                obtainedMarks[key].ObtainedMarks =
-                                  e.target.value;
-                                var temp = obtainedMarks.map((i) => i);
-                                setobtainedMarks(temp);
-                              }
-                            }}
-                            style={{ width: "100px" }}
-                          />
-                        </td>
+
+                        {singleProject?.data?.GroupMembers.map((i) =>
+
+                          <td>
+                            <Input
+                              value={i.ObtainedMarks}
+                              onChange={(e) => {
+                                if (
+                                  e.target.value > obtainedMarks[key].TotalMark ||
+                                  isNumeric(e.target.value) == false || e.target.value < 0
+                                ) {
+                                  Swal.fire(
+                                    "Please enter marks less than total marks",
+                                    "Please try again",
+                                    "error"
+                                  );
+                                } else {
+                                  obtainedMarks[key].ObtainedMarks =
+                                    e.target.value;
+                                  var temp = obtainedMarks.map((i) => i);
+
+                                  setobtainedMarks(temp);
+                                  setMarksObj([...marksObj, { StudentID: i._id, Marks: temp }])
+                                }
+                              }}
+                              style={{ width: "100px" }}
+                            />
+                          </td>
+
+                        )
+                        }
+
+
+
+
                       </tr>
                     ))}
                   </tbody>
