@@ -196,6 +196,22 @@ const ListFluidPage = () => {
       }
     );
 
+    const notification = {
+      title: "Requirement",
+      content: values.title,
+      sender: studentSelf.data.Name,
+      senderImg: studentSelf.data.ProfilePicture,
+      receiverId: values.teammember
+    }
+
+    try {
+      const res = await axios.post("http://localhost:3500/notification", notification);
+      console.log(res)
+
+    } catch (err) {
+      console.log(err);
+    }
+
     setEditModalStatus(false)
     Swal.fire("Task Assigned!", "Task has been assigned successfully", "success");
     getstudentSelf();
@@ -252,6 +268,14 @@ const ListFluidPage = () => {
   useEffect(() => {
     getstudentSelf();
   }, []);
+
+  useEffect(() => {
+    getstudentSelf();
+
+    getProject();
+  }, [newComment]);
+
+
 
   const { auth, setAuth } = useAuth();
   const [studentSelf, setstudentSelf] = useState(null);
@@ -328,7 +352,8 @@ const ListFluidPage = () => {
   };
 
   const deleteFromDatabase = async (title) => {
-    
+
+
     try {
       const response = await axios.put(
         "http://localhost:3500/student/requirement",
@@ -355,6 +380,76 @@ const ListFluidPage = () => {
   const [editModalStatus, setEditModalStatus] = useState(false);
 
   const [submitTaskModal, setsubmitTaskModal] = useState(false)
+
+
+
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+  const sendComment = async (e) => {
+
+
+    console.log("AAAAA")
+
+    e.preventDefault();
+
+    console.log(studentSelf)
+    const comment = {
+      Sender: studentSelf,
+      Content: newComment,
+      Title: taskToBeSubmitted.Title
+    };
+
+    try {
+      const res = await axios.post("http://localhost:3500/student/addRequirementComments",
+        {
+          Sender: studentSelf,
+          Content: newComment,
+          Title: taskToBeSubmitted.Title
+
+
+        },
+        {
+          withCredentials: true, //correct
+        })
+      setComments([...comments, comment]);
+      setNewComment("");
+
+
+    } catch (err) {
+      console.log(err);
+    }
+
+    if (taskToBeSubmitted.AssignedTo != studentSelf.data._id) {
+
+
+      const notification = {
+        title: "Comment",
+        content: taskToBeSubmitted.Title,
+        sender: studentSelf.data.Name,
+        senderImg: studentSelf.data.ProfilePicture,
+        //receiverId: values.teammember
+        receiverId: taskToBeSubmitted.AssignedTo
+      }
+
+
+      try {
+        const response = await axios.post("http://localhost:3500/notification", notification);
+        console.log(response)
+
+      } catch (err) {
+        console.log(err);
+      }
+
+    }
+
+  }
+
+
+
+
+
+
   const card =
   {
     id: 'Card3',
@@ -469,6 +564,7 @@ const ListFluidPage = () => {
   const [taskToBeSubmitted, settaskToBeSubmitted] = useState(null)
 
 
+
   const encodeFileBase64 = (file) => {
 
     console.log("encodeFileBase64 FUN", file)
@@ -556,8 +652,8 @@ const ListFluidPage = () => {
                 {getRejected()} pending tests.
               </span>
             </SubHeaderLeft> */}
-              <SubHeaderRight>
-                <Popovers
+              <SubHeaderRight className="flex justify-between bg-red w-full">
+                <Popovers 
                   desc={
                     <DatePicker
                       onChange={(item) => setDate(item)}
@@ -566,17 +662,25 @@ const ListFluidPage = () => {
                     />
                   }
                   placement="bottom-end"
-                  className="mw-100"
+                  className="mw-100 flex"
                   trigger="click"
                 >
-                  <Button color={themeStatus}>
+                  <Button  color={themeStatus}>
                     {`${moment(date)
                       .startOf("weeks")
                       .format("MMM Do")} - ${moment(date)
                         .endOf("weeks")
                         .format("MMM Do")}`}
                   </Button>
+
+                  
                 </Popovers>
+
+                <Button  className="flex " color={themeStatus}
+                onClick={()=>{window.open("http://localhost:8080/")}}>
+                  DevOps
+                  
+                  </Button>
               </SubHeaderRight>
             </SubHeader>
             <Page container="fluid">
@@ -630,6 +734,7 @@ const ListFluidPage = () => {
                       </thead>
                       <tbody>
                         {projectInfo.data.Requirements.map((item) => {
+
                           if (item.Type == "Debugging")
                             return (
                               <tr key={item.id}>
@@ -743,6 +848,7 @@ const ListFluidPage = () => {
 
 
                                       setsubmitTaskModal(true)
+                                      setComments(item.Comments)
                                       settaskToBeSubmitted(item)
 
                                     }}
@@ -873,20 +979,26 @@ const ListFluidPage = () => {
                           </CardHeader>
                           <CardBody>
                             <Chat>
-                              {CHATS.CHLOE_VS_JOHN.map((msg) => (
+                              {taskToBeSubmitted?.Comments.map((msg) => (
+
                                 <ChatGroup
-                                  key={msg.id}
-                                  messages={msg.messages}
-                                  user={msg.user}
-                                  isReply={msg.isReply}
+                                  messages={msg.Content}
+                                  user={msg.Sender}
+
+
+                                  isReply={false}
                                 />
                               ))}
                             </Chat>
                           </CardBody>
                           <CardFooter className='d-block'>
                             <InputGroup>
-                              <Textarea />
-                              <Button color='info' icon='Send'>
+                              <Textarea
+                                onChange={(e) => setNewComment(e.target.value)}
+                                value={newComment} />
+                              <Button color='info' icon='Send'
+                                onClick={sendComment}>
+
                                 SEND
                               </Button>
                             </InputGroup>
@@ -1142,7 +1254,7 @@ const ListFluidPage = () => {
                         <Card shadow='sm'>
                           <CardHeader>
                             <CardLabel icon='Info' iconColor='success'>
-                              <CardTitle>Debugging work</CardTitle>
+                              <CardTitle>Debugging Work</CardTitle>
                             </CardLabel>
                           </CardHeader>
                           <CardBody>
@@ -1150,7 +1262,7 @@ const ListFluidPage = () => {
                               <FormGroup
                                 className='col-12'
                                 id='title'
-                                label='Debugging work title'>
+                                label='Debugging Work Title'>
                                 <Input
                                   onChange={formikAddTask.handleChange}
                                   value={formikAddTask.values.title}
