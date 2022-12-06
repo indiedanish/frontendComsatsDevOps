@@ -24,7 +24,7 @@ import ThemeContext from '../../../contexts/themeContext';
 import { demoPages } from '../../../menu';
 import CHATS from '../../../common/data/chatDummyData';
 import CommonChatStatus from '../../../pages/common/CommonChatStatus';
-
+import NewConversationModal from './NewConversationModal';
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
@@ -61,7 +61,7 @@ const Messenger = () => {
 
 	const [NumberofStudents, setNumberofStudents] = useState([]);
 
-
+	const [editModalStatus, setEditModalStatus] = useState(false);
 
 	const [conversations, setConversations] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
@@ -71,6 +71,8 @@ const Messenger = () => {
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const socket = useRef();
 	const scrollRef = useRef();
+
+	const [allStudents, setAllStudents] = useState([])
 
 
 	useEffect(() => {
@@ -83,6 +85,22 @@ const Messenger = () => {
 			});
 		});
 	}, []);
+
+	const getAllStudents = async () => {
+
+		const res = await axios.get("http://localhost:3500/student/getAllStudents",
+			{
+				withCredentials: true,
+			});
+
+		console.log("CONVERSATINO USERS", conversations)
+
+		setAllStudents(res.data)
+		console.log("WE ARE ALL STUDENTS", res.data)
+
+
+
+	}
 
 	useEffect(() => {
 		arrivalMessage &&
@@ -225,7 +243,7 @@ const Messenger = () => {
 
 	useEffect(() => {
 		getstudentSelf();
-
+		getAllStudents()
 
 	}, []);
 
@@ -233,6 +251,20 @@ const Messenger = () => {
 
 	const reload = () => {
 		getstudentSelf()
+		const getConversations = async () => {
+			try {
+				const res = await axios.get("http://localhost:3500/chat/conversations/" + studentSelf._id);
+				setConversations(res.data);
+				setNumberofStudents(res.data.length)
+				console.log("Hi")
+				console.log(res.data)
+				console.log("Bye")
+
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		getConversations();
 	}
 	const { auth, setAuth } = useAuth();
 
@@ -263,14 +295,14 @@ const Messenger = () => {
 	const ChatRoom = () => {
 
 
-		if(user.Role == "TeamLead"){
+		if (user.Role == "TeamLead") {
 
 
 
-		navigate(`/teamlead/messengercall`);
+			navigate(`/teamlead/messengercall`);
 
 		}
-		else if (user.Role == "TeamMember"){
+		else if (user.Role == "TeamMember") {
 
 
 			navigate(`/teammember/messengercall`);
@@ -324,11 +356,11 @@ const Messenger = () => {
 					</span>
 				</SubHeaderLeft>
 				<SubHeaderRight>
-				<Button className='text-muted bg-yellow-100 hover:bg-yellow-300'
-				onClick={ChatRoom}>
-							 <Icon icon='Call' color='success' className='mx-1' size='lg' />{' '}
-							 Join Room
-						</Button>					{!listShow && (
+					<Button className='text-muted bg-yellow-100 hover:bg-yellow-300'
+						onClick={ChatRoom}>
+						<Icon icon='Call' color='success' className='mx-1' size='lg' />{' '}
+						Join Room
+					</Button>					{!listShow && (
 						<Button
 							color='info'
 							isLight
@@ -348,12 +380,29 @@ const Messenger = () => {
 							<Card stretch className='overflow-hidden'>
 								<CardBody isScrollable className='p-0'>
 									<Card shadow='none' className='mb-0'>
-										<CardHeader className='sticky-top'>
-											<CardLabel icon='AccountCircle' iconColor='success'>
-												<CardTitle>Students</CardTitle>
-												<CardSubTitle>
-													{`${NumberofStudents}` + " Users"}
-												</CardSubTitle>
+										<CardHeader className='sticky-top w-[100%]'>
+											<CardLabel className="flex w-[100%]" icon='AccountCircle' iconColor='success'>
+												<div className="flex flex-row justify-between w-[360px]" >
+													<div className="flex flex-col">
+
+
+														<CardTitle className="flex" >Students</CardTitle>
+														<CardSubTitle className="flex">
+															{`${NumberofStudents}` + " Participants"}
+														</CardSubTitle>
+													</div>
+
+													<Button
+														icon='Add'
+														color='primary'
+														isLight
+														className='flex '
+														onClick={() => setEditModalStatus(true)}>
+														New Conversation
+													</Button>
+												</div>
+
+
 											</CardLabel>
 										</CardHeader>
 										<CardBody className='border-bottom border-light'>
@@ -412,7 +461,7 @@ const Messenger = () => {
 											</div>
 										</CardBody>
 									</Card>
-								
+
 								</CardBody>
 								<CardFooter>
 									<CardFooterLeft className='w-100'>
@@ -451,7 +500,7 @@ const Messenger = () => {
 
 
 											<div className='fw-bold'>
-												{`${Friend.Name}`} 
+												{`${Friend.Name}`}
 											</div>
 
 
@@ -500,7 +549,7 @@ const Messenger = () => {
 											onClick={sendMessage}>
 											SEND
 										</Button>
-										
+
 									</InputGroup>
 
 
@@ -514,6 +563,18 @@ const Messenger = () => {
 					)}
 				</div>
 			</Page>
+
+
+			<NewConversationModal
+				projectInfo={allStudents}
+				setIsOpen={setEditModalStatus}
+				isOpen={editModalStatus}
+				reload={reload}
+				id={0}
+			/>
+
+
+
 		</PageWrapper>
 	);
 };
