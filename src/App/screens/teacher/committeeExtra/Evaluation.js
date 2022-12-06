@@ -181,7 +181,7 @@ const Evaluation = () => {
             : teacherSelf?.data?.Committee?.Projects.map((project, key) => (
               <Item
                 name={project.Name}
-                teamName="Supervisor"
+                teamName={"Evaluating"}
                 dueDate={project.Status}
                 groupMembers={project.GroupMembers}
                 taskCount={project.Description}

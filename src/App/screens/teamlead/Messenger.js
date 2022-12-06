@@ -24,13 +24,14 @@ import ThemeContext from '../../../contexts/themeContext';
 import { demoPages } from '../../../menu';
 import CHATS from '../../../common/data/chatDummyData';
 import CommonChatStatus from '../../../pages/common/CommonChatStatus';
-
+import NewConversationModal from './NewConversationModal';
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
 axios.defaults.withCredentials = true;
 import useAuth from "../../../hooks/useAuth";
 import { io } from "socket.io-client";
+
 
 import EmojiPicker from 'emoji-picker-react';
 import { Theme } from 'emoji-picker-react';
@@ -40,215 +41,280 @@ import { auto } from "@popperjs/core";
 
 
 
+
+
 const Messenger = () => {
 
-// My code
-
-const [studentSelf, setstudentSelf] = useState([]);
-const [Friend, setFriend] = useState([]);
-
-const [NumberofStudents, setNumberofStudents] = useState([]);
-
-
-
-const [conversations, setConversations] = useState([]);
-const [currentChat, setCurrentChat] = useState(null);
-const [messages, setMessages] = useState([]);
-const [newMessage, setNewMessage] = useState("");
-const [arrivalMessage, setArrivalMessage] = useState(null);
-const [onlineUsers, setOnlineUsers] = useState([]);
-const socket = useRef();
-const scrollRef = useRef();
-
-
-useEffect(() => {
-    socket.current = io("ws://localhost:8900");
-    socket.current.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(),
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
-	  console.log("HIsasas")
-  }, [arrivalMessage, currentChat]);
-
-  useEffect(() => {
-    socket.current.emit("addUser", studentSelf._id);
-    socket.current.on("getUsers", (users) => {
-		console.log("users")
-
-		console.log(users)
-     
-    });
-  }, [studentSelf]);
+	/// Video Call
 
 
 
 
 
-  useEffect(() => {
-    const getConversations = async () => {
-      try {
-        const res = await axios.get("http://localhost:3500/chat/conversations/" + studentSelf._id);
-        setConversations(res.data);
-		setNumberofStudents(res.data.length)
-        console.log("Hi")
-        console.log(res.data)
-        console.log("Bye")
 
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getConversations();
-  }, [studentSelf._id]);
+	// My code
 
+	const [studentSelf, setstudentSelf] = useState([]);
+	const [user, setUser] = useState([]);
 
+	const [Friend, setFriend] = useState([]);
 
-  useEffect(() => {
-	console.log("NEWWW")
-	const getMessages = async () => {
+	const [NumberofStudents, setNumberofStudents] = useState([]);
 
-	
-      try {
-        const res =  await axios.get("http://localhost:3500/chat/messages/" + currentChat?._id);
+	const [editModalStatus, setEditModalStatus] = useState(false);
 
-        setMessages(res.data);
-		console.log("Texting Start")
-        console.log(res.data)
-        console.log("Texting End")
+	const [conversations, setConversations] = useState([]);
+	const [currentChat, setCurrentChat] = useState(null);
+	const [messages, setMessages] = useState([]);
+	const [newMessage, setNewMessage] = useState("");
+	const [arrivalMessage, setArrivalMessage] = useState(null);
+	const [onlineUsers, setOnlineUsers] = useState([]);
+	const socket = useRef();
+	const scrollRef = useRef();
 
-      } catch (err) {
-        console.log(err);
-      }
-	}
-    
-    getMessages();
-
-  }, [currentChat, newMessage, arrivalMessage]);
+	const [allStudents, setAllStudents] = useState([])
 
 
+	useEffect(() => {
+		socket.current = io("ws://localhost:8900");
+		socket.current.on("getMessage", (data) => {
+			setArrivalMessage({
+				sender: data.senderId,
+				text: data.text,
+				createdAt: Date.now(),
+			});
+		});
+	}, []);
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    const message = {
-      sender: studentSelf,
-      text: newMessage,
-      conversationId: currentChat,
-	  isReply: true
-    };
+	const getAllStudents = async () => {
+
+		const res = await axios.get("http://localhost:3500/student/getAllStudents",
+			{
+				withCredentials: true,
+			});
+
+		console.log("CONVERSATINO USERS", conversations)
+
+		setAllStudents(res.data)
+		console.log("WE ARE ALL STUDENTS", res.data)
 
 
-
-	const receiverId = currentChat.members.find(
-		(member) => member._id !== studentSelf._id
-	  );
-
-	  const notification = {
-		title: "Message",
-		content: newMessage,
-		sender: studentSelf.Name,
-		senderImg: studentSelf.ProfilePicture,
-		receiverId : receiverId
 
 	}
 
-  
-	  socket.current.emit("sendMessage", {
-		senderId: studentSelf,
-		receiverId,
-		text: newMessage,
-	  });
+	useEffect(() => {
+		arrivalMessage &&
+			currentChat?.members.includes(arrivalMessage.sender) &&
+			setMessages((prev) => [...prev, arrivalMessage]);
+		console.log("HIsasas")
+	}, [arrivalMessage, currentChat]);
 
-	  socket.current.emit("sendNotification", {
-		senderId: studentSelf,
-		receiverId,
-		title: "Message",
-		content: newMessage,
-	  });
+	useEffect(() => {
+		socket.current.emit("addUser", studentSelf._id);
+		socket.current.on("getUsers", (users) => {
+			console.log("users")
 
-	try {
-		const res = await axios.post("http://localhost:3500/chat/messages", message);
-		setMessages([...messages, res.data]);
-		setNewMessage("");
-		getMessages(res);
+			console.log(users)
 
-
-	  } catch (err) {
-		console.log(err);
-	  }
-
-	  try {
-		const res = await axios.post("http://localhost:3500/notification", notification);
-		console.log(res)
-	
-
-
-	  } catch (err) {
-		console.log(err);
-	  }
-
-
-}
-
-
-
- 
-  
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-
-
-//---------------------------------------
-
-useEffect(() => {
-    getstudentSelf();
-
-
-  }, []);
-
-
-
-  const reload = () => {
-    getstudentSelf()
-  }
-  const { auth, setAuth } = useAuth();
-
-  console.log("AUTHHHHDAN", auth);
-
-const getstudentSelf = async () => {
-    const cookies = new Cookies();
-    const token = cookies.get("jwt");
-
-    var decoded = jwt_decode(token);
-
-    const response = await axios.post(
-      "http://localhost:3500/student/getStudent",
-      { RegNo: decoded.RegNo },
-      {
-        withCredentials: true, //correct
-      }
-    );
-
-    setstudentSelf(response.data);
-    console.log("STUDENT himself: ", response.data);
-
-  };
+		});
+	}, [studentSelf]);
 
 
 
 
-//--------------------------------------------------------------------------
+
+	useEffect(() => {
+		const getConversations = async () => {
+			try {
+				const res = await axios.get("http://localhost:3500/chat/conversations/" + studentSelf._id);
+				setConversations(res.data);
+				setNumberofStudents(res.data.length)
+				console.log("Hi")
+				console.log(res.data)
+				console.log("Bye")
+
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		getConversations();
+	}, [studentSelf._id]);
+
+
+
+	useEffect(() => {
+		console.log("NEWWW")
+		const getMessages = async () => {
+
+
+			try {
+				const res = await axios.get("http://localhost:3500/chat/messages/" + currentChat?._id);
+
+				setMessages(res.data);
+				console.log("Texting Start")
+				console.log(res.data)
+				console.log("Texting End")
+
+			} catch (err) {
+				console.log(err);
+			}
+		}
+
+		getMessages();
+
+	}, [currentChat, newMessage, arrivalMessage]);
+
+
+
+	const sendMessage = async (e) => {
+		e.preventDefault();
+		const message = {
+			sender: studentSelf,
+			text: newMessage,
+			conversationId: currentChat,
+			isReply: true
+		};
+
+
+
+		const receiverId = currentChat.members.find(
+			(member) => member._id !== studentSelf._id
+		);
+
+		const notification = {
+			title: "Message",
+			content: newMessage,
+			sender: studentSelf.Name,
+			senderImg: studentSelf.ProfilePicture,
+			receiverId: receiverId
+
+		}
+
+
+		socket.current.emit("sendMessage", {
+			senderId: studentSelf,
+			receiverId,
+			text: newMessage,
+		});
+
+		socket.current.emit("sendNotification", {
+			senderId: studentSelf,
+			receiverId,
+			title: "Message",
+			content: newMessage,
+		});
+
+		try {
+			const res = await axios.post("http://localhost:3500/chat/messages", message);
+			setMessages([...messages, res.data]);
+			setNewMessage("");
+			getMessages(res);
+
+
+		} catch (err) {
+			console.log(err);
+		}
+
+		try {
+			const res = await axios.post("http://localhost:3500/notification", notification);
+			console.log(res)
+
+
+
+		} catch (err) {
+			console.log(err);
+		}
+
+
+	}
+
+
+
+
+
+
+	useEffect(() => {
+		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+	}, [messages]);
+
+
+
+	//---------------------------------------
+
+	useEffect(() => {
+		getstudentSelf();
+		getAllStudents()
+
+	}, []);
+
+
+
+	const reload = () => {
+		getstudentSelf()
+		const getConversations = async () => {
+			try {
+				const res = await axios.get("http://localhost:3500/chat/conversations/" + studentSelf._id);
+				setConversations(res.data);
+				setNumberofStudents(res.data.length)
+				console.log("Hi")
+				console.log(res.data)
+				console.log("Bye")
+
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		getConversations();
+	}
+	const { auth, setAuth } = useAuth();
+
+	console.log("AUTHHHHDAN", auth);
+
+	const getstudentSelf = async () => {
+		const cookies = new Cookies();
+		const token = cookies.get("jwt");
+
+		var decoded = jwt_decode(token);
+		setUser(decoded)
+
+		const response = await axios.post(
+			"http://localhost:3500/student/getStudent",
+			{ RegNo: decoded.RegNo },
+			{
+				withCredentials: true, //correct
+			}
+		);
+
+		setstudentSelf(response.data);
+		console.log("STUDENT himself: ", response.data);
+
+	};
+
+
+
+	const ChatRoom = () => {
+
+
+		if (user.Role == "TeamLead") {
+
+
+
+			navigate(`/teamlead/messengercall`);
+
+		}
+		else if (user.Role == "TeamMember") {
+
+
+			navigate(`/teammember/messengercall`);
+
+
+		}
+
+
+	}
+
+
+	//--------------------------------------------------------------------------
 
 	const navigate = useNavigate();
 
@@ -263,8 +329,8 @@ const getstudentSelf = async () => {
 	const [activeTab, setActiveTab] = useState(TABS.CHLOE);
 
 	function getMessages(ACTIVE_TAB) {
-			return messages ? messages : CHATS.CHLOE_VS_JOHN;
-	
+		return messages ? messages : CHATS.CHLOE_VS_JOHN;
+
 	}
 
 	const { mobileDesign } = useContext(ThemeContext);
@@ -290,8 +356,11 @@ const getstudentSelf = async () => {
 					</span>
 				</SubHeaderLeft>
 				<SubHeaderRight>
-					<CommonChatStatus />
-					{!listShow && (
+					<Button className='text-muted bg-yellow-100 hover:bg-yellow-300'
+						onClick={ChatRoom}>
+						<Icon icon='Call' color='success' className='mx-1' size='lg' />{' '}
+						Join Room
+					</Button>					{!listShow && (
 						<Button
 							color='info'
 							isLight
@@ -311,120 +380,88 @@ const getstudentSelf = async () => {
 							<Card stretch className='overflow-hidden'>
 								<CardBody isScrollable className='p-0'>
 									<Card shadow='none' className='mb-0'>
-										<CardHeader className='sticky-top'>
-											<CardLabel icon='AccountCircle' iconColor='success'>
-												<CardTitle>Students</CardTitle>
-												<CardSubTitle>
-													{`${NumberofStudents}`+ " Users"}
-												</CardSubTitle>
+										<CardHeader className='sticky-top w-[100%]'>
+											<CardLabel className="flex w-[100%]" icon='AccountCircle' iconColor='success'>
+												<div className="flex flex-row justify-between w-[360px]" >
+													<div className="flex flex-col">
+
+
+														<CardTitle className="flex" >Students</CardTitle>
+														<CardSubTitle className="flex">
+															{`${NumberofStudents}` + " Participants"}
+														</CardSubTitle>
+													</div>
+
+													<Button
+														icon='Add'
+														color='primary'
+														isLight
+														className='flex '
+														onClick={() => setEditModalStatus(true)}>
+														New Conversation
+													</Button>
+												</div>
+
+
 											</CardLabel>
 										</CardHeader>
 										<CardBody className='border-bottom border-light'>
 											<div className='row'>
 
-                                                {conversations.map((c)=>(
-                                                    //findFriend(c)
+												{conversations.map((c) => (
+													//findFriend(c)
 
-													
 
-													 c.members[0]._id == studentSelf._id ? (
 
-                                                    <ChatListItem
-													onClick={() => {setCurrentChat(c), setFriend( c.members[1])}}
-													isActive={activeTab === TABS.CHLOE}
-													src={c.members[1].ProfilePicture}
-													srcSet={c.members[1].ProfilePicture}
-													name={c.members[1].Name}
-													surname={""}
+													c.members[0]._id == studentSelf._id ? (
 
-													isOnline={USERS.CHLOE.isOnline}
-													color={USERS.CHLOE.color}
-													lastSeenTime={moment()
-														.add(-1, 'hour')
-														.fromNow()}
+														<ChatListItem
+															onClick={() => { setCurrentChat(c), setFriend(c.members[1]) }}
+															isActive={activeTab === TABS.CHLOE}
+															src={c.members[1].ProfilePicture}
+															srcSet={c.members[1].ProfilePicture}
+															name={c.members[1].Name}
+															surname={""}
 
-													latestMessage={
-														c.members[1].Email
-													}
-												/>):
-												<ChatListItem
-												onClick={() => {setCurrentChat(c), setFriend( c.members[0])}}
-												isActive={activeTab === TABS.CHLOE}
-												src={c.members[0].ProfilePicture}
-												srcSet={c.members[0].ProfilePicture}
-												name={c.members[0].Name}
-												surname={""}
-												isOnline={USERS.CHLOE.isOnline}
-												color={USERS.CHLOE.color}
-												lastSeenTime={moment()
-													.add(-8, 'hour')
-													.fromNow()}
-												latestMessage={
-													c.members[0].Email
+															isOnline={USERS.CHLOE.isOnline}
+															color={USERS.CHLOE.color}
+															lastSeenTime={moment()
+																.add(-1, 'hour')
+																.fromNow()}
+
+															latestMessage={
+																c.members[1].Email
+															}
+														/>) :
+														<ChatListItem
+															onClick={() => { setCurrentChat(c), setFriend(c.members[0]) }}
+															isActive={activeTab === TABS.CHLOE}
+															src={c.members[0].ProfilePicture}
+															srcSet={c.members[0].ProfilePicture}
+															name={c.members[0].Name}
+															surname={""}
+															isOnline={USERS.CHLOE.isOnline}
+															color={USERS.CHLOE.color}
+															lastSeenTime={moment()
+																.add(-8, 'hour')
+																.fromNow()}
+															latestMessage={
+																c.members[0].Email
+															}
+														/>
+
+
+
+
+												)
+												)
 												}
-											/>
-												
-									
-                                                    
-                                                    
-                                                    )
-													)
-												}
 
-                              
+
 											</div>
 										</CardBody>
 									</Card>
-									<Card shadow='none' className='mb-0'>
-										<CardHeader className='sticky-top'>
-											<CardLabel icon='AccountCircle' iconColor='danger'>
-												<CardTitle>Teachers</CardTitle>
-												<CardSubTitle>3 users</CardSubTitle>
-											</CardLabel>
-										</CardHeader>
-										<CardBody>
-											<div className='row'>
-												<ChatListItem
-													onClick={() => getListShow(TABS.RYAN)}
-													isActive={activeTab === TABS.RYAN}
-													src={USERS.RYAN.src}
-													srcSet={USERS.RYAN.srcSet}
-													name={USERS.RYAN.name}
-													surname={USERS.RYAN.surname}
-													isOnline={USERS.RYAN.isOnline}
-													color={USERS.RYAN.color}
-													lastSeenTime={moment().add(-3, 'day').fromNow()}
-													latestMessage='Vivamus fermentum dui sit amet orci interdum pulvinar.'
-												/>
-												<ChatListItem
-													onClick={() => getListShow(TABS.ELLA)}
-													isActive={activeTab === TABS.ELLA}
-													src={USERS.ELLA.src}
-													srcSet={USERS.ELLA.srcSet}
-													name={USERS.ELLA.name}
-													surname={USERS.ELLA.surname}
-													isOnline={USERS.ELLA.isOnline}
-													color={USERS.ELLA.color}
-													lastSeenTime={moment().fromNow()}
-													latestMessage='Eleifend sagittis!'
-												/>
-												<ChatListItem
-													onClick={() => getListShow(TABS.SAM)}
-													isActive={activeTab === TABS.SAM}
-													src={USERS.SAM.src}
-													srcSet={USERS.SAM.srcSet}
-													name={USERS.SAM.name}
-													surname={USERS.SAM.surname}
-													isOnline={USERS.SAM.isOnline}
-													color={USERS.SAM.color}
-													lastSeenTime={moment()
-														.add(-5, 'week')
-														.fromNow()}
-													latestMessage='Pellentesque a massa at magna laoreet luctus sed dignissim erat.'
-												/>
-											</div>
-										</CardBody>
-									</Card>
+
 								</CardBody>
 								<CardFooter>
 									<CardFooterLeft className='w-100'>
@@ -436,6 +473,9 @@ const getstudentSelf = async () => {
 											onClick={() => navigate(`../${demoPages.login.path}`)}>
 											Logout
 										</Button>
+
+
+
 									</CardFooterLeft>
 								</CardFooter>
 							</Card>
@@ -444,7 +484,8 @@ const getstudentSelf = async () => {
 					{(!listShow || !mobileDesign) && (
 						<div className='col-lg-8 col-md-6'>
 							<Card stretch>
-								
+
+
 								<CardHeader>
 									<CardActions>
 										<div className='d-flex align-items-center'>
@@ -457,58 +498,83 @@ const getstudentSelf = async () => {
 												className='me-3'
 											/>
 
+
 											<div className='fw-bold'>
 												{`${Friend.Name}`}
 											</div>
-											
+
 
 										</div>
 									</CardActions>
 								</CardHeader>
+
 								<CardBody isScrollable>
-									
+
 									<Chat>
 										{getMessages(activeTab).map((msg) => (
-											
+
 
 											msg.sender._id == studentSelf._id ? (
 
 
-											<ChatGroup
-												messages={msg.text}
-												user={msg.sender}
-												
-												isReply={true}
-											/>
-										):
-										<ChatGroup
-										messages={msg.text}
-										user={msg.sender}
-										
-										isReply={false}
-									/>
+												<ChatGroup
+													messages={msg.text}
+													user={msg.sender}
+
+													isReply={true}
+												/>
+											) :
+												<ChatGroup
+													messages={msg.text}
+													user={msg.sender}
+
+													isReply={false}
+												/>
 										))}
 									</Chat>
+
+
+
+
 								</CardBody>
 								<CardFooter className='d-block'>
 									<InputGroup>
-									{/* <EmojiPicker height={300} width={400} Theme={auto} searchDisabled={true} skinTonesDisabled={true} 
+										{/* <EmojiPicker height={300} width={400} Theme={auto} searchDisabled={true} skinTonesDisabled={true} 
 									 disableAutoFocus={true} native/> */}
-										<Textarea 
-										onChange={(e)=>setNewMessage(e.target.value)}
-										value={newMessage}
+										<Textarea
+											onChange={(e) => setNewMessage(e.target.value)}
+											value={newMessage}
 										/>
 										<Button color='info' icon='Send'
-										onClick={sendMessage}>
+											onClick={sendMessage}>
 											SEND
 										</Button>
+
 									</InputGroup>
+
+
 								</CardFooter>
+
+
 							</Card>
 						</div>
+
+
 					)}
 				</div>
 			</Page>
+
+
+			<NewConversationModal
+				projectInfo={allStudents}
+				setIsOpen={setEditModalStatus}
+				isOpen={editModalStatus}
+				reload={reload}
+				id={0}
+			/>
+
+
+
 		</PageWrapper>
 	);
 };

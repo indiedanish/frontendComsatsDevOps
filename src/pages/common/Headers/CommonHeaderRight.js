@@ -370,14 +370,30 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 
 				<OffCanvasBody>
 
-					{notifications.map((msg) => (
+					{notifications.slice(0).reverse().map((msg) => (
 
 
 						msg.title == "Message" ? (
 
 
-							<Alert icon='chat' isDark color='success' className='flex-nowrap' isDismissible>
-								From:  {`${msg.sender}`}  - {`${msg.content}`}
+							<Alert icon={msg.senderImg} isLight color='success' className='flex-nowrap' isDismissible>
+								<div className='flex flex-col'>
+								<div className={'font-semibold font-serif '}>
+								 New Message
+
+
+								</div>
+									<div>
+									{`${msg.content}`}
+
+
+									</div>
+									<div className={'text-sm'}>
+									From:  {`${msg.sender}`}
+
+									</div>
+
+								</div>
 
 						
 
@@ -385,37 +401,76 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 
 
 
-						) :
-							<Alert icon='ViewInAr' isLight color='primary' className='flex-nowrap'>
-								4 new components added.
-							</Alert>
-					))}
+						) : msg.title == "Requirement" ? (
+
+							<Alert icon={msg.senderImg} isLight color='primary' className='flex-nowrap' isDismissible>
+							<div className='flex flex-col'>
+							<div className={'font-semibold font-serif '}>
+								 New Requirement Assigned
 
 
-					<Alert icon='ViewInAr' isLight color='info' className='flex-nowrap'>
-						4 new components added.
+								</div>
+								<div>
+								{`${msg.content}`}
+
+
+								</div>
+								<div className={'text-sm'}>
+								From:  {`${msg.sender}`}
+
+								</div>
+
+							</div>
+
+					
+
+						</Alert>
+							
+					) : 
+					msg.title == "Comment" ? (
+
+						<Alert icon={msg.senderImg} isLight color='warning' className='flex-nowrap' isDismissible>
+						<div className='flex flex-col'>
+						<div className={'font-semibold font-serif '}>
+							 New Comment
+
+
+							</div>
+							<div className={'text-sm'}>
+							View Following Requirement for more info: 
+							</div>
+
+
+							<div>
+							"{`${msg.content}`}"
+
+
+							
+
+
+							</div>
+							<div className={'text-sm'}>
+							From:  {`${msg.sender}`}
+
+							</div>
+
+						</div>
+
+				
+
 					</Alert>
-					<Alert icon='ViewInAr' isLight color='info' className='flex-nowrap'>
-						4 new components added.
-					</Alert>
-					<Alert icon='ViewInAr' isLight color='info' className='flex-nowrap'>
-						4 new components added.
-					</Alert>
-					<Alert icon='ViewInAr' isLight color='info' className='flex-nowrap'>
-						4 new components added.
-					</Alert>
-					<Alert icon='ThumbUp' isLight color='warning' className='flex-nowrap'>
-						New products added to stock.
-					</Alert>
-					<Alert icon='Inventory2' isLight color='danger' className='flex-nowrap'>
-						There are products that need to be packaged.
-					</Alert>
-					<Alert icon='BakeryDining' isLight color='success' className='flex-nowrap'>
-						Your food order is waiting for you at the consultation.
-					</Alert>
-					<Alert icon='Escalator' isLight color='primary' className='flex-nowrap'>
-						Escalator will turn off at 6:00 pm.
-					</Alert>
+						
+				) :
+				<Alert icon='Inventory2' isLight color='danger' className='flex-nowrap'>
+				There are products that need to be packaged.
+			</Alert>
+					))
+				}
+
+
+				
+					
+					
 				</OffCanvasBody>
 			</OffCanvas>
 
