@@ -80,8 +80,62 @@ const Profile = () => {
 
   }, []);
 
+  
 
 
+
+
+  //=======================================================================
+
+  //Update Profile
+
+
+  const [getFileBase64String, setFileBase64String] = useState(false);
+
+
+  const encodeFileBase64 = (file) => {
+    var reader = new FileReader();
+    console.log("\nfile", file);
+
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      var Base64 = reader.result;
+      console.log("Base64", Base64);
+      setFileBase64String(Base64);
+    };
+  }
+
+
+
+
+  const addToDatabase = async (val) => {
+    console.log("ADD STUDENT!!!!", val);
+
+    const Name = val.name;
+    const Password = val.newPassword;
+    const Email = val.emailAddress;
+    const PhoneNumber = val.phone;
+    const ProfilePicture = getFileBase64String;
+
+
+    await axios.put(
+      "http://localhost:3500/student/student",
+      {
+        RegNo: `${studentSelf.RegNo}`,
+        Name,
+        Password,
+        Email,
+        PhoneNumber,
+        ProfilePicture,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+
+
+  };
 
   //=======================================================================
 
@@ -89,23 +143,30 @@ const Profile = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: `${studentSelf.Name}` ,
-      lastName: 'Doe',
-      displayName: 'johndoe',
-      emailAddress: 'johndoe@site.com',
-      phone: '',
-      currentPassword: '',
+      name: `${studentSelf.Name}`,
+      regNo: `${studentSelf.RegNo}`,
+      emailAddress: `${studentSelf.Email}`,
+      phone: `${studentSelf.PhoneNumber}`,
       newPassword: '',
       confirmPassword: '',
       checkOne: true,
       checkTwo: false,
       checkThree: true,
     },
-    validate,
+    validateOnChange: true,
     enableReinitialize: true,
-    onSubmit: () => {
-      setIsLoading(true);
-      setTimeout(handleSave, 2000);
+    onSubmit: (values) => {
+      console.log("VALUES: ", values);
+      addToDatabase(values);
+
+  
+      showNotification(
+        <span className="d-flex align-items-center">
+          <Icon icon="Info" size="lg" className="me-1" />
+          <span>Student Added Successfully</span>
+        </span>,
+        "Student has been added successfully"
+      );
     },
   });
 
@@ -174,7 +235,13 @@ const Profile = () => {
                     <div className='col-lg'>
                       <div className='row g-4'>
                         <div className='col-auto'>
-                          <Input type='file' autoComplete='photo' />
+
+                          <Input
+                            type="file"
+                            onChange={(e) => {
+                              encodeFileBase64(e.target.files[0]);
+                            }}
+                          />
                         </div>
 
                         <div className='col-12'>
@@ -198,20 +265,20 @@ const Profile = () => {
               <CardBody>
                 <div className='row g-4'>
                   <div className='col-md-6'>
-                    <FormGroup id='firstName' label='Full Name' isFloating>
+                    <FormGroup id='name' label='Name' isFloating>
                       <Input
                         onChange={formik.handleChange}
                         placeholder='Full Name'
                         autoComplete='additional-name'
                         onBlur={formik.handleBlur}
                         isValid={formik.isValid}
-                      
-                     
-                        value={formik.values.firstName}
-                        isTouched={formik.touched.firstName}
-                        invalidFeedback={formik.errors.firstName}
+
+
+                        value={formik.values.name}
+                        isTouched={formik.touched.name}
+                        invalidFeedback={formik.errors.name}
                         validFeedback='Looks good!'
-                        defaultValue={studentSelf.Name}
+                        defaultValue={studentSelf.name}
 
 
 
@@ -220,36 +287,25 @@ const Profile = () => {
                       />
                     </FormGroup>
                   </div>
+
                   <div className='col-md-6'>
-                    <FormGroup id='lastName' label='Last Name' isFloating>
-                      <Input
-                        placeholder='Last Name'
-                        autoComplete='family-name'
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.lastName}
-                        isValid={formik.isValid}
-                        isTouched={formik.touched.lastName}
-                        invalidFeedback={formik.errors.lastName}
-                        validFeedback='Looks good!'
-                      />
-                    </FormGroup>
-                  </div>
-                  <div className='col-12'>
                     <FormGroup
-                      id='displayName'
-                      label='Display Name'
+                      id='regNo'
+                      label='Registration Number'
                       isFloating
                     >
                       <Input
-                        placeholder='Display Name'
+                        disabled
+                        placeholder='Registration Number'
                         autoComplete='username'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.displayName}
+                        value={formik.values.regNo}
                         isValid={formik.isValid}
-                        isTouched={formik.touched.displayName}
-                        invalidFeedback={formik.errors.displayName}
+                        isTouched={formik.touched.regNo}
+                        invalidFeedback={formik.errors.regNo}
+                        defaultValue={studentSelf.RegNo}
+
                         validFeedback='Looks good!'
                       />
                     </FormGroup>
@@ -336,20 +392,7 @@ const Profile = () => {
               {passwordChangeCTA && (
                 <CardBody>
                   <div className='row g-4'>
-                    <div className='col-12'>
-                      <FormGroup
-                        id='currentPassword'
-                        label='Current password'
-                        isFloating>
-                        <Input
-                          type='password'
-                          placeholder='Current password'
-                          autoComplete='current-password'
-                          onChange={formik.handleChange}
-                          value={formik.values.currentPassword}
-                        />
-                      </FormGroup>
-                    </div>
+
                     <div className='col-12'>
                       <FormGroup
                         id='newPassword'
@@ -434,16 +477,12 @@ const Profile = () => {
                     <div className='row g-1'>
                       <div className='col-auto'>
                         <Button
-                          className='me-3'
-                          icon={isLoading ? null : 'Save'}
+                          icon={'Save'}
                           isLight
-                          color={lastSave ? 'info' : 'success'}
-                          isDisable={isLoading}
+                          color={'success'}
                           onClick={formik.handleSubmit}>
-                          {isLoading && <Spinner isSmall inButton />}
-                          {isLoading
-                            ? (lastSave && 'Saving') || 'Saving'
-                            : (lastSave && 'Save') || 'Save'}
+                            Save
+                   
                         </Button>
                       </div>
                       <div className='col-auto'>
