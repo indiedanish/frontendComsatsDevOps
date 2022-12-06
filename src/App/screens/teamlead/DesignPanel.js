@@ -653,7 +653,7 @@ const ListFluidPage = () => {
               </span>
             </SubHeaderLeft> */}
               <SubHeaderRight className="flex justify-between bg-red w-full">
-                <Popovers 
+                <Popovers
                   desc={
                     <DatePicker
                       onChange={(item) => setDate(item)}
@@ -665,7 +665,7 @@ const ListFluidPage = () => {
                   className="mw-100 flex"
                   trigger="click"
                 >
-                  <Button  color={themeStatus}>
+                  <Button color={themeStatus}>
                     {`${moment(date)
                       .startOf("weeks")
                       .format("MMM Do")} - ${moment(date)
@@ -673,14 +673,14 @@ const ListFluidPage = () => {
                         .format("MMM Do")}`}
                   </Button>
 
-                  
+
                 </Popovers>
 
-                <Button  className="flex " color={themeStatus}
-                onClick={()=>{window.open("http://localhost:8080/")}}>
-                  DevOps
-                  
-                  </Button>
+                <Button className="flex " color={themeStatus}
+                  onClick={() => { window.open("http://localhost:8080/") }}>
+                  Design Tool
+
+                </Button>
               </SubHeaderRight>
             </SubHeader>
             <Page container="fluid">
