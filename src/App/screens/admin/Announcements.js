@@ -95,7 +95,7 @@ const Announcements = () => {
   };
 
   return (
-    <PageWrapper title={demoPages.crm.subMenu.customersList.text}>
+    <PageWrapper title={"Announcements"}>
       <SubHeader>
         <SubHeaderLeft>
           <label

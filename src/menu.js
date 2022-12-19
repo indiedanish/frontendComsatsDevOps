@@ -773,63 +773,7 @@ export const adminMenuSideBar = {
   },
   ///////////////////////////////////////////////
 
-  forms: {
-    id: "forms",
-    text: "Forms",
-    path: "/admin/forms",
-    icon: "CheckBox",
-    notification: "success",
-    subMenu: {
-      formGroup: {
-        id: "formGroup",
-        text: "Form Group",
-        path: "/admin/forms/form-group",
-        icon: "Source",
-      },
-      formControl: {
-        id: "formControl",
-        text: "Form Controls",
-        path: "/admin/forms/form-controls",
-        icon: "Create",
-      },
-      select: {
-        id: "select",
-        text: "Select",
-        path: "/admin/forms/select",
-        icon: "Checklist",
-      },
-      checksAndRadio: {
-        id: "checksAndRadio",
-        text: "Checks & Radio",
-        path: "/admin/forms/checks-and-radio",
-        icon: "CheckBox",
-      },
-      range: {
-        id: "range",
-        text: "Range",
-        path: "/admin/forms/range",
-        icon: "HdrStrong",
-      },
-      inputGroup: {
-        id: "inputGroup",
-        text: "Input Group",
-        path: "/admin/forms/input-group",
-        icon: "PowerInput",
-      },
-      validation: {
-        id: "validation",
-        text: "Validation",
-        path: "/admin/forms/validation",
-        icon: "VerifiedUser",
-      },
-      wizard: {
-        id: "wizard",
-        text: "Wizard",
-        path: "/admin/forms/wizard",
-        icon: "LinearScale",
-      },
-    },
-  },
+ 
 };
 
 export const adminMenu = {
@@ -909,63 +853,7 @@ export const adminMenu = {
   },
   ///////////////////////////////////////////////
 
-  forms: {
-    id: "forms",
-    text: "Forms",
-    path: "forms",
-    icon: "CheckBox",
-    notification: "success",
-    subMenu: {
-      formGroup: {
-        id: "formGroup",
-        text: "Form Group",
-        path: "forms/form-group",
-        icon: "Source",
-      },
-      formControl: {
-        id: "formControl",
-        text: "Form Controls",
-        path: "forms/form-controls",
-        icon: "Create",
-      },
-      select: {
-        id: "select",
-        text: "Select",
-        path: "forms/select",
-        icon: "Checklist",
-      },
-      checksAndRadio: {
-        id: "checksAndRadio",
-        text: "Checks & Radio",
-        path: "forms/checks-and-radio",
-        icon: "CheckBox",
-      },
-      range: {
-        id: "range",
-        text: "Range",
-        path: "forms/range",
-        icon: "HdrStrong",
-      },
-      inputGroup: {
-        id: "inputGroup",
-        text: "Input Group",
-        path: "forms/input-group",
-        icon: "PowerInput",
-      },
-      validation: {
-        id: "validation",
-        text: "Validation",
-        path: "forms/validation",
-        icon: "VerifiedUser",
-      },
-      wizard: {
-        id: "wizard",
-        text: "Wizard",
-        path: "forms/wizard",
-        icon: "LinearScale",
-      },
-    },
-  },
+ 
 };
 
 export const homeMenu = {
