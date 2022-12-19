@@ -62,7 +62,7 @@ export const teamLeadMenu = {
     id: "developmentpanel",
     text: "Development Panel",
     path: "developmentpanel",
-    icon: "Person",
+    icon: "code",
   },
 
   designpanel: {
@@ -213,7 +213,7 @@ export const teamLeadMenuSidebar = {
     id: "developmentpanel",
     text: "Development Panel",
     path: "/teamlead/developmentpanel",
-    icon: "Person",
+    icon: "code",
   },
 
   designpanel: {
