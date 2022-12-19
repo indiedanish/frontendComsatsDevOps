@@ -588,6 +588,7 @@ const ListFluidPage = () => {
 
   };
 
+
   return (
     <>
       {projectInfo == null ?
@@ -676,11 +677,11 @@ const ListFluidPage = () => {
                   
                 </Popovers>
 
-                <Button  className="flex " color={themeStatus}
-                onClick={()=>{window.open("http://localhost:8080/")}}>
-                  DevOps
+                {/* <Button  className="flex " color={themeStatus}
+                onClick={()=>{testApi()}}>
+                  Test Api
                   
-                  </Button>
+                  </Button> */}
               </SubHeaderRight>
             </SubHeader>
             <Page container="fluid">

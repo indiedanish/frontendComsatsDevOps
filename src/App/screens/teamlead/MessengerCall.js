@@ -41,7 +41,7 @@ const MessengerCall = () => {
 	const rtcProps = {
 		appId: '7a35401ec8d54433b64a8438e9fcaabc',
 		channel: 'Test', // your agora channel
-		token: '007eJxTYDAS1d27tW21qA7PhfuaSdv1+2awPTl0bxpTZMMXpabTNesVGMwTjU1NDAxTky1STE1MjI2TzEwSLUyMLVIt05ITE5OS1U/1JjcEMjJEZr5hYIRCEJ+FISS1uISBAQAT7x89',  // use null or skip if using app in testing mode
+		token: '007eJxTYPjzdWdfvI/0tEdcRZO2ubqV/ROc/tc0giHG8IUAt/7lskIFBvNEY1MTA8PUZIsUUxMTY+MkM5NECxNji1TLtOTExKTkacv7kxsCGRlsaiwZGKEQxGdhCEktLmFgAAAimx5/',  // use null or skip if using app in testing mode
 	};
 	const callbacks = {
 		EndCall: () => setVideoCall(false),
@@ -84,104 +84,104 @@ const MessengerCall = () => {
 
 
 
-//---------------------------------------
+	//---------------------------------------
 
-useEffect(() => {
-	getstudentSelf();
-
-
-}, []);
+	useEffect(() => {
+		getstudentSelf();
 
 
-
-
-const { auth, setAuth } = useAuth();
-
-console.log("AUTHHHHDAN", auth);
-
-const getstudentSelf = async () => {
-	const cookies = new Cookies();
-	const token = cookies.get("jwt");
-
-	var decoded = jwt_decode(token);
-
-	const response = await axios.post(
-		"http://localhost:3500/student/getStudent",
-		{ RegNo: decoded.RegNo },
-		{
-			withCredentials: true, //correct
-		}
-	);
-
-	setstudentSelf(response.data);
-	console.log("STUDENT himself: ", response.data);
-
-};
+	}, []);
 
 
 
 
-//--------------------------------------------------------------------------
+	const { auth, setAuth } = useAuth();
 
-const navigate = useNavigate();
+	console.log("AUTHHHHDAN", auth);
 
-const ChatRoom = () => {
+	const getstudentSelf = async () => {
+		const cookies = new Cookies();
+		const token = cookies.get("jwt");
 
-	navigate(`/teamlead/messenger`);
+		var decoded = jwt_decode(token);
+
+		const response = await axios.post(
+			"http://localhost:3500/student/getStudent",
+			{ RegNo: decoded.RegNo },
+			{
+				withCredentials: true, //correct
+			}
+		);
+
+		setstudentSelf(response.data);
+		console.log("STUDENT himself: ", response.data);
+
+	};
 
 
-}
 
 
-return (
-	<PageWrapper title={"Video Chat"}>
-		<SubHeader>
-			<SubHeaderLeft>
-				<span>
-					<Icon icon='Info' className='me-2' size='2x' color='danger' />
-					<span className='text-muted'>
-						<Icon icon='Chat5' color='danger' className='mx-1' size='lg' />{' '}
-						Chat Room
+	//--------------------------------------------------------------------------
+
+	const navigate = useNavigate();
+
+	const ChatRoom = () => {
+
+		navigate(`/teamlead/messenger`);
+
+
+	}
+
+
+	return (
+		<PageWrapper title={"Video Chat"}>
+			<SubHeader>
+				<SubHeaderLeft>
+					<span>
+						<Icon icon='Info' className='me-2' size='2x' color='danger' />
+						<span className='text-muted'>
+							<Icon icon='Chat5' color='danger' className='mx-1' size='lg' />{' '}
+							Chat Room
+						</span>
 					</span>
-				</span>
-			</SubHeaderLeft>
-			<SubHeaderRight>
-			<Button className='text-muted bg-red-100 hover:bg-red-300'
-				onClick={ChatRoom}>
-							 <Icon icon='Call' color='danger' className='mx-1' size='lg' />{' '}
-							 Leave Room
-						</Button>	
+				</SubHeaderLeft>
+				<SubHeaderRight>
+					<Button className='text-muted bg-red-100 hover:bg-red-300'
+						onClick={ChatRoom}>
+						<Icon icon='Call' color='danger' className='mx-1' size='lg' />{' '}
+						Leave Room
+					</Button>
 
-			</SubHeaderRight>
-		</SubHeader>
-		<Page>
-			<div className='row h-100'>
+				</SubHeaderRight>
+			</SubHeader>
+			<Page>
+				<div className='row h-100'>
 
-				<div className='col-lg-12 col-md-12'>
-					<Card stretch>
+					<div className='col-lg-12 col-md-12'>
+						<Card stretch>
 
 
-						<div style={{ display: 'flex', width: '90vw', height: '90vh'}}>
-							{videoCall ? (
-								<AgoraUIKit
-									rtcProps={rtcProps}
-									callbacks={callbacks} />
-							) :
-								<Button color='info' icon='Meeting'
-									onClick={setVideoCall(!videoCall)}>
-									SEND
-								</Button>
-							}
-						</div>
+							<div style={{ display: 'flex', width: '90vw', height: '90vh' }}>
+								{videoCall ? (
+									<AgoraUIKit
+										rtcProps={rtcProps}
+										callbacks={callbacks} />
+								) :
+									<Button color='info' icon='Meeting'
+										onClick={setVideoCall(!videoCall)}>
+										SEND
+									</Button>
+								}
+							</div>
 
-					</Card>
+						</Card>
+					</div>
+
+
 				</div>
-
-
-			</div>
-		</Page>
-	</PageWrapper>
-);
+			</Page>
+		</PageWrapper>
+	);
 };
 
 export default MessengerCall;
