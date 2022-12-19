@@ -33,6 +33,7 @@ axios.defaults.withCredentials = true;
 import useAuth from "../../../hooks/useAuth";
 import { io } from "socket.io-client";
 import { is } from 'date-fns/locale';
+import { Key } from '../../../components/icon/bootstrap';
 
 
 //-------------------------------------------------------------------------
@@ -370,13 +371,15 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 
 				<OffCanvasBody>
 
-					{notifications.slice(0).reverse().map((msg) => (
+					{notifications.slice(0).reverse().map((msg, key) => (
+						
 
 
 						msg.title == "Message" ? (
 
 
-							<Alert icon={msg.senderImg} isLight color='success' className='flex-nowrap' isDismissible>
+							<Alert icon={msg.senderImg} isLight color='success' className='flex-nowrap' isDismissible 
+							>
 								<div className='flex flex-col'>
 								<div className={'font-semibold font-serif '}>
 								 New Message

@@ -29,6 +29,7 @@ import Swal from "sweetalert2";
 axios.defaults.withCredentials = true;
 import axios from "axios";
 import {Grid} from 'react-loader-spinner'
+import { Badge3D } from "../../../components/icon/bootstrap";
 
 // eslint-disable-next-line react/prop-types
 const Item = ({
@@ -59,10 +60,9 @@ const Item = ({
             <CardSubTitle>{teamName}</CardSubTitle>
           </CardLabel>
           <CardActions>
-            <small className="border border-success border-2 text-success fw-bold px-2 py-1 rounded-1">
-            {dueDate}
-            </small>
+           
             <Button
+            
 
             onClick={()=>{
 
@@ -72,9 +72,11 @@ const Item = ({
                 'success'
               )
             }}
-            color="success"
-          icon="send"
-          />
+            color="warning"
+          
+          ><small>Send Request  </small>         <Icon icon="send" />
+
+            </Button>
           </CardActions>
 
           
@@ -82,9 +84,10 @@ const Item = ({
         <CardBody>
           <div className="row g-2 mb-3">
             <div className="col-auto">
-              <Badge color={darkModeStatus ? "light" : "dark"} isLight>
-                <Icon icon="TaskAlt" /> {taskCount}
-              </Badge>
+              <small className={"text-align: justify "} color={darkModeStatus ? "light" : "dark"} isLight >
+               <div className={"text-align: justify  font-bold"}> Description:
+                </div>  {taskCount}
+              </small>
             </div>
           </div>
           <div className="row">
@@ -117,7 +120,6 @@ const AllProjectsList = () => {
   const { auth, setAuth } = useAuth();
   const [ProjectData, setProjectData] = useState(null);
 
-  console.log(auth);
 
   const getProjects = async () => {
     const response = await axios.get(
@@ -126,7 +128,7 @@ const AllProjectsList = () => {
         withCredentials: true, //correct
       }
     );
-    console.log("ffff ", response.data);
+    console.log("All Projects ", response.data);
 
     const temp = response.data;
     setProjectData(response.data);
@@ -186,8 +188,9 @@ const AllProjectsList = () => {
           </div>
             : ProjectData.map((project, key) => (
               <Item
+                key={project._id}
                 name={project.Name}
-                teamName="Supervisor"
+                teamName={project.GroupSupervisor.Name}
                 dueDate={project.Status}
                 groupMembers={project.GroupMembers}
                 taskCount={project.Description}

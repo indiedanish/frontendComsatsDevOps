@@ -59,6 +59,7 @@ import RadialBarCustom from '../../../pages/documentation/charts/chart-radial-ba
 import RadialBarGradient from '../../../pages/documentation/charts/chart-radial-bar/RadialBarGradient';
 import MixedMultipleYAxis from '../../../pages/documentation/charts/chart-mixed/MixedMultipleYAxis';
 import Sprint from './Sprint'
+import { TodoItem } from "../../../components/extras/Todo";
 
 const DashboardPage = () => {
   useEffect(() => {
@@ -468,7 +469,7 @@ const DashboardPage = () => {
 //
 
   return (
-    <PageWrapper title={demoPages.sales.subMenu.dashboard.text}>
+    <PageWrapper title={"Dashboard"}>
       <SubHeader>
         <SubHeaderLeft>
           <span className="h4 mb-0 fw-bold">Dashboard </span>
@@ -582,7 +583,7 @@ const DashboardPage = () => {
               <div className="col-4">
                 <Card stretch>
                   <CardHeader>
-                    <CardLabel icon="box" iconColor="danger">
+                    <CardLabel icon="box" iconColor="primary">
                       <CardTitle tag="h4" className="h5">
                         Test Cases
                       </CardTitle>
@@ -690,7 +691,7 @@ const DashboardPage = () => {
                       ,
 
                       align: 'left',
-                      offsetX: 110,
+                      offsetX: 10,
                     },
                     xaxis: {
                       categories: [ReqChartData[0]?.Name, ReqChartData[1]?.Name, ReqChartData[2]?.Name],
