@@ -162,9 +162,9 @@ const Profile = () => {
       showNotification(
         <span className="d-flex align-items-center">
           <Icon icon="Info" size="lg" className="me-1" />
-          <span>Student Added Successfully</span>
+          <span>Profile Updated Successfully</span>
         </span>,
-        "Student has been added successfully"
+        "Details have been Saved"
       );
     },
   });

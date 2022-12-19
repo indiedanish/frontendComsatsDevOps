@@ -133,7 +133,7 @@ const TeamMembers = () => {
   };
 
   return (
-    <PageWrapper title={demoPages.crm.subMenu.customersList.text}>
+    <PageWrapper title={"Team Management"}>
       <SubHeader>
         <SubHeaderLeft>
           <label
@@ -250,7 +250,7 @@ const TeamMembers = () => {
                           <td>
                             {/* <div>{i.membershipDate.format('ll')}</div> */}
                             <div>
-                              <small className="text-muted">{i.Position}</small>
+                              <small className="text-muted">{i.Role}</small>
                             </div>
                           </td>
                           <td>{priceFormat(i.RegNo)}</td>

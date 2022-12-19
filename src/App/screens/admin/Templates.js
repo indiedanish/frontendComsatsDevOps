@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
+import moment from "moment";
 import PageWrapper from "../../../layout/PageWrapper/PageWrapper";
 import SubHeader, {
   SubHeaderLeft,
@@ -239,10 +240,19 @@ const Templates = () => {
                             <td>{i.Description}</td>
 
                             <td>
-                              <div>{i.DateModified}</div>
+
+                              <div> {moment(` ${i.DateModified}`).format(
+                                "MMM Do YYYY, h:mm a"
+                              )}
+                              </div>
                             </td>
 
-                            <td>{i.Deadline}</td>
+                            <td>
+                            <div> {moment(` ${i.Deadline}`).format(
+                                "MMM Do YYYY, h:mm a"
+                              )}
+                              </div>
+                            </td>
 
                             <td>
                               <Dropdown>
