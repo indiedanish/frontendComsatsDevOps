@@ -68,7 +68,7 @@
 		"cors": "^2.8.5",
 		"date-fns": "^2.28.0",
 		"dayjs": "^1.11.2",
-		"emoji-picker-react": "^4.4.6",
+		"emoji-picker-react": "^4.4.7",
 		"express": "^4.17.1",
 		"formik": "^2.2.9",
 		"framer-motion": "^6.3.3",
